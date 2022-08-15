@@ -1,0 +1,12 @@
+F:\LatestMHL\MHLCommon\obj\Debug\net6.0\MHLCommon.csproj.AssemblyReference.cache
+F:\LatestMHL\MHLCommon\obj\Debug\net6.0\MHLCommon.GeneratedMSBuildEditorConfig.editorconfig
+F:\LatestMHL\MHLCommon\obj\Debug\net6.0\MHLCommon.AssemblyInfoInputs.cache
+F:\LatestMHL\MHLCommon\obj\Debug\net6.0\MHLCommon.AssemblyInfo.cs
+F:\LatestMHL\MHLCommon\obj\Debug\net6.0\MHLCommon.csproj.CoreCompileInputs.cache
+F:\LatestMHL\MHLCommon\bin\Debug\net6.0\MHLCommon.deps.json
+F:\LatestMHL\MHLCommon\bin\Debug\net6.0\MHLCommon.dll
+F:\LatestMHL\MHLCommon\bin\Debug\net6.0\MHLCommon.pdb
+F:\LatestMHL\MHLCommon\obj\Debug\net6.0\MHLCommon.dll
+F:\LatestMHL\MHLCommon\obj\Debug\net6.0\refint\MHLCommon.dll
+F:\LatestMHL\MHLCommon\obj\Debug\net6.0\MHLCommon.pdb
+F:\LatestMHL\MHLCommon\obj\Debug\net6.0\ref\MHLCommon.dll

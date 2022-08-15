@@ -1,0 +1,602 @@
+495000.fb2
+495002.fb2
+495008.fb2
+495013.fb2
+495015.fb2
+495016.fb2
+495022.fb2
+495023.fb2
+495024.fb2
+495028.fb2
+495029.fb2
+495030.fb2
+495031.fb2
+495032.fb2
+495035.fb2
+495037.fb2
+495040.fb2
+495041.fb2
+495042.fb2
+495044.fb2
+495045.fb2
+495046.fb2
+495051.fb2
+495056.fb2
+495057.fb2
+495060.fb2
+495061.fb2
+495062.fb2
+495065.fb2
+495066.fb2
+495067.fb2
+495071.fb2
+495072.fb2
+495073.fb2
+495074.fb2
+495075.fb2
+495076.fb2
+495077.fb2
+495081.fb2
+495083.fb2
+495085.fb2
+495086.fb2
+495090.fb2
+495092.fb2
+495094.fb2
+495095.fb2
+495096.fb2
+495100.fb2
+495101.fb2
+495102.fb2
+495103.fb2
+495104.fb2
+495105.fb2
+495106.fb2
+495107.fb2
+495109.fb2
+495110.fb2
+495111.fb2
+495112.fb2
+495113.fb2
+495118.fb2
+495120.fb2
+495121.fb2
+495122.fb2
+495124.fb2
+495125.fb2
+495128.fb2
+495129.fb2
+495130.fb2
+495131.fb2
+495132.fb2
+495133.fb2
+495134.fb2
+495135.fb2
+495136.fb2
+495137.fb2
+495139.fb2
+495142.fb2
+495143.fb2
+495144.fb2
+495145.fb2
+495146.fb2
+495147.fb2
+495148.fb2
+495149.fb2
+495150.fb2
+495151.fb2
+495152.fb2
+495153.fb2
+495154.fb2
+495155.fb2
+495156.fb2
+495157.fb2
+495158.fb2
+495159.fb2
+495160.fb2
+495161.fb2
+495162.fb2
+495163.fb2
+495164.fb2
+100
+
+
+Debug Trace:
+E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip: DiskItemFabrick.GetDiskItem({0}) - Zip
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495000.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495002.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495008.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495013.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495015.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495016.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495022.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495023.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495024.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495028.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495029.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495030.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495031.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495032.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495035.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495037.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495040.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495041.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495042.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495044.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495045.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495046.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495051.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495056.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495057.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495060.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495061.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495062.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495065.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495066.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495067.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495071.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495072.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495073.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495074.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495075.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495076.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495077.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495081.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495083.fb2) - File
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495085.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495086.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495090.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495092.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495094.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495095.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495096.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495100.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495101.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495102.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495103.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495104.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495105.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495106.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495107.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495109.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495110.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495111.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495112.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495113.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495118.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495120.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495121.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495122.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495124.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495125.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495128.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495129.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495130.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495131.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495132.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495133.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495134.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495135.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495136.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495137.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495139.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495142.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495143.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495144.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495145.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495146.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495147.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495148.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495149.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495150.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495151.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495152.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495153.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495154.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495155.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495156.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495157.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495158.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495159.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495160.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495161.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495162.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495163.fb2) - FB2
+True
+fb2-495000-500999.zip
+True
+Thread : 4  Task : 1
+DiskItemFabrick.GetDiskItem(E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip,495164.fb2) - FB2
+True
+fb2-495000-500999.zip
+True

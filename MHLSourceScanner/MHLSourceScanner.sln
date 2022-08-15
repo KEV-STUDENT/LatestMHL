@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32616.157
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MHLSourceScanner", "MHLSourceScanner\MHLSourceScanner.csproj", "{CFC81766-F1F4-4F2B-9846-B08BF7698630}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MHLSourceScannerLib", "MHLSourceScannerLib\MHLSourceScannerLib.csproj", "{058FA0DB-BC9A-486E-AB09-1EFDCEDC4C7E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MHLSourceScannerModelLib", "MHLSourceScannerModelLib\MHLSourceScannerModelLib.csproj", "{259A5DE7-BEA8-4917-9FD8-AAA2384C4A20}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MHLSourceOnDisk", "..\MHLSorcesOnDisk\MHLSourceOnDisk\MHLSourceOnDisk\MHLSourceOnDisk.csproj", "{DD0E74EF-B769-414B-8D57-8267D8C7837A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MHLCommon", "..\MHLCommon\MHLCommon.csproj", "{4E7CE6F1-E02F-483B-BF14-248AF1F1C23C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CFC81766-F1F4-4F2B-9846-B08BF7698630}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFC81766-F1F4-4F2B-9846-B08BF7698630}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFC81766-F1F4-4F2B-9846-B08BF7698630}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFC81766-F1F4-4F2B-9846-B08BF7698630}.Release|Any CPU.Build.0 = Release|Any CPU
+		{058FA0DB-BC9A-486E-AB09-1EFDCEDC4C7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{058FA0DB-BC9A-486E-AB09-1EFDCEDC4C7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{058FA0DB-BC9A-486E-AB09-1EFDCEDC4C7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{058FA0DB-BC9A-486E-AB09-1EFDCEDC4C7E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{259A5DE7-BEA8-4917-9FD8-AAA2384C4A20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{259A5DE7-BEA8-4917-9FD8-AAA2384C4A20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{259A5DE7-BEA8-4917-9FD8-AAA2384C4A20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{259A5DE7-BEA8-4917-9FD8-AAA2384C4A20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD0E74EF-B769-414B-8D57-8267D8C7837A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD0E74EF-B769-414B-8D57-8267D8C7837A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD0E74EF-B769-414B-8D57-8267D8C7837A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD0E74EF-B769-414B-8D57-8267D8C7837A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E7CE6F1-E02F-483B-BF14-248AF1F1C23C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E7CE6F1-E02F-483B-BF14-248AF1F1C23C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E7CE6F1-E02F-483B-BF14-248AF1F1C23C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E7CE6F1-E02F-483B-BF14-248AF1F1C23C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C6686A06-30CE-413F-9824-89B7F8BB28EF}
+	EndGlobalSection
+EndGlobal

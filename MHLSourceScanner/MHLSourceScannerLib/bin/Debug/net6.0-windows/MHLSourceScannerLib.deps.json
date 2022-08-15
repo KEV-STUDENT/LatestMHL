@@ -1,0 +1,64 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "MHLSourceScannerLib/1.0.0": {
+        "dependencies": {
+          "MHLCommon": "1.0.0",
+          "MHLSourceScannerModelLib": "1.0.0"
+        },
+        "runtime": {
+          "MHLSourceScannerLib.dll": {}
+        }
+      },
+      "MHLCommon/1.0.0": {
+        "runtime": {
+          "MHLCommon.dll": {}
+        }
+      },
+      "MHLSourceOnDisk/1.0.0": {
+        "dependencies": {
+          "MHLCommon": "1.0.0"
+        },
+        "runtime": {
+          "MHLSourceOnDisk.dll": {}
+        }
+      },
+      "MHLSourceScannerModelLib/1.0.0": {
+        "dependencies": {
+          "MHLCommon": "1.0.0",
+          "MHLSourceOnDisk": "1.0.0"
+        },
+        "runtime": {
+          "MHLSourceScannerModelLib.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "MHLSourceScannerLib/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "MHLCommon/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "MHLSourceOnDisk/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "MHLSourceScannerModelLib/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

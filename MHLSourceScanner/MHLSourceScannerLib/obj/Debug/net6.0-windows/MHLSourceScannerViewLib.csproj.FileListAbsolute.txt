@@ -1,0 +1,17 @@
+F:\LatestMHL\MHLSourceScanner\MHLSourceScannerLib\bin\Debug\net6.0-windows\MHLSourceScannerViewLib.deps.json
+F:\LatestMHL\MHLSourceScanner\MHLSourceScannerLib\bin\Debug\net6.0-windows\MHLSourceScannerViewLib.dll
+F:\LatestMHL\MHLSourceScanner\MHLSourceScannerLib\bin\Debug\net6.0-windows\MHLSourceScannerViewLib.pdb
+F:\LatestMHL\MHLSourceScanner\MHLSourceScannerLib\obj\Debug\net6.0-windows\MHLSourceScannerViewLib.csproj.AssemblyReference.cache
+F:\LatestMHL\MHLSourceScanner\MHLSourceScannerLib\obj\Debug\net6.0-windows\SourcePicker.g.cs
+F:\LatestMHL\MHLSourceScanner\MHLSourceScannerLib\obj\Debug\net6.0-windows\MHLSourceScannerViewLib_MarkupCompile.cache
+F:\LatestMHL\MHLSourceScanner\MHLSourceScannerLib\obj\Debug\net6.0-windows\MHLSourceScannerViewLib_MarkupCompile.lref
+F:\LatestMHL\MHLSourceScanner\MHLSourceScannerLib\obj\Debug\net6.0-windows\SourcePicker.baml
+F:\LatestMHL\MHLSourceScanner\MHLSourceScannerLib\obj\Debug\net6.0-windows\MHLSourceScannerViewLib.g.resources
+F:\LatestMHL\MHLSourceScanner\MHLSourceScannerLib\obj\Debug\net6.0-windows\MHLSourceScannerViewLib.GeneratedMSBuildEditorConfig.editorconfig
+F:\LatestMHL\MHLSourceScanner\MHLSourceScannerLib\obj\Debug\net6.0-windows\MHLSourceScannerViewLib.AssemblyInfoInputs.cache
+F:\LatestMHL\MHLSourceScanner\MHLSourceScannerLib\obj\Debug\net6.0-windows\MHLSourceScannerViewLib.AssemblyInfo.cs
+F:\LatestMHL\MHLSourceScanner\MHLSourceScannerLib\obj\Debug\net6.0-windows\MHLSourceScannerViewLib.csproj.CoreCompileInputs.cache
+F:\LatestMHL\MHLSourceScanner\MHLSourceScannerLib\obj\Debug\net6.0-windows\MHLSourceScannerViewLib.dll
+F:\LatestMHL\MHLSourceScanner\MHLSourceScannerLib\obj\Debug\net6.0-windows\refint\MHLSourceScannerViewLib.dll
+F:\LatestMHL\MHLSourceScanner\MHLSourceScannerLib\obj\Debug\net6.0-windows\MHLSourceScannerViewLib.pdb
+F:\LatestMHL\MHLSourceScanner\MHLSourceScannerLib\obj\Debug\net6.0-windows\ref\MHLSourceScannerViewLib.dll
