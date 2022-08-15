@@ -106,9 +106,9 @@ namespace MHLSourceScannerLib
         }
 
 
-        public override ITreeItem CreateTreeViewItem(IDiskItem diskItemChild)
+        public override ITreeDiskItem CreateTreeViewItem(IDiskItem diskItemChild)
         {
-            ITreeItem newTreeItem;
+            ITreeDiskItem newTreeItem;
 
             if (diskItemChild is IBook)
                 newTreeItem = new TreeViewFB2(diskItemChild, shower);

@@ -39,7 +39,7 @@ namespace MHLSourceScanner
             if( ((IPicker<string>)SourceDirectoryPicker).CheckValue(out directory) == ReturnResultEnum.Ok)
             {
                 IShower shower = SourceTree;
-                ITreeItem treeViewDiskItem = new TreeViewDirectory(directory,shower);
+                ITreeDiskItem treeViewDiskItem = new TreeViewDirectory(directory,shower);
                 shower.SourceItems.Clear();
                 shower.UpdateView(treeViewDiskItem);
             }

@@ -32,17 +32,19 @@
                 </HierarchicalDataTemplate>
                 
                 <HierarchicalDataTemplate DataType = "{x:Type local:TreeViewZip}" ItemsSource="{Binding Path=SourceItems}">
-                    <StackPanel Orientation="Horizontal" >
+                    <StackPanel Orientation="Vertical" >
                         <TextBlock Style="{StaticResource TreeViewItemStyle}"  />
-                        <TextBlock Text="{Binding Path=Count, StringFormat='Archive include {0} blocks.'}" Margin="15,0,0,0" Visibility="{Binding Visibility2TotalCount }"/>
-                        <TextBlock Text="{Binding Path=TotalCount, StringFormat='Total count of items {0}'}" Margin="15,0,0,0" />
+                        <StackPanel Orientation="Horizontal" >
+                            <TextBlock Text="{Binding Path=Count, StringFormat='Archive include {0} blocks.'}" Margin="20,0,0,0" Visibility="{Binding Visibility2TotalCount }"/>
+                            <TextBlock Text="{Binding Path=TotalCount, StringFormat='Total count of items {0}'}" Margin="5,0,0,0" />
+                        </StackPanel>
                     </StackPanel>
                 </HierarchicalDataTemplate>
 
                 <HierarchicalDataTemplate DataType = "{x:Type local:TreeViewFB2}" ItemsSource="{Binding Path=SourceItems}">
                     <StackPanel Orientation="Horizontal" >
                         <TextBlock Text="{Binding Path=Title, StringFormat='Title: {0}'}" Style="{StaticResource TreeViewItemStyle}"/>
-                        <TextBlock Text="{Binding Path=Name, StringFormat='File: {0}'}" Margin="15,0,0,0" />
+                        <TextBlock Text="{Binding Path=Name, StringFormat='File: {0}'}" Margin="20,0,0,0" />
                     </StackPanel>
                 </HierarchicalDataTemplate>
 
@@ -51,9 +53,9 @@
                 </HierarchicalDataTemplate>
 
                 <HierarchicalDataTemplate DataType = "{x:Type local:TreeViewVirtualGroup}" ItemsSource="{Binding Path=SourceItems}">
-                    <StackPanel Orientation="Horizontal" >
+                    <StackPanel Orientation="Vertical" >
                         <TextBlock Style="{StaticResource TreeViewItemStyle}"/>
-                        <TextBlock Text="{Binding Path=Count, StringFormat='Block include {0} items'}" Margin="15,0,0,0" />
+                        <TextBlock Text="{Binding Path=Count, StringFormat='Block include {0} items'}" Margin="15,0,0,0"/>
                     </StackPanel>
                 </HierarchicalDataTemplate>
 

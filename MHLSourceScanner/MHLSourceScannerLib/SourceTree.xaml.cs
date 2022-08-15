@@ -39,7 +39,7 @@ namespace MHLSourceScannerLib
             this.shower = shower;
             ViewModel = new ShowerViewModel();
             //DataContext = this;
-            ShowSource.ItemsSource = new ObservableCollection<ITreeItem>();
+            ShowSource.ItemsSource = new ObservableCollection<ITreeDiskItem>();
         }
 
 
@@ -62,7 +62,7 @@ namespace MHLSourceScannerLib
         }*/
 
 
-        private void CreateViewItem(IDiskItem item, ITreeItem parent)
+        private void CreateViewItem(IDiskItem item, ITreeDiskItem parent)
         {
             parent.AddDiskItem(item);
             //Dispatcher.BeginInvoke(new Action<IDiskItem, ITreeItem>((i, p) => p.AddDiskItem(i, p)), diskItem, treeItem);
@@ -75,7 +75,7 @@ namespace MHLSourceScannerLib
 
         }
 
-        private void LoadItemCollection(ITreeItem parent)
+        private void LoadItemCollection(ITreeDiskItem parent)
         {
             parent.SourceItems.Clear();
             parent.LoadItemCollection();
@@ -106,13 +106,13 @@ namespace MHLSourceScannerLib
             //System.Diagnostics.Debug.WriteLine("LoadItemCollection :" + source?.Name??String.Empty );
         }
 
-        public ObservableCollection<ITreeItem> SourceItems
+        public ObservableCollection<ITreeDiskItem> SourceItems
         {
             get { return shower.SourceItems; }
         }
 
 
-        ObservableCollection<ITreeItem> IShower.SourceItems
+        ObservableCollection<ITreeDiskItem> IShower.SourceItems
         {
             get { return SourceItems; }
         }
@@ -129,7 +129,7 @@ namespace MHLSourceScannerLib
             //ShowSource.ItemsSource = shower.SourceItems;
         }
 
-        void IShower.UpdateView(ITreeItem treeItem)
+        void IShower.UpdateView(ITreeDiskItem treeItem)
         {
 
             /*Task.Factory.StartNew(() =>
@@ -143,7 +143,7 @@ namespace MHLSourceScannerLib
             //ShowSource.ItemsSource = shower.SourceItems;
         }
 
-        void IShower.AddDiskItem(IDiskItem diskItem, ITreeItem treeItem)
+        void IShower.AddDiskItem(IDiskItem diskItem, ITreeDiskItem treeItem)
         {
             Dispatcher.BeginInvoke(new Action(() =>
             {
@@ -151,7 +151,7 @@ namespace MHLSourceScannerLib
             }));
         }
 
-        void IShower.LoadItemCollection(ITreeItem treeItem)
+        void IShower.LoadItemCollection(ITreeDiskItem treeItem)
         {
             shower.LoadItemCollection(treeItem);
         }

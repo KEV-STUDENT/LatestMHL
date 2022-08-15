@@ -24,7 +24,7 @@ namespace MHLSourceScannerLib
             if(obj is RoutedEventArgs arg)
             {
                 TreeViewItem? tvi = arg.Source as TreeViewItem;
-                if(tvi?.Header is ITreeItem treeItem)
+                if(tvi?.Header is ITreeDiskItem treeItem)
                 {
                     treeItem.LoadChilds();
                 }

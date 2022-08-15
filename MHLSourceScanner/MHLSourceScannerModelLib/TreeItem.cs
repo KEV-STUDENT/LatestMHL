@@ -5,24 +5,24 @@ using MHLCommon;
 
 namespace MHLSourceScannerModelLib
 {
-    public class TreeItem : ITreeItem
+    public class TreeItem : ITreeDiskItem
     {
         protected readonly IDiskItem? source;
         protected readonly IShower? shower;
         private bool childsLoaded;
-        private ObservableCollection<ITreeItem> sourceItems = new ObservableCollection<ITreeItem>();
-        protected readonly ITreeItem treeItem;
+        private ObservableCollection<ITreeDiskItem> sourceItems = new ObservableCollection<ITreeDiskItem>();
+        protected readonly ITreeDiskItem treeItem;
 
         private readonly object sourceLock = new object();
 
         #region [Properties]
-        public ObservableCollection<ITreeItem> SourceItems
+        public ObservableCollection<ITreeDiskItem> SourceItems
         {
             get => sourceItems;
             set => sourceItems = value;
 
         }
-        ObservableCollection<ITreeItem> ITreeItem.SourceItems
+        ObservableCollection<ITreeDiskItem> ITreeDiskItem.SourceItems
         {
             get => SourceItems;
             set => SourceItems = value;
@@ -32,8 +32,8 @@ namespace MHLSourceScannerModelLib
         {
             get => source?.Name ?? String.Empty;
         }
-        string ITreeItem.Path2Item => source?.Path2Item ?? String.Empty;
-        string ITreeItem.Name => Name;
+        string ITreeDiskItem.Path2Item => source?.Path2Item ?? String.Empty;
+        string ITreeDiskItem.Name => Name;
 
         public bool TestMode { get; set; }
         #endregion
@@ -70,7 +70,7 @@ namespace MHLSourceScannerModelLib
         #endregion
 
         #region [ITreeItem implementation]
-        void ITreeItem.LoadChilds()
+        void ITreeDiskItem.LoadChilds()
         {
             if (childsLoaded)
                 return;
@@ -83,7 +83,7 @@ namespace MHLSourceScannerModelLib
             childsLoaded = true;
         }
 
-        void ITreeItem.LoadItemCollection()
+        void ITreeDiskItem.LoadItemCollection()
         {
             if (source != null && source is IDiskCollection diskCollection)
             {
@@ -92,12 +92,12 @@ namespace MHLSourceScannerModelLib
             }
         }
 
-        void ITreeItem.AddDiskItem(IDiskItem diskItemChild)
+        void ITreeDiskItem.AddDiskItem(IDiskItem diskItemChild)
         {
             if (diskItemChild != null)
             {
                 bool inserted = false;
-                ITreeItem newItem = treeItem.CreateTreeViewItem(diskItemChild);
+                ITreeDiskItem newItem = treeItem.CreateTreeViewItem(diskItemChild);
                 lock (sourceLock)
                 {
                     for (int i = 0; i < treeItem.SourceItems.Count; i++)
@@ -116,15 +116,15 @@ namespace MHLSourceScannerModelLib
             }
         }
 
-        ITreeItem ITreeItem.CreateTreeViewItem(IDiskItem diskItemChild)
+        ITreeDiskItem ITreeDiskItem.CreateTreeViewItem(IDiskItem diskItemChild)
         {
             return CreateTreeViewItem(diskItemChild);
         }
 
-        ObservableCollection<ITreeItem> ITreeItem.LoadChildsCollection()
+        ObservableCollection<ITreeDiskItem> ITreeDiskItem.LoadChildsCollection()
         {
             System.Diagnostics.Debug.WriteLine("Thread 2 : {0}  Task : {1}", System.Threading.Thread.CurrentThread.ManagedThreadId, Task.CurrentId);
-            ObservableCollection<ITreeItem> res = new ObservableCollection<ITreeItem>();
+            ObservableCollection<ITreeDiskItem> res = new ObservableCollection<ITreeDiskItem>();
             if (source != null && source is IDiskCollection diskCollection)
             {
                 foreach (IDiskItem diskItemChild in diskCollection.GetChilds())
@@ -135,13 +135,13 @@ namespace MHLSourceScannerModelLib
             return res;
         }
 
-        async Task<ObservableCollection<ITreeItem>> ITreeItem.LoadChildsCollectionAsync()
+        async Task<ObservableCollection<ITreeDiskItem>> ITreeDiskItem.LoadChildsCollectionAsync()
         {
             System.Diagnostics.Debug.WriteLine("Thread 1 : {0}  Task : {1}", System.Threading.Thread.CurrentThread.ManagedThreadId, Task.CurrentId);
-            return await Task<ObservableCollection<ITreeItem>>.Run(() => treeItem.LoadChildsCollection());
+            return await Task<ObservableCollection<ITreeDiskItem>>.Run(() => treeItem.LoadChildsCollection());
         }
 
-        int IComparable<ITreeItem>.CompareTo(ITreeItem? other)
+        int IComparable<ITreeDiskItem>.CompareTo(ITreeDiskItem? other)
         {
             return MHLCommonStatic.CompareStringByLength(this.Name, other?.Name ?? String.Empty);
         }
@@ -181,12 +181,12 @@ namespace MHLSourceScannerModelLib
         #endregion
 
         #region [Public Methods]
-        public virtual ITreeItem CreateEmptyItem()
+        public virtual ITreeDiskItem CreateEmptyItem()
         {
             return new TreeItem();
         }
 
-        public virtual ITreeItem CreateTreeViewItem(IDiskItem diskItemChild)
+        public virtual ITreeDiskItem CreateTreeViewItem(IDiskItem diskItemChild)
         {
             return new TreeItem(diskItemChild);
         }

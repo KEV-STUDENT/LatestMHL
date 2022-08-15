@@ -1,14 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using MHLCommon;
-using MHLSourceOnDisk;
-using System.Collections.Generic;
-using System.IO.Compression;
-using System.Threading.Tasks;
+﻿using MHLCommon;
 using System.Windows;
 using System.Windows.Media;
 
