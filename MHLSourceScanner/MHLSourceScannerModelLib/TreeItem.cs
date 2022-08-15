@@ -33,7 +33,7 @@ namespace MHLSourceScannerModelLib
             get => source?.Name ?? String.Empty;
         }
         string ITreeDiskItem.Path2Item => source?.Path2Item ?? String.Empty;
-        string ITreeDiskItem.Name => Name;
+        string ITreeItem.Name => Name;
 
         public bool TestMode { get; set; }
         #endregion
@@ -70,7 +70,7 @@ namespace MHLSourceScannerModelLib
         #endregion
 
         #region [ITreeItem implementation]
-        void ITreeDiskItem.LoadChilds()
+        void ITreeItem.LoadChilds()
         {
             if (childsLoaded)
                 return;
@@ -83,7 +83,7 @@ namespace MHLSourceScannerModelLib
             childsLoaded = true;
         }
 
-        void ITreeDiskItem.LoadItemCollection()
+        void ITreeItem.LoadItemCollection()
         {
             if (source != null && source is IDiskCollection diskCollection)
             {
@@ -121,10 +121,10 @@ namespace MHLSourceScannerModelLib
             return CreateTreeViewItem(diskItemChild);
         }
 
-        ObservableCollection<ITreeDiskItem> ITreeDiskItem.LoadChildsCollection()
+        ObservableCollection<ITreeItem> ITreeItem.LoadChildsCollection()
         {
             System.Diagnostics.Debug.WriteLine("Thread 2 : {0}  Task : {1}", System.Threading.Thread.CurrentThread.ManagedThreadId, Task.CurrentId);
-            ObservableCollection<ITreeDiskItem> res = new ObservableCollection<ITreeDiskItem>();
+            ObservableCollection<ITreeItem> res = new ObservableCollection<ITreeItem>();
             if (source != null && source is IDiskCollection diskCollection)
             {
                 foreach (IDiskItem diskItemChild in diskCollection.GetChilds())
@@ -135,13 +135,13 @@ namespace MHLSourceScannerModelLib
             return res;
         }
 
-        async Task<ObservableCollection<ITreeDiskItem>> ITreeDiskItem.LoadChildsCollectionAsync()
+        async Task<ObservableCollection<ITreeItem>> ITreeItem.LoadChildsCollectionAsync()
         {
             System.Diagnostics.Debug.WriteLine("Thread 1 : {0}  Task : {1}", System.Threading.Thread.CurrentThread.ManagedThreadId, Task.CurrentId);
             return await Task<ObservableCollection<ITreeDiskItem>>.Run(() => treeItem.LoadChildsCollection());
         }
 
-        int IComparable<ITreeDiskItem>.CompareTo(ITreeDiskItem? other)
+        int IComparable<ITreeItem>.CompareTo(ITreeItem? other)
         {
             return MHLCommonStatic.CompareStringByLength(this.Name, other?.Name ?? String.Empty);
         }
