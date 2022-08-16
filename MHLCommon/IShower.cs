@@ -3,10 +3,10 @@ namespace MHLCommon
 {
     public interface IShower
     {
-        ObservableCollection<ITreeDiskItem> SourceItems { get; }
+        ObservableCollection<ITreeItem> SourceItems { get; }
         void UpdateView();
-        void UpdateView(ITreeDiskItem treeViewDiskItem);
+        void UpdateView(ITreeItem treeViewDiskItem);
         void AddDiskItem(IDiskItem item, ITreeDiskItem parent);
-        void LoadItemCollection(ITreeDiskItem treeItem);
+        void LoadItemCollection(ITreeCollectionItem treeItem);
     }
 }

@@ -16,14 +16,17 @@ namespace MHLSourceScannerModelLibTest
             DiskItemFileZip? zip = DiskItemFabrick.GetDiskItem(path) as DiskItemFileZip;
             IDiskItem? item = null;
 
-            using ZipArchive zipArchive = ZipFile.OpenRead(zip.Path2Item);
+            if (zip != null)
             {
-                List<string> subList = (
-                        from file in zipArchive.Entries
-                        select file.Name).ToList();
+                using ZipArchive zipArchive = ZipFile.OpenRead(zip.Path2Item);
+                {
+                    List<string> subList = (
+                            from file in zipArchive.Entries
+                            select file.Name).ToList();
 
 
-                item = DiskItemFabrick.GetDiskItem(zip, subList);
+                    item = DiskItemFabrick.GetDiskItem(zip, subList);
+                }
             }
 
             return item;
@@ -33,14 +36,17 @@ namespace MHLSourceScannerModelLibTest
         public void GetDiskItemVirtualGroup_pathZip()
         {
             IDiskItem? item = GetDiskItemVirtualGroup(pathZip);
-            System.Diagnostics.Debug.WriteLine(item.Path2Item);
-
-            IDiskItemVirtualGroup? virtualGroup = item as IDiskItemVirtualGroup;
-            foreach(string file in virtualGroup.ItemsNames)
+            if (item == null)
             {
-                System.Diagnostics.Debug.WriteLine(file);
+                IDiskItemVirtualGroup? virtualGroup = item as IDiskItemVirtualGroup;
+                if (virtualGroup != null)
+                {
+                    foreach (string file in virtualGroup.ItemsNames)
+                    {
+                        System.Diagnostics.Debug.WriteLine(file);
+                    }
+                }
             }
-
             Assert.IsInstanceOfType(item, typeof(DiskItemVirtualGroup));
         }
 
@@ -50,8 +56,13 @@ namespace MHLSourceScannerModelLibTest
             IDiskItem? item = GetDiskItemVirtualGroup(pathZip);
             IDiskItemVirtualGroup? virtualGroup = item as IDiskItemVirtualGroup;
 
-            IDiskItem? itemFB2 = DiskItemFabrick.GetDiskItem(virtualGroup, virtualGroup.ItemsNames[0]);
-           
+            IDiskItem? itemFB2 = null;
+            if(virtualGroup != null)
+                itemFB2 = DiskItemFabrick.GetDiskItem(virtualGroup, virtualGroup.ItemsNames[0]);
+
+            System.Diagnostics.Debug.WriteLine("----------");
+            System.Diagnostics.Debug.WriteLine(itemFB2);
+            System.Diagnostics.Debug.WriteLine("----------");
 
             Assert.IsInstanceOfType(itemFB2, typeof(DiskItemFileFB2));
         }

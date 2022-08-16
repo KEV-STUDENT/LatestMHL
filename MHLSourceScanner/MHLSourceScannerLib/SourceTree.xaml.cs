@@ -39,7 +39,7 @@ namespace MHLSourceScannerLib
             this.shower = shower;
             ViewModel = new ShowerViewModel();
             //DataContext = this;
-            ShowSource.ItemsSource = new ObservableCollection<ITreeDiskItem>();
+            ShowSource.ItemsSource = new ObservableCollection<ITreeItem>();
         }
 
 
@@ -48,99 +48,37 @@ namespace MHLSourceScannerLib
             ShowSource.ItemsSource = SourceItems;
         }
 
-        /*private void CreateViewItem1(IDiskItem item, ITreeItem parent)
-        {
-            Task.Factory.StartNew(()=>
-            {
-                System.Diagnostics.Debug.WriteLine("-=1-Start {0} =-", System.Threading.Thread.CurrentThread.ManagedThreadId);
-                CreateViewItem(item, parent);
-                System.Threading.Thread.Sleep(100000);
-                System.Diagnostics.Debug.WriteLine("-=1-End {0} =-", System.Threading.Thread.CurrentThread.ManagedThreadId);
-            });
-            //System.Threading.Thread thread = new System.Threading.Thread(()=>CreateViewItem(diskItem, treeItem));
-            //thread.Start();
-        }*/
-
-
         private void CreateViewItem(IDiskItem item, ITreeDiskItem parent)
         {
             parent.AddDiskItem(item);
-            //Dispatcher.BeginInvoke(new Action<IDiskItem, ITreeItem>((i, p) => p.AddDiskItem(i, p)), diskItem, treeItem);
-
-            //Action act = new Action(() => treeItem.AddDiskItem(diskItem, treeItem));
-            //Task t = Task.Factory.StartNew(Dispatcher.BeginInvoke(act);
-
-            // Dispatcher.InvokeAsync(new Action(() => treeItem.AddDiskItem(diskItem, treeItem)));
-            //treeItem.AddDiskItem(diskItem, treeItem);
-
         }
 
-        private void LoadItemCollection(ITreeDiskItem parent)
+        private void LoadItemCollection(ITreeCollectionItem parent)
         {
-            parent.SourceItems.Clear();
+            if(parent is ITreeDiskItem diskItem)
+                diskItem.SourceItems.Clear();
             parent.LoadItemCollection();
-           /* ObservableCollection<ITreeItem> collection = parent.LoadChildsCollection();
-            foreach (var i in collection)
-                parent.SourceItems.Add(i);*/
-
-            /*System.Diagnostics.Debug.WriteLine("Thread 11 : {0}  Task : {1}", System.Threading.Thread.CurrentThread.ManagedThreadId, Task.CurrentId);
-
-            Task<ObservableCollection<ITreeItem>> task = parent.LoadChildsCollectionAsync();
-            task.ContinueWith((t) =>
-                 {                
-                     foreach (var i in t.Result)
-                        Dispatcher.BeginInvoke(()=>parent.SourceItems.Add(i));
-                 }
-             );*/
-
-            //task.Start();
-            //task.Wait();
-
-            //parent.LoadItemCollection();
-            //Dispatcher.BeginInvoke(new Action<IDiskItem?, ITreeItem>((i, p) => p.LoadItemCollection(i, p)), source, treeItem);
-
-            //Dispatcher.BeginInvoke(new Action(() => treeItem.LoadChilds()));
-
-
-            //Dispatcher.InvokeAsync(new Action(() => treeItem.LoadItemCollection()));
-            //System.Diagnostics.Debug.WriteLine("LoadItemCollection :" + source?.Name??String.Empty );
         }
 
-        public ObservableCollection<ITreeDiskItem> SourceItems
+        public ObservableCollection<ITreeItem> SourceItems
         {
             get { return shower.SourceItems; }
         }
 
 
-        ObservableCollection<ITreeDiskItem> IShower.SourceItems
+        ObservableCollection<ITreeItem> IShower.SourceItems
         {
             get { return SourceItems; }
         }
 
         void IShower.UpdateView()
         {
-            /*Task.Factory.StartNew(() =>
-            {
-                shower.UpdateView();
-            }
-                //Dispatcher.BeginInvoke(new Action(() => shower.UpdateView()))}
-            );*/
             shower.UpdateView();
-            //ShowSource.ItemsSource = shower.SourceItems;
         }
 
-        void IShower.UpdateView(ITreeDiskItem treeItem)
+        void IShower.UpdateView(ITreeItem treeItem)
         {
-
-            /*Task.Factory.StartNew(() =>
-            {
-                shower.UpdateView(treeViewDiskItem);
-            }
-            );*/
-            //Dispatcher.BeginInvoke(new Action(() => shower.UpdateView(treeViewDiskItem)));
-
             shower.UpdateView(treeItem);
-            //ShowSource.ItemsSource = shower.SourceItems;
         }
 
         void IShower.AddDiskItem(IDiskItem diskItem, ITreeDiskItem treeItem)
@@ -151,7 +89,7 @@ namespace MHLSourceScannerLib
             }));
         }
 
-        void IShower.LoadItemCollection(ITreeDiskItem treeItem)
+        void IShower.LoadItemCollection(ITreeCollectionItem treeItem)
         {
             shower.LoadItemCollection(treeItem);
         }

@@ -106,10 +106,11 @@ namespace MHLSourceScannerLib
 
                             if (diskItemChild != null)
                             {
+                                ITreeDiskItem diskItem = this;
                                 if (shower == null)
-                                    treeItem.AddDiskItem(diskItemChild);
+                                    diskItem.AddDiskItem(diskItemChild);
                                 else
-                                    shower.AddDiskItem(diskItemChild, treeItem);
+                                    shower.AddDiskItem(diskItemChild, diskItem);
                             }
                         }));
                     }

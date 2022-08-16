@@ -9,21 +9,21 @@ namespace MHLSourceScannerModelLib
         public Action? BeforeUpdateView;
         public Action? AfterUpdateView;
         public Action? UpdateView;
-        public Action<IDiskItem, ITreeDiskItem>? CreateItem;
-        public Action<ITreeDiskItem>? LoadCollection;    
+        public Action<IDiskItem, ITreeItem>? CreateItem;
+        public Action<ITreeCollectionItem>? LoadCollection;    
     
-        protected ObservableCollection<ITreeDiskItem> sourceItems = new ObservableCollection<ITreeDiskItem>();
+        protected ObservableCollection<ITreeItem> sourceItems = new ObservableCollection<ITreeItem>();
 
-        public ObservableCollection<ITreeDiskItem> SourceItems
+        public ObservableCollection<ITreeItem> SourceItems
         {
             get { return sourceItems; }
         }
 
-        ObservableCollection<ITreeDiskItem> IShower.SourceItems {
+        ObservableCollection<ITreeItem> IShower.SourceItems {
             get { return SourceItems; }
         }
 
-        void IShower.LoadItemCollection(ITreeDiskItem treeItem)
+        void IShower.LoadItemCollection(ITreeCollectionItem treeItem)
         {
             if(LoadCollection == null)
                 treeItem.LoadItemCollection();
@@ -51,9 +51,9 @@ namespace MHLSourceScannerModelLib
                 AfterUpdateView();
         }
 
-        void IShower.UpdateView(ITreeDiskItem treeViewDiskItem)
+        void IShower.UpdateView(ITreeItem treeViewItem)
         {
-            if (treeViewDiskItem != null)
+            if (treeViewItem is ITreeDiskItem treeViewDiskItem)
             {
                 treeViewDiskItem.LoadChilds();
                 sourceItems = treeViewDiskItem.SourceItems;

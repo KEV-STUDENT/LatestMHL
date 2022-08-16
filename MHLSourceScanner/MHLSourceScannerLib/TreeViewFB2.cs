@@ -1,4 +1,5 @@
 ﻿using MHLCommon;
+using MHLSourceScannerModelLib;
 using System.Windows;
 using System.Windows.Media;
 
@@ -42,9 +43,11 @@ namespace MHLSourceScannerLib
         #endregion
 
         #region [Protected Methods]
-        protected override void LoadItemCollection(IDiskCollection diskCollection)
+        public override void LoadItemCollection()
         {
-            base.LoadItemCollection(diskCollection);
+            SourceItems.Insert(0, new TreeViewFB2Section() { Name = "Authors" });
+            SourceItems.Insert(1, new TreeViewFB2Section() { Name = "Genres" });
+            SourceItems.Insert(2, new TreeViewFB2Section() { Name = "Keywords" });
         }
         #endregion
     }

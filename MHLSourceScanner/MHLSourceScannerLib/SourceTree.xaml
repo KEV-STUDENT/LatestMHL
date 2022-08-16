@@ -66,6 +66,10 @@
                 <HierarchicalDataTemplate DataType = "{x:Type local:TreeViewError}" ItemsSource="{Binding Path=SourceItems}">
                     <TextBlock Style="{StaticResource TreeViewItemStyle}"  />
                 </HierarchicalDataTemplate>
+
+                <HierarchicalDataTemplate DataType = "{x:Type local:TreeViewFB2Section}" ItemsSource="{Binding Path=SourceItems}">
+                    <TextBlock Style="{StaticResource TreeViewItemStyle}"  />
+                </HierarchicalDataTemplate>
             </TreeView.Resources>
         </TreeView>
     </Grid>

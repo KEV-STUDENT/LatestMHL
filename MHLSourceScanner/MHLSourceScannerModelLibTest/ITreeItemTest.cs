@@ -15,8 +15,8 @@ namespace MHLSourceScannerModelLibTest
         public void LoadChilds_pathDirZip()
         {
             DiskItemShower shower = new DiskItemShower();
-            ITreeItem treeItem = new TreeItem(pathDirZip, shower);
-            ((TreeItem)treeItem).TestMode = true;
+            ITreeDiskItem treeItem = new TreeDiskItem(pathDirZip, shower);
+            ((TreeDiskItem)treeItem).TestMode = true;
             treeItem.LoadChilds();
             Assert.AreNotEqual(0, treeItem.SourceItems.Count);
         }
@@ -25,7 +25,7 @@ namespace MHLSourceScannerModelLibTest
         public void LoadChildsCollection_pathDirZip()
         {
             DiskItemShower shower = new DiskItemShower();
-            ITreeItem treeItem = new TreeItem(pathDirZip, shower);
+            ITreeCollectionItem treeItem = new TreeDiskItem(pathDirZip, shower);
             ObservableCollection<ITreeItem> collection = treeItem.LoadChildsCollection();
             
             foreach (ITreeItem item in collection)
@@ -38,7 +38,7 @@ namespace MHLSourceScannerModelLibTest
         public void LoadChildsCollectionAsync_pathDirZip()
         {
             DiskItemShower shower = new DiskItemShower();
-            ITreeItem treeItem = new TreeItem(pathDirZip, shower);
+            ITreeCollectionItem treeItem = new TreeDiskItem(pathDirZip, shower);
             Task<ObservableCollection<ITreeItem>> task = treeItem.LoadChildsCollectionAsync();
             task.Wait();
             foreach (ITreeItem item in task.Result)
@@ -52,12 +52,12 @@ namespace MHLSourceScannerModelLibTest
         public void LoadItemCollection_pathDirZip()
         {
             DiskItemShower shower = new DiskItemShower();
-            ITreeItem treeItem = new TreeItem(pathDirZip, shower);
-            ((TreeItem)treeItem).TestMode = true;
+            ITreeDiskItem treeItem = new TreeDiskItem(pathDirZip, shower);
+            ((TreeDiskItem)treeItem).TestMode = true;
             
             treeItem.LoadItemCollection();
             
-            foreach (ITreeItem item in treeItem.SourceItems)
+            foreach (ITreeDiskItem item in treeItem.SourceItems)
                 System.Diagnostics.Debug.WriteLine(item.Name);
 
             Assert.AreNotEqual(0, treeItem.SourceItems.Count);

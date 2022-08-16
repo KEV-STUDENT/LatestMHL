@@ -15,8 +15,6 @@ namespace MHLSourceScannerModelLibTest
         private void UpdateViewAction()
         {
             IShower shower = this;
-            Debug.WriteLine(shower.SourceItems[0].Path2Item);
         }
-
     }
 }
