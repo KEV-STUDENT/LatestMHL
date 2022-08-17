@@ -16,12 +16,10 @@ namespace MHLSourceOnDiskTest
         protected string pathZip = @"F:\1\test\fb2-495000-500999.zip";
 
         [TestMethod]
-        public void LoadAuthors_pathDirZip()
+        public void Authors_pathDirZip()
         {
             IBook book = new DiskItemFileFB2(pathFile);
-            List<IBookAttribute> authors = book.LoadAuthors();
-
-            Assert.IsNotNull(authors);
+            Assert.AreNotEqual(0, book.Authors.Count);
         }
     }
 }

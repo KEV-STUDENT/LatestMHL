@@ -12,6 +12,7 @@ namespace MHLSourceOnDisk
         private XmlDocument? _xDoc;
         private XmlNamespaceManager? _namespaceManager;
         private string? _title = null;
+        private List<IBookAttribute>? _authors = null;
 
         private XmlNamespaceManager NamespaceManager
         {
@@ -58,9 +59,14 @@ namespace MHLSourceOnDisk
             }
         }
 
-        List<IBookAttribute> IBook.LoadAuthors()
+        List<IBookAttribute> IBook.Authors
         {
-            return LoadAuthors();
+            get
+            {
+                if (_authors == null)
+                    _authors = LoadAuthors();
+                return _authors;
+            }
         }
         #endregion
 
@@ -69,16 +75,37 @@ namespace MHLSourceOnDisk
         {
             List<IBookAttribute> authors = new List<IBookAttribute>();
 
-            XmlNodeList? nodeList = GetNodeList("//fb:description/fb:title-info/fb:author")
-                ?? GetNodeList("//description/title-info/author");
+            XmlNodeList? nodeList = GetNodeList("//fb:description/fb:title-info/fb:author");
+           
+            if((nodeList?.Count ?? 0) == 0)
+                nodeList = GetNodeList("//description/title-info/author");
 
             if (nodeList != null)
             {
+                
                 foreach (XmlNode author in nodeList)
                 {
-                    if(author.HasChildNodes)
+                    MHLAuthor a;
+                    System.Diagnostics.Debug.WriteLine(author.HasChildNodes);
+                    if (author.HasChildNodes)
                     {
-
+                        a = new MHLAuthor();
+                        foreach (XmlNode n in author.ChildNodes)
+                        {
+                            switch (n.LocalName)
+                            {
+                                case "first-name":
+                                    a.FirstName = n.InnerText;
+                                    break;
+                                case "middle-name":
+                                    a.MiddleName = n.InnerText;
+                                    break;
+                                case "last-name":
+                                    a.LastName = n.InnerText;
+                                    break;
+                            }
+                        }
+                        authors.Add(a);
                     }
                 }
             }
@@ -133,7 +160,7 @@ namespace MHLSourceOnDisk
 
         private XmlNodeList? GetNodeList(string nodes)
         {
-            return XDoc?.DocumentElement?.SelectNodes("//fb:description/fb:title-info/fb:author", NamespaceManager);
+            return XDoc?.DocumentElement?.SelectNodes(nodes, NamespaceManager);
         }
         #endregion
 

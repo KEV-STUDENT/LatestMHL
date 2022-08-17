@@ -3,7 +3,6 @@
     public interface IBook
     {
         string Title { get; }
-
-        List<IBookAttribute> LoadAuthors();
+        List<IBookAttribute> Authors { get; }
     }
 }

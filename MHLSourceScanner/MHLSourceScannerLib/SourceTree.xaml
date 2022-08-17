@@ -27,6 +27,11 @@
                     <Setter Property="FontWeight" Value="{Binding FontWeight}"/>
                 </Style>
 
+                <Style x:Key="TreeViewAttrStyle" TargetType="TextBlock">
+                    <Setter Property="Foreground" Value="{Binding ForeGround}"/>
+                    <Setter Property="FontWeight" Value="{Binding FontWeight}"/>
+                </Style>
+
                 <HierarchicalDataTemplate DataType = "{x:Type local:TreeViewSystem}" ItemsSource="{Binding Path=SourceItems}">
                     <TextBlock Style="{StaticResource TreeViewItemStyle}"  />
                 </HierarchicalDataTemplate>
@@ -80,6 +85,15 @@
                 <HierarchicalDataTemplate DataType = "{x:Type local:FB2Keywords}" ItemsSource="{Binding Path=SourceItems}">
                     <TextBlock Style="{StaticResource TreeViewItemStyle}"  />
                 </HierarchicalDataTemplate>
+
+                <HierarchicalDataTemplate DataType = "{x:Type local:FB2Author}">
+                    <StackPanel Orientation="Horizontal"  >
+                        <TextBlock Text="{Binding Path=LastName}" Style="{StaticResource TreeViewAttrStyle}"  Margin="15,0,0,0" />
+                        <TextBlock Text="{Binding Path=FirstName}" Style="{StaticResource TreeViewAttrStyle}"   Margin="15,0,0,0"/>
+                        <TextBlock Text="{Binding Path=MiddleName}" Style="{StaticResource TreeViewAttrStyle}"  Margin="15,0,0,0" />
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+
             </TreeView.Resources>
         </TreeView>
     </Grid>

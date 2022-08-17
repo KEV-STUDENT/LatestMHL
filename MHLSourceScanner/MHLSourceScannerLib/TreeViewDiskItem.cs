@@ -65,7 +65,7 @@ namespace MHLSourceScannerLib
         }
     }
 
-    public class TreeViewDiskItem<T> : TreeDiskItem where T : IDecorator, new()
+    public abstract class TreeViewDiskItem<T> : TreeDiskItem where T : IDecorator, new()
     {
         private readonly T decorator = new T();
 

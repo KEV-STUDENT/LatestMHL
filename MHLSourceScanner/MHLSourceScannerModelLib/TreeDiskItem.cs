@@ -8,7 +8,7 @@ using System.Diagnostics.Tracing;
 
 namespace MHLSourceScannerModelLib
 {
-    public class TreeDiskItem : TreeItem, ITreeDiskItem
+    public class TreeDiskItem : TreeCollectionItem, ITreeDiskItem
     {
         protected readonly IDiskItem? source;
         protected readonly IShower? shower;
@@ -16,9 +16,7 @@ namespace MHLSourceScannerModelLib
         private readonly object sourceLock = new object();
 
         #region [Properties]
-        public string Name => source?.Name ?? String.Empty;
         string ITreeDiskItem.Path2Item => source?.Path2Item ?? String.Empty;
-        string ITreeItem.Name => Name;
 
         public bool TestMode { get; set; }
         #endregion
@@ -57,7 +55,7 @@ namespace MHLSourceScannerModelLib
         public override void LoadChilds()
         {
             if (shower == null)
-                treeItem.LoadItemCollection();
+                LoadItemCollection();
             else
                 shower.LoadItemCollection(this);
         }
@@ -109,7 +107,9 @@ namespace MHLSourceScannerModelLib
                 }
             }
             else if (source is IBook)
-                SourceItems.Add(CreateEmptyItem());           
+                SourceItems.Add(CreateEmptyItem());
+            
+            name = source?.Name ?? String.Empty;
         }
         #endregion
 
@@ -136,9 +136,9 @@ namespace MHLSourceScannerModelLib
         #endregion
 
         #region [Public Methods]
-        public virtual ITreeDiskItem CreateEmptyItem()
+        public virtual ITreeItem CreateEmptyItem()
         {
-            return new TreeDiskItem();
+            return new TreeItem();
         }
 
         public virtual ITreeItem CreateTreeViewItem(IDiskItem diskItemChild)

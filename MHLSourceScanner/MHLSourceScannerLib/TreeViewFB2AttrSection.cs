@@ -1,5 +1,6 @@
 ﻿using MHLCommon;
 using MHLCommon.MHLBook;
+using MHLCommon.MHLScanner;
 using MHLSourceScannerModelLib;
 using System.Windows;
 using System.Windows.Media;
@@ -10,7 +11,7 @@ namespace MHLSourceScannerLib
     {
         Brush IDecorator.ForeGround => Brushes.BlueViolet;
         FontWeight IDecorator.FontWeight => FontWeights.Bold;
-        bool IDecorator.Focusable => true;
+        bool IDecorator.Focusable => false;
     }
 
     public class FB2Authors : TreeViewFB2AttrSection<Decor4FB2AttrSection>
@@ -21,6 +22,14 @@ namespace MHLSourceScannerLib
             Name = "Authors";
         }
         #endregion
+
+        public override void LoadItemCollection()
+        {
+            foreach (MHLAuthor author in book.Authors)
+            {
+                SourceItems.Add(new FB2Author(author));
+            }
+        }
     }
 
     public class FB2Genres : TreeViewFB2AttrSection<Decor4FB2AttrSection>
@@ -31,6 +40,10 @@ namespace MHLSourceScannerLib
             Name = "Genres";
         }
         #endregion
+
+        public override void LoadItemCollection()
+        {           
+        }
     }
 
     public class FB2Keywords : TreeViewFB2AttrSection<Decor4FB2AttrSection>
@@ -41,15 +54,19 @@ namespace MHLSourceScannerLib
             Name = "Keywords";
         }
         #endregion
+
+        public override void LoadItemCollection()
+        {
+        }
     }
 
 
-    public class TreeViewFB2AttrSection<T> : TreeAttributeCollectionItem where T : IDecorator, new()
+    public abstract class TreeViewFB2AttrSection<T> : TreeCollectionItem where T : IDecorator, new()
     {
         #region [Fields]
         private readonly T decorator = new T();
         private readonly FB2Sections sectionType;
-        private readonly IBook book;
+        protected readonly IBook book;
         #endregion
 
         #region [Proprties]
@@ -74,10 +91,17 @@ namespace MHLSourceScannerLib
         {
             this.sectionType = sectionType;
             this.book = book;
+
+            ITreeCollectionItem treeCollection = this;
+            treeCollection.LoadChilds();
         }
         #endregion
 
-        #region [Private Methods]
+        #region [TreeItem implementation]
+        public override void LoadChilds()
+        {
+            LoadItemCollection();
+        }       
         #endregion
     }
 }
