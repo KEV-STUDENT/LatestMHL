@@ -1,5 +1,5 @@
 ﻿using System.IO.Compression;
-using MHLCommon;
+using MHLCommon.MHLDiskItems;
 
 namespace MHLSourceOnDisk
 {

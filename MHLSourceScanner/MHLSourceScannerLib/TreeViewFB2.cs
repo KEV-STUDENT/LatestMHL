@@ -1,5 +1,6 @@
-﻿using MHLCommon;
-using MHLSourceScannerModelLib;
+﻿using MHLCommon.MHLBook;
+using MHLCommon.MHLDiskItems;
+using MHLCommon.MHLScanner;
 using System.Windows;
 using System.Windows.Media;
 
@@ -18,7 +19,7 @@ namespace MHLSourceScannerLib
         {
             get
             {
-                if (source != null && source is IBook book)
+                if (source is IBook book)
                 {
                     return book.Title;
                 }
@@ -45,9 +46,12 @@ namespace MHLSourceScannerLib
         #region [Protected Methods]
         public override void LoadItemCollection()
         {
-            SourceItems.Insert(0, new TreeViewFB2Section() { Name = "Authors" });
-            SourceItems.Insert(1, new TreeViewFB2Section() { Name = "Genres" });
-            SourceItems.Insert(2, new TreeViewFB2Section() { Name = "Keywords" });
+            if (source is IBook book)
+            {
+                SourceItems.Add(new FB2Authors(book));
+                SourceItems.Add(new FB2Genres(book));
+                SourceItems.Add(new FB2Keywords(book));
+            }
         }
         #endregion
     }

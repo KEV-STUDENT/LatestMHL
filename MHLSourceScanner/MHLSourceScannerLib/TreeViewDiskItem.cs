@@ -1,10 +1,10 @@
-﻿using MHLSourceOnDisk;
+﻿using MHLCommon.MHLBook;
+using MHLCommon.MHLDiskItems;
+using MHLCommon.MHLScanner;
+using MHLSourceOnDisk;
 using MHLSourceScannerModelLib;
-using System;
-using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Media;
-using MHLCommon;
 
 namespace MHLSourceScannerLib
 {

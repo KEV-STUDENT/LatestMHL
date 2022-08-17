@@ -1,5 +1,6 @@
 ﻿using System.IO.Compression;
 using MHLCommon;
+using MHLCommon.MHLDiskItems;
 
 namespace MHLSourceOnDisk
 {
@@ -32,7 +33,7 @@ namespace MHLSourceOnDisk
             {
                 if (zipArchive.Entries.Count > IDiskCollection.MaxItemsInVirtualGroup)
                 {
-                    count = (int)System.Math.Floor((decimal)zipArchive.Entries.Count / IDiskCollection.MaxItemsInVirtualGroup);
+                    count = (int)System.Math.Ceiling((decimal)zipArchive.Entries.Count / IDiskCollection.MaxItemsInVirtualGroup);
                     virtualFlag = VirtualGroups.VirtualGroupsUsed;
                 }
                 else

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MHLSourceOnDisk;
 using System.Diagnostics;
-using MHLCommon;
+using MHLCommon.MHLDiskItems;
 
 namespace MHLSourceOnDiskTest
 {

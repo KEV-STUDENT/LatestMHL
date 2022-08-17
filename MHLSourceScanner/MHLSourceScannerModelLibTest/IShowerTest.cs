@@ -1,6 +1,5 @@
 ﻿using MHLSourceScannerModelLib;
-using MHLCommon;
-
+using MHLCommon.MHLScanner;
 
 namespace MHLSourceScannerModelLibTest
 {

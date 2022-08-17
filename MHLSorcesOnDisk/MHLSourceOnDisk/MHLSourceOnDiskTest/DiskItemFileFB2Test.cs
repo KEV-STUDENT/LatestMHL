@@ -1,4 +1,5 @@
-﻿using MHLCommon;
+﻿using MHLCommon.MHLBook;
+using MHLCommon.MHLDiskItems;
 using MHLSourceOnDisk;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO.Compression;

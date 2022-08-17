@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using MHLCommon;
+using MHLCommon.MHLDiskItems;
 
 namespace MHLSourceOnDisk
 {

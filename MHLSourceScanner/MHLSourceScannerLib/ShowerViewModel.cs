@@ -1,12 +1,9 @@
-﻿using System.Windows;
-using System.Runtime.CompilerServices;
+﻿using MHLCommon.MHLScanner;
 using System.ComponentModel;
-using System.Windows.Input;
-
+using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Controls;
-
-using MHLSourceScannerModelLib;
-using MHLCommon;
+using System.Windows.Input;
 
 namespace MHLSourceScannerLib
 {

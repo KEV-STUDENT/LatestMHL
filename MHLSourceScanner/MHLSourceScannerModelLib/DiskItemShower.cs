@@ -1,6 +1,7 @@
 ﻿using MHLSourceOnDisk;
 using System.Collections.ObjectModel;
-using MHLCommon;
+using MHLCommon.MHLDiskItems;
+using MHLCommon.MHLScanner;
 
 namespace MHLSourceScannerModelLib
 {

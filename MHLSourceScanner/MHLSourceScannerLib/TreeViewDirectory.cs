@@ -1,4 +1,5 @@
-﻿using MHLCommon;
+﻿using MHLCommon.MHLDiskItems;
+using MHLCommon.MHLScanner;
 using System.Windows;
 using System.Windows.Media;
 

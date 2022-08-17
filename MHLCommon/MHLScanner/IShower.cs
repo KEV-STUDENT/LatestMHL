@@ -1,5 +1,7 @@
 ﻿using System.Collections.ObjectModel;
-namespace MHLCommon
+using MHLCommon.MHLDiskItems;
+
+namespace MHLCommon.MHLScanner
 {
     public interface IShower
     {

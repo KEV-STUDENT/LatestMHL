@@ -1,10 +1,11 @@
 ﻿using System.Collections.ObjectModel;
+using MHLCommon.MHLDiskItems;
 
-namespace MHLCommon
+namespace MHLCommon.MHLScanner
 {
     public interface ITreeItem : IComparable<ITreeItem>
     {
-        string Name { get; set;  }
+        string Name { get; }
     }
 
     public interface ITreeCollectionItem : ITreeItem
@@ -16,12 +17,12 @@ namespace MHLCommon
         Task<ObservableCollection<ITreeItem>> LoadChildsCollectionAsync();
     }
 
-     public interface ITreeDiskItem : ITreeCollectionItem
+    public interface ITreeDiskItem : ITreeCollectionItem
     {
         string Path2Item { get; }
-       
+
         void AddDiskItem(IDiskItem diskItemChild);
-        
-        ITreeItem CreateTreeViewItem(IDiskItem diskItemChild);       
+
+        ITreeItem CreateTreeViewItem(IDiskItem diskItemChild);
     }
 }

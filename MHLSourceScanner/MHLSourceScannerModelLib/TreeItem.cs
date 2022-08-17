@@ -3,6 +3,7 @@ using MHLSourceOnDisk;
 using System.Collections.ObjectModel;
 using MHLCommon;
 using System.Threading.Tasks.Dataflow;
+using MHLCommon.MHLScanner;
 
 namespace MHLSourceScannerModelLib
 {
@@ -24,11 +25,7 @@ namespace MHLSourceScannerModelLib
             get => SourceItems;
             set => SourceItems = value;
         }
-        string ITreeItem.Name
-        { 
-            get => name;
-            set => name = value; 
-        }
+        string ITreeItem.Name => name;
 
         #region [Constructors]
         public TreeItem()

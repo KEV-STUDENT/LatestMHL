@@ -1,4 +1,4 @@
-﻿namespace MHLCommon
+﻿namespace MHLCommon.MHLScanner
 {
     public interface IPicker<T>
     {

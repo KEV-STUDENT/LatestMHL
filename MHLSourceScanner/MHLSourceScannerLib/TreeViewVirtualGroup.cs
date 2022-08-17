@@ -1,4 +1,5 @@
-﻿using MHLCommon;
+﻿using MHLCommon.MHLDiskItems;
+using MHLCommon.MHLScanner;
 using MHLSourceOnDisk;
 using System.Collections.Generic;
 using System.IO.Compression;

@@ -19,6 +19,7 @@ using System.Runtime.CompilerServices;
 
 using MHLSourceScannerModelLib;
 using MHLCommon;
+using MHLCommon.MHLScanner;
 
 namespace MHLSourceScannerLib
 {

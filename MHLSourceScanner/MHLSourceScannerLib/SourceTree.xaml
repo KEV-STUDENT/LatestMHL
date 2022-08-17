@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:MHLSourceScannerLib"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" x:Name="TreeShower">
-    
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -20,7 +20,7 @@
                     <Setter Property="local:Behaviours.ExpandingBehaviour" Value="{Binding ElementName=TreeShower, Path = ViewModel.ExpandingCommand}"/>
                     <Setter Property="Focusable" Value="{Binding Focusable}"/>
                 </Style>
-                
+
                 <Style x:Key="TreeViewItemStyle" TargetType="TextBlock">
                     <Setter Property="Text" Value="{Binding Name}"/>
                     <Setter Property="Foreground" Value="{Binding ForeGround}"/>
@@ -30,21 +30,23 @@
                 <HierarchicalDataTemplate DataType = "{x:Type local:TreeViewSystem}" ItemsSource="{Binding Path=SourceItems}">
                     <TextBlock Style="{StaticResource TreeViewItemStyle}"  />
                 </HierarchicalDataTemplate>
-                
+
                 <HierarchicalDataTemplate DataType = "{x:Type local:TreeViewZip}" ItemsSource="{Binding Path=SourceItems}">
-                    <StackPanel Orientation="Vertical" >
-                        <TextBlock Style="{StaticResource TreeViewItemStyle}"  />
-                        <StackPanel Orientation="Horizontal" >
-                            <TextBlock Text="{Binding Path=Count, StringFormat='Archive include {0} blocks.'}" Margin="20,0,0,0" Visibility="{Binding Visibility2TotalCount }"/>
-                            <TextBlock Text="{Binding Path=TotalCount, StringFormat='Total count of items {0}'}" Margin="5,0,0,0" />
+                    <Border BorderBrush="Gainsboro" BorderThickness="1">
+                        <StackPanel Orientation="Vertical" >
+                            <TextBlock Style="{StaticResource TreeViewItemStyle}"  />
+                            <StackPanel Orientation="Horizontal" >
+                                <TextBlock Text="{Binding Path=Count, StringFormat='Archive include {0} blocks.'}" Margin="20,0,0,0" Visibility="{Binding Visibility2TotalCount }"/>
+                                <TextBlock Text="{Binding Path=TotalCount, StringFormat='Total count of items {0}'}" Margin="5,0,0,0" />
+                            </StackPanel>
                         </StackPanel>
-                    </StackPanel>
+                    </Border>
                 </HierarchicalDataTemplate>
 
                 <HierarchicalDataTemplate DataType = "{x:Type local:TreeViewFB2}" ItemsSource="{Binding Path=SourceItems}">
-                    <StackPanel Orientation="Horizontal" >
-                        <TextBlock Text="{Binding Path=Title, StringFormat='Title: {0}'}" Style="{StaticResource TreeViewItemStyle}"/>
-                        <TextBlock Text="{Binding Path=Name, StringFormat='File: {0}'}" Margin="20,0,0,0" />
+                    <StackPanel Orientation="Horizontal"  >
+                        <TextBlock Text="{Binding Path=Name, StringFormat='File: {0}'}"/>
+                        <TextBlock Text="{Binding Path=Title}" Style="{StaticResource TreeViewItemStyle}" Margin="20,0,0,0"/>
                     </StackPanel>
                 </HierarchicalDataTemplate>
 
@@ -53,7 +55,7 @@
                 </HierarchicalDataTemplate>
 
                 <HierarchicalDataTemplate DataType = "{x:Type local:TreeViewVirtualGroup}" ItemsSource="{Binding Path=SourceItems}">
-                    <StackPanel Orientation="Vertical" >
+                    <StackPanel Orientation="Horizontal" >
                         <TextBlock Style="{StaticResource TreeViewItemStyle}"/>
                         <TextBlock Text="{Binding Path=Count, StringFormat='Block include {0} items'}" Margin="15,0,0,0"/>
                     </StackPanel>
@@ -67,7 +69,15 @@
                     <TextBlock Style="{StaticResource TreeViewItemStyle}"  />
                 </HierarchicalDataTemplate>
 
-                <HierarchicalDataTemplate DataType = "{x:Type local:TreeViewFB2Section}" ItemsSource="{Binding Path=SourceItems}">
+                <HierarchicalDataTemplate DataType = "{x:Type local:FB2Authors}" ItemsSource="{Binding Path=SourceItems}">
+                    <TextBlock Style="{StaticResource TreeViewItemStyle}"  />
+                </HierarchicalDataTemplate>
+
+                <HierarchicalDataTemplate DataType = "{x:Type local:FB2Genres}" ItemsSource="{Binding Path=SourceItems}">
+                    <TextBlock Style="{StaticResource TreeViewItemStyle}"  />
+                </HierarchicalDataTemplate>
+
+                <HierarchicalDataTemplate DataType = "{x:Type local:FB2Keywords}" ItemsSource="{Binding Path=SourceItems}">
                     <TextBlock Style="{StaticResource TreeViewItemStyle}"  />
                 </HierarchicalDataTemplate>
             </TreeView.Resources>

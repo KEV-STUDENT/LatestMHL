@@ -1,4 +1,4 @@
-﻿using MHLCommon;
+﻿using MHLCommon.MHLScanner;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

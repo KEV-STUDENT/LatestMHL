@@ -1,12 +1,13 @@
 ﻿using System.Diagnostics;
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
-using MHLCommon;
 
 namespace MHLSourceOnDisk
 {
     using System.Collections.Generic;
     using System.ComponentModel;
+    using MHLCommon.MHLDiskItems;
+
     public class DiskItemDirectory : IDiskItemDirectory
     {
         private readonly string path;

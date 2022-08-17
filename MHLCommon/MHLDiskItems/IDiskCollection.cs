@@ -1,4 +1,4 @@
-﻿namespace MHLCommon
+﻿namespace MHLCommon.MHLDiskItems
 {
     public interface IDiskCollection
     {

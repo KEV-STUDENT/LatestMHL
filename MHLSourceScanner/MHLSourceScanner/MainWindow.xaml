@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"        
         xmlns:MHLSourceScannerLib="clr-namespace:MHLSourceScannerLib;assembly=MHLSourceScannerLib" x:Class="MHLSourceScanner.MainWindow"
-        xmlns:MHLCommon="clr-namespace:MHLCommon;assembly=MHLCommon"
+        xmlns:MHLCommon.Scanner="clr-namespace:MHLCommon.MHLScanner;assembly=MHLCommon"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>

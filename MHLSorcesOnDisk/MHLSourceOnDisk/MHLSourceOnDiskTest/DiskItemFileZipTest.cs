@@ -2,7 +2,7 @@
 using MHLSourceOnDisk;
 using MHLSourceScannerModelLib;
 using System.Collections.Generic;
-using MHLCommon;
+using MHLCommon.MHLDiskItems;
 
 namespace MHLSourceOnDiskTest
 {

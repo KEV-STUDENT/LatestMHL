@@ -1,8 +1,9 @@
-﻿using MHLCommon;
-using System.Xml;
+﻿using System.Xml;
 using System.IO.Compression;
 using System.Text;
 using System.Diagnostics;
+using MHLCommon.MHLBook;
+using MHLCommon.MHLDiskItems;
 
 namespace MHLSourceOnDisk
 {
@@ -43,9 +44,6 @@ namespace MHLSourceOnDisk
 
         public DiskItemFileFB2(DiskItemFileZip item, string fullName) : base(item, fullName)
         {
-            System.Diagnostics.Debug.WriteLine(item != null);
-            System.Diagnostics.Debug.WriteLine(item.Name);
-            System.Diagnostics.Debug.WriteLine((item is DiskItemFileZip));
         }
         #endregion
 
@@ -59,9 +57,34 @@ namespace MHLSourceOnDisk
                 return _title;
             }
         }
+
+        List<IBookAttribute> IBook.LoadAuthors()
+        {
+            return LoadAuthors();
+        }
         #endregion
 
         #region [Private Methods]
+        private List<IBookAttribute> LoadAuthors()
+        {
+            List<IBookAttribute> authors = new List<IBookAttribute>();
+
+            XmlNodeList? nodeList = GetNodeList("//fb:description/fb:title-info/fb:author")
+                ?? GetNodeList("//description/title-info/author");
+
+            if (nodeList != null)
+            {
+                foreach (XmlNode author in nodeList)
+                {
+                    if(author.HasChildNodes)
+                    {
+
+                    }
+                }
+            }
+            return authors;
+        }
+
         private string GetTitle()
         {
             string? title = GetNode("//fb:description/fb:title-info/fb:book-title[1]")
@@ -74,17 +97,12 @@ namespace MHLSourceOnDisk
         {
             XmlDocument xDoc = new();
             IDiskItem item = this;
-
             IDiskItemFile file = this;
 
-            System.Diagnostics.Debug.WriteLine(file.Parent);
-           //System.Diagnostics.Debug.WriteLine(((IDiskItem)file.Parent).Name);
-
-            if (file.Parent != null && (file.Parent is DiskItemFileZip zip))
+            if (file?.Parent is DiskItemFileZip)
             {
                 using (ZipArchive archive = ZipFile.Open(item.Path2Item, ZipArchiveMode.Read))
                 {
-                    System.Diagnostics.Debug.WriteLine(item.Name);
                     ZipArchiveEntry? entry = archive.GetEntry(item.Name);
                     using (Stream? st = entry?.Open())
                     {
@@ -111,6 +129,11 @@ namespace MHLSourceOnDisk
         {
             XmlNode? book = XDoc?.DocumentElement?.SelectSingleNode(node, NamespaceManager);
             return book?.InnerText;
+        }
+
+        private XmlNodeList? GetNodeList(string nodes)
+        {
+            return XDoc?.DocumentElement?.SelectNodes("//fb:description/fb:title-info/fb:author", NamespaceManager);
         }
         #endregion
 

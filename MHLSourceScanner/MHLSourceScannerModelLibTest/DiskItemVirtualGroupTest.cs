@@ -1,8 +1,7 @@
 ﻿using MHLSourceScannerModelLib;
 using MHLSourceOnDisk;
-using MHLCommon;
 using System.IO.Compression;
-
+using MHLCommon.MHLDiskItems;
 
 namespace MHLSourceScannerModelLibTest
 {

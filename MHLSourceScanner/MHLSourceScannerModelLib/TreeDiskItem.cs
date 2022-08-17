@@ -1,4 +1,7 @@
 ﻿using MHLCommon;
+using MHLCommon.MHLBook;
+using MHLCommon.MHLDiskItems;
+using MHLCommon.MHLScanner;
 using MHLSourceOnDisk;
 using System.Collections.ObjectModel;
 using System.Diagnostics.Tracing;
@@ -13,16 +16,9 @@ namespace MHLSourceScannerModelLib
         private readonly object sourceLock = new object();
 
         #region [Properties]
-        public string Name
-        {
-            get => source?.Name ?? String.Empty;
-        }
+        public string Name => source?.Name ?? String.Empty;
         string ITreeDiskItem.Path2Item => source?.Path2Item ?? String.Empty;
-        string ITreeItem.Name
-        {
-            get => name;
-            set => name = value;
-        }
+        string ITreeItem.Name => Name;
 
         public bool TestMode { get; set; }
         #endregion
@@ -77,7 +73,6 @@ namespace MHLSourceScannerModelLib
 
         public override ObservableCollection<ITreeItem> LoadChildsCollection()
         {
-            System.Diagnostics.Debug.WriteLine("Thread 2 : {0}  Task : {1}", System.Threading.Thread.CurrentThread.ManagedThreadId, Task.CurrentId);
             ObservableCollection<ITreeItem> res = new ObservableCollection<ITreeItem>();
             if (source != null && source is IDiskCollection diskCollection)
             {
@@ -114,7 +109,7 @@ namespace MHLSourceScannerModelLib
                 }
             }
             else if (source is IBook)
-                SourceItems.Add(CreateEmptyItem());
+                SourceItems.Add(CreateEmptyItem());           
         }
         #endregion
 
