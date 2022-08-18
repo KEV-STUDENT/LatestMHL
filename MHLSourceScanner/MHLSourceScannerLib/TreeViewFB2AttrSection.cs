@@ -42,7 +42,11 @@ namespace MHLSourceScannerLib
         #endregion
 
         public override void LoadItemCollection()
-        {           
+        {
+            foreach (MHLGenre genre in book.Genres)
+            {
+                SourceItems.Add(new FB2Genre(genre));
+            }
         }
     }
 

@@ -94,6 +94,10 @@
                     </StackPanel>
                 </HierarchicalDataTemplate>
 
+                <HierarchicalDataTemplate DataType = "{x:Type local:FB2Genre}">
+                    <TextBlock Text="{Binding Path=Name}" Style="{StaticResource TreeViewAttrStyle}"  Margin="15,0,0,0" />
+                </HierarchicalDataTemplate>
+                
             </TreeView.Resources>
         </TreeView>
     </Grid>

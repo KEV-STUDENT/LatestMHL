@@ -4,5 +4,6 @@
     {
         string Title { get; }
         List<IBookAttribute> Authors { get; }
+        List<IBookAttribute> Genres { get; }
     }
 }

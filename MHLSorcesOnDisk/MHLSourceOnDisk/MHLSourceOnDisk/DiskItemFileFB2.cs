@@ -9,10 +9,14 @@ namespace MHLSourceOnDisk
 {
     public class DiskItemFileFB2 : DiskItemFile, IBook
     {
+        private const string ATTR_MAIN_PATH = "//fb:description/fb:title-info/fb:";
+        private const string ATTR_SECOND_PATH = "//description/title-info/";
+
         private XmlDocument? _xDoc;
         private XmlNamespaceManager? _namespaceManager;
         private string? _title = null;
         private List<IBookAttribute>? _authors = null;
+        private List<IBookAttribute>? _genres = null;
 
         private XmlNamespaceManager NamespaceManager
         {
@@ -64,54 +68,24 @@ namespace MHLSourceOnDisk
             get
             {
                 if (_authors == null)
-                    _authors = LoadAuthors();
+                    _authors = GetBookAttributes<MHLAuthor>("author");
                 return _authors;
             }
+        }
+
+        List<IBookAttribute> IBook.Genres
+        {
+            get
+            {
+                if (_genres == null)
+                    _genres = GetBookAttributes<MHLGenre>("genre");
+                return _genres;
+            }
+
         }
         #endregion
 
         #region [Private Methods]
-        private List<IBookAttribute> LoadAuthors()
-        {
-            List<IBookAttribute> authors = new List<IBookAttribute>();
-
-            XmlNodeList? nodeList = GetNodeList("//fb:description/fb:title-info/fb:author");
-           
-            if((nodeList?.Count ?? 0) == 0)
-                nodeList = GetNodeList("//description/title-info/author");
-
-            if (nodeList != null)
-            {
-                
-                foreach (XmlNode author in nodeList)
-                {
-                    MHLAuthor a;
-                    System.Diagnostics.Debug.WriteLine(author.HasChildNodes);
-                    if (author.HasChildNodes)
-                    {
-                        a = new MHLAuthor();
-                        foreach (XmlNode n in author.ChildNodes)
-                        {
-                            switch (n.LocalName)
-                            {
-                                case "first-name":
-                                    a.FirstName = n.InnerText;
-                                    break;
-                                case "middle-name":
-                                    a.MiddleName = n.InnerText;
-                                    break;
-                                case "last-name":
-                                    a.LastName = n.InnerText;
-                                    break;
-                            }
-                        }
-                        authors.Add(a);
-                    }
-                }
-            }
-            return authors;
-        }
-
         private string GetTitle()
         {
             string? title = GetNode("//fb:description/fb:title-info/fb:book-title[1]")
@@ -161,6 +135,25 @@ namespace MHLSourceOnDisk
         private XmlNodeList? GetNodeList(string nodes)
         {
             return XDoc?.DocumentElement?.SelectNodes(nodes, NamespaceManager);
+        }
+
+        private List<IBookAttribute> GetBookAttributes<T>(string attributeName) where T : MHLBookAttribute, new()
+        {
+            List<IBookAttribute> res = new List<IBookAttribute>();
+
+            XmlNodeList? nodeList = GetNodeList(string.Concat(ATTR_MAIN_PATH, attributeName));
+
+            if ((nodeList?.Count ?? 0) == 0)
+                nodeList = GetNodeList(string.Concat(ATTR_SECOND_PATH, attributeName));
+
+            if (nodeList != null)
+            {
+                foreach (XmlNode node in nodeList)
+                {
+                    res.Add(new T() { Node = node });
+                }
+            }
+            return res;
         }
         #endregion
 

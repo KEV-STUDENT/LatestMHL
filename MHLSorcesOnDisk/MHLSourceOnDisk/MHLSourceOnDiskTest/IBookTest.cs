@@ -21,5 +21,13 @@ namespace MHLSourceOnDiskTest
             IBook book = new DiskItemFileFB2(pathFile);
             Assert.AreNotEqual(0, book.Authors.Count);
         }
+
+        [TestMethod]
+        public void Genres_pathDirZip()
+        {
+            IBook book = new DiskItemFileFB2(pathFile);
+            Assert.AreNotEqual(0, book.Genres.Count);
+        }
+
     }
 }

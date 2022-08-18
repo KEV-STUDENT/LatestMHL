@@ -15,6 +15,16 @@ namespace MHLSourceScannerLib
         bool IDecorator.Focusable => false;
     }
 
+    public class FB2Genre : TreeViewFB2Attr<Decor4FB2Attr, MHLGenre>
+    {
+        #region [Constructors]
+        public FB2Genre(MHLGenre bookAttribute) : base(bookAttribute)
+        {
+            Name = bookAttribute.Genre.ToString();
+        }
+        #endregion
+    }
+
     public class FB2Author : TreeViewFB2Attr<Decor4FB2Attr, MHLAuthor>
     {
         #region [Proprties]
@@ -37,10 +47,10 @@ namespace MHLSourceScannerLib
         #region [Constructors]
         public FB2Author(MHLAuthor bookAttribute) : base(bookAttribute)
         {
+            Name = string.Format("{0} {1} {2}", bookAttribute.LastName.Trim(), bookAttribute.FirstName.Trim(), bookAttribute.MiddleName.Trim()).Trim();
         }
         #endregion
     }
-
 
     public abstract class TreeViewFB2Attr<T1, T2> : TreeItem
     where T1 : IDecorator, new()

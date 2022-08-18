@@ -51,7 +51,9 @@ namespace MHLSourceScannerLib
                 if(book.Authors.Count > 0)
                     SourceItems.Add(new FB2Authors(book));
 
-                SourceItems.Add(new FB2Genres(book));
+                if(book.Genres.Count > 0)
+                    SourceItems.Add(new FB2Genres(book));
+
                 SourceItems.Add(new FB2Keywords(book));
             }
         }
