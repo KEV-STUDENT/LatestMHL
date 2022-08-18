@@ -2,8 +2,8 @@
 
 namespace MHLCommon.MHLBook
 {
-    public interface IBookAttribute
+    public interface IBookAttribute<T> where T : class
     {
-        XmlNode? Node { get; }
+        T? Node { get; }
     }
 }

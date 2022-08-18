@@ -2,7 +2,7 @@
 
 namespace MHLCommon.MHLBook
 {
-    public class MHLAuthor : MHLBookAttribute
+    public class MHLAuthor : MHLBookAttribute<XmlNode>
     {
         #region [Fields]
         private string _lastname = string.Empty;

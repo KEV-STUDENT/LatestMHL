@@ -14,7 +14,7 @@
         <Grid.RowDefinitions>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <TreeView x:Name="ShowSource" Margin="0" >
+        <TreeView x:Name="ShowSource" Margin="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             <TreeView.Resources>
                 <Style TargetType="TreeViewItem">
                     <Setter Property="local:Behaviours.ExpandingBehaviour" Value="{Binding ElementName=TreeShower, Path = ViewModel.ExpandingCommand}"/>
@@ -97,7 +97,15 @@
                 <HierarchicalDataTemplate DataType = "{x:Type local:FB2Genre}">
                     <TextBlock Text="{Binding Path=Name}" Style="{StaticResource TreeViewAttrStyle}"  Margin="15,0,0,0" />
                 </HierarchicalDataTemplate>
-                
+
+                <HierarchicalDataTemplate DataType = "{x:Type local:FB2Keyword}">
+                    <TextBlock Text="{Binding Path=Name}" Style="{StaticResource TreeViewAttrStyle}"  Margin="15,0,0,0" />
+                </HierarchicalDataTemplate>
+
+                <HierarchicalDataTemplate DataType = "{x:Type local:FB2Annotation}">
+                    <TextBlock Text="{Binding Path=Name}" Style="{StaticResource TreeViewAttrStyle}" TextWrapping="Wrap" Width="{Binding TextWidth}" />
+                </HierarchicalDataTemplate>
+
             </TreeView.Resources>
         </TreeView>
     </Grid>

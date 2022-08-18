@@ -1,9 +1,13 @@
-﻿namespace MHLCommon.MHLBook
+﻿using System.Xml;
+
+namespace MHLCommon.MHLBook
 {
     public interface IBook
     {
         string Title { get; }
-        List<IBookAttribute> Authors { get; }
-        List<IBookAttribute> Genres { get; }
+        List<IBookAttribute<XmlNode>> Authors { get; }
+        List<IBookAttribute<XmlNode>> Genres { get; }
+        List<IBookAttribute<string>> Keywords { get; }
+        string Annotation { get; }
     }
 }

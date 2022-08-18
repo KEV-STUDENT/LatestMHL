@@ -29,5 +29,26 @@ namespace MHLSourceOnDiskTest
             Assert.AreNotEqual(0, book.Genres.Count);
         }
 
+        [TestMethod]
+        public void Keywords_pathDirZip()
+        {
+            IBook book = new DiskItemFileFB2(pathFile);
+            foreach(var key in book.Keywords)
+            {
+                System.Diagnostics.Debug.WriteLine(key.Node);
+            }
+            Assert.AreNotEqual(0, book.Keywords.Count);
+        }
+
+
+        [TestMethod]
+        public void Annotation_pathDirZip()
+        {
+            IBook book = new DiskItemFileFB2(pathFile);
+            
+            System.Diagnostics.Debug.WriteLine(book.Annotation);
+
+            Assert.AreNotEqual(string.Empty, book.Annotation);
+        }
     }
 }

@@ -61,6 +61,10 @@ namespace MHLSourceScannerLib
 
         public override void LoadItemCollection()
         {
+            foreach (MHLKeyword keyword in book.Keywords)
+            {
+                SourceItems.Add(new FB2Keyword(keyword));
+            }
         }
     }
 

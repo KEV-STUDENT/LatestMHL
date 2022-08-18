@@ -1,9 +1,8 @@
-﻿using System.Xml;
+﻿using MHLCommon.MHLBook;
+using MHLCommon.MHLDiskItems;
 using System.IO.Compression;
 using System.Text;
-using System.Diagnostics;
-using MHLCommon.MHLBook;
-using MHLCommon.MHLDiskItems;
+using System.Xml;
 
 namespace MHLSourceOnDisk
 {
@@ -15,8 +14,10 @@ namespace MHLSourceOnDisk
         private XmlDocument? _xDoc;
         private XmlNamespaceManager? _namespaceManager;
         private string? _title = null;
-        private List<IBookAttribute>? _authors = null;
-        private List<IBookAttribute>? _genres = null;
+        private string? _annotation = null;
+        private List<IBookAttribute<XmlNode>>? _authors = null;
+        private List<IBookAttribute<XmlNode>>? _genres = null;
+        private List<IBookAttribute<String>>? _keywords = null;
 
         private XmlNamespaceManager NamespaceManager
         {
@@ -58,12 +59,12 @@ namespace MHLSourceOnDisk
             get
             {
                 if (_title == null)
-                    _title = GetTitle();
+                    _title = GetBookAttribute("book-title[1]");
                 return _title;
             }
         }
 
-        List<IBookAttribute> IBook.Authors
+        List<IBookAttribute<XmlNode>> IBook.Authors
         {
             get
             {
@@ -73,7 +74,7 @@ namespace MHLSourceOnDisk
             }
         }
 
-        List<IBookAttribute> IBook.Genres
+        List<IBookAttribute<XmlNode>> IBook.Genres
         {
             get
             {
@@ -83,17 +84,30 @@ namespace MHLSourceOnDisk
             }
 
         }
+
+        List<IBookAttribute<string>> IBook.Keywords
+        {
+            get
+            {
+                if (_keywords == null)
+                    _keywords = GetBookAttributesFromList<MHLKeyword>(GetBookAttribute("keywords[1]"));
+
+                return _keywords;
+            }
+        }
+
+        string IBook.Annotation
+        {
+            get
+            {
+                if (_annotation == null)
+                    _annotation = GetBookAttribute("annotation[1]");
+                return _annotation;
+            }
+        }
         #endregion
 
         #region [Private Methods]
-        private string GetTitle()
-        {
-            string? title = GetNode("//fb:description/fb:title-info/fb:book-title[1]")
-                   ?? GetNode("//description/title-info/book-title[1]");
-
-
-            return title ?? string.Empty;
-        }
         private XmlDocument GetXmlDocument()
         {
             XmlDocument xDoc = new();
@@ -137,9 +151,10 @@ namespace MHLSourceOnDisk
             return XDoc?.DocumentElement?.SelectNodes(nodes, NamespaceManager);
         }
 
-        private List<IBookAttribute> GetBookAttributes<T>(string attributeName) where T : MHLBookAttribute, new()
+        private List<IBookAttribute<XmlNode>> GetBookAttributes<T>(string attributeName)
+            where T : MHLBookAttribute<XmlNode>, new()
         {
-            List<IBookAttribute> res = new List<IBookAttribute>();
+            List<IBookAttribute<XmlNode>> res = new List<IBookAttribute<XmlNode>>();
 
             XmlNodeList? nodeList = GetNodeList(string.Concat(ATTR_MAIN_PATH, attributeName));
 
@@ -153,6 +168,30 @@ namespace MHLSourceOnDisk
                     res.Add(new T() { Node = node });
                 }
             }
+            return res;
+        }
+
+        private string GetBookAttribute(string attributeName)
+        {
+            string? title = GetNode(string.Concat(ATTR_MAIN_PATH, attributeName))
+                   ?? GetNode(string.Concat(ATTR_SECOND_PATH, attributeName));
+
+
+            return title ?? string.Empty;
+        }
+
+        private List<IBookAttribute<string>> GetBookAttributesFromList<T>(string attributeList) where T : MHLBookAttribute<string>, new()
+        {
+            List<IBookAttribute<string>> res = new List<IBookAttribute<string>>();
+
+            if (!String.IsNullOrEmpty(attributeList))
+            {
+                foreach (string keyword in attributeList.Split(","))
+                {
+                    res.Add(new T() { Node = keyword });
+                }
+            }
+
             return res;
         }
         #endregion

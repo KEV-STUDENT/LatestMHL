@@ -48,13 +48,17 @@ namespace MHLSourceScannerLib
         {
             if (source is IBook book)
             {
+                if(!string.IsNullOrEmpty(book.Annotation))
+                    SourceItems.Add(new FB2Annotation(book.Annotation));
+
                 if(book.Authors.Count > 0)
                     SourceItems.Add(new FB2Authors(book));
 
                 if(book.Genres.Count > 0)
                     SourceItems.Add(new FB2Genres(book));
 
-                SourceItems.Add(new FB2Keywords(book));
+                if(book.Keywords.Count > 0)
+                    SourceItems.Add(new FB2Keywords(book));
             }
         }
         #endregion

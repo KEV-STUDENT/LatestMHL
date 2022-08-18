@@ -7,13 +7,13 @@ using System.Xml;
 
 namespace MHLCommon.MHLBook
 {
-    public abstract class MHLBookAttribute : IBookAttribute
+    public abstract class MHLBookAttribute<T> : IBookAttribute<T> where T : class
     {
         #region [Fields]
-        private XmlNode? _node = null;
+        private T? _node = null;
         #endregion
 
-        public XmlNode? Node { 
+        public T? Node { 
             get { return _node; } 
             set { 
                 _node = value;
@@ -22,7 +22,7 @@ namespace MHLCommon.MHLBook
         }
 
         #region [IBookAttribute implementation]
-        XmlNode? IBookAttribute.Node => Node;
+        T? IBookAttribute<T>.Node => Node;
         #endregion
 
         #region [Protected Methods]

@@ -2,6 +2,7 @@
 using MHLSourceScannerModelLib;
 using System.Windows;
 using System.Windows.Media;
+using System.Xml;
 
 namespace MHLSourceScannerLib
 {
@@ -10,6 +11,30 @@ namespace MHLSourceScannerLib
         Brush IDecorator.ForeGround => Brushes.Black;
         FontWeight IDecorator.FontWeight => FontWeights.Normal;
         bool IDecorator.Focusable => false;
+    }
+
+    public class FB2Annotation : TreeViewFB2Attr<Decor4FB2Attr, string>
+    {
+        public double TextWidth
+        {
+            get => 700  ;
+        }
+        #region [Constructors]
+        public FB2Annotation(string bookAttribute) : base(bookAttribute)
+        {
+            Name = bookAttribute;
+        }
+        #endregion
+    }
+
+    public class FB2Keyword : TreeViewFB2Attr<Decor4FB2Attr, MHLKeyword>
+    {
+        #region [Constructors]
+        public FB2Keyword(MHLKeyword bookAttribute) : base(bookAttribute)
+        {
+            Name = bookAttribute.Keyword;
+        }
+        #endregion
     }
 
     public class FB2Genre : TreeViewFB2Attr<Decor4FB2Attr, MHLGenre>
@@ -432,7 +457,6 @@ namespace MHLSourceScannerLib
 
     public abstract class TreeViewFB2Attr<T1, T2> : TreeItem
     where T1 : IDecorator, new()
-    where T2 : IBookAttribute
     {
         #region [Fields]
         private readonly T1 decorator = new T1();
