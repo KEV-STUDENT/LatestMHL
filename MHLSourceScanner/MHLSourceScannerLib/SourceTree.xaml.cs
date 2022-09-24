@@ -3,6 +3,7 @@ using MHLCommon.MHLScanner;
 using MHLSourceScannerModelLib;
 using System;
 using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace MHLSourceScannerLib
@@ -12,6 +13,7 @@ namespace MHLSourceScannerLib
     /// </summary>
     public partial class SourceTree : UserControl, IShower
     {
+        public event SelectionChanged SelectedItemChanged;
         public ShowerViewModel ViewModel { get; private set; }
         protected IShower shower;
         public SourceTree()
@@ -25,8 +27,17 @@ namespace MHLSourceScannerLib
             ViewModel = new ShowerViewModel();
             //DataContext = this;
             ShowSource.ItemsSource = new ObservableCollection<ITreeItem>();
+            ShowSource.SelectedItemChanged += ItemChanged;
         }
 
+        private void ItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            if(e.NewValue is ITreeItem treeItem)
+            {
+                if(treeItem != null)
+                    SelectedItemChanged(treeItem);
+            }
+        }
 
         private void UpdateViewAction()
         {

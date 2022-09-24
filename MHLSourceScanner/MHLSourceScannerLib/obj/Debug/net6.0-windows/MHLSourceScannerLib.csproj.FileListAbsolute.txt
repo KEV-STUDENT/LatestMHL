@@ -25,3 +25,5 @@ F:\LatestMHL\MHLSourceScanner\MHLSourceScannerLib\bin\Debug\net6.0-windows\MHLSo
 F:\LatestMHL\MHLSourceScanner\MHLSourceScannerLib\obj\Debug\net6.0-windows\GeneratedInternalTypeHelper.g.cs
 F:\LatestMHL\MHLSourceScanner\MHLSourceScannerLib\bin\Debug\net6.0-windows\MHLCommon.dll
 F:\LatestMHL\MHLSourceScanner\MHLSourceScannerLib\bin\Debug\net6.0-windows\MHLCommon.pdb
+F:\LatestMHL\MHLSourceScanner\MHLSourceScannerLib\obj\Debug\net6.0-windows\MHLTextBlock.g.cs
+F:\LatestMHL\MHLSourceScanner\MHLSourceScannerLib\obj\Debug\net6.0-windows\MHLTextBlock.baml
