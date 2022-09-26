@@ -11,6 +11,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="45"/>
             <RowDefinition/>
+            <RowDefinition Height="100"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -18,5 +19,8 @@
         </Grid.ColumnDefinitions>
         <MHLSourceScannerLib:SourcePicker x:Name="SourceDirectoryPicker" Grid.Row="0" Grid.Column="0" Margin="0,5,0,0"/>
         <MHLSourceScannerLib:SourceTree x:Name="SourceTree" Grid.Row="1" Grid.Column="1" Margin="5,0,5,5" />
+        <ScrollViewer Grid.Row="2" Margin="5,0,5,5">
+            <MHLSourceScannerLib:MHLTextBlock x:Name="Annotation" Grid.Row="2" Grid.Column="0" Margin="0,5,0,0" Text="{Binding ElementName=SourceTree, Path=Annotation}" />
+        </ScrollViewer>
     </Grid>
 </Window>

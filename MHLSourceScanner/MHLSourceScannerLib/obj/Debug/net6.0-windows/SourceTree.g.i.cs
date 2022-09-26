@@ -70,7 +70,7 @@ namespace MHLSourceScannerLib {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/MHLSourceScannerLib;V1.0.0.0;component/sourcetree.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/MHLSourceScannerLib;component/sourcetree.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\SourceTree.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

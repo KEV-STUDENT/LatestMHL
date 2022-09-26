@@ -15,6 +15,7 @@ namespace MHLSourceScannerLib
 
     public class TreeViewFB2 : TreeViewDiskItem<Decor4FB2>
     {
+        #region [Properties]
         public string Title
         {
             get
@@ -26,6 +27,10 @@ namespace MHLSourceScannerLib
                 return string.Empty;
             }
         }
+
+        public IBook? Book { get { return source as IBook; } }
+        #endregion
+
         #region [Constructors]
         public TreeViewFB2(string path) : base(path)
         {
@@ -48,16 +53,16 @@ namespace MHLSourceScannerLib
         {
             if (source is IBook book)
             {
-                if(!string.IsNullOrEmpty(book.Annotation))
-                    SourceItems.Add(new FB2Annotation(book.Annotation));
+               /* if (!string.IsNullOrEmpty(book.Annotation))
+                    SourceItems.Add(new FB2Annotation(book.Annotation));*/
 
-                if(book.Authors.Count > 0)
+                if (book.Authors.Count > 0)
                     SourceItems.Add(new FB2Authors(book));
 
-                if(book.Genres.Count > 0)
+                if (book.Genres.Count > 0)
                     SourceItems.Add(new FB2Genres(book));
 
-                if(book.Keywords.Count > 0)
+                if (book.Keywords.Count > 0)
                     SourceItems.Add(new FB2Keywords(book));
             }
         }

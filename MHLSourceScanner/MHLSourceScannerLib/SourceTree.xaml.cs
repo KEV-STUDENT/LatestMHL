@@ -1,8 +1,11 @@
-﻿using MHLCommon.MHLDiskItems;
+﻿using MHLCommon.MHLBook;
+using MHLCommon.MHLDiskItems;
 using MHLCommon.MHLScanner;
 using MHLSourceScannerModelLib;
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -11,11 +14,25 @@ namespace MHLSourceScannerLib
     /// <summary>
     /// Логика взаимодействия для SourceTree.xaml
     /// </summary>
-    public partial class SourceTree : UserControl, IShower
+    public partial class SourceTree : UserControl, IShower, INotifyPropertyChanged
     {
         public event SelectionChanged SelectedItemChanged;
         public ShowerViewModel ViewModel { get; private set; }
+        public IBook? Book {
+            get => book;
+            private set {
+                book = value;
+                OnPropertyChanged("Annotation");
+            } 
+        }
+        public string Annotation { get => book?.Annotation ?? string.Empty;}
+        private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
         protected IShower shower;
+        private IBook? book = null;
         public SourceTree()
         {
             InitializeComponent();
@@ -30,12 +47,30 @@ namespace MHLSourceScannerLib
             ShowSource.SelectedItemChanged += ItemChanged;
         }
 
+        event PropertyChangedEventHandler? PropertyChanged;
+        event PropertyChangedEventHandler? INotifyPropertyChanged.PropertyChanged
+        {
+            add
+            {
+                this.PropertyChanged += value;
+            }
+
+            remove
+            {
+                PropertyChanged -= value;
+            }
+        }
+
         private void ItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            if(e.NewValue is ITreeItem treeItem)
+            if (e.NewValue is TreeViewFB2 fB2)
             {
-                if(treeItem != null)
-                    SelectedItemChanged(treeItem);
+                Book = fB2.Book;
+                string? Cover = Book.Cover;
+            }
+            else
+            {
+                Book = null;
             }
         }
 
@@ -51,7 +86,7 @@ namespace MHLSourceScannerLib
 
         private void LoadItemCollection(ITreeCollectionItem parent)
         {
-            if(parent is ITreeDiskItem diskItem)
+            if (parent is ITreeDiskItem diskItem)
                 diskItem.SourceItems.Clear();
             parent.LoadItemCollection();
         }
@@ -62,6 +97,7 @@ namespace MHLSourceScannerLib
         }
 
 
+        #region [IShower implementation]
         ObservableCollection<ITreeItem> IShower.SourceItems
         {
             get { return SourceItems; }
@@ -89,5 +125,6 @@ namespace MHLSourceScannerLib
         {
             shower.LoadItemCollection(treeItem);
         }
+        #endregion
     }
 }

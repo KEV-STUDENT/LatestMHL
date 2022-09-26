@@ -1,8 +1,10 @@
 ﻿using MHLCommon.MHLBook;
 using MHLCommon.MHLDiskItems;
+using System.Diagnostics;
 using System.IO.Compression;
 using System.Text;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace MHLSourceOnDisk
 {
@@ -10,11 +12,13 @@ namespace MHLSourceOnDisk
     {
         private const string ATTR_MAIN_PATH = "//fb:description/fb:title-info/fb:";
         private const string ATTR_SECOND_PATH = "//description/title-info/";
+        private const string BINARY_COVER_PATH = "binary";
 
         private XmlDocument? _xDoc;
         private XmlNamespaceManager? _namespaceManager;
         private string? _title = null;
         private string? _annotation = null;
+        private string? _cover = null;
         private List<IBookAttribute<XmlNode>>? _authors = null;
         private List<IBookAttribute<XmlNode>>? _genres = null;
         private List<IBookAttribute<String>>? _keywords = null;
@@ -105,6 +109,37 @@ namespace MHLSourceOnDisk
                 return _annotation;
             }
         }
+
+        string IBook.Cover
+        {
+            get
+            {
+                // System.Diagnostics.Debug.WriteLine(XDoc.DocumentElement.FirstChild.OuterXml);
+                //XDoc.DocumentElement.
+                
+                XmlNode? book = XDoc?.DocumentElement?.SelectSingleNode("body", NamespaceManager);
+
+                Debug.WriteLine("{0} - {1}", book.Name, book.InnerText);
+                /*foreach (XmlNode x in XDoc.DocumentElement.ChildNodes)
+                {
+                    System.Diagnostics.Debug.WriteLine(x.Name);
+                }*/
+                if (_cover == null)
+                {
+                    XmlNodeList? nodeList = GetNodeList("/binary");
+                    if (nodeList != null)
+                    {
+                        foreach (XmlNode x in nodeList)
+                        {
+                            System.Diagnostics.Debug.WriteLine(x.InnerText);
+                        }
+                    }
+                    //_cover = GetBookAttribute("binary");
+                    _cover = GetNode(BINARY_COVER_PATH);
+                }
+                return _cover;
+            }
+        }
         #endregion
 
         #region [Private Methods]
@@ -142,6 +177,7 @@ namespace MHLSourceOnDisk
 
         private string? GetNode(string node)
         {
+            Debug.WriteLine(node);
             XmlNode? book = XDoc?.DocumentElement?.SelectSingleNode(node, NamespaceManager);
             return book?.InnerText;
         }

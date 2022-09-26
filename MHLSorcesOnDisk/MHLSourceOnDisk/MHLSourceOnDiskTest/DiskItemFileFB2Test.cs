@@ -67,5 +67,14 @@ namespace MHLSourceOnDiskTest
             System.Diagnostics.Debug.WriteLine(itemFB2?.Title??string.Empty);
             Assert.AreNotEqual(string.Empty, itemFB2?.Title??string.Empty);
         }
+
+        [TestMethod]
+        public void Cover_pathFile()
+        {
+            IBook item = new DiskItemFileFB2(pathFile);
+            System.Diagnostics.Debug.WriteLine("Cover :[" + item.Cover + "]");
+            System.Diagnostics.Debug.WriteLine(string.IsNullOrEmpty(item.Cover));
+            Assert.AreNotEqual(string.Empty, item.Cover??string.Empty);
+        }
     }
 }
