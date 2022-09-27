@@ -5,9 +5,18 @@ using MHLSourceScannerModelLib;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Resources;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+
+
+using System.Drawing;
+using System.IO;
+using System.Resources;
+
+using System.Windows.Media.Imaging;
+using System.Collections;
 
 namespace MHLSourceScannerLib
 {
@@ -16,16 +25,65 @@ namespace MHLSourceScannerLib
     /// </summary>
     public partial class SourceTree : UserControl, IShower, INotifyPropertyChanged
     {
-        public event SelectionChanged SelectedItemChanged;
+       //public event SelectionChanged? SelectedItemChanged;
         public ShowerViewModel ViewModel { get; private set; }
+
+        private readonly BitmapImage defaultCover;
+
         public IBook? Book {
             get => book;
             private set {
+                bool annotationSectionHeightChanged = (book != null && value == null) || (book == null && value != null);
                 book = value;
-                OnPropertyChanged("Annotation");
+                if (annotationSectionHeightChanged)
+                    OnPropertyChanged("AnnotationSectionHeigh");
+
+                if (book != null)
+                {
+                    OnPropertyChanged("Annotation");
+                    OnPropertyChanged("Cover");                    
+                }
             } 
         }
-        public string Annotation { get => book?.Annotation ?? string.Empty;}
+        public string Annotation
+        {
+            get
+            {
+               return  book?.Annotation ?? string.Empty;
+            }
+        }
+
+        public BitmapImage? Cover
+        {
+            get
+            {
+                if(book == null || string.IsNullOrEmpty(book.Cover))
+                    return defaultCover;
+
+                byte[] plainTextBytes = System.Convert.FromBase64String(book.Cover);
+
+                BitmapImage bitmapImage = new BitmapImage();
+                using (MemoryStream ms = new MemoryStream(plainTextBytes))
+                {             
+                    ms.Position = 0;
+                    bitmapImage.BeginInit();
+                    bitmapImage.StreamSource = ms;
+                    bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                    bitmapImage.EndInit();
+                    bitmapImage.Freeze();
+                }
+                return bitmapImage;
+            }
+        }
+
+        public int AnnotationSectionHeigh
+        {
+            get
+            {
+                return (book == null ? 0 : 100);
+            }
+        }
+
         private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -45,7 +103,11 @@ namespace MHLSourceScannerLib
             //DataContext = this;
             ShowSource.ItemsSource = new ObservableCollection<ITreeItem>();
             ShowSource.SelectedItemChanged += ItemChanged;
+
+            defaultCover = GetImageFromResources("DefaultCover");
         }
+
+       
 
         event PropertyChangedEventHandler? PropertyChanged;
         event PropertyChangedEventHandler? INotifyPropertyChanged.PropertyChanged
@@ -66,12 +128,34 @@ namespace MHLSourceScannerLib
             if (e.NewValue is TreeViewFB2 fB2)
             {
                 Book = fB2.Book;
-                string? Cover = Book.Cover;
+                //string? Cover = Book.Cover;
             }
             else
             {
                 Book = null;
             }
+        }
+
+        private BitmapImage GetImageFromResources(string resName)
+        {
+            BitmapImage bitmapImage = new BitmapImage();
+
+            ResourceManager resourceManager = new ResourceManager("MHLSourceScannerLib.LibResources", typeof(SourceTree).Assembly);
+            Bitmap? df = resourceManager.GetObject(resName) as Bitmap;
+            if (df != null)
+            {
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    df.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                    ms.Position = 0;
+                    bitmapImage.BeginInit();
+                    bitmapImage.StreamSource = ms;
+                    bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                    bitmapImage.EndInit();
+                    bitmapImage.Freeze();
+                }
+            }
+            return bitmapImage;
         }
 
         private void UpdateViewAction()

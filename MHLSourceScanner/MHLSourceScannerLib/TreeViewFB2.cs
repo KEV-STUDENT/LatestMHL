@@ -28,6 +28,16 @@ namespace MHLSourceScannerLib
             }
         }
 
+        public string Cover
+        {
+            get
+            {
+                if(source is IBook book)
+                    return book.Cover;
+                return string.Empty;
+            }
+        }
+
         public IBook? Book { get { return source as IBook; } }
         #endregion
 

@@ -16,13 +16,8 @@ namespace MHLSourceScanner
         {
             InitializeComponent();
             SourceDirectoryPicker.PropertyChanged += SourceDirectoryPickerChanged;
-            SourceTree.SelectedItemChanged += SourceTreeItemChanged;
         }
 
-        private void SourceTreeItemChanged(ITreeItem treeItem)
-        {
-            
-        }
 
         private void SourceDirectoryPickerChanged(object? sender, PropertyChangedEventArgs e)
         {

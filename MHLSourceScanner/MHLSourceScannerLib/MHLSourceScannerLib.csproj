@@ -8,8 +8,32 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\dc9pbERc7.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\dc9pbERc7.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\MHLCommon\MHLCommon.csproj" />
     <ProjectReference Include="..\MHLSourceScannerModelLib\MHLSourceScannerModelLib.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="LibResources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>LibResources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="LibResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>LibResources.Designer.cs</LastGenOutput>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

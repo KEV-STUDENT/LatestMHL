@@ -119,7 +119,7 @@ namespace MHLSourceOnDisk
                     XmlNodeList? nodeList = GetElementsByTagName(BINARY);
                     if (nodeList != null)
                     {
-                        _cover = nodeList[0].InnerText;
+                        _cover = nodeList[0]?.InnerText;
                     }
                 }
                 return _cover??String.Empty;

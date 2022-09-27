@@ -27,3 +27,5 @@ F:\LatestMHL\MHLSourceScanner\MHLSourceScannerLib\bin\Debug\net6.0-windows\MHLCo
 F:\LatestMHL\MHLSourceScanner\MHLSourceScannerLib\bin\Debug\net6.0-windows\MHLCommon.pdb
 F:\LatestMHL\MHLSourceScanner\MHLSourceScannerLib\obj\Debug\net6.0-windows\MHLTextBlock.g.cs
 F:\LatestMHL\MHLSourceScanner\MHLSourceScannerLib\obj\Debug\net6.0-windows\MHLTextBlock.baml
+F:\LatestMHL\MHLSourceScanner\MHLSourceScannerLib\obj\Debug\net6.0-windows\MHLSourceScannerLib.csproj.GenerateResource.cache
+F:\LatestMHL\MHLSourceScanner\MHLSourceScannerLib\obj\Debug\net6.0-windows\MHLSourceScannerLib.LibResources.resources
