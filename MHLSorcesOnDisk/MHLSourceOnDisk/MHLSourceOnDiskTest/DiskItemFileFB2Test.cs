@@ -11,7 +11,9 @@ namespace MHLSourceOnDiskTest
     {
         protected string pathFile = @"F:\1\test\426096.fb2";
         protected string pathZip = @"F:\1\test\fb2-495000-500999.zip";
-        
+        protected string pathFile1 = @"F:\1\test\Davydov_Moskovit.454563.fb2";
+
+
         [TestMethod]
         public void Constructor_pathFile()
         {
@@ -71,7 +73,8 @@ namespace MHLSourceOnDiskTest
         [TestMethod]
         public void Cover_pathFile()
         {
-            IBook item = new DiskItemFileFB2(pathFile);
+            IBook item = new DiskItemFileFB2(pathFile1);
+            System.Diagnostics.Debug.WriteLine("Title :[" + item.Title + "]");
             System.Diagnostics.Debug.WriteLine("Cover :[" + item.Cover + "]");
             System.Diagnostics.Debug.WriteLine(string.IsNullOrEmpty(item.Cover));
             Assert.AreNotEqual(string.Empty, item.Cover??string.Empty);

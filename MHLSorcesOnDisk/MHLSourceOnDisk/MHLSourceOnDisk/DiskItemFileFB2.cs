@@ -12,7 +12,7 @@ namespace MHLSourceOnDisk
     {
         private const string ATTR_MAIN_PATH = "//fb:description/fb:title-info/fb:";
         private const string ATTR_SECOND_PATH = "//description/title-info/";
-        private const string BINARY_COVER_PATH = "binary";
+        private const string BINARY = "binary";
 
         private XmlDocument? _xDoc;
         private XmlNamespaceManager? _namespaceManager;
@@ -114,30 +114,15 @@ namespace MHLSourceOnDisk
         {
             get
             {
-                // System.Diagnostics.Debug.WriteLine(XDoc.DocumentElement.FirstChild.OuterXml);
-                //XDoc.DocumentElement.
-                
-                XmlNode? book = XDoc?.DocumentElement?.SelectSingleNode("body", NamespaceManager);
-
-                Debug.WriteLine("{0} - {1}", book.Name, book.InnerText);
-                /*foreach (XmlNode x in XDoc.DocumentElement.ChildNodes)
-                {
-                    System.Diagnostics.Debug.WriteLine(x.Name);
-                }*/
                 if (_cover == null)
                 {
-                    XmlNodeList? nodeList = GetNodeList("/binary");
+                    XmlNodeList? nodeList = GetElementsByTagName(BINARY);
                     if (nodeList != null)
                     {
-                        foreach (XmlNode x in nodeList)
-                        {
-                            System.Diagnostics.Debug.WriteLine(x.InnerText);
-                        }
+                        _cover = nodeList[0].InnerText;
                     }
-                    //_cover = GetBookAttribute("binary");
-                    _cover = GetNode(BINARY_COVER_PATH);
                 }
-                return _cover;
+                return _cover??String.Empty;
             }
         }
         #endregion
@@ -185,6 +170,11 @@ namespace MHLSourceOnDisk
         private XmlNodeList? GetNodeList(string nodes)
         {
             return XDoc?.DocumentElement?.SelectNodes(nodes, NamespaceManager);
+        }
+
+        private XmlNodeList? GetElementsByTagName(string tagName)
+        {
+            return XDoc?.GetElementsByTagName(tagName);
         }
 
         private List<IBookAttribute<XmlNode>> GetBookAttributes<T>(string attributeName)
