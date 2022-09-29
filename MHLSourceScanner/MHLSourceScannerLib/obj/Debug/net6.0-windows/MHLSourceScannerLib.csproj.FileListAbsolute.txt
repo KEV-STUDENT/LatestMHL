@@ -29,3 +29,6 @@ F:\LatestMHL\MHLSourceScanner\MHLSourceScannerLib\obj\Debug\net6.0-windows\MHLTe
 F:\LatestMHL\MHLSourceScanner\MHLSourceScannerLib\obj\Debug\net6.0-windows\MHLTextBlock.baml
 F:\LatestMHL\MHLSourceScanner\MHLSourceScannerLib\obj\Debug\net6.0-windows\MHLSourceScannerLib.csproj.GenerateResource.cache
 F:\LatestMHL\MHLSourceScanner\MHLSourceScannerLib\obj\Debug\net6.0-windows\MHLSourceScannerLib.LibResources.resources
+F:\LatestMHL\MHLSourceScanner\MHLSourceScannerLib\obj\Debug\net6.0-windows\Themes\Generic.baml
+F:\LatestMHL\MHLSourceScanner\MHLSourceScannerLib\obj\Debug\net6.0-windows\MHLCheckBox.g.cs
+F:\LatestMHL\MHLSourceScanner\MHLSourceScannerLib\obj\Debug\net6.0-windows\MHLCheckBox.baml

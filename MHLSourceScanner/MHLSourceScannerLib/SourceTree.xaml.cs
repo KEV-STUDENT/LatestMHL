@@ -25,14 +25,16 @@ namespace MHLSourceScannerLib
     /// </summary>
     public partial class SourceTree : UserControl, IShower, INotifyPropertyChanged
     {
-       //public event SelectionChanged? SelectedItemChanged;
+        //public event SelectionChanged? SelectedItemChanged;
         public ShowerViewModel ViewModel { get; private set; }
 
         private readonly BitmapImage defaultCover;
 
-        public IBook? Book {
+        public IBook? Book
+        {
             get => book;
-            private set {
+            private set
+            {
                 bool annotationSectionHeightChanged = (book != null && value == null) || (book == null && value != null);
                 book = value;
                 if (annotationSectionHeightChanged)
@@ -41,15 +43,42 @@ namespace MHLSourceScannerLib
                 if (book != null)
                 {
                     OnPropertyChanged("Annotation");
-                    OnPropertyChanged("Cover");                    
+                    OnPropertyChanged("Cover");
+                    OnPropertyChanged("Authors");
                 }
-            } 
+            }
         }
         public string Annotation
         {
             get
             {
-               return  book?.Annotation ?? string.Empty;
+                return book?.Annotation ?? string.Empty;
+            }
+        }
+
+        public string Authors
+        {
+            get
+            {
+                string authors = string.Empty;
+                string authorName;
+
+                if ((book?.Authors?.Count ?? 0) > 0)
+                    foreach (MHLAuthor author in book.Authors)
+                    {
+                        authorName = author.LastName.Trim();
+                        authorName = String.Format("{0} {1}", authorName, author.FirstName.Trim());
+                        authorName = String.Format("{0} {1}", authorName, author.MiddleName.Trim());
+
+
+                        if (!string.IsNullOrEmpty(authorName))
+                            if (string.IsNullOrEmpty(authors))
+                                authors = authorName;
+                            else
+                                authors = String.Format("{0}, {1}", authors.Trim(), authorName.Trim());
+                    }
+
+                return authors;
             }
         }
 
@@ -57,14 +86,14 @@ namespace MHLSourceScannerLib
         {
             get
             {
-                if(book == null || string.IsNullOrEmpty(book.Cover))
+                if (book == null || string.IsNullOrEmpty(book.Cover))
                     return defaultCover;
 
                 byte[] plainTextBytes = System.Convert.FromBase64String(book.Cover);
 
                 BitmapImage bitmapImage = new BitmapImage();
                 using (MemoryStream ms = new MemoryStream(plainTextBytes))
-                {             
+                {
                     ms.Position = 0;
                     bitmapImage.BeginInit();
                     bitmapImage.StreamSource = ms;
@@ -107,7 +136,7 @@ namespace MHLSourceScannerLib
             defaultCover = GetImageFromResources("DefaultCover");
         }
 
-       
+
 
         event PropertyChangedEventHandler? PropertyChanged;
         event PropertyChangedEventHandler? INotifyPropertyChanged.PropertyChanged

@@ -21,28 +21,34 @@
                     <Setter Property="Focusable" Value="{Binding Focusable}"/>
                 </Style>
 
-                <Style x:Key="TreeViewItemStyle" TargetType="TextBlock">
+                <Style x:Key="TreeViewItemStyle" TargetType="local:MHLTextBlock">
                     <Setter Property="Text" Value="{Binding Name}"/>
                     <Setter Property="Foreground" Value="{Binding ForeGround}"/>
                     <Setter Property="FontWeight" Value="{Binding FontWeight}"/>
                 </Style>
 
-                <Style x:Key="TreeViewAttrStyle" TargetType="TextBlock">
+                <Style x:Key="TreeViewItemStyleCheckBoxItem" TargetType="local:MHLCheckBox">
+                    <Setter Property="Content" Value="{Binding Name}"/>
+                    <Setter Property="Foreground" Value="{Binding ForeGround}"/>
+                    <Setter Property="FontWeight" Value="{Binding FontWeight}"/>
+                </Style>
+
+                <Style x:Key="TreeViewAttrStyle" TargetType="local:MHLTextBlock">
                     <Setter Property="Foreground" Value="{Binding ForeGround}"/>
                     <Setter Property="FontWeight" Value="{Binding FontWeight}"/>
                 </Style>
 
                 <HierarchicalDataTemplate DataType = "{x:Type local:TreeViewSystem}" ItemsSource="{Binding Path=SourceItems}">
-                    <TextBlock Style="{StaticResource TreeViewItemStyle}"  />
+                    <local:MHLTextBlock Style="{StaticResource TreeViewItemStyle}"  />
                 </HierarchicalDataTemplate>
 
                 <HierarchicalDataTemplate DataType = "{x:Type local:TreeViewZip}" ItemsSource="{Binding Path=SourceItems}">
                     <Border BorderBrush="Gainsboro" BorderThickness="1">
                         <StackPanel Orientation="Vertical" >
-                            <TextBlock Style="{StaticResource TreeViewItemStyle}"  />
+                            <local:MHLCheckBox Style="{StaticResource TreeViewItemStyleCheckBoxItem}"/>
                             <StackPanel Orientation="Horizontal" >
-                                <TextBlock Text="{Binding Path=Count, StringFormat='Archive include {0} blocks.'}" Margin="20,0,0,0" Visibility="{Binding Visibility2TotalCount }"/>
-                                <TextBlock Text="{Binding Path=TotalCount, StringFormat='Total count of items {0}'}" Margin="5,0,0,0" />
+                                <local:MHLTextBlock Text="{Binding Path=Count, StringFormat='Archive include {0} blocks.'}" Margin="20,0,0,0" Visibility="{Binding Visibility2TotalCount }"/>
+                                <local:MHLTextBlock Text="{Binding Path=TotalCount, StringFormat='Total count of items {0}'}" Margin="5,0,0,0" />
                             </StackPanel>
                         </StackPanel>
                     </Border>
@@ -50,62 +56,62 @@
 
                 <HierarchicalDataTemplate DataType = "{x:Type local:TreeViewFB2}" ItemsSource="{Binding Path=SourceItems}">
                     <StackPanel Orientation="Horizontal"  >
-                        <TextBlock Text="{Binding Path=Name, StringFormat='File: {0}'}"/>
-                        <TextBlock Text="{Binding Path=Title}" Style="{StaticResource TreeViewItemStyle}" Margin="20,0,0,0"/>
+                        <local:MHLCheckBox Content="{Binding Path=Name, StringFormat='File: {0}'}"/>
+                        <local:MHLTextBlock Text="{Binding Path=Title}" Style="{StaticResource TreeViewItemStyle}" Margin="20,0,0,0"/>
                     </StackPanel>
                 </HierarchicalDataTemplate>
 
                 <HierarchicalDataTemplate DataType = "{x:Type local:TreeViewDirectory}" ItemsSource="{Binding Path=SourceItems}">
-                    <TextBlock Style="{StaticResource TreeViewItemStyle}"  />
+                    <local:MHLTextBlock Style="{StaticResource TreeViewItemStyle}"  />
                 </HierarchicalDataTemplate>
 
                 <HierarchicalDataTemplate DataType = "{x:Type local:TreeViewVirtualGroup}" ItemsSource="{Binding Path=SourceItems}">
                     <StackPanel Orientation="Horizontal" >
-                        <TextBlock Style="{StaticResource TreeViewItemStyle}"/>
-                        <TextBlock Text="{Binding Path=Count, StringFormat='Block include {0} items'}" Margin="15,0,0,0"/>
+                        <!--local:MHLTextBlock Style="{StaticResource TreeViewItemStyle}"/-->
+                            <local:MHLCheckBox Style="{StaticResource TreeViewItemStyleCheckBoxItem}"/>
+                            <local:MHLTextBlock Text="{Binding Path=Count, StringFormat='Block include {0} items'}" Margin="15,0,0,0"/>
                     </StackPanel>
                 </HierarchicalDataTemplate>
 
                 <HierarchicalDataTemplate DataType = "{x:Type local:TreeViewUnknown}" ItemsSource="{Binding Path=SourceItems}">
-                    <TextBlock Style="{StaticResource TreeViewItemStyle}"  />
+                    <local:MHLTextBlock Style="{StaticResource TreeViewItemStyle}"  />
                 </HierarchicalDataTemplate>
 
                 <HierarchicalDataTemplate DataType = "{x:Type local:TreeViewError}" ItemsSource="{Binding Path=SourceItems}">
-                    <TextBlock Style="{StaticResource TreeViewItemStyle}"  />
+                    <local:MHLTextBlock Style="{StaticResource TreeViewItemStyle}"  />
                 </HierarchicalDataTemplate>
 
                 <HierarchicalDataTemplate DataType = "{x:Type local:FB2Authors}" ItemsSource="{Binding Path=SourceItems}">
-                    <TextBlock Style="{StaticResource TreeViewItemStyle}"  />
+                    <local:MHLTextBlock Style="{StaticResource TreeViewItemStyle}"  />
                 </HierarchicalDataTemplate>
 
                 <HierarchicalDataTemplate DataType = "{x:Type local:FB2Genres}" ItemsSource="{Binding Path=SourceItems}">
-                    <TextBlock Style="{StaticResource TreeViewItemStyle}"  />
+                    <local:MHLTextBlock Style="{StaticResource TreeViewItemStyle}"  />
                 </HierarchicalDataTemplate>
 
                 <HierarchicalDataTemplate DataType = "{x:Type local:FB2Keywords}" ItemsSource="{Binding Path=SourceItems}">
-                    <TextBlock Style="{StaticResource TreeViewItemStyle}"  />
+                    <local:MHLTextBlock Style="{StaticResource TreeViewItemStyle}"  />
                 </HierarchicalDataTemplate>
 
                 <HierarchicalDataTemplate DataType = "{x:Type local:FB2Author}">
                     <StackPanel Orientation="Horizontal"  >
-                        <TextBlock Text="{Binding Path=LastName}" Style="{StaticResource TreeViewAttrStyle}"  Margin="15,0,0,0" />
-                        <TextBlock Text="{Binding Path=FirstName}" Style="{StaticResource TreeViewAttrStyle}"   Margin="15,0,0,0"/>
-                        <TextBlock Text="{Binding Path=MiddleName}" Style="{StaticResource TreeViewAttrStyle}"  Margin="15,0,0,0" />
+                        <local:MHLTextBlock Text="{Binding Path=LastName}" Style="{StaticResource TreeViewAttrStyle}"  Margin="15,0,0,0" />
+                        <local:MHLTextBlock Text="{Binding Path=FirstName}" Style="{StaticResource TreeViewAttrStyle}"   Margin="15,0,0,0"/>
+                        <local:MHLTextBlock Text="{Binding Path=MiddleName}" Style="{StaticResource TreeViewAttrStyle}"  Margin="15,0,0,0" />
                     </StackPanel>
                 </HierarchicalDataTemplate>
 
                 <HierarchicalDataTemplate DataType = "{x:Type local:FB2Genre}">
-                    <TextBlock Text="{Binding Path=Name}" Style="{StaticResource TreeViewAttrStyle}"  Margin="15,0,0,0" />
+                    <local:MHLTextBlock Text="{Binding Path=Name}" Style="{StaticResource TreeViewAttrStyle}"  Margin="15,0,0,0" />
                 </HierarchicalDataTemplate>
 
                 <HierarchicalDataTemplate DataType = "{x:Type local:FB2Keyword}">
-                    <TextBlock Text="{Binding Path=Name}" Style="{StaticResource TreeViewAttrStyle}"  Margin="15,0,0,0" />
+                    <local:MHLTextBlock Text="{Binding Path=Name}" Style="{StaticResource TreeViewAttrStyle}"  Margin="15,0,0,0" />
                 </HierarchicalDataTemplate>
 
                 <HierarchicalDataTemplate DataType = "{x:Type local:FB2Annotation}">
-                    <TextBlock Text="{Binding Path=Name}" Style="{StaticResource TreeViewAttrStyle}" TextWrapping="Wrap" Width="{Binding TextWidth}" />
+                    <local:MHLTextBlock Text="{Binding Path=Name}" Style="{StaticResource TreeViewAttrStyle}" TextWrapping="Wrap" Width="{Binding TextWidth}" />
                 </HierarchicalDataTemplate>
-
             </TreeView.Resources>
         </TreeView>
     </Grid>

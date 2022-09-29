@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
 
-31969746948
+5-1723557228
 
-182110708579
+19-1860097012
 206-338378765
-MHLTextBlock.xaml;SourcePicker.xaml;SourceTree.xaml;
+MHLCheckBox.xaml;MHLTextBlock.xaml;SourcePicker.xaml;SourceTree.xaml;Themes\Generic.xaml;
 
-False
+True
 
