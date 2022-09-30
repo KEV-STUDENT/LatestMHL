@@ -132,7 +132,6 @@ namespace MHLSourceScannerLib
             //DataContext = this;
             ShowSource.ItemsSource = new ObservableCollection<ITreeItem>();
             ShowSource.SelectedItemChanged += ItemChanged;
-
             defaultCover = GetImageFromResources("DefaultCover");
         }
 
@@ -239,5 +238,20 @@ namespace MHLSourceScannerLib
             shower.LoadItemCollection(treeItem);
         }
         #endregion
+
+        private void FB2Checked_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+        {
+            if (e!= null && (e.Parameter is ObservableCollection<ITreeItem> fb2Collection))
+            {
+                if(fb2Collection[0] is TreeViewFB2 treeView)
+                {
+
+                }
+            }
+            if(sender is TreeViewFB2 fB2)
+            {
+                //fB2.
+            }
+        }
     }
 }

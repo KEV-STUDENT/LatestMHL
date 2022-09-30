@@ -7,6 +7,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" x:Name="TreeShower">
 
+    <!--UserControl.CommandBindings>
+        <CommandBinding Command="local:MHLCommands.FB2Checked" Executed="FB2Checked_Executed"/>
+    </UserControl.CommandBindings/-->
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -56,7 +59,10 @@
 
                 <HierarchicalDataTemplate DataType = "{x:Type local:TreeViewFB2}" ItemsSource="{Binding Path=SourceItems}">
                     <StackPanel Orientation="Horizontal"  >
-                        <local:MHLCheckBox Content="{Binding Path=Name, StringFormat='File: {0}'}"/>
+                        <local:MHLCheckBox Content="{Binding Path=Name, StringFormat='File: {0}'}" 
+                                           Command="{Binding ElementName=TreeShower, Path=ViewModel.FB2CheckedCommand}"/>
+                        <!--"local:MHLCommands.FB2Checked"
+                                           CommandParameter="{Binding Path=Book}"-->                           
                         <local:MHLTextBlock Text="{Binding Path=Title}" Style="{StaticResource TreeViewItemStyle}" Margin="20,0,0,0"/>
                     </StackPanel>
                 </HierarchicalDataTemplate>
