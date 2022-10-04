@@ -6,6 +6,7 @@ using System.IO.Compression;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace MHLSourceScannerLib
 {
@@ -33,18 +34,18 @@ namespace MHLSourceScannerLib
         }
 
         #region [Constructors]
-        public TreeViewVirtualGroup(string path) : base(path)
+        public TreeViewVirtualGroup(string path, ITreeItem? parent) : base(path, parent)
         {
         }
-        public TreeViewVirtualGroup(string path, IShower? shower) : base(path, shower)
-        {
-        }
-
-        public TreeViewVirtualGroup(IDiskItem diskItemSource) : base(diskItemSource)
+        public TreeViewVirtualGroup(string path, IShower? shower, ITreeItem? parent) : base(path, shower, parent)
         {
         }
 
-        public TreeViewVirtualGroup(IDiskItem diskItemSource, IShower? shower) : base(diskItemSource, shower)
+        public TreeViewVirtualGroup(IDiskItem diskItemSource, ITreeItem? parent) : base(diskItemSource, parent)
+        {
+        }
+
+        public TreeViewVirtualGroup(IDiskItem diskItemSource, IShower? shower, ITreeItem? parent) : base(diskItemSource, shower, parent)
         {
         }
         #endregion

@@ -26,7 +26,7 @@ namespace MHLSourceScanner
             if( ((IPicker<string>)SourceDirectoryPicker).CheckValue(out directory) == ReturnResultEnum.Ok)
             {
                 IShower shower = SourceTree;
-                ITreeDiskItem treeViewDiskItem = new TreeViewDirectory(directory, shower);
+                ITreeDiskItem treeViewDiskItem = new TreeViewDirectory(directory, shower, null);
                 shower.SourceItems.Clear();
                 shower.UpdateView(treeViewDiskItem);
             }

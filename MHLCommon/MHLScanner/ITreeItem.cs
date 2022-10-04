@@ -5,7 +5,9 @@ namespace MHLCommon.MHLScanner
 {
     public interface ITreeItem : IComparable<ITreeItem>
     {
+        ITreeItem? Parent { get; }
         string Name { get; }
+        bool Selected { get; }
     }
 
     public interface ITreeCollectionItem : ITreeItem

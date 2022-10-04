@@ -1,4 +1,5 @@
 ﻿using MHLCommon.MHLBook;
+using MHLCommon.MHLScanner;
 using MHLSourceScannerModelLib;
 using System.Windows;
 using System.Windows.Media;
@@ -20,7 +21,7 @@ namespace MHLSourceScannerLib
             get => 700  ;
         }
         #region [Constructors]
-        public FB2Annotation(string bookAttribute) : base(bookAttribute)
+        public FB2Annotation(string bookAttribute, ITreeItem? parent) : base(bookAttribute, parent)
         {
             Name = bookAttribute;
         }
@@ -30,7 +31,7 @@ namespace MHLSourceScannerLib
     public class FB2Keyword : TreeViewFB2Attr<Decor4FB2Attr, MHLKeyword>
     {
         #region [Constructors]
-        public FB2Keyword(MHLKeyword bookAttribute) : base(bookAttribute)
+        public FB2Keyword(MHLKeyword bookAttribute, ITreeItem? parent) : base(bookAttribute, parent)
         {
             Name = bookAttribute.Keyword;
         }
@@ -40,7 +41,7 @@ namespace MHLSourceScannerLib
     public class FB2Genre : TreeViewFB2Attr<Decor4FB2Attr, MHLGenre>
     {
         #region [Constructors]
-        public FB2Genre(MHLGenre bookAttribute) : base(bookAttribute)
+        public FB2Genre(MHLGenre bookAttribute, ITreeItem? parent) : base(bookAttribute, parent)
         {
             switch (bookAttribute.Genre)
             {
@@ -345,7 +346,7 @@ namespace MHLSourceScannerLib
                 case MHLCommon.FB2Genres.nonf_criticism:
                     Name = "Критика";
                     break;
-                design: Name = "Искусство и Дизайн";
+                case MHLCommon.FB2Genres.design: Name = "Искусство и Дизайн";
                     break;
                 case MHLCommon.FB2Genres.nonfiction:
                     Name = "Документальная литература";
@@ -448,7 +449,7 @@ namespace MHLSourceScannerLib
         #endregion
 
         #region [Constructors]
-        public FB2Author(MHLAuthor bookAttribute) : base(bookAttribute)
+        public FB2Author(MHLAuthor bookAttribute, ITreeItem? parent) : base(bookAttribute, parent)
         {
             Name = string.Format("{0} {1} {2}", bookAttribute.LastName.Trim(), bookAttribute.FirstName.Trim(), bookAttribute.MiddleName.Trim()).Trim();
         }
@@ -464,7 +465,7 @@ namespace MHLSourceScannerLib
         #endregion
 
         #region [Constructors]
-        public TreeViewFB2Attr(T2 bookAttribute)
+        public TreeViewFB2Attr(T2 bookAttribute, ITreeItem? parent):base(parent)
         {
             this.bookAttribute = bookAttribute;
         }

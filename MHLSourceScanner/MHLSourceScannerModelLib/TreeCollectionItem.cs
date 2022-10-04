@@ -16,8 +16,8 @@ namespace MHLSourceScannerModelLib
         private ObservableCollection<ITreeItem> sourceItems = new ObservableCollection<ITreeItem>();
 
         #region [Constructors]
-        public TreeCollectionItem(string name) : base(name) { }
-        public TreeCollectionItem() : base() { }
+        public TreeCollectionItem(string name, ITreeItem? parent) : base(name, parent) { }
+        public TreeCollectionItem(ITreeItem? parent) : base(parent) { }
         #endregion
 
         #region [Properties]

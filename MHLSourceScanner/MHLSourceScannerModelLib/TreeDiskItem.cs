@@ -22,29 +22,29 @@ namespace MHLSourceScannerModelLib
         #endregion
 
         #region [Constructors]
-        public TreeDiskItem() : base()
+        public TreeDiskItem(ITreeItem? parent) : base(parent)
         {
         }
-        public TreeDiskItem(IShower? shower) : this()
+        public TreeDiskItem(IShower? shower, ITreeItem? parent) : this(parent)
         {
             this.shower = shower;
         }
 
-        public TreeDiskItem(string path) : this(path, null)
+        public TreeDiskItem(string path, ITreeItem? parent) : this(path, null, parent)
         {
         }
-        public TreeDiskItem(string path, IShower? shower) : this(shower)
+        public TreeDiskItem(string path, IShower? shower, ITreeItem? parent) : this(shower, parent)
         {
             source = DiskItemFabrick.GetDiskItem(path);
             InitSourceItems();
         }
 
-        public TreeDiskItem(IDiskItem diskItemSource) : this(diskItemSource, null)
+        public TreeDiskItem(IDiskItem diskItemSource, ITreeItem? parent) : this(diskItemSource, null, parent)
         {
             source = diskItemSource;
             InitSourceItems();
         }
-        public TreeDiskItem(IDiskItem diskItemSource, IShower? shower) : this(shower)
+        public TreeDiskItem(IDiskItem diskItemSource, IShower? shower, ITreeItem? parent) : this(shower, parent)
         {
             source = diskItemSource;
             InitSourceItems();
@@ -138,12 +138,12 @@ namespace MHLSourceScannerModelLib
         #region [Public Methods]
         public virtual ITreeItem CreateEmptyItem()
         {
-            return new TreeItem();
+            return new TreeItem(null);
         }
 
         public virtual ITreeItem CreateTreeViewItem(IDiskItem diskItemChild)
         {
-            return new TreeDiskItem(diskItemChild);
+            return new TreeDiskItem(diskItemChild, this);
         }
 
         protected virtual void AddDiskItem(IDiskItem diskItemChild)

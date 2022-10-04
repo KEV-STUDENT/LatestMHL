@@ -17,7 +17,7 @@ namespace MHLSourceScannerLib
     public class FB2Authors : TreeViewFB2AttrSection<Decor4FB2AttrSection>
     {
         #region [Constructors]
-        public FB2Authors(IBook book) : base(FB2Sections.Authors, book)
+        public FB2Authors(IBook book, ITreeItem? parent) : base(FB2Sections.Authors, book, parent)
         {
             Name = "Authors";
         }
@@ -27,7 +27,7 @@ namespace MHLSourceScannerLib
         {
             foreach (MHLAuthor author in book.Authors)
             {
-                SourceItems.Add(new FB2Author(author));
+                SourceItems.Add(new FB2Author(author, this));
             }
         }
     }
@@ -35,7 +35,7 @@ namespace MHLSourceScannerLib
     public class FB2Genres : TreeViewFB2AttrSection<Decor4FB2AttrSection>
     {
         #region [Constructors]
-        public FB2Genres(IBook book) : base(FB2Sections.Genres, book)
+        public FB2Genres(IBook book, ITreeItem? parent) : base(FB2Sections.Genres, book, parent)
         {
             Name = "Genres";
         }
@@ -45,7 +45,7 @@ namespace MHLSourceScannerLib
         {
             foreach (MHLGenre genre in book.Genres)
             {
-                SourceItems.Add(new FB2Genre(genre));
+                SourceItems.Add(new FB2Genre(genre, this));
             }
         }
     }
@@ -53,7 +53,7 @@ namespace MHLSourceScannerLib
     public class FB2Keywords : TreeViewFB2AttrSection<Decor4FB2AttrSection>
     {
         #region [Constructors]
-        public FB2Keywords(IBook book) : base(FB2Sections.Keywords, book)
+        public FB2Keywords(IBook book, ITreeItem? parent) : base(FB2Sections.Keywords, book, parent)
         {
             Name = "Keywords";
         }
@@ -63,7 +63,7 @@ namespace MHLSourceScannerLib
         {
             foreach (MHLKeyword keyword in book.Keywords)
             {
-                SourceItems.Add(new FB2Keyword(keyword));
+                SourceItems.Add(new FB2Keyword(keyword, this));
             }
         }
     }
@@ -95,7 +95,7 @@ namespace MHLSourceScannerLib
         #endregion
 
         #region [Constructors]
-        public TreeViewFB2AttrSection(FB2Sections sectionType, IBook book)
+        public TreeViewFB2AttrSection(FB2Sections sectionType, IBook book, ITreeItem? parent):base(parent)
         {
             this.sectionType = sectionType;
             this.book = book;

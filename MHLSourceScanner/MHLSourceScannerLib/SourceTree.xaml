@@ -59,10 +59,10 @@
 
                 <HierarchicalDataTemplate DataType = "{x:Type local:TreeViewFB2}" ItemsSource="{Binding Path=SourceItems}">
                     <StackPanel Orientation="Horizontal"  >
-                        <local:MHLCheckBox Content="{Binding Path=Name, StringFormat='File: {0}'}" 
-                                           Command="{Binding ElementName=TreeShower, Path=ViewModel.FB2CheckedCommand}"/>
-                        <!--"local:MHLCommands.FB2Checked"
-                                           CommandParameter="{Binding Path=Book}"-->                           
+                        <local:MHLCheckBox Content="{Binding Name, StringFormat='File: {0}'}" 
+                                           Command="{Binding ElementName=TreeShower, Path=ViewModel.FB2CheckedCommand}"
+                                           IsChecked="{Binding Selected}"
+                                           CommandParameter="{Binding DataContext}" />
                         <local:MHLTextBlock Text="{Binding Path=Title}" Style="{StaticResource TreeViewItemStyle}" Margin="20,0,0,0"/>
                     </StackPanel>
                 </HierarchicalDataTemplate>

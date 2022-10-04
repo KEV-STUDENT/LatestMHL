@@ -42,18 +42,18 @@ namespace MHLSourceScannerLib
         #endregion
 
         #region [Constructors]
-        public TreeViewFB2(string path) : base(path)
+        public TreeViewFB2(string path, ITreeItem? parent) : base(path, parent)
         {
         }
-        public TreeViewFB2(string path, IShower? shower) : base(path, shower)
-        {
-        }
-
-        public TreeViewFB2(IDiskItem diskItemSource) : base(diskItemSource)
+        public TreeViewFB2(string path, IShower? shower, ITreeItem? parent) : base(path, shower, parent)
         {
         }
 
-        public TreeViewFB2(IDiskItem diskItemSource, IShower? shower) : base(diskItemSource, shower)
+        public TreeViewFB2(IDiskItem diskItemSource, ITreeItem? parent) : base(diskItemSource, parent)
+        {
+        }
+
+        public TreeViewFB2(IDiskItem diskItemSource, IShower? shower, ITreeItem? parent) : base(diskItemSource, shower, parent)
         {
         }
         #endregion
@@ -67,13 +67,13 @@ namespace MHLSourceScannerLib
                     SourceItems.Add(new FB2Annotation(book.Annotation));*/
 
                 if (book.Authors.Count > 0)
-                    SourceItems.Add(new FB2Authors(book));
+                    SourceItems.Add(new FB2Authors(book, this));
 
                 if (book.Genres.Count > 0)
-                    SourceItems.Add(new FB2Genres(book));
+                    SourceItems.Add(new FB2Genres(book, this));
 
                 if (book.Keywords.Count > 0)
-                    SourceItems.Add(new FB2Keywords(book));
+                    SourceItems.Add(new FB2Keywords(book, this));
             }
         }
         #endregion

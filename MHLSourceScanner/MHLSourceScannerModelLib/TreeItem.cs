@@ -9,7 +9,9 @@ namespace MHLSourceScannerModelLib
 {
     public class TreeItem : ITreeItem
     {
+        protected bool selected = false;
         protected string name = string.Empty;
+        protected ITreeItem? parent;
 
         string ITreeItem.Name => Name;
         public string Name
@@ -18,13 +20,28 @@ namespace MHLSourceScannerModelLib
             set => name = value;
         }
 
-        #region [Constructors]
-        public TreeItem(string name)
+        bool ITreeItem.Selected => Selected;
+        public bool Selected
         {
-            this.name = name;
+            get => selected;
+            set => selected = value;
         }
 
-        public TreeItem() : this(string.Empty)
+        ITreeItem? ITreeItem.Parent => parent;
+        public ITreeItem? Parent
+        {
+            get => parent;
+            set => parent = value;
+        }
+
+        #region [Constructors]
+        public TreeItem(string name, ITreeItem? parent)
+        {
+            this.name = name;
+            this.parent = parent;
+        }
+
+        public TreeItem(ITreeItem? parent) : this(string.Empty, parent)
         {
         }
         #endregion

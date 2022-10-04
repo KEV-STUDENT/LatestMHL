@@ -54,7 +54,7 @@ namespace MHLSourceScannerLib {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/MHLSourceScannerLib;V1.0.0.0;component/sourcepicker.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/MHLSourceScannerLib;component/sourcepicker.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\SourcePicker.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

@@ -10,57 +10,57 @@ namespace MHLSourceScannerLib
 {
     public class TreeViewUnknown : TreeViewDiskItem<Decor4Unknown>
     {
-        public TreeViewUnknown(string path) : base(path)
+        public TreeViewUnknown(string path, ITreeItem? parent) : base(path, parent)
         {
         }
 
-        public TreeViewUnknown(string path, IShower? shower) : base(path, shower)
+        public TreeViewUnknown(string path, IShower? shower, ITreeItem? parent) : base(path, shower, parent)
         {
         }
 
-        public TreeViewUnknown(IDiskItem diskItemSource) : base(diskItemSource)
+        public TreeViewUnknown(IDiskItem diskItemSource, ITreeItem? parent) : base(diskItemSource, parent)
         {
         }
 
-        public TreeViewUnknown(IDiskItem diskItemSource, IShower? shower) : base(diskItemSource, shower)
+        public TreeViewUnknown(IDiskItem diskItemSource, IShower? shower, ITreeItem? parent) : base(diskItemSource, shower, parent)
         {
         }
     }
     public class TreeViewSystem : TreeViewDiskItem<Decor4System>
     {
-        public TreeViewSystem(string path) : base(path)
+        public TreeViewSystem(string path, ITreeItem? parent) : base(path, parent)
         {
         }
-        public TreeViewSystem(string path, IShower? shower) : base(path, shower)
+        public TreeViewSystem(string path, IShower? shower, ITreeItem? parent) : base(path, shower, parent)
         {
         }
 
-        public TreeViewSystem(IDiskItem diskItemSource) : base(diskItemSource)
+        public TreeViewSystem(IDiskItem diskItemSource, ITreeItem? parent) : base(diskItemSource, parent)
         {
         }
-        public TreeViewSystem(IDiskItem diskItemSource, IShower? shower) : base(diskItemSource, shower)
+        public TreeViewSystem(IDiskItem diskItemSource, IShower? shower, ITreeItem? parent) : base(diskItemSource, shower, parent)
         {
         }
     }
 
     public class TreeViewError : TreeViewDiskItem<Decor4Error>
     {
-        public TreeViewError() : base()
+        public TreeViewError(ITreeItem? parent) : base(parent)
         {
         }
-        public TreeViewError(string path) : base(path)
-        {
-        }
-
-        public TreeViewError(string path, IShower? shower) : base(path, shower)
+        public TreeViewError(string path, ITreeItem? parent) : base(path,parent)
         {
         }
 
-        public TreeViewError(IDiskItem diskItemSource) : base(diskItemSource)
+        public TreeViewError(string path, IShower? shower, ITreeItem? parent) : base(path, shower, parent)
         {
         }
 
-        public TreeViewError(IDiskItem diskItemSource, IShower? shower) : base(diskItemSource, shower)
+        public TreeViewError(IDiskItem diskItemSource, ITreeItem? parent) : base(diskItemSource, parent)
+        {
+        }
+
+        public TreeViewError(IDiskItem diskItemSource, IShower? shower, ITreeItem? parent) : base(diskItemSource, shower, parent)
         {
         }
     }
@@ -69,24 +69,24 @@ namespace MHLSourceScannerLib
     {
         private readonly T decorator = new T();
 
-        public TreeViewDiskItem():base()
+        public TreeViewDiskItem(ITreeItem? parent) :base(parent)
         {
         }
-        public TreeViewDiskItem(IShower? shower) : base(shower)
-        {
-        }
-
-        public TreeViewDiskItem(string path) : base(path)
-        {
-        }
-        public TreeViewDiskItem(string path, IShower? shower) : base(path, shower)
+        public TreeViewDiskItem(IShower? shower, ITreeItem? parent) : base(shower, parent)
         {
         }
 
-        public TreeViewDiskItem(IDiskItem diskItemSource) : base(diskItemSource)
+        public TreeViewDiskItem(string path, ITreeItem? parent) : base(path, parent)
         {
         }
-        public TreeViewDiskItem(IDiskItem diskItemSource, IShower? shower) : base(diskItemSource, shower)
+        public TreeViewDiskItem(string path, IShower? shower, ITreeItem? parent) : base(path, shower, parent)
+        {
+        }
+
+        public TreeViewDiskItem(IDiskItem diskItemSource, ITreeItem? parent) : base(diskItemSource, parent)
+        {
+        }
+        public TreeViewDiskItem(IDiskItem diskItemSource, IShower? shower, ITreeItem? parent) : base(diskItemSource, shower, parent)
         {
         }
 
@@ -111,18 +111,18 @@ namespace MHLSourceScannerLib
             ITreeDiskItem newTreeItem;
 
             if (diskItemChild is IBook)
-                newTreeItem = new TreeViewFB2(diskItemChild, shower);
+                newTreeItem = new TreeViewFB2(diskItemChild, shower, this);
             else if (diskItemChild is DiskItemFileZip)
-                newTreeItem = new TreeViewZip(diskItemChild, shower);
+                newTreeItem = new TreeViewZip(diskItemChild, shower, this);
             else if (diskItemChild is IDiskItemVirtualGroup)
-                newTreeItem = new TreeViewVirtualGroup(diskItemChild, shower);
+                newTreeItem = new TreeViewVirtualGroup(diskItemChild, shower, this);
             else if (diskItemChild is DiskItemDirectorySystem || diskItemChild is DiskItemFileSystem)
-                newTreeItem = new TreeViewSystem(diskItemChild, shower);
+                newTreeItem = new TreeViewSystem(diskItemChild, shower, this);
             else if (diskItemChild is IDiskItemDirectory)
-                newTreeItem = new TreeViewDirectory(diskItemChild, shower);
+                newTreeItem = new TreeViewDirectory(diskItemChild, shower, this);
             else if (diskItemChild is IDiskItemError)
-                newTreeItem = new TreeViewError(diskItemChild, shower);
-            else newTreeItem = new TreeViewUnknown(diskItemChild, shower);
+                newTreeItem = new TreeViewError(diskItemChild, shower, this);
+            else newTreeItem = new TreeViewUnknown(diskItemChild, shower, this);
 
             return newTreeItem;
         }

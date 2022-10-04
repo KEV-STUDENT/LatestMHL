@@ -54,18 +54,18 @@ namespace MHLSourceScannerLib
             get { return (TotalCount < IDiskCollection.MaxItemsInVirtualGroup ? System.Windows.Visibility.Collapsed : System.Windows.Visibility.Visible) ; }
         }
         #region [Constructors]
-        public TreeViewZip(string path) : base(path)
+        public TreeViewZip(string path, ITreeItem? parent) : base(path, parent)
         {
         }
-        public TreeViewZip(string path, IShower? shower) : base(path, shower)
-        {
-        }
-
-        public TreeViewZip(IDiskItem diskItemSource) : base(diskItemSource)
+        public TreeViewZip(string path, IShower? shower, ITreeItem? parent) : base(path, shower, parent)
         {
         }
 
-        public TreeViewZip(IDiskItem diskItemSource, IShower? shower) : base(diskItemSource, shower)
+        public TreeViewZip(IDiskItem diskItemSource, ITreeItem? parent) : base(diskItemSource, parent)
+        {
+        }
+
+        public TreeViewZip(IDiskItem diskItemSource, IShower? shower, ITreeItem? parent) : base(diskItemSource, shower, parent)
         {
         }
         #endregion

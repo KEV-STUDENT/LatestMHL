@@ -69,7 +69,7 @@ namespace MHLSourceOnDisk
 
         public static IDiskItem GetDiskItem(IDiskItemVirtualGroup virtualGroup, string itemName)
         {
-            IDiskItem diskItem = null;
+            IDiskItem? diskItem = null;
             if(virtualGroup.ParentCollection is DiskItemFileZip zip)
             {
                 using (ZipArchive zipArchive = ZipFile.OpenRead(zip.Path2Item))
