@@ -7,7 +7,7 @@ namespace MHLCommon.MHLScanner
     {
         ITreeItem? Parent { get; }
         string Name { get; }
-        bool Selected { get; }
+        bool Selected { get; set; }
     }
 
     public interface ITreeCollectionItem : ITreeItem

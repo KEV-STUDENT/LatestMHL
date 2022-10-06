@@ -143,11 +143,14 @@ namespace MHLSourceScannerLib
         {
             if (obj is ITreeItem item)
             {
-                /* TreeViewItem? tvi = arg.Source as TreeViewItem;
-                 if (tvi?.Header is ITreeCollectionItem treeItem)
-                 {
-                     treeItem.LoadChilds();
-                 }*/
+                if(item.Selected)
+                {
+
+                }
+                else
+                {
+                    item.Parent.Selected = false;
+                }
             }
         }
         #endregion

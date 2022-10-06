@@ -61,8 +61,8 @@
                     <StackPanel Orientation="Horizontal"  >
                         <local:MHLCheckBox Content="{Binding Name, StringFormat='File: {0}'}" 
                                            Command="{Binding ElementName=TreeShower, Path=ViewModel.FB2CheckedCommand}"
-                                           IsChecked="{Binding Selected}"
-                                           CommandParameter="{Binding DataContext}" />
+                                           IsChecked="{Binding Selected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                           CommandParameter="{Binding}" />
                         <local:MHLTextBlock Text="{Binding Path=Title}" Style="{StaticResource TreeViewItemStyle}" Margin="20,0,0,0"/>
                     </StackPanel>
                 </HierarchicalDataTemplate>
@@ -73,9 +73,9 @@
 
                 <HierarchicalDataTemplate DataType = "{x:Type local:TreeViewVirtualGroup}" ItemsSource="{Binding Path=SourceItems}">
                     <StackPanel Orientation="Horizontal" >
-                        <!--local:MHLTextBlock Style="{StaticResource TreeViewItemStyle}"/-->
-                            <local:MHLCheckBox Style="{StaticResource TreeViewItemStyleCheckBoxItem}"/>
-                            <local:MHLTextBlock Text="{Binding Path=Count, StringFormat='Block include {0} items'}" Margin="15,0,0,0"/>
+                        <local:MHLCheckBox Style="{StaticResource TreeViewItemStyleCheckBoxItem}"
+                                   IsChecked="{Binding Selected, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                        <local:MHLTextBlock Text="{Binding Path=Count, StringFormat='Block include {0} items'}" Margin="15,0,0,0"/>
                     </StackPanel>
                 </HierarchicalDataTemplate>
 

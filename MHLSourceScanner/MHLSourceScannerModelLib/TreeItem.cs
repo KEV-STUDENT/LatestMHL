@@ -20,7 +20,11 @@ namespace MHLSourceScannerModelLib
             set => name = value;
         }
 
-        bool ITreeItem.Selected => Selected;
+        bool ITreeItem.Selected
+        {
+            get => Selected;
+            set => Selected = value;
+        } 
         public bool Selected
         {
             get => selected;
