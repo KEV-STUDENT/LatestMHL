@@ -456,7 +456,7 @@ namespace MHLSourceScannerLib
         #endregion
     }
 
-    public abstract class TreeViewFB2Attr<T1, T2> : TreeItem
+    public abstract class TreeViewFB2Attr<T1, T2> : TreeItem<ViewModel4TreeItem>
     where T1 : IDecorator, new()
     {
         #region [Fields]

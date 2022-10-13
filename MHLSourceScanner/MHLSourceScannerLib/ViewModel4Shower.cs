@@ -1,12 +1,11 @@
 ﻿using MHLCommon.MHLBook;
 using MHLCommon.MHLScanner;
+using MHLCommon.ViewModels;
 using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Resources;
-using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -15,7 +14,7 @@ using System.Windows.Media.Imaging;
 
 namespace MHLSourceScannerLib
 {
-    public class ShowerViewModel : INotifyPropertyChanged
+    public class ViewModel4Shower : ViewModel
     {
         private ObservableCollection<ITreeItem> source;
         private IBook? book;
@@ -30,7 +29,7 @@ namespace MHLSourceScannerLib
             get => book;
             private set
             {
-                bool annotationSectionHeightChanged = (book != null && value == null) || (book == null && value != null);
+                bool annotationSectionHeightChanged = book != null && value == null || book == null && value != null;
                 book = value;
                 if (annotationSectionHeightChanged)
                     OnPropertyChanged("AnnotationSectionHeigh");
@@ -62,15 +61,15 @@ namespace MHLSourceScannerLib
                     foreach (MHLAuthor author in book.Authors)
                     {
                         authorName = author.LastName.Trim();
-                        authorName = String.Format("{0} {1}", authorName, author.FirstName.Trim());
-                        authorName = String.Format("{0} {1}", authorName, author.MiddleName.Trim());
+                        authorName = string.Format("{0} {1}", authorName, author.FirstName.Trim());
+                        authorName = string.Format("{0} {1}", authorName, author.MiddleName.Trim());
 
 
                         if (!string.IsNullOrEmpty(authorName))
                             if (string.IsNullOrEmpty(authors))
                                 authors = authorName;
                             else
-                                authors = String.Format("{0}, {1}", authors.Trim(), authorName.Trim());
+                                authors = string.Format("{0}, {1}", authors.Trim(), authorName.Trim());
                     }
 
                 return authors;
@@ -84,7 +83,7 @@ namespace MHLSourceScannerLib
                 if (book == null || string.IsNullOrEmpty(book.Cover))
                     return defaultCover;
 
-                byte[] plainTextBytes = System.Convert.FromBase64String(book.Cover);
+                byte[] plainTextBytes = Convert.FromBase64String(book.Cover);
 
                 BitmapImage bitmapImage = new BitmapImage();
                 using (MemoryStream ms = new MemoryStream(plainTextBytes))
@@ -104,7 +103,7 @@ namespace MHLSourceScannerLib
         {
             get
             {
-                return (book == null ? 0 : 100);
+                return book == null ? 0 : 100;
             }
         }
 
@@ -116,7 +115,7 @@ namespace MHLSourceScannerLib
         #endregion
 
         #region [Constructor]
-        public ShowerViewModel()
+        public ViewModel4Shower()
         {
             ExpandingCommand = new RelayCommand(ExecuteExpandingCommand, CanExecuteExpandingCommand);
             FB2CheckedCommand = new RelayCommand(ExecuteFB2CheckedCommand, CanExecuteFB2CheckedCommand);
@@ -124,7 +123,6 @@ namespace MHLSourceScannerLib
             source = new ObservableCollection<ITreeItem>();
         }
         #endregion
-
 
         #region [Execute...Command]
         void ExecuteExpandingCommand(object? obj)
@@ -143,15 +141,18 @@ namespace MHLSourceScannerLib
         {
             if (obj is ITreeItem item)
             {
-                if(item.Selected)
+                if (item.Selected)
                 {
 
                 }
                 else
                 {
                     item.Parent.Selected = false;
+                    OnPropertyChanged("Selected");
                 }
             }
+            else;
+            //     TestSelected = !TestSelected;
         }
         #endregion
 
@@ -164,16 +165,6 @@ namespace MHLSourceScannerLib
         bool CanExecuteFB2CheckedCommand(object? obj)
         {
             return true;
-        }
-        #endregion
-
-        #region [PropertyChanged]
-        public event PropertyChangedEventHandler? PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string prop = "")
-        {
-            var handler = System.Threading.Interlocked.CompareExchange(ref PropertyChanged, null, null);
-            if (handler != null)
-                handler(this, new PropertyChangedEventArgs(prop));
         }
         #endregion
 

@@ -2,13 +2,14 @@
 using MHLCommon.MHLBook;
 using MHLCommon.MHLDiskItems;
 using MHLCommon.MHLScanner;
+using MHLCommon.ViewModels;
 using MHLSourceOnDisk;
 using System.Collections.ObjectModel;
 using System.Diagnostics.Tracing;
 
 namespace MHLSourceScannerModelLib
 {
-    public class TreeDiskItem : TreeCollectionItem, ITreeDiskItem
+    public class TreeDiskItem<T> : TreeCollectionItem<T>, ITreeDiskItem where T:ISelected, new()
     {
         protected readonly IDiskItem? source;
         protected readonly IShower? shower;
@@ -138,12 +139,12 @@ namespace MHLSourceScannerModelLib
         #region [Public Methods]
         public virtual ITreeItem CreateEmptyItem()
         {
-            return new TreeItem(null);
+            return new TreeItem<T>(null);
         }
 
         public virtual ITreeItem CreateTreeViewItem(IDiskItem diskItemChild)
         {
-            return new TreeDiskItem(diskItemChild, this);
+            return new TreeDiskItem<T>(diskItemChild, this);
         }
 
         protected virtual void AddDiskItem(IDiskItem diskItemChild)

@@ -1,5 +1,6 @@
 ﻿using MHLCommon.MHLBook;
 using MHLCommon.MHLScanner;
+using MHLCommon.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MHLSourceScannerModelLib
 {
-    public class TreeCollectionItem : TreeItem, ITreeCollectionItem
+    public class TreeCollectionItem<T> : TreeItem<T>, ITreeCollectionItem where T : ISelected, new()
     {
 
         private bool childsLoaded;
@@ -21,6 +22,24 @@ namespace MHLSourceScannerModelLib
         #endregion
 
         #region [Properties]
+        /*bool ITreeItem.Selected
+        {
+            
+            get{
+                return this.Selected;
+            }
+
+            set
+            {
+                ITreeItem item = this;
+                item.Selected = value;
+                foreach (ITreeItem child in SourceItems)
+                {
+                    child.Selected = value;
+                }
+            }
+        }*/
+
         public ObservableCollection<ITreeItem> SourceItems
         {
             get => sourceItems;

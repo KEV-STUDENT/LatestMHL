@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using MHLCommon.MHLDiskItems;
 
 namespace MHLCommon.MHLScanner

@@ -69,7 +69,7 @@ namespace MHLSourceScannerLib
     }
 
 
-    public abstract class TreeViewFB2AttrSection<T> : TreeCollectionItem where T : IDecorator, new()
+    public abstract class TreeViewFB2AttrSection<T> : TreeCollectionItem<ViewModel4TreeItem> where T : IDecorator, new()
     {
         #region [Fields]
         private readonly T decorator = new T();

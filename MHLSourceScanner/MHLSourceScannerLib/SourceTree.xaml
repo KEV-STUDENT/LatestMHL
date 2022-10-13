@@ -16,6 +16,7 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition/>
+            <RowDefinition Height="45"/>
         </Grid.RowDefinitions>
         <TreeView x:Name="ShowSource" Margin="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             <TreeView.Resources>
@@ -34,6 +35,10 @@
                     <Setter Property="Content" Value="{Binding Name}"/>
                     <Setter Property="Foreground" Value="{Binding ForeGround}"/>
                     <Setter Property="FontWeight" Value="{Binding FontWeight}"/>
+                    
+                    <Setter Property="Command" Value="{Binding Path=ViewModel.CheckedCommand}"/>
+                    <Setter Property="IsChecked" Value="{Binding Path=ViewModel.IsSelected ,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Setter Property="CommandParameter" Value="{Binding}"/>
                 </Style>
 
                 <Style x:Key="TreeViewAttrStyle" TargetType="local:MHLTextBlock">
@@ -59,10 +64,14 @@
 
                 <HierarchicalDataTemplate DataType = "{x:Type local:TreeViewFB2}" ItemsSource="{Binding Path=SourceItems}">
                     <StackPanel Orientation="Horizontal"  >
-                        <local:MHLCheckBox Content="{Binding Name, StringFormat='File: {0}'}" 
-                                           Command="{Binding ElementName=TreeShower, Path=ViewModel.FB2CheckedCommand}"
-                                           IsChecked="{Binding Selected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                           CommandParameter="{Binding}" />
+                        <!--local:MHLCheckBox Content="{Binding Name, StringFormat='File: {0}'}" 
+                                           Command="{Binding Path=ViewModel.CheckedCommand}"
+                                           IsChecked="{Binding Selected ,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                           CommandParameter="{Binding}" /-->
+                        <local:MHLCheckBox Style="{StaticResource TreeViewItemStyleCheckBoxItem}"
+                                           Content="{Binding Name, StringFormat='File: {0}'}"
+                                           />
+
                         <local:MHLTextBlock Text="{Binding Path=Title}" Style="{StaticResource TreeViewItemStyle}" Margin="20,0,0,0"/>
                     </StackPanel>
                 </HierarchicalDataTemplate>
@@ -73,8 +82,7 @@
 
                 <HierarchicalDataTemplate DataType = "{x:Type local:TreeViewVirtualGroup}" ItemsSource="{Binding Path=SourceItems}">
                     <StackPanel Orientation="Horizontal" >
-                        <local:MHLCheckBox Style="{StaticResource TreeViewItemStyleCheckBoxItem}"
-                                   IsChecked="{Binding Selected, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                        <local:MHLCheckBox Style="{StaticResource TreeViewItemStyleCheckBoxItem}"/>
                         <local:MHLTextBlock Text="{Binding Path=Count, StringFormat='Block include {0} items'}" Margin="15,0,0,0"/>
                     </StackPanel>
                 </HierarchicalDataTemplate>
@@ -120,5 +128,19 @@
                 </HierarchicalDataTemplate>
             </TreeView.Resources>
         </TreeView>
+        <!--StackPanel Grid.Row="1" Orientation="Horizontal" >
+            <local:MHLCheckBox              
+                Content="{Binding ElementName=TreeShower, Path=ViewModel.TestContent}"
+                IsChecked="{Binding ElementName=TreeShower, Path=ViewModel.TestSelected ,Mode=TwoWay ,UpdateSourceTrigger=PropertyChanged}"
+                Command="{Binding ElementName=TreeShower, Path=ViewModel.FB2CheckedCommand}"
+                />
+            
+            <local:MHLCheckBox
+                Content="{Binding ElementName=TreeShower, Path=ViewModel.TestContent}" 
+                IsChecked="{Binding ElementName=TreeShower, Path=ViewModel.TestSelected ,Mode=TwoWay ,UpdateSourceTrigger=PropertyChanged}"
+                
+                />
+            
+        </StackPanel-->
     </Grid>
 </UserControl>

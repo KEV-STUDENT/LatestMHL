@@ -1,5 +1,6 @@
 ﻿using MHLCommon.MHLDiskItems;
 using MHLCommon.MHLScanner;
+using MHLCommon.ViewModels;
 using MHLSourceScannerModelLib;
 using System;
 using System.Collections.ObjectModel;
@@ -12,17 +13,19 @@ namespace MHLSourceScannerLib
     /// </summary>
     public partial class SourceTree : UserControl, IShower
     {
-        public ShowerViewModel ViewModel { get; private set; }
+        public ViewModel4Shower ViewModel { get; }
 
         protected IShower shower;
         public SourceTree()
         {
+            ViewModel = new ViewModel4Shower();
+
             InitializeComponent();
             DiskItemShower shower = new DiskItemShower();
             shower.UpdateView = UpdateViewAction;
             shower.LoadCollection = LoadItemCollection;
             this.shower = shower;
-            ViewModel = new ShowerViewModel();
+            
             ShowSource.ItemsSource = ViewModel.Source;
             ShowSource.SelectedItemChanged += ViewModel.ItemChanged;          
         }
