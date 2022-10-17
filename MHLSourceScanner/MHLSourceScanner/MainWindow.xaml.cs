@@ -15,6 +15,8 @@ namespace MHLSourceScanner
         public MainWindow()
         {
             InitializeComponent();
+            SourceDirectoryPicker.Caption = "Source Directory";
+            SourceDirectoryPicker.CaptionWidth = 140;
             SourceDirectoryPicker.PropertyChanged += SourceDirectoryPickerChanged;
         }
 

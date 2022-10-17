@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MHLSourceScannerLib
+namespace MHLControls
 {
     /// <summary>
-    /// Логика взаимодействия для MHLTextBlock.xaml
+    /// Логика взаимодействия для MHLLabel.xaml
     /// </summary>
-    public partial class MHLTextBlock : TextBlock
+    public partial class MHLLabel : Label
     {
-        public MHLTextBlock()
+        public MHLLabel()
         {
             InitializeComponent();
         }

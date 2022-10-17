@@ -22,23 +22,25 @@ namespace MHLSourceScannerModelLib
         #endregion
 
         #region [Properties]
-        /*bool ITreeItem.Selected
+        public override bool? Selected
         {
-            
-            get{
-                return this.Selected;
+
+            get
+            {
+                return base.Selected;
             }
 
             set
             {
-                ITreeItem item = this;
-                item.Selected = value;
-                foreach (ITreeItem child in SourceItems)
-                {
-                    child.Selected = value;
-                }
+                base.Selected = value;
+                if (value != null)
+                    foreach (ITreeItem child in SourceItems)
+                    {
+                        if (child.Selected != value)
+                            child.Selected = value;
+                    }
             }
-        }*/
+        }
 
         public ObservableCollection<ITreeItem> SourceItems
         {

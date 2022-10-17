@@ -4,11 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"        
         xmlns:MHLSourceScannerLib="clr-namespace:MHLSourceScannerLib;assembly=MHLSourceScannerLib"
+        xmlns:MHLControls="clr-namespace:MHLControls;assembly=MHLControls"
+        xmlns:MHLUIElements="clr-namespace:MHLUIElements;assembly=MHLUIElements"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="45"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="80"/>
             <RowDefinition/>
             <RowDefinition Height="{Binding ElementName=SourceDirectoryTree, Path=ViewModel.AnnotationSectionHeigh}"/>
         </Grid.RowDefinitions>
@@ -16,15 +19,30 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <MHLSourceScannerLib:SourcePicker x:Name="SourceDirectoryPicker" Grid.Row="0" Grid.Column="0" Margin="0,5,0,0"/>
-        <MHLSourceScannerLib:SourceTree x:Name="SourceDirectoryTree" Grid.Row="1" Grid.Column="1" Margin="5,0,5,5" />
-        <DockPanel x:Name="CoverSection" Grid.Row="2" Grid.Column="0" Margin="5,5,5,5">
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="{Binding ElementName=SourceDirectoryPicker, Path=CaptionWidth}"/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <MHLControls:MHLLabel Content="Destination" Margin="0,0,5,0" VerticalAlignment="Center" HorizontalAlignment="Right" Grid.Row="0" Grid.Column="0"/>
+            <MHLUIElements:DirectoryPicker x:Name="DestinationDirectoryPicker" Margin="0,5,0,0" Grid.Row="0" Grid.Column="2"/>
+            <MHLUIElements:DirectoryPicker x:Name="DestinationDBPicker" Margin="0,5,0,0" Grid.Row="1" Grid.Column="2"/>
+        </Grid>
+
+        <MHLUIElements:DirectoryPicker x:Name="SourceDirectoryPicker" Grid.Row="0" Grid.Column="0" Margin="0,5,0,0"/>
+        <MHLUIElements:SourceTree x:Name="SourceDirectoryTree" Grid.Row="2" Grid.Column="3" Margin="5,0,5,5" />
+        <DockPanel x:Name="CoverSection" Grid.Row="3" Grid.Column="0" Margin="5,5,5,5">
             <Image Source="{Binding ElementName=SourceDirectoryTree, Path=ViewModel.Cover}" Width="100"/>
             <DockPanel x:Name="AnnotationSection" >
-                <MHLSourceScannerLib:MHLTextBlock x:Name="Authors" Text="{Binding ElementName=SourceDirectoryTree, Path=ViewModel.Authors}" DockPanel.Dock="Top"
+                <MHLControls:MHLTextBlock x:Name="Authors" Text="{Binding ElementName=SourceDirectoryTree, Path=ViewModel.Authors}" DockPanel.Dock="Top"
                                                   MaxHeight="20" Margin="5,0,5,5" FontWeight="Bold"/>
                 <ScrollViewer Margin="5,0,5,5" DockPanel.Dock="Bottom">
-                    <MHLSourceScannerLib:MHLTextBlock x:Name="AnnotationText" Text="{Binding ElementName=SourceDirectoryTree, Path=ViewModel.Annotation}" />
+                    <MHLControls:MHLTextBlock x:Name="AnnotationText" Text="{Binding ElementName=SourceDirectoryTree, Path=ViewModel.Annotation}" />
                 </ScrollViewer>
             </DockPanel>
         </DockPanel>

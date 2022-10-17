@@ -1,22 +1,20 @@
-﻿<UserControl x:Class="MHLSourceScannerLib.SourceTree"
+﻿<UserControl x:Class="MHLUIElements.SourceTree"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:MHLSourceScannerLib"
+             xmlns:local="clr-namespace:MHLSourceScannerLib;assembly=MHLSourceScannerLib"
+             xmlns:MHLUIElements="clr-namespace:MHLUIElements"
+             xmlns:MHLControls="clr-namespace:MHLControls;assembly=MHLControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" x:Name="TreeShower">
 
-    <!--UserControl.CommandBindings>
-        <CommandBinding Command="local:MHLCommands.FB2Checked" Executed="FB2Checked_Executed"/>
-    </UserControl.CommandBindings/-->
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition/>
-            <RowDefinition Height="45"/>
         </Grid.RowDefinitions>
         <TreeView x:Name="ShowSource" Margin="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             <TreeView.Resources>
@@ -25,38 +23,39 @@
                     <Setter Property="Focusable" Value="{Binding Focusable}"/>
                 </Style>
 
-                <Style x:Key="TreeViewItemStyle" TargetType="local:MHLTextBlock">
+                <Style x:Key="TreeViewItemStyle" TargetType="MHLControls:MHLTextBlock">
                     <Setter Property="Text" Value="{Binding Name}"/>
                     <Setter Property="Foreground" Value="{Binding ForeGround}"/>
                     <Setter Property="FontWeight" Value="{Binding FontWeight}"/>
                 </Style>
 
-                <Style x:Key="TreeViewItemStyleCheckBoxItem" TargetType="local:MHLCheckBox">
+                <Style x:Key="TreeViewItemStyleCheckBoxItem" TargetType="MHLControls:MHLCheckBox">
                     <Setter Property="Content" Value="{Binding Name}"/>
                     <Setter Property="Foreground" Value="{Binding ForeGround}"/>
                     <Setter Property="FontWeight" Value="{Binding FontWeight}"/>
-                    
+                    <Setter Property="IsThreeState" Value="{Binding ThreeState}"/>
+
                     <Setter Property="Command" Value="{Binding Path=ViewModel.CheckedCommand}"/>
                     <Setter Property="IsChecked" Value="{Binding Path=ViewModel.IsSelected ,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     <Setter Property="CommandParameter" Value="{Binding}"/>
                 </Style>
 
-                <Style x:Key="TreeViewAttrStyle" TargetType="local:MHLTextBlock">
+                <Style x:Key="TreeViewAttrStyle" TargetType="MHLControls:MHLTextBlock">
                     <Setter Property="Foreground" Value="{Binding ForeGround}"/>
                     <Setter Property="FontWeight" Value="{Binding FontWeight}"/>
                 </Style>
 
                 <HierarchicalDataTemplate DataType = "{x:Type local:TreeViewSystem}" ItemsSource="{Binding Path=SourceItems}">
-                    <local:MHLTextBlock Style="{StaticResource TreeViewItemStyle}"  />
+                    <MHLControls:MHLTextBlock Style="{StaticResource TreeViewItemStyle}"  />
                 </HierarchicalDataTemplate>
 
                 <HierarchicalDataTemplate DataType = "{x:Type local:TreeViewZip}" ItemsSource="{Binding Path=SourceItems}">
                     <Border BorderBrush="Gainsboro" BorderThickness="1">
                         <StackPanel Orientation="Vertical" >
-                            <local:MHLCheckBox Style="{StaticResource TreeViewItemStyleCheckBoxItem}"/>
+                            <MHLControls:MHLCheckBox Style="{StaticResource TreeViewItemStyleCheckBoxItem}"/>
                             <StackPanel Orientation="Horizontal" >
-                                <local:MHLTextBlock Text="{Binding Path=Count, StringFormat='Archive include {0} blocks.'}" Margin="20,0,0,0" Visibility="{Binding Visibility2TotalCount }"/>
-                                <local:MHLTextBlock Text="{Binding Path=TotalCount, StringFormat='Total count of items {0}'}" Margin="5,0,0,0" />
+                                <MHLControls:MHLTextBlock Text="{Binding Path=Count, StringFormat='Archive include {0} blocks.'}" Margin="20,0,0,0" Visibility="{Binding Visibility2TotalCount }"/>
+                                <MHLControls:MHLTextBlock Text="{Binding Path=TotalCount, StringFormat='Total count of items {0}'}" Margin="5,0,0,0" />
                             </StackPanel>
                         </StackPanel>
                     </Border>
@@ -64,83 +63,63 @@
 
                 <HierarchicalDataTemplate DataType = "{x:Type local:TreeViewFB2}" ItemsSource="{Binding Path=SourceItems}">
                     <StackPanel Orientation="Horizontal"  >
-                        <!--local:MHLCheckBox Content="{Binding Name, StringFormat='File: {0}'}" 
-                                           Command="{Binding Path=ViewModel.CheckedCommand}"
-                                           IsChecked="{Binding Selected ,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                           CommandParameter="{Binding}" /-->
-                        <local:MHLCheckBox Style="{StaticResource TreeViewItemStyleCheckBoxItem}"
-                                           Content="{Binding Name, StringFormat='File: {0}'}"
-                                           />
-
-                        <local:MHLTextBlock Text="{Binding Path=Title}" Style="{StaticResource TreeViewItemStyle}" Margin="20,0,0,0"/>
+                        <MHLControls:MHLCheckBox Style="{StaticResource TreeViewItemStyleCheckBoxItem}"
+                                           Content="{Binding Name, StringFormat='File: {0}'}" />
+                        <MHLControls:MHLTextBlock Text="{Binding Path=Title}" Style="{StaticResource TreeViewItemStyle}" Margin="20,0,0,0"/>
                     </StackPanel>
                 </HierarchicalDataTemplate>
 
                 <HierarchicalDataTemplate DataType = "{x:Type local:TreeViewDirectory}" ItemsSource="{Binding Path=SourceItems}">
-                    <local:MHLTextBlock Style="{StaticResource TreeViewItemStyle}"  />
+                    <MHLControls:MHLTextBlock Style="{StaticResource TreeViewItemStyle}"  />
                 </HierarchicalDataTemplate>
 
                 <HierarchicalDataTemplate DataType = "{x:Type local:TreeViewVirtualGroup}" ItemsSource="{Binding Path=SourceItems}">
                     <StackPanel Orientation="Horizontal" >
-                        <local:MHLCheckBox Style="{StaticResource TreeViewItemStyleCheckBoxItem}"/>
-                        <local:MHLTextBlock Text="{Binding Path=Count, StringFormat='Block include {0} items'}" Margin="15,0,0,0"/>
+                        <MHLControls:MHLCheckBox Style="{StaticResource TreeViewItemStyleCheckBoxItem}"/>
+                        <MHLControls:MHLTextBlock Text="{Binding Path=Count, StringFormat='Block include {0} items'}" Margin="15,0,0,0"/>
                     </StackPanel>
                 </HierarchicalDataTemplate>
 
                 <HierarchicalDataTemplate DataType = "{x:Type local:TreeViewUnknown}" ItemsSource="{Binding Path=SourceItems}">
-                    <local:MHLTextBlock Style="{StaticResource TreeViewItemStyle}"  />
+                    <MHLControls:MHLTextBlock Style="{StaticResource TreeViewItemStyle}"  />
                 </HierarchicalDataTemplate>
 
                 <HierarchicalDataTemplate DataType = "{x:Type local:TreeViewError}" ItemsSource="{Binding Path=SourceItems}">
-                    <local:MHLTextBlock Style="{StaticResource TreeViewItemStyle}"  />
+                    <MHLControls:MHLTextBlock Style="{StaticResource TreeViewItemStyle}"  />
                 </HierarchicalDataTemplate>
 
                 <HierarchicalDataTemplate DataType = "{x:Type local:FB2Authors}" ItemsSource="{Binding Path=SourceItems}">
-                    <local:MHLTextBlock Style="{StaticResource TreeViewItemStyle}"  />
+                    <MHLControls:MHLTextBlock Style="{StaticResource TreeViewItemStyle}"  />
                 </HierarchicalDataTemplate>
 
                 <HierarchicalDataTemplate DataType = "{x:Type local:FB2Genres}" ItemsSource="{Binding Path=SourceItems}">
-                    <local:MHLTextBlock Style="{StaticResource TreeViewItemStyle}"  />
+                    <MHLControls:MHLTextBlock Style="{StaticResource TreeViewItemStyle}"  />
                 </HierarchicalDataTemplate>
 
                 <HierarchicalDataTemplate DataType = "{x:Type local:FB2Keywords}" ItemsSource="{Binding Path=SourceItems}">
-                    <local:MHLTextBlock Style="{StaticResource TreeViewItemStyle}"  />
+                    <MHLControls:MHLTextBlock Style="{StaticResource TreeViewItemStyle}"  />
                 </HierarchicalDataTemplate>
 
                 <HierarchicalDataTemplate DataType = "{x:Type local:FB2Author}">
                     <StackPanel Orientation="Horizontal"  >
-                        <local:MHLTextBlock Text="{Binding Path=LastName}" Style="{StaticResource TreeViewAttrStyle}"  Margin="15,0,0,0" />
-                        <local:MHLTextBlock Text="{Binding Path=FirstName}" Style="{StaticResource TreeViewAttrStyle}"   Margin="15,0,0,0"/>
-                        <local:MHLTextBlock Text="{Binding Path=MiddleName}" Style="{StaticResource TreeViewAttrStyle}"  Margin="15,0,0,0" />
+                        <MHLControls:MHLTextBlock Text="{Binding Path=LastName}" Style="{StaticResource TreeViewAttrStyle}"  Margin="15,0,0,0" />
+                        <MHLControls:MHLTextBlock Text="{Binding Path=FirstName}" Style="{StaticResource TreeViewAttrStyle}"   Margin="15,0,0,0"/>
+                        <MHLControls:MHLTextBlock Text="{Binding Path=MiddleName}" Style="{StaticResource TreeViewAttrStyle}"  Margin="15,0,0,0" />
                     </StackPanel>
                 </HierarchicalDataTemplate>
 
                 <HierarchicalDataTemplate DataType = "{x:Type local:FB2Genre}">
-                    <local:MHLTextBlock Text="{Binding Path=Name}" Style="{StaticResource TreeViewAttrStyle}"  Margin="15,0,0,0" />
+                    <MHLControls:MHLTextBlock Text="{Binding Path=Name}" Style="{StaticResource TreeViewAttrStyle}"  Margin="15,0,0,0" />
                 </HierarchicalDataTemplate>
 
                 <HierarchicalDataTemplate DataType = "{x:Type local:FB2Keyword}">
-                    <local:MHLTextBlock Text="{Binding Path=Name}" Style="{StaticResource TreeViewAttrStyle}"  Margin="15,0,0,0" />
+                    <MHLControls:MHLTextBlock Text="{Binding Path=Name}" Style="{StaticResource TreeViewAttrStyle}"  Margin="15,0,0,0" />
                 </HierarchicalDataTemplate>
 
                 <HierarchicalDataTemplate DataType = "{x:Type local:FB2Annotation}">
-                    <local:MHLTextBlock Text="{Binding Path=Name}" Style="{StaticResource TreeViewAttrStyle}" TextWrapping="Wrap" Width="{Binding TextWidth}" />
+                    <MHLControls:MHLTextBlock Text="{Binding Path=Name}" Style="{StaticResource TreeViewAttrStyle}" TextWrapping="Wrap" Width="{Binding TextWidth}" />
                 </HierarchicalDataTemplate>
             </TreeView.Resources>
         </TreeView>
-        <!--StackPanel Grid.Row="1" Orientation="Horizontal" >
-            <local:MHLCheckBox              
-                Content="{Binding ElementName=TreeShower, Path=ViewModel.TestContent}"
-                IsChecked="{Binding ElementName=TreeShower, Path=ViewModel.TestSelected ,Mode=TwoWay ,UpdateSourceTrigger=PropertyChanged}"
-                Command="{Binding ElementName=TreeShower, Path=ViewModel.FB2CheckedCommand}"
-                />
-            
-            <local:MHLCheckBox
-                Content="{Binding ElementName=TreeShower, Path=ViewModel.TestContent}" 
-                IsChecked="{Binding ElementName=TreeShower, Path=ViewModel.TestSelected ,Mode=TwoWay ,UpdateSourceTrigger=PropertyChanged}"
-                
-                />
-            
-        </StackPanel-->
     </Grid>
 </UserControl>

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MHLSourceScannerLib {
+namespace MHLUIElements {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace MHLSourceScannerLib {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MHLSourceScannerLib.LibResources", typeof(LibResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MHLUIElements.LibResources", typeof(LibResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

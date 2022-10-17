@@ -1,0 +1,55 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<UseWPF>true</UseWPF>
+		<UseWindowsForms>true</UseWindowsForms>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="Resources\dc9pbERc7.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="Resources\dc9pbERc7.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\MHLCommon\MHLCommon.csproj" />
+		<ProjectReference Include="..\MHLControls\MHLControls.csproj" />
+		<ProjectReference Include="..\MHLSourceScanner\MHLSourceScannerLib\MHLSourceScannerLib.csproj" />
+		<ProjectReference Include="..\MHLSourceScanner\MHLSourceScannerModelLib\MHLSourceScannerModelLib.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="LibResources.Designer.cs">
+	    <DependentUpon>LibResources.resx</DependentUpon>
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	  </Compile>
+	  <Compile Update="SourceTree.xaml.cs">
+	    <SubType>Code</SubType>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Update="LibResources.resx">
+	    <SubType>Designer</SubType>
+	    <LastGenOutput>LibResources.Designer.cs</LastGenOutput>
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	  </EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Page Update="DirectoryPicker.xaml">
+			<XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+			<SubType>Designer</SubType>
+		</Page>
+		<Page Update="SourceTree.xaml">
+		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+		  <SubType>Designer</SubType>
+		</Page>
+	</ItemGroup>
+
+</Project>

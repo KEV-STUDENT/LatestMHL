@@ -7,18 +7,21 @@ namespace MHLSourceScannerLib
 {
     public class ViewModel4TreeItem : ViewModel, ISelected
     {
-        private bool selected;
-        public bool IsSelected
+        private bool? selected = false;
+        private bool prevSelected = false;
+        public bool? IsSelected
         {
             get => selected;
             set
             {
+                prevSelected = selected??prevSelected;
+
                 selected = value;
                 OnPropertyChanged("IsSelected");
             }
         }
 
-        bool ISelected.IsSelected
+        bool? ISelected.IsSelected
         {
             get => IsSelected;
             set => IsSelected = value;
@@ -39,7 +42,7 @@ namespace MHLSourceScannerLib
             if (obj is ITreeItem treeItem)
             {
                 if(treeItem.Parent != null)
-                    treeItem.Parent.Selected = treeItem.Selected;               
+                   treeItem.Selected = !prevSelected;
             }
 
             if(obj is ITreeCollectionItem collectionItem)

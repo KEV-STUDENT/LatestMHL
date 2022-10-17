@@ -1,12 +1,13 @@
 ﻿using MHLCommon.MHLDiskItems;
 using MHLCommon.MHLScanner;
 using MHLCommon.ViewModels;
+using MHLSourceScannerLib;
 using MHLSourceScannerModelLib;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
 
-namespace MHLSourceScannerLib
+namespace MHLUIElements
 {
     /// <summary>
     /// Логика взаимодействия для SourceTree.xaml

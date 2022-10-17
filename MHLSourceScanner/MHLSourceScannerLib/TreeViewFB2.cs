@@ -11,6 +11,8 @@ namespace MHLSourceScannerLib
         Brush IDecorator.ForeGround => Brushes.DarkGreen;
         FontWeight IDecorator.FontWeight => FontWeights.Bold;
         bool IDecorator.Focusable => true;
+        bool IDecorator.ThreeState => false;
+
     }
 
     public class TreeViewFB2 : TreeViewDiskItem<Decor4FB2>

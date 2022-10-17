@@ -105,6 +105,10 @@ namespace MHLSourceScannerLib
             get => decorator.Focusable;
         }
 
+        public bool ThreeState
+        {
+            get => decorator.ThreeState;
+        }
 
         public override ITreeDiskItem CreateTreeViewItem(IDiskItem diskItemChild)
         {

@@ -12,6 +12,19 @@
           "bin/placeholder/MHLCommon.dll": {}
         }
       },
+      "MHLControls/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/MHLControls.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MHLControls.dll": {}
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App.WPF"
+        ]
+      },
       "MHLSourceOnDisk/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
@@ -30,6 +43,7 @@
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
           "MHLCommon": "1.0.0",
+          "MHLControls": "1.0.0",
           "MHLSourceScannerModelLib": "1.0.0"
         },
         "compile": {
@@ -55,6 +69,25 @@
         "runtime": {
           "bin/placeholder/MHLSourceScannerModelLib.dll": {}
         }
+      },
+      "MHLUIElements/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "MHLCommon": "1.0.0",
+          "MHLControls": "1.0.0",
+          "MHLSourceScannerLib": "1.0.0",
+          "MHLSourceScannerModelLib": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/MHLUIElements.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MHLUIElements.dll": {}
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App"
+        ]
       }
     }
   },
@@ -63,6 +96,11 @@
       "type": "project",
       "path": "../../MHLCommon/MHLCommon.csproj",
       "msbuildProject": "../../MHLCommon/MHLCommon.csproj"
+    },
+    "MHLControls/1.0.0": {
+      "type": "project",
+      "path": "../../MHLControls/MHLControls.csproj",
+      "msbuildProject": "../../MHLControls/MHLControls.csproj"
     },
     "MHLSourceOnDisk/1.0.0": {
       "type": "project",
@@ -78,11 +116,17 @@
       "type": "project",
       "path": "../MHLSourceScannerModelLib/MHLSourceScannerModelLib.csproj",
       "msbuildProject": "../MHLSourceScannerModelLib/MHLSourceScannerModelLib.csproj"
+    },
+    "MHLUIElements/1.0.0": {
+      "type": "project",
+      "path": "../../MHLUIElements/MHLUIElements.csproj",
+      "msbuildProject": "../../MHLUIElements/MHLUIElements.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net6.0-windows7.0": [
-      "MHLSourceScannerLib >= 1.0.0"
+      "MHLSourceScannerLib >= 1.0.0",
+      "MHLUIElements >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -123,6 +167,9 @@
           "projectReferences": {
             "F:\\LatestMHL\\MHLSourceScanner\\MHLSourceScannerLib\\MHLSourceScannerLib.csproj": {
               "projectPath": "F:\\LatestMHL\\MHLSourceScanner\\MHLSourceScannerLib\\MHLSourceScannerLib.csproj"
+            },
+            "F:\\LatestMHL\\MHLUIElements\\MHLUIElements.csproj": {
+              "projectPath": "F:\\LatestMHL\\MHLUIElements\\MHLUIElements.csproj"
             }
           }
         }

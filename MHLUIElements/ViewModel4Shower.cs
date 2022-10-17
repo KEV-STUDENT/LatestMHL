@@ -10,17 +10,16 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using MHLSourceScannerLib;
 
 
-namespace MHLSourceScannerLib
+namespace MHLUIElements
 {
     public class ViewModel4Shower : ViewModel
     {
         private ObservableCollection<ITreeItem> source;
         private IBook? book;
         public ICommand ExpandingCommand { get; set; }
-        public ICommand FB2CheckedCommand { get; set; }
-
         #region [Properies]
         private readonly BitmapImage defaultCover;
 
@@ -118,7 +117,6 @@ namespace MHLSourceScannerLib
         public ViewModel4Shower()
         {
             ExpandingCommand = new RelayCommand(ExecuteExpandingCommand, CanExecuteExpandingCommand);
-            FB2CheckedCommand = new RelayCommand(ExecuteFB2CheckedCommand, CanExecuteFB2CheckedCommand);
             defaultCover = GetImageFromResources("DefaultCover");
             source = new ObservableCollection<ITreeItem>();
         }
@@ -136,33 +134,10 @@ namespace MHLSourceScannerLib
                 }
             }
         }
-
-        void ExecuteFB2CheckedCommand(object? obj)
-        {
-            if (obj is ITreeItem item)
-            {
-                if (item.Selected)
-                {
-
-                }
-                else
-                {
-                    item.Parent.Selected = false;
-                    OnPropertyChanged("Selected");
-                }
-            }
-            else;
-            //     TestSelected = !TestSelected;
-        }
         #endregion
 
         #region [CanExecute...Command]
         bool CanExecuteExpandingCommand(object? obj)
-        {
-            return true;
-        }
-
-        bool CanExecuteFB2CheckedCommand(object? obj)
         {
             return true;
         }
@@ -173,7 +148,7 @@ namespace MHLSourceScannerLib
         {
             BitmapImage bitmapImage = new BitmapImage();
 
-            ResourceManager resourceManager = new ResourceManager("MHLSourceScannerLib.LibResources", typeof(SourceTree).Assembly);
+            ResourceManager resourceManager = new ResourceManager("MHLUIElements.LibResources", typeof(SourceTree).Assembly);
             Bitmap? df = resourceManager.GetObject(resName) as Bitmap;
             if (df != null)
             {

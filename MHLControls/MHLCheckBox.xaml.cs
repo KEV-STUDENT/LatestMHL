@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MHLSourceScannerLib
+namespace MHLControls
 {
     /// <summary>
     /// Логика взаимодействия для MHLCheckBox.xaml

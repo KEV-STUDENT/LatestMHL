@@ -18,15 +18,37 @@ namespace MHLSourceScannerModelLib
             set => name = value;
         }
 
-        bool ITreeItem.Selected
+        public virtual bool? Selected
         {
-            get => viewModel.IsSelected;
+            get
+            {
+                return viewModel.IsSelected;
+            }
+
             set
             {
                 viewModel.IsSelected = value;
-                if (parent != null)
-                    parent.Selected = value;                
+                if (parent != null && !(parent.Selected == null && value == null) && parent.Selected != value)
+                {                   
+                    if(parent is ITreeCollectionItem collectionItem)
+                    {
+                        var p = from a in collectionItem.SourceItems
+                                where !(parent.Selected == null && value == null) && a.Selected != value
+                                select a;
+                        
+                        if (p.Count() > 0)
+                            parent.Selected = null;
+                        else
+                            parent.Selected = value;
+                    }
+                }
             }
+        }
+
+        bool? ITreeItem.Selected
+        {
+            get => Selected;
+            set => Selected = value;
         }
 
         ITreeItem? ITreeItem.Parent => parent;
@@ -40,13 +62,15 @@ namespace MHLSourceScannerModelLib
         {
             get => viewModel;
         }
-
         #region [Constructors]
+
         public TreeItem(string name, ITreeItem? parent)
         {
             this.name = name;
             this.parent = parent;
             viewModel = new T();
+            if(parent?.Selected != null)
+                Selected = parent.Selected;
         }
 
         public TreeItem(ITreeItem? parent) : this(string.Empty, parent)

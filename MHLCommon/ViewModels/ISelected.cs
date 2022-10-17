@@ -2,6 +2,6 @@
 {
     public interface ISelected
     {
-        bool IsSelected { get; set; }
+        bool? IsSelected { get; set; }
     }
 }

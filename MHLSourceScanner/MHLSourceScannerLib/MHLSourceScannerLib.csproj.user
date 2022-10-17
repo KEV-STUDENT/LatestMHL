@@ -2,28 +2,6 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup />
   <ItemGroup>
-    <Compile Update="MHLCheckBox.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="SourceTree.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Update="LibResources.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="MHLCheckBox.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="SourcePicker.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="SourceTree.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="Themes\Generic.xaml">
       <SubType>Designer</SubType>
     </Page>

@@ -21,16 +21,30 @@ using MHLSourceScannerModelLib;
 using MHLCommon;
 using MHLCommon.MHLScanner;
 
-namespace MHLSourceScannerLib
+namespace MHLUIElements
 {
     /// <summary>
-    /// Interaction logic for SourcePicker.xaml
+    /// Interaction logic for DirectoryPicker.xaml
     /// </summary>
-    public partial class SourcePicker : UserControl, INotifyPropertyChanged, IPicker<string>
+    public partial class DirectoryPicker : UserControl, INotifyPropertyChanged, IPicker<string>
     {
         private IPicker<String> picker;
         private const string _property = "Value";
 
+        private string _caption = "";
+        private int _captionWidth = 100;
+        
+        public int CaptionWidth
+        {
+            set { _captionWidth = value; }
+            get { return _captionWidth; }
+        }
+
+        public string Caption
+        {
+            set { _caption = value; }
+            get { return _caption; }
+        }
         public string Value {
             get { return picker.Value; }
             set
@@ -40,7 +54,7 @@ namespace MHLSourceScannerLib
             }
         }
 
-        public SourcePicker()
+        public DirectoryPicker()
         {
             picker = new DiskItemPicker();
             ((DiskItemPicker)picker).AskUserForInputAction = AskDirectory;

@@ -12,6 +12,8 @@ namespace MHLSourceScannerLib
         Brush IDecorator.ForeGround => Brushes.Black;
         FontWeight IDecorator.FontWeight => FontWeights.Normal;
         bool IDecorator.Focusable => false;
+        bool IDecorator.ThreeState => false;
+
     }
 
     public class FB2Annotation : TreeViewFB2Attr<Decor4FB2Attr, string>

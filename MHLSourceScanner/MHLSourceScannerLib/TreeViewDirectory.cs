@@ -10,6 +10,7 @@ namespace MHLSourceScannerLib
         Brush IDecorator.ForeGround => Brushes.DarkBlue;
         FontWeight IDecorator.FontWeight => FontWeights.Bold;
         bool IDecorator.Focusable => true;
+        bool IDecorator.ThreeState => true;
     }
 
     public class TreeViewDirectory : TreeViewDiskItem<Decor4Ddirectory>

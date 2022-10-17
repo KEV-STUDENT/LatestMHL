@@ -27,3 +27,7 @@ F:\LatestMHL\MHLSourceScanner\MHLSourceScanner\bin\Debug\net6.0-windows\MHLSourc
 F:\LatestMHL\MHLSourceScanner\MHLSourceScanner\bin\Debug\net6.0-windows\MHLSourceOnDisk.pdb
 F:\LatestMHL\MHLSourceScanner\MHLSourceScanner\bin\Debug\net6.0-windows\MHLCommon.dll
 F:\LatestMHL\MHLSourceScanner\MHLSourceScanner\bin\Debug\net6.0-windows\MHLCommon.pdb
+F:\LatestMHL\MHLSourceScanner\MHLSourceScanner\bin\Debug\net6.0-windows\MHLControls.dll
+F:\LatestMHL\MHLSourceScanner\MHLSourceScanner\bin\Debug\net6.0-windows\MHLControls.pdb
+F:\LatestMHL\MHLSourceScanner\MHLSourceScanner\bin\Debug\net6.0-windows\MHLUIElements.dll
+F:\LatestMHL\MHLSourceScanner\MHLSourceScanner\bin\Debug\net6.0-windows\MHLUIElements.pdb
