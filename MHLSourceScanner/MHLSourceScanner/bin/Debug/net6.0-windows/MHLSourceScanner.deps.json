@@ -21,6 +21,9 @@
         }
       },
       "MHLControls/1.0.0": {
+        "dependencies": {
+          "MHLCommon": "1.0.0"
+        },
         "runtime": {
           "MHLControls.dll": {}
         }

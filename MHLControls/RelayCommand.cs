@@ -2,7 +2,7 @@
 using System;
 using System.Windows.Input;
 
-namespace MHLSourceScannerLib
+namespace MHLControls
 {
     public class RelayCommand : ICommand
     {
@@ -21,7 +21,7 @@ namespace MHLSourceScannerLib
             _canExecute = canExecute;
         }
         #endregion // Constructors 
-        
+
         #region ICommand Members 
         [DebuggerStepThrough]
         public bool CanExecute(object? parameter)

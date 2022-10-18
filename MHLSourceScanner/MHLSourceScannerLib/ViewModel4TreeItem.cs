@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using MHLSourceScannerModelLib;
 using MHLCommon.MHLScanner;
+using MHLControls;
 
 namespace MHLSourceScannerLib
 {

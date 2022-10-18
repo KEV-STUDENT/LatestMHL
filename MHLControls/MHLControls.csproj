@@ -4,7 +4,12 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+	<UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MHLCommon\MHLCommon.csproj" />
+  </ItemGroup>
 
   <ItemGroup>
     <Compile Update="MHLCheckBox.xaml.cs">
@@ -13,6 +18,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="DirectoryPicker.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="MHLCheckBox.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>

@@ -96,7 +96,11 @@
         "frameworks": {
           "net6.0-windows7.0": {
             "targetAlias": "net6.0-windows",
-            "projectReferences": {}
+            "projectReferences": {
+              "F:\\LatestMHL\\MHLCommon\\MHLCommon.csproj": {
+                "projectPath": "F:\\LatestMHL\\MHLCommon\\MHLCommon.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
@@ -123,7 +127,7 @@
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             },
-            "Microsoft.WindowsDesktop.App.WPF": {
+            "Microsoft.WindowsDesktop.App": {
               "privateAssets": "none"
             }
           },

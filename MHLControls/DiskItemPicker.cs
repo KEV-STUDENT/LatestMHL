@@ -1,4 +1,5 @@
-﻿using MHLCommon;
+﻿using System;
+using MHLCommon;
 using MHLCommon.MHLScanner;
 
 namespace MHLSourceScannerModelLib

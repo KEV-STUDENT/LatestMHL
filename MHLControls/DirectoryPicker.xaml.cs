@@ -21,7 +21,7 @@ using MHLSourceScannerModelLib;
 using MHLCommon;
 using MHLCommon.MHLScanner;
 
-namespace MHLUIElements
+namespace MHLControls
 {
     /// <summary>
     /// Interaction logic for DirectoryPicker.xaml
@@ -32,7 +32,7 @@ namespace MHLUIElements
         private const string _property = "Value";
 
         private string _caption = "";
-        private int _captionWidth = 100;
+        private int _captionWidth = 5;
         
         public int CaptionWidth
         {
@@ -57,7 +57,7 @@ namespace MHLUIElements
         public DirectoryPicker()
         {
             picker = new DiskItemPicker();
-            ((DiskItemPicker)picker).AskUserForInputAction = AskDirectory;
+            ((DiskItemPicker)picker).AskUserForInputAction = AskDirectory;          
             InitializeComponent();
             DataContext = this;
         }

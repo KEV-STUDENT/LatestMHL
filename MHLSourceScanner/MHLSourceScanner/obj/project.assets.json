@@ -15,6 +15,9 @@
       "MHLControls/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "MHLCommon": "1.0.0"
+        },
         "compile": {
           "bin/placeholder/MHLControls.dll": {}
         },
@@ -22,7 +25,7 @@
           "bin/placeholder/MHLControls.dll": {}
         },
         "frameworkReferences": [
-          "Microsoft.WindowsDesktop.App.WPF"
+          "Microsoft.WindowsDesktop.App"
         ]
       },
       "MHLSourceOnDisk/1.0.0": {
