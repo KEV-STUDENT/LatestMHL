@@ -33,7 +33,6 @@
                     <Setter Property="Content" Value="{Binding Name}"/>
                     <Setter Property="Foreground" Value="{Binding ForeGround}"/>
                     <Setter Property="FontWeight" Value="{Binding FontWeight}"/>
-                    <Setter Property="FontSize" Value="12"/>
                     <Setter Property="IsThreeState" Value="{Binding ThreeState}"/>
                     <Setter Property="Command" Value="{Binding Path=ViewModel.CheckedCommand}"/>
                     <Setter Property="IsChecked" Value="{Binding Path=ViewModel.IsSelected ,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>

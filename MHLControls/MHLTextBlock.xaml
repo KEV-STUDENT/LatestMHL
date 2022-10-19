@@ -5,4 +5,4 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MHLControls"
              mc:Ignorable="d" 
-               TextAlignment="Left" FontFamily="Arial" VerticalAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap" />
+               TextAlignment="Left" FontFamily="Arial" VerticalAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap" d:Width="17" />

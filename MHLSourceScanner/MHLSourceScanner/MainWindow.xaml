@@ -4,13 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"        
         xmlns:MHLControls="clr-namespace:MHLControls;assembly=MHLControls"
+        xmlns:pickers="clr-namespace:MHLControls.MHLPickers;assembly=MHLControls"
         xmlns:MHLUIElements="clr-namespace:MHLUIElements;assembly=MHLUIElements"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" x:Name="Scanner">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="80"/>
+            <RowDefinition Height="29"/>
+            <RowDefinition Height="58"/>
             <RowDefinition/>
             <RowDefinition Height="{Binding ElementName=SourceDirectoryTree, Path=ViewModel.AnnotationSectionHeigh}"/>
         </Grid.RowDefinitions>
@@ -20,25 +21,25 @@
         </Grid.ColumnDefinitions>
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="40"/>
-                <RowDefinition Height="40"/>
+                <RowDefinition Height="29"/>
+                <RowDefinition Height="29"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="{Binding ElementName=SourceDirectoryPicker, Path=CaptionWidth}"/>
-                <ColumnDefinition Width="130"/>
+                <ColumnDefinition Width="100"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <MHLControls:MHLLabel Content="Destination" Margin="0,5,0,0" Grid.Row="0" Grid.Column="0"/>
-            <MHLControls:DirectoryPicker x:Name="DestinationDirectoryPicker" Margin="0,5,0,0" Grid.Row="0" Grid.Column="2" IsEnabled="{Binding ElementName=Scanner, Path=ViewModel.DestinationIsDirectory}"/>
-            <MHLControls:DirectoryPicker x:Name="DestinationDBPicker" Margin="0,5,0,0" Grid.Row="1" Grid.Column="2" IsEnabled="{Binding ElementName=Scanner, Path=ViewModel.DestinationIsDBFile}"/>
+            <pickers:MHLUIPicker x:Name="DestinationDirectoryPicker" Margin="0,5,0,0" Grid.Row="0" Grid.Column="2" IsEnabled="{Binding ElementName=Scanner, Path=ViewModel.DestinationIsDirectory}"/>
+            <pickers:MHLUIPicker x:Name="DestinationDBPicker" Margin="0,5,0,0" Grid.Row="1" Grid.Column="2" IsEnabled="{Binding ElementName=Scanner, Path=ViewModel.DestinationIsDBFile}"/>
             <MHLControls:MHLRadioButton GroupName="Destination" x:Name="DestinationDirectory" Margin="0,5,0,0" Grid.Row="0" Grid.Column="1" Content="Directory"
                                         IsChecked="{Binding ElementName=Scanner, Path=ViewModel.DestinationIsDirectory}"/>
             <MHLControls:MHLRadioButton GroupName="Destination" x:Name="DestinationDBFile" Margin="0,5,0,0" Grid.Row="1" Grid.Column="1" Content="Data Base File"
                                         IsChecked="{Binding ElementName=Scanner, Path=ViewModel.DestinationIsDBFile}"/>
         </Grid>
 
-        <MHLControls:DirectoryPicker x:Name="SourceDirectoryPicker" Grid.Row="0" Grid.Column="0" Margin="0,5,0,0"/>
-        <MHLUIElements:SourceTree x:Name="SourceDirectoryTree" Grid.Row="2" Grid.Column="3" Margin="5,0,5,5" />
+        <pickers:MHLUIPicker x:Name="SourceDirectoryPicker" Grid.Row="0" Grid.Column="0" Margin="0,5,0,0"/>
+        <MHLUIElements:SourceTree x:Name="SourceDirectoryTree" Grid.Row="2" Grid.Column="3" Margin="5,5,5,5" />
         <DockPanel x:Name="CoverSection" Grid.Row="3" Grid.Column="0" Margin="5,5,5,5">
             <Image Source="{Binding ElementName=SourceDirectoryTree, Path=ViewModel.Cover}" Width="100"/>
             <DockPanel x:Name="AnnotationSection" >

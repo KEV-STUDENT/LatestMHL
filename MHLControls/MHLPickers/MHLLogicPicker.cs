@@ -2,11 +2,11 @@
 using MHLCommon;
 using MHLCommon.MHLScanner;
 
-namespace MHLSourceScannerModelLib
+namespace MHLControls.MHLPickers
 {
-    public class DiskItemPicker : IPicker<string>
+    public class MHLLogicPicker : IPicker<string>
     {
-        string result = String.Empty;
+        string result = string.Empty;
         public Action? AskUserForInputAction;
 
         string IPicker<string>.Value
@@ -15,16 +15,16 @@ namespace MHLSourceScannerModelLib
             set { result = value; }
         }
 
-         void IPicker<string>.AskUserForInput()
-         {
-                AskUserForInput();
-         }
+        void IPicker<string>.AskUserForInput()
+        {
+            AskUserForInput();
+        }
 
-         public virtual void AskUserForInput()
-         {
-            if(AskUserForInputAction != null)
+        public virtual void AskUserForInput()
+        {
+            if (AskUserForInputAction != null)
                 AskUserForInputAction();
-         }
+        }
 
         ReturnResultEnum IPicker<string>.CheckValue(out string value)
         {
@@ -34,14 +34,14 @@ namespace MHLSourceScannerModelLib
         public virtual ReturnResultEnum CheckValue(out string value)
         {
             IPicker<string> picker = this;
-           
-            if (String.IsNullOrEmpty(picker.Value))
+
+            if (string.IsNullOrEmpty(picker.Value))
             {
                 picker.AskUserForInput();
             }
 
             value = picker.Value;
-            if (String.IsNullOrEmpty(value))
+            if (string.IsNullOrEmpty(value))
             {
                 return ReturnResultEnum.Cancel;
             }

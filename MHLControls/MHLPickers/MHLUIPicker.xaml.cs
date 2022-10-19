@@ -17,35 +17,39 @@ using System.Windows.Shapes;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-using MHLSourceScannerModelLib;
+//using MHLSourceScannerModelLib;
 using MHLCommon;
 using MHLCommon.MHLScanner;
 
-namespace MHLControls
+namespace MHLControls.MHLPickers
 {
     /// <summary>
     /// Interaction logic for DirectoryPicker.xaml
     /// </summary>
-    public partial class DirectoryPicker : UserControl, INotifyPropertyChanged, IPicker<string>
+    public partial class MHLUIPicker : UserControl, INotifyPropertyChanged, IPicker<string>
     {
         private IPicker<String> picker;
         private const string _property = "Value";
 
         private string _caption = "";
         private int _captionWidth = 5;
-        
+
         public int CaptionWidth
         {
             set { _captionWidth = value; }
             get { return _captionWidth; }
         }
 
+        public Action<IPicker<string>>? AskUserForInput;
+
         public string Caption
         {
             set { _caption = value; }
             get { return _caption; }
         }
-        public string Value {
+
+        public string Value
+        {
             get { return picker.Value; }
             set
             {
@@ -54,42 +58,34 @@ namespace MHLControls
             }
         }
 
-        public DirectoryPicker()
+        public MHLUIPicker()
         {
-            picker = new DiskItemPicker();
-            ((DiskItemPicker)picker).AskUserForInputAction = AskDirectory;          
+            picker = new MHLLogicPicker();
+            ((MHLLogicPicker)picker).AskUserForInputAction = AskValue;
             InitializeComponent();
             DataContext = this;
+        }
+
+        private void AskValue()
+        {
+            AskUserForInput?.Invoke(this);
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
-            /*if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));*/
             var handler = System.Threading.Interlocked.CompareExchange(ref PropertyChanged, null, null);
             if (handler != null)
                 handler(this, new PropertyChangedEventArgs(prop));
-
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             ((IPicker<string>)this).AskUserForInput();
         }
-
-        private void AskDirectory()
-        {
-            using (var folder = new System.Windows.Forms.FolderBrowserDialog())
-            {
-                folder.SelectedPath = picker.Value;
-                System.Windows.Forms.DialogResult result = folder.ShowDialog();
-                if (result == System.Windows.Forms.DialogResult.OK)
-                {
-                    Value = folder.SelectedPath;
-                }
-            }
-        }
+       
+        #region[IPicker<string> Implementation]
+        string IPicker<string>.Value { get => Value; set => this.Value = value; }
 
         void IPicker<string>.AskUserForInput()
         {
@@ -100,5 +96,6 @@ namespace MHLControls
         {
             return picker.CheckValue(out value);
         }
+        #endregion
     }
 }

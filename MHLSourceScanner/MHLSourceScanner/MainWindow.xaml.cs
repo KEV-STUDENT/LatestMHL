@@ -1,5 +1,6 @@
 ﻿using MHLCommon;
 using MHLCommon.MHLScanner;
+using MHLControls.MHLPickers;
 using MHLSourceScannerLib;
 using MHLUIElements;
 using System.ComponentModel;
@@ -22,8 +23,11 @@ namespace MHLSourceScanner
             viewModel = new ViewModel4Scanner();
             InitializeComponent();           
             SourceDirectoryPicker.Caption = "Source Directory";
-            SourceDirectoryPicker.CaptionWidth = 140;
+            SourceDirectoryPicker.CaptionWidth = 110;
             SourceDirectoryPicker.PropertyChanged += SourceDirectoryPickerChanged;
+            SourceDirectoryPicker.AskUserForInput += MHLAsk4Picker.AskDirectory;
+            DestinationDirectoryPicker.AskUserForInput += MHLAsk4Picker.AskDirectory;
+            DestinationDBPicker.AskUserForInput += MHLAsk4Picker.AskFile;
             DataContext = this;
         }
 
