@@ -22,10 +22,16 @@
       },
       "MHLControls/1.0.0": {
         "dependencies": {
-          "MHLCommon": "1.0.0"
+          "MHLCommon": "1.0.0",
+          "MHLResources": "1.0.0"
         },
         "runtime": {
           "MHLControls.dll": {}
+        }
+      },
+      "MHLResources/1.0.0": {
+        "runtime": {
+          "MHLResources.dll": {}
         }
       },
       "MHLSourceOnDisk/1.0.0": {
@@ -59,6 +65,7 @@
         "dependencies": {
           "MHLCommon": "1.0.0",
           "MHLControls": "1.0.0",
+          "MHLResources": "1.0.0",
           "MHLSourceScannerLib": "1.0.0",
           "MHLSourceScannerModelLib": "1.0.0"
         },
@@ -80,6 +87,11 @@
       "sha512": ""
     },
     "MHLControls/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "MHLResources/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

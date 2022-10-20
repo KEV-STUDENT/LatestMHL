@@ -13,9 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MHLSourceOnDisk", "..\MHLSo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MHLCommon", "..\MHLCommon\MHLCommon.csproj", "{4E7CE6F1-E02F-483B-BF14-248AF1F1C23C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MHLControls", "..\MHLControls\MHLControls.csproj", "{A2E2BC0D-851B-4995-9386-A14702FDD4E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MHLControls", "..\MHLControls\MHLControls.csproj", "{A2E2BC0D-851B-4995-9386-A14702FDD4E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MHLUIElements", "..\MHLUIElements\MHLUIElements.csproj", "{A6CF4D9F-5329-4590-A2ED-BC3DF39A272F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MHLUIElements", "..\MHLUIElements\MHLUIElements.csproj", "{A6CF4D9F-5329-4590-A2ED-BC3DF39A272F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MHLResources", "..\MHLResources\MHLResources.csproj", "{DD980287-F45C-4C60-BD6B-FBC9929D64CF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{A6CF4D9F-5329-4590-A2ED-BC3DF39A272F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6CF4D9F-5329-4590-A2ED-BC3DF39A272F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A6CF4D9F-5329-4590-A2ED-BC3DF39A272F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD980287-F45C-4C60-BD6B-FBC9929D64CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD980287-F45C-4C60-BD6B-FBC9929D64CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD980287-F45C-4C60-BD6B-FBC9929D64CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD980287-F45C-4C60-BD6B-FBC9929D64CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

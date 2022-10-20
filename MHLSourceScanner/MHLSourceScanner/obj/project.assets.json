@@ -16,13 +16,27 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
-          "MHLCommon": "1.0.0"
+          "MHLCommon": "1.0.0",
+          "MHLResources": "1.0.0"
         },
         "compile": {
           "bin/placeholder/MHLControls.dll": {}
         },
         "runtime": {
           "bin/placeholder/MHLControls.dll": {}
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App"
+        ]
+      },
+      "MHLResources/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/MHLResources.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MHLResources.dll": {}
         },
         "frameworkReferences": [
           "Microsoft.WindowsDesktop.App"
@@ -79,6 +93,7 @@
         "dependencies": {
           "MHLCommon": "1.0.0",
           "MHLControls": "1.0.0",
+          "MHLResources": "1.0.0",
           "MHLSourceScannerLib": "1.0.0",
           "MHLSourceScannerModelLib": "1.0.0"
         },
@@ -104,6 +119,11 @@
       "type": "project",
       "path": "../../MHLControls/MHLControls.csproj",
       "msbuildProject": "../../MHLControls/MHLControls.csproj"
+    },
+    "MHLResources/1.0.0": {
+      "type": "project",
+      "path": "../../MHLResources/MHLResources.csproj",
+      "msbuildProject": "../../MHLResources/MHLResources.csproj"
     },
     "MHLSourceOnDisk/1.0.0": {
       "type": "project",

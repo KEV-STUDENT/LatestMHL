@@ -5,6 +5,9 @@ using MHLSourceScannerLib;
 using MHLUIElements;
 using System.ComponentModel;
 using System.Windows;
+using MHLResources;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolTip;
 
 
 namespace MHLSourceScanner
@@ -26,9 +29,12 @@ namespace MHLSourceScanner
             SourceDirectoryPicker.CaptionWidth = 110;
             SourceDirectoryPicker.PropertyChanged += SourceDirectoryPickerChanged;
             SourceDirectoryPicker.AskUserForInput += MHLAsk4Picker.AskDirectory;
+
             DestinationDirectoryPicker.AskUserForInput += MHLAsk4Picker.AskDirectory;
             DestinationDBPicker.AskUserForInput += MHLAsk4Picker.AskFile;
+
             DataContext = this;
+            viewModel.CloseAction += () => { Close(); };
         }
 
 

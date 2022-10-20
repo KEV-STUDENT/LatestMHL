@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MHLCommon\MHLCommon.csproj" />
+    <ProjectReference Include="..\MHLResources\MHLResources.csproj" />
   </ItemGroup>
 
   <ItemGroup>

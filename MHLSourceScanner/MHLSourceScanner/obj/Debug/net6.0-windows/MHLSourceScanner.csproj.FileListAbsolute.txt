@@ -31,3 +31,6 @@ F:\LatestMHL\MHLSourceScanner\MHLSourceScanner\bin\Debug\net6.0-windows\MHLContr
 F:\LatestMHL\MHLSourceScanner\MHLSourceScanner\bin\Debug\net6.0-windows\MHLControls.pdb
 F:\LatestMHL\MHLSourceScanner\MHLSourceScanner\bin\Debug\net6.0-windows\MHLUIElements.dll
 F:\LatestMHL\MHLSourceScanner\MHLSourceScanner\bin\Debug\net6.0-windows\MHLUIElements.pdb
+F:\LatestMHL\MHLSourceScanner\MHLSourceScanner\bin\Debug\net6.0-windows\MHLResources.dll
+F:\LatestMHL\MHLSourceScanner\MHLSourceScanner\bin\Debug\net6.0-windows\MHLResources.pdb
+F:\LatestMHL\MHLSourceScanner\MHLSourceScanner\bin\Debug\net6.0-windows\Resources\BookCover.png

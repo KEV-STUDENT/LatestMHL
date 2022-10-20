@@ -1,0 +1,32 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:MHLSourceScannerLib;assembly=MHLSourceScannerLib"
+                    xmlns:MHLControls="clr-namespace:MHLControls;assembly=MHLControls">
+    
+    <Style TargetType="TreeViewItem">
+        <Setter Property="local:Behaviours.ExpandingBehaviour" Value="{Binding ElementName=TreeShower, Path = ViewModel.ExpandingCommand}"/>
+        <Setter Property="Focusable" Value="{Binding Focusable}"/>
+    </Style>
+
+    <Style x:Key="TreeViewItemStyle" TargetType="MHLControls:MHLTextBlock">
+        <Setter Property="Text" Value="{Binding Name}"/>
+        <Setter Property="Foreground" Value="{Binding ForeGround}"/>
+        <Setter Property="FontWeight" Value="{Binding FontWeight}"/>
+    </Style>
+
+    <Style x:Key="TreeViewItemStyleCheckBoxItem" TargetType="MHLControls:MHLCheckBox">
+        <Setter Property="Content" Value="{Binding Name}"/>
+        <Setter Property="Foreground" Value="{Binding ForeGround}"/>
+        <Setter Property="FontWeight" Value="{Binding FontWeight}"/>
+        <Setter Property="IsThreeState" Value="{Binding ThreeState}"/>
+        <Setter Property="Command" Value="{Binding Path=ViewModel.CheckedCommand}"/>
+        <Setter Property="IsChecked" Value="{Binding Path=ViewModel.IsSelected ,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <Setter Property="CommandParameter" Value="{Binding}"/>
+    </Style>
+
+    <Style x:Key="TreeViewAttrStyle" TargetType="MHLControls:MHLTextBlock">
+        <Setter Property="Foreground" Value="{Binding ForeGround}"/>
+        <Setter Property="FontWeight" Value="{Binding FontWeight}"/>
+    </Style>
+
+</ResourceDictionary>

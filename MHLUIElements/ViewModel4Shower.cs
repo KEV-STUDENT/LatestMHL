@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using MHLSourceScannerLib;
 using MHLControls;
+using MHLResources;
 
 
 namespace MHLUIElements
@@ -20,9 +21,10 @@ namespace MHLUIElements
     {
         private ObservableCollection<ITreeItem> source;
         private IBook? book;
-        public ICommand ExpandingCommand { get; set; }
-        #region [Properies]
         private readonly BitmapImage defaultCover;
+
+        #region [Properies]
+        public ICommand ExpandingCommand { get; set; }
 
         public IBook? Book
         {
@@ -118,7 +120,7 @@ namespace MHLUIElements
         public ViewModel4Shower()
         {
             ExpandingCommand = new RelayCommand(ExecuteExpandingCommand, CanExecuteExpandingCommand);
-            defaultCover = GetImageFromResources("DefaultCover");
+            defaultCover = MHLResourcesManager.GetImageFromResources("DefaultBookCover");
             source = new ObservableCollection<ITreeItem>();
         }
         #endregion
@@ -145,27 +147,6 @@ namespace MHLUIElements
         #endregion
 
         #region [Private Methods]
-        private BitmapImage GetImageFromResources(string resName)
-        {
-            BitmapImage bitmapImage = new BitmapImage();
-
-            ResourceManager resourceManager = new ResourceManager("MHLUIElements.LibResources", typeof(SourceTree).Assembly);
-            Bitmap? df = resourceManager.GetObject(resName) as Bitmap;
-            if (df != null)
-            {
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    df.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-                    ms.Position = 0;
-                    bitmapImage.BeginInit();
-                    bitmapImage.StreamSource = ms;
-                    bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-                    bitmapImage.EndInit();
-                    bitmapImage.Freeze();
-                }
-            }
-            return bitmapImage;
-        }
         #endregion
 
         #region [Public Method]

@@ -23,6 +23,7 @@ namespace MHLControls.MHLPickers
             using (var file = new System.Windows.Forms.OpenFileDialog())
             {
                 file.FileName = picker.Value;
+                file.Filter = "SQLite DB File(*.sqlite)|*.sqlite|All files (*.*)|*.*";
                 file.InitialDirectory = Path.GetDirectoryName(picker.Value);
 
                 System.Windows.Forms.DialogResult result = file.ShowDialog();

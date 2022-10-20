@@ -9,16 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="dc9pbERc7.png" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\MHLUIElements\MHLUIElements.csproj" />
     <ProjectReference Include="..\MHLSourceScannerLib\MHLSourceScannerLib.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="dc9pbERc7.png" />
   </ItemGroup>
 
 </Project>
