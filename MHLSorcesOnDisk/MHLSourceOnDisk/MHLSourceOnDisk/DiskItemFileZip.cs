@@ -4,7 +4,7 @@ using MHLCommon.MHLDiskItems;
 
 namespace MHLSourceOnDisk
 {
-    public class DiskItemFileZip : DiskItemFile, IDiskCollection
+    public class DiskItemFileZip : DiskItemFile, IZip
     {
         private enum VirtualGroups
         {

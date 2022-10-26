@@ -1,9 +1,17 @@
 ﻿using MHLSourceScannerModelLib;
 using System.Collections.ObjectModel;
 using MHLCommon.MHLScanner;
+using MHLCommon.ViewModels;
 
 namespace MHLSourceScannerModelLibTest
 {
+
+    public class ViewModelTest : ViewModel, ISelected
+    {
+        private bool? _selected;
+        bool? ISelected.IsSelected { get => _selected; set =>_selected = value; }
+    }
+
     [TestClass]
     public class ITreeItemTest
     {
@@ -15,8 +23,8 @@ namespace MHLSourceScannerModelLibTest
         public void LoadChilds_pathDirZip()
         {
             DiskItemShower shower = new DiskItemShower();
-            ITreeDiskItem treeItem = new TreeDiskItem(pathDirZip, shower);
-            ((TreeDiskItem)treeItem).TestMode = true;
+            ITreeDiskItem treeItem = new TreeDiskItem<ViewModelTest>(pathDirZip, shower, null);
+            ((TreeDiskItem<ViewModelTest>)treeItem).TestMode = true;
             treeItem.LoadChilds();
             Assert.AreNotEqual(0, treeItem.SourceItems.Count);
         }
@@ -25,7 +33,7 @@ namespace MHLSourceScannerModelLibTest
         public void LoadChildsCollection_pathDirZip()
         {
             DiskItemShower shower = new DiskItemShower();
-            ITreeCollectionItem treeItem = new TreeDiskItem(pathDirZip, shower);
+            ITreeCollectionItem treeItem = new TreeDiskItem<ViewModelTest>(pathDirZip, shower, null);
             ObservableCollection<ITreeItem> collection = treeItem.LoadChildsCollection();
             
             foreach (ITreeItem item in collection)
@@ -38,7 +46,7 @@ namespace MHLSourceScannerModelLibTest
         public void LoadChildsCollectionAsync_pathDirZip()
         {
             DiskItemShower shower = new DiskItemShower();
-            ITreeCollectionItem treeItem = new TreeDiskItem(pathDirZip, shower);
+            ITreeCollectionItem treeItem = new TreeDiskItem<ViewModelTest>(pathDirZip, shower, null);
             Task<ObservableCollection<ITreeItem>> task = treeItem.LoadChildsCollectionAsync();
             task.Wait();
             foreach (ITreeItem item in task.Result)
@@ -52,8 +60,8 @@ namespace MHLSourceScannerModelLibTest
         public void LoadItemCollection_pathDirZip()
         {
             DiskItemShower shower = new DiskItemShower();
-            ITreeDiskItem treeItem = new TreeDiskItem(pathDirZip, shower);
-            ((TreeDiskItem)treeItem).TestMode = true;
+            ITreeDiskItem treeItem = new TreeDiskItem<ViewModelTest>(pathDirZip, shower, null);
+            ((TreeDiskItem<ViewModelTest>)treeItem).TestMode = true;
             
             treeItem.LoadItemCollection();
             

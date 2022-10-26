@@ -12,11 +12,10 @@ namespace MHLResources
 {
     public static class MHLResourcesManager
     {
+        private static ResourceManager resourceManager = new ResourceManager("MHLResources.Resource", Assembly.GetExecutingAssembly());
         public static BitmapImage GetImageFromResources(string resName)
         {
             BitmapImage bitmapImage = new BitmapImage();
-            ResourceManager resourceManager = new ResourceManager("MHLResources.Resource", Assembly.GetExecutingAssembly());
-
             Bitmap? df = resourceManager.GetObject(resName) as Bitmap;
             if (df != null)
             {
@@ -32,6 +31,11 @@ namespace MHLResources
                 }
             }
             return bitmapImage;
+        }
+
+        public static string GetStringFromResources(string resName, string defaultValue = "")
+        {
+            return resourceManager.GetString(resName)??defaultValue;
         }
     }
 }

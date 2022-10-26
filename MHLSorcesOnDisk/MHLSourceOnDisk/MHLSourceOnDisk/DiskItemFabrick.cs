@@ -1,4 +1,6 @@
-﻿using System.IO.Compression;
+﻿using System.Diagnostics;
+using System.IO.Compression;
+using MHLCommon.MHLBook;
 using MHLCommon.MHLDiskItems;
 
 namespace MHLSourceOnDisk
@@ -23,13 +25,13 @@ namespace MHLSourceOnDisk
                 {
                     if (attr.HasFlag(FileAttributes.System))
                     {
-                        DiskItemDirectorySystem dirSys =  new DiskItemDirectorySystem(path);
+                        DiskItemDirectorySystem dirSys = new DiskItemDirectorySystem(path);
                         _ = ((IDiskCollection)dirSys).Count;
                         return dirSys;
                     }
                     else
                     {
-                        DiskItemDirectory dir =  new DiskItemDirectory(path);
+                        DiskItemDirectory dir = new DiskItemDirectory(path);
                         _ = ((IDiskCollection)dir).Count;
                         return dir;
                     }
@@ -46,7 +48,7 @@ namespace MHLSourceOnDisk
                     type = CheckFileType(fileStream);
                 }
 
-                switch(type)
+                switch (type)
                 {
                     case FileType.Zip:
                         System.Diagnostics.Debug.WriteLine("DiskItemFabrick.GetDiskItem({0}) - Zip", path);
@@ -70,7 +72,7 @@ namespace MHLSourceOnDisk
         public static IDiskItem GetDiskItem(IDiskItemVirtualGroup virtualGroup, string itemName)
         {
             IDiskItem? diskItem = null;
-            if(virtualGroup.ParentCollection is DiskItemFileZip zip)
+            if (virtualGroup.ParentCollection is DiskItemFileZip zip)
             {
                 using (ZipArchive zipArchive = ZipFile.OpenRead(zip.Path2Item))
                 {
@@ -100,7 +102,8 @@ namespace MHLSourceOnDisk
                 {
                     type = CheckFileType(fileStream);
                 }
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 System.Diagnostics.Debug.WriteLine(e.Message);
                 type = FileType.Error;
@@ -126,14 +129,14 @@ namespace MHLSourceOnDisk
 
         internal static IDiskItem GetDiskItem(string path, Exception? error)
         {
-            System.Diagnostics.Debug.WriteLine("DiskItemFabrick.GetDiskItem({0}, {1}) - Error", path, error?.Message??"<Unknown error>");
+            System.Diagnostics.Debug.WriteLine("DiskItemFabrick.GetDiskItem({0}, {1}) - Error", path, error?.Message ?? "<Unknown error>");
             return new DiskItemError(path, error ?? new Exception("Unknown"));
         }
 
-        private static FileType CheckFileType (Stream fileStream)
+        private static FileType CheckFileType(Stream fileStream)
         {
             byte[] fileFB2 = new byte[fb2Signature.Length];
-           
+
             fileStream.Read(fileFB2, 0, fb2Signature.Length);
             if (Enumerable.SequenceEqual(fileFB2, fb2Signature))
             {
@@ -198,6 +201,19 @@ namespace MHLSourceOnDisk
                 return FileType.Zip;
             }
             return FileType.Unknown;
+        }
+
+        public static bool ExportBooks<T>(IEnumerable<IDiskItem>? books, T exporter) where T : class, IExport
+        {
+            if ((books?.Count()??0) > 0)
+            {
+                foreach (IDiskItem item in books)
+                {
+                    item.ExportBooks<T>(exporter);
+                }
+            }
+
+            return false;
         }
     }
 }

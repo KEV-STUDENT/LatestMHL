@@ -2,6 +2,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO.Compression;
 using MHLSourceOnDisk;
 using MHLCommon.MHLDiskItems;
+using System.Collections.Generic;
+using MHLCommon.MHLBook;
 
 namespace MHLSourceOnDiskTest
 {
@@ -13,6 +15,8 @@ namespace MHLSourceOnDiskTest
         protected string pathError = @"F1:\1\test\426096.fb2";
         protected string pathZip = @"F:\1\test\fb2-495000-500999.zip";
         protected const string pathAccess = @"C:\Config.Msi";
+
+        protected string pathDestination = @"F:\1\test\destination";
 
         [TestMethod]
         public void GetDiskItem_pathDir_IDiskItem()
@@ -101,6 +105,22 @@ namespace MHLSourceOnDiskTest
         {
             IDiskItem item = DiskItemFabrick.GetDiskItem(pathAccess);            
             Assert.IsInstanceOfType(item, typeof(DiskItemError));
-        }      
+        }
+
+        [TestMethod]
+        public void ExportBooks_pathZip()
+        {
+            IDiskItem item = DiskItemFabrick.GetDiskItem(pathZip);
+            IEnumerable<IDiskItem>? books = null;
+
+            if (item is IDiskCollection diskCollection)
+            {
+                books = diskCollection.GetChilds();
+            }
+
+            Export2Dir exporter = new Export2Dir(pathDestination);
+            bool res = DiskItemFabrick.ExportBooks(books, exporter);
+            Assert.IsTrue(res);
+        }
     }
 }

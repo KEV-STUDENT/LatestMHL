@@ -86,7 +86,11 @@ F:\LatestMHL\MHLSorcesOnDisk\MHLSourceOnDisk\MHLSourceOnDiskTest\bin\Debug\net6.
 F:\LatestMHL\MHLSorcesOnDisk\MHLSourceOnDisk\MHLSourceOnDiskTest\bin\Debug\net6.0\zh-Hant\Microsoft.TestPlatform.CommunicationUtilities.resources.dll
 F:\LatestMHL\MHLSorcesOnDisk\MHLSourceOnDisk\MHLSourceOnDiskTest\bin\Debug\net6.0\zh-Hant\Microsoft.TestPlatform.CrossPlatEngine.resources.dll
 F:\LatestMHL\MHLSorcesOnDisk\MHLSourceOnDisk\MHLSourceOnDiskTest\bin\Debug\net6.0\zh-Hant\Microsoft.VisualStudio.TestPlatform.Common.resources.dll
+F:\LatestMHL\MHLSorcesOnDisk\MHLSourceOnDisk\MHLSourceOnDiskTest\bin\Debug\net6.0\MHLCommon.dll
 F:\LatestMHL\MHLSorcesOnDisk\MHLSourceOnDisk\MHLSourceOnDiskTest\bin\Debug\net6.0\MHLSourceOnDisk.dll
+F:\LatestMHL\MHLSorcesOnDisk\MHLSourceOnDisk\MHLSourceOnDiskTest\bin\Debug\net6.0\MHLSourceScannerModelLib.dll
+F:\LatestMHL\MHLSorcesOnDisk\MHLSourceOnDisk\MHLSourceOnDiskTest\bin\Debug\net6.0\MHLCommon.pdb
+F:\LatestMHL\MHLSorcesOnDisk\MHLSourceOnDisk\MHLSourceOnDiskTest\bin\Debug\net6.0\MHLSourceScannerModelLib.pdb
 F:\LatestMHL\MHLSorcesOnDisk\MHLSourceOnDisk\MHLSourceOnDiskTest\bin\Debug\net6.0\MHLSourceOnDisk.pdb
 F:\LatestMHL\MHLSorcesOnDisk\MHLSourceOnDisk\MHLSourceOnDiskTest\obj\Debug\net6.0\MHLSourceOnDiskTest.csproj.AssemblyReference.cache
 F:\LatestMHL\MHLSorcesOnDisk\MHLSourceOnDisk\MHLSourceOnDiskTest\obj\Debug\net6.0\MHLSourceOnDiskTest.GeneratedMSBuildEditorConfig.editorconfig
@@ -99,7 +103,3 @@ F:\LatestMHL\MHLSorcesOnDisk\MHLSourceOnDisk\MHLSourceOnDiskTest\obj\Debug\net6.
 F:\LatestMHL\MHLSorcesOnDisk\MHLSourceOnDisk\MHLSourceOnDiskTest\obj\Debug\net6.0\MHLSourceOnDiskTest.pdb
 F:\LatestMHL\MHLSorcesOnDisk\MHLSourceOnDisk\MHLSourceOnDiskTest\obj\Debug\net6.0\MHLSourceOnDiskTest.genruntimeconfig.cache
 F:\LatestMHL\MHLSorcesOnDisk\MHLSourceOnDisk\MHLSourceOnDiskTest\obj\Debug\net6.0\ref\MHLSourceOnDiskTest.dll
-F:\LatestMHL\MHLSorcesOnDisk\MHLSourceOnDisk\MHLSourceOnDiskTest\bin\Debug\net6.0\MHLSourceScannerModelLib.dll
-F:\LatestMHL\MHLSorcesOnDisk\MHLSourceOnDisk\MHLSourceOnDiskTest\bin\Debug\net6.0\MHLSourceScannerModelLib.pdb
-F:\LatestMHL\MHLSorcesOnDisk\MHLSourceOnDisk\MHLSourceOnDiskTest\bin\Debug\net6.0\MHLCommon.dll
-F:\LatestMHL\MHLSorcesOnDisk\MHLSourceOnDisk\MHLSourceOnDiskTest\bin\Debug\net6.0\MHLCommon.pdb

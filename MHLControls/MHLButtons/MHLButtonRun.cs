@@ -11,8 +11,8 @@ namespace MHLControls.MHLButtons
     {
         public MHLButtonRun() : base()
         {
-            Caption = "Run";
-            Image = MHLResourcesManager.GetImageFromResources("RunButton");          
+            Caption = MHLResourcesManager.GetStringFromResources("MHLButtonRun_CPT", "Run");
+            Image = MHLResourcesManager.GetImageFromResources("RunButton");
         }
     }
 }

@@ -10,31 +10,20 @@ namespace MHLSourceOnDisk
 
     public class DiskItemDirectory : IDiskItemDirectory
     {
+        #region [Private Fields]
         private readonly string path;
         private readonly string name;
+        #endregion
 
+        #region [Constructors]
         public DiskItemDirectory(string path)
         {
             this.path = path;
             name = Path.GetFileName(path);
         }
+        #endregion
 
-        string IDiskItem.Path2Item => Path2Item;
-        public string Path2Item => path;
-
-        string IDiskItem.Name => Name;
-        public string Name => name;
-
-        int IDiskCollection.Count
-        {
-            get
-            {
-                return Directory.EnumerateDirectories(Path2Item).Count() + Directory.EnumerateFiles(Path2Item).Count();
-            }
-        }
-
-        bool IDiskCollection.IsVirtualGroupsUsed => throw new NotImplementedException();
-
+        #region [Private Methods]
         private IEnumerable<IDiskItem> GetChilds()
         {
 
@@ -87,6 +76,19 @@ namespace MHLSourceOnDisk
             }
             yield break;
         }
+        #endregion
+
+
+        #region [IDiskCollection implementation]
+        int IDiskCollection.Count
+        {
+            get
+            {
+                return Directory.EnumerateDirectories(Path2Item).Count() + Directory.EnumerateFiles(Path2Item).Count();
+            }
+        }
+
+        bool IDiskCollection.IsVirtualGroupsUsed => throw new NotImplementedException();
 
         IEnumerable<IDiskItem> IDiskCollection.GetChilds()
         {
@@ -97,5 +99,18 @@ namespace MHLSourceOnDisk
         {
             throw new NotImplementedException();
         }
+        #endregion
+
+        #region [IDiskItem Implementation]
+        string IDiskItem.Path2Item => Path2Item;
+        public string Path2Item => path;
+
+        string IDiskItem.Name => Name;
+        public string Name => name;
+        bool IDiskItem.ExportBooks<T>(T exporter)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
     }
 }

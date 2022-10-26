@@ -13,6 +13,8 @@ namespace MHLSourceOnDiskTest
         protected string pathZip = @"E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip";
         protected int pathZipCnt = 30;
 
+        protected string pathDestination = @"F:\1\test\destination";
+
         [TestMethod]
         public void GetChilds_pathDir_IDiskItem()
         {
@@ -72,6 +74,15 @@ namespace MHLSourceOnDiskTest
                 System.Diagnostics.Debug.WriteLine(child.Name);
             }
             Assert.AreEqual(pathZipCnt, cnt);
+        }
+
+        [TestMethod]
+        public void ExportBooks_pathZip_pathDestination()
+        {
+            IDiskItem zip = DiskItemFabrick.GetDiskItem(pathZip);
+            System.IO.Directory.Delete(pathDestination, true);
+            Export2Dir exporter = new Export2Dir(pathDestination);
+            Assert.IsTrue( zip.ExportBooks(exporter));
         }
     }
 }

@@ -11,7 +11,7 @@ namespace MHLControls.MHLButtons
     {
         public MHLButtonClose() : base()
         {
-            Caption = "Close";
+            Caption = MHLResourcesManager.GetStringFromResources("MHLButtonClose_CPT", "Close");
             Image = MHLResourcesManager.GetImageFromResources("CloseButton");
         }
     }

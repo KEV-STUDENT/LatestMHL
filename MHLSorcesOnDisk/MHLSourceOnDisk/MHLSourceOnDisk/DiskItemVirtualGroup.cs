@@ -4,11 +4,14 @@ namespace MHLSourceOnDisk
 {
     public class DiskItemVirtualGroup : IDiskItemVirtualGroup
     {
+        #region [Private Fields]
         private readonly string  path2Item;
         private readonly string name;
         private IDiskCollection item;
         private List<string> subList;
+        #endregion
 
+        #region [Constructors]
         public DiskItemVirtualGroup(IDiskCollection item, List<string> subList)
         {
             this.item = item;
@@ -25,6 +28,7 @@ namespace MHLSourceOnDisk
             else
                 name = "Is Empty";
         }
+        #endregion
 
         #region [IDiskItemVirtualGroup implementation]
         IDiskCollection IDiskItemVirtualGroup.ParentCollection => item;
@@ -37,6 +41,11 @@ namespace MHLSourceOnDisk
 
 
         string IDiskItem.Name => name;
+
+        bool IDiskItem.ExportBooks<T>(T exporter)
+        {
+            throw new NotImplementedException();
+        }
         #endregion
 
         #region [IDiskCollection implementation]

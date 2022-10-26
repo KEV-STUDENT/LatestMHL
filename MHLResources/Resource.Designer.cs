@@ -81,6 +81,24 @@ namespace MHLResources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Close.
+        /// </summary>
+        public static string MHLButtonClose_CPT {
+            get {
+                return ResourceManager.GetString("MHLButtonClose_CPT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Run.
+        /// </summary>
+        public static string MHLButtonRun_CPT {
+            get {
+                return ResourceManager.GetString("MHLButtonRun_CPT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
         public static System.Drawing.Bitmap RunButton {
