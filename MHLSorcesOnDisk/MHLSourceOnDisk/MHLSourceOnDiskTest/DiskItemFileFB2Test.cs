@@ -1,8 +1,10 @@
-﻿using MHLCommon.MHLBook;
+﻿using MHLCommon;
+using MHLCommon.MHLBook;
 using MHLCommon.MHLDiskItems;
 using MHLSourceOnDisk;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO.Compression;
+using System.Linq;
 
 namespace MHLSourceOnDiskTest
 {
@@ -13,6 +15,8 @@ namespace MHLSourceOnDiskTest
         protected string pathZip = @"F:\1\test\fb2-495000-500999.zip";
         protected string pathFile1 = @"F:\1\test\Davydov_Moskovit.454563.fb2";
 
+        protected string pathFile2 = @"F:\1\test\0000\495008.fb2";
+        protected string pathFile3 = @"F:\1\test\0000\500985.fb2";
 
         [TestMethod]
         public void Constructor_pathFile()
@@ -78,6 +82,32 @@ namespace MHLSourceOnDiskTest
             System.Diagnostics.Debug.WriteLine("Cover :[" + item.Cover + "]");
             System.Diagnostics.Debug.WriteLine(string.IsNullOrEmpty(item.Cover));
             Assert.AreNotEqual(string.Empty, item.Cover??string.Empty);
+        }
+        [TestMethod]
+        public void Sequence_Name_pathFile2()
+        {
+            System.Diagnostics.Debug.WriteLine(pathFile2);
+            IBook item = new DiskItemFileFB2(pathFile2);
+            System.Diagnostics.Debug.WriteLine("Title :[" + item.Title + "]");
+            MHLSequenceNum? sequenceNum = item.SequenceAndNumber.First() as MHLSequenceNum;
+
+            System.Diagnostics.Debug.WriteLine("Sequence Name :[" + (sequenceNum?.Name??string.Empty) + "]");
+            System.Diagnostics.Debug.WriteLine("Sequence Number :[" + (sequenceNum?.Number??0).ToString() + "]");
+            Assert.AreNotEqual(string.Empty, sequenceNum?.Name??string.Empty);
+        }
+
+        [TestMethod]
+        public void Sequence_Name_pathFile3()
+        {
+            IBook item = new DiskItemFileFB2(pathFile3);
+            System.Diagnostics.Debug.WriteLine(pathFile3);
+            System.Diagnostics.Debug.WriteLine("Title :[" + item.Title + "]");
+
+            MHLSequenceNum? sequenceNum = item.SequenceAndNumber.First() as MHLSequenceNum;
+
+            System.Diagnostics.Debug.WriteLine("Sequence Name :[" + (sequenceNum?.Name ?? string.Empty) + "]");
+            System.Diagnostics.Debug.WriteLine("Sequence Number :[" + (sequenceNum?.Number ?? 0).ToString() + "]");
+            Assert.AreNotEqual(string.Empty, sequenceNum?.Name ?? string.Empty);
         }
     }
 }

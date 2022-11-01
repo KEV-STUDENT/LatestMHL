@@ -14,6 +14,7 @@ namespace MHLSourceOnDiskTest
     public class DiskItemVirtualGroupTest
     {
         protected string pathZip = @"E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip";
+        protected string pathDestination = @"F:\1\test\destination";
 
         [TestMethod]
         public void GetChilds_pathZip_firstGroup()
@@ -28,7 +29,7 @@ namespace MHLSourceOnDiskTest
                 break;
             }
               
-            Assert.IsInstanceOfType(item, typeof(IDiskItemVirtualGroup));
+            Assert.IsInstanceOfType(item, typeof(IVirtualGroup));
         }
 
 
@@ -38,10 +39,10 @@ namespace MHLSourceOnDiskTest
             IDiskCollection? zip = DiskItemFabrick.GetDiskItem(pathZip) as IDiskCollection;
             IEnumerable<IDiskItem> childs = zip.GetChilds();
 
-            IDiskItemVirtualGroup? item = null;
+            IVirtualGroup? item = null;
             foreach (IDiskItem child in childs)
             {
-                item = child as IDiskItemVirtualGroup;
+                item = child as IVirtualGroup;
                 break;
             }
 
@@ -55,6 +56,22 @@ namespace MHLSourceOnDiskTest
             Assert.AreNotEqual<int>(0, cnt);
         }
 
+        [TestMethod]
+        public void ExportBooks_pathZip_pathDestination()
+        {
+            IDiskCollection zip = DiskItemFabrick.GetDiskItem(pathZip) as IDiskCollection;
+            IEnumerable<IDiskItem> childs = zip.GetChilds();
+            IDiskItem item = childs.First();
+
+            if(System.IO.Directory.Exists(pathDestination))
+               System.IO.Directory.Delete(pathDestination, true);
+
+            Export2Dir exporter = new Export2Dir(pathDestination);
+
+
+            System.Diagnostics.Debug.WriteLine("{0} : {1}", item.Path2Item, item.Name);
+            Assert.IsTrue(item.ExportBooks(exporter));
+        }
     }
 }
 

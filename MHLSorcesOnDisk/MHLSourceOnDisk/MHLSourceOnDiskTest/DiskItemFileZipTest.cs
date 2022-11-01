@@ -3,6 +3,9 @@ using MHLSourceOnDisk;
 using MHLSourceScannerModelLib;
 using System.Collections.Generic;
 using MHLCommon.MHLDiskItems;
+using MHLCommon;
+using System.IO;
+using System.IO.Compression;
 
 namespace MHLSourceOnDiskTest
 {
@@ -77,12 +80,40 @@ namespace MHLSourceOnDiskTest
         }
 
         [TestMethod]
-        public void ExportBooks_pathZip_pathDestination()
+        public void ExportBooks_pathZip_true_pathDestination()
         {
             IDiskItem zip = DiskItemFabrick.GetDiskItem(pathZip);
-            System.IO.Directory.Delete(pathDestination, true);
-            Export2Dir exporter = new Export2Dir(pathDestination);
+            Directory.Delete(pathDestination, true);
+
+            ExpOptions expOptions = new ExpOptions(pathDestination, true);
+            Export2Dir exporter = new Export2Dir(expOptions);
             Assert.IsTrue( zip.ExportBooks(exporter));
+        }
+
+        [TestMethod]
+        public void ExportBooks_pathZip_false_pathDestination()
+        {
+            IDiskItem zip = DiskItemFabrick.GetDiskItem(pathZip);
+            int res = 0, init = 0;
+            if(Directory.Exists(pathDestination))
+            {
+                init = Directory.GetFiles(pathDestination).Length;
+            }    
+            ExpOptions expOptions = new ExpOptions(pathDestination, false);
+            Export2Dir exporter = new Export2Dir(expOptions);
+
+            using (ZipArchive zipArchive = ZipFile.OpenRead(zip.Path2Item))
+            {
+                init += zipArchive.Entries.Count;
+            }
+
+            if (zip.ExportBooks(exporter) && Directory.Exists(pathDestination))
+            {
+                res = Directory.GetFiles(pathDestination).Length;
+            }
+
+            System.Diagnostics.Debug.WriteLine("{0}-{1}", res, init);
+            Assert.AreEqual(init, res);
         }
     }
 }

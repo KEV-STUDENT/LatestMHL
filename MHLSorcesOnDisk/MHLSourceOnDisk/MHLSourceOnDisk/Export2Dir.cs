@@ -1,18 +1,26 @@
-﻿using MHLCommon.MHLDiskItems;
+﻿using MHLCommon;
+using MHLCommon.MHLDiskItems;
 using System.IO.Compression;
+using System.Runtime.Serialization;
+using System.Security.AccessControl;
+using System.Security.Principal;
 
 namespace MHLSourceOnDisk
 {
     public class Export2Dir : IExport
     {
         #region [Fields]
-        private string pathDestination;
+        private ExpOptions exportOptions;
         #endregion
 
         #region [Constructors]
         public Export2Dir(string pathDestination)
         {
-            this.pathDestination = pathDestination;
+            exportOptions = new ExpOptions(pathDestination);
+        }
+        public Export2Dir(ExpOptions expOptions)
+        {
+            exportOptions = expOptions;
         }
         #endregion
 
@@ -22,27 +30,16 @@ namespace MHLSourceOnDisk
         #region [IExport implementation]
         bool IExport.CheckDestination()
         {
-            if(!Directory.Exists(pathDestination))
-                Directory.CreateDirectory(pathDestination);
-
-            return Directory.Exists(pathDestination);
+            if (!Directory.Exists(exportOptions.PathDestination))
+            {
+               Directory.CreateDirectory(exportOptions.PathDestination);
+            }
+            return Directory.Exists(exportOptions.PathDestination);
         }
 
         bool IExport.Export(IDiskItem diskItem)
         {
-            bool result = false;
-            try
-            {
-                if (diskItem is IZip)
-                {
-                    ZipFile.ExtractToDirectory(diskItem.Path2Item, pathDestination, true);
-                    result = true;
-                }
-            }catch (Exception)
-            {
-                result = false;
-            }
-            return result;
+            return diskItem.ExportItem(exportOptions);
         }
         #endregion
     }

@@ -37,7 +37,7 @@ namespace MHLSourceScannerModelLibTest
             IDiskItem? item = GetDiskItemVirtualGroup(pathZip);
             if (item == null)
             {
-                IDiskItemVirtualGroup? virtualGroup = item as IDiskItemVirtualGroup;
+                IVirtualGroup? virtualGroup = item as IVirtualGroup;
                 if (virtualGroup != null)
                 {
                     foreach (string file in virtualGroup.ItemsNames)
@@ -53,7 +53,7 @@ namespace MHLSourceScannerModelLibTest
         public void GetDiskItemFileFB2_pathZip()
         {
             IDiskItem? item = GetDiskItemVirtualGroup(pathZip);
-            IDiskItemVirtualGroup? virtualGroup = item as IDiskItemVirtualGroup;
+            IVirtualGroup? virtualGroup = item as IVirtualGroup;
 
             IDiskItem? itemFB2 = null;
             if(virtualGroup != null)

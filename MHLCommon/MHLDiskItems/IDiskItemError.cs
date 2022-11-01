@@ -1,6 +1,6 @@
 ﻿namespace MHLCommon.MHLDiskItems
 {
-    public interface IDiskItemError : IDiskItem
+    public interface IDiskItemError
     {
     }
 }

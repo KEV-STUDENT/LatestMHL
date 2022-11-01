@@ -1,4 +1,5 @@
-﻿using MHLCommon.MHLBook;
+﻿using MHLCommon;
+using MHLCommon.MHLBook;
 using MHLCommon.MHLDiskItems;
 using System.Diagnostics;
 using System.IO.Compression;
@@ -10,10 +11,21 @@ namespace MHLSourceOnDisk
 {
     public class DiskItemFileFB2 : DiskItemFile, IFB2
     {
+        #region [Consatants]
         private const string ATTR_MAIN_PATH = "//fb:description/fb:title-info/fb:";
         private const string ATTR_SECOND_PATH = "//description/title-info/";
-        private const string BINARY = "binary";
 
+        private const string SRC_MAIN_PATH = "//fb:description/fb:src-title-info/fb:";
+        private const string SRC_SECOND_PATH = "//description/src-title-info/";
+
+        private const string PUBLISH_MAIN_PATH = "//fb:description/fb:publish-info/fb:";
+        private const string PUBLISH_SECOND_PATH = "//description/publish-info/";
+
+
+        private const string BINARY = "binary";
+        #endregion
+
+        #region [Fields]
         private XmlDocument? _xDoc;
         private XmlNamespaceManager? _namespaceManager;
         private string? _title = null;
@@ -22,7 +34,10 @@ namespace MHLSourceOnDisk
         private List<IBookAttribute<XmlNode>>? _authors = null;
         private List<IBookAttribute<XmlNode>>? _genres = null;
         private List<IBookAttribute<String>>? _keywords = null;
+        private List<IBookAttribute<XmlNode>>? _sequenceAndNumber = null;
+        #endregion
 
+        #region [Properies]
         private XmlNamespaceManager NamespaceManager
         {
             get
@@ -46,6 +61,7 @@ namespace MHLSourceOnDisk
                 return _xDoc;
             }
         }
+        #endregion
 
         #region [Constructors]
         public DiskItemFileFB2(string path) : base(path)
@@ -122,7 +138,19 @@ namespace MHLSourceOnDisk
                         _cover = nodeList[0]?.InnerText;
                     }
                 }
-                return _cover??String.Empty;
+                return _cover ?? String.Empty;
+            }
+        }
+
+        List<IBookAttribute<XmlNode>>? IBook.SequenceAndNumber
+        {
+            get
+            {
+                if(_sequenceAndNumber == null)
+                {
+                    _sequenceAndNumber = GetBookAttributes<MHLSequenceNum>("sequence");
+                }
+                return _sequenceAndNumber;
             }
         }
         #endregion
@@ -132,7 +160,7 @@ namespace MHLSourceOnDisk
         {
             XmlDocument xDoc = new();
             IDiskItem item = this;
-            IDiskItemFile file = this;
+            IFile file = this;
 
             if (file?.Parent is DiskItemFileZip)
             {
@@ -181,11 +209,25 @@ namespace MHLSourceOnDisk
             where T : MHLBookAttribute<XmlNode>, new()
         {
             List<IBookAttribute<XmlNode>> res = new List<IBookAttribute<XmlNode>>();
-
             XmlNodeList? nodeList = GetNodeList(string.Concat(ATTR_MAIN_PATH, attributeName));
-
             if ((nodeList?.Count ?? 0) == 0)
+            {
                 nodeList = GetNodeList(string.Concat(ATTR_SECOND_PATH, attributeName));
+                if ((nodeList?.Count ?? 0) == 0)
+                {
+                    nodeList = GetNodeList(string.Concat(SRC_MAIN_PATH, attributeName));
+                    if ((nodeList?.Count ?? 0) == 0)
+                    {
+                        nodeList = GetNodeList(string.Concat(SRC_SECOND_PATH, attributeName));
+                        if ((nodeList?.Count ?? 0) == 0)
+                        {
+                            nodeList = GetNodeList(string.Concat(PUBLISH_MAIN_PATH, attributeName));
+                            if ((nodeList?.Count ?? 0) == 0)
+                                nodeList = GetNodeList(string.Concat(PUBLISH_SECOND_PATH, attributeName));
+                        }
+                    }
+                }                   
+            }
 
             if (nodeList != null)
             {
@@ -200,7 +242,11 @@ namespace MHLSourceOnDisk
         private string GetBookAttribute(string attributeName)
         {
             string? title = GetNode(string.Concat(ATTR_MAIN_PATH, attributeName))
-                   ?? GetNode(string.Concat(ATTR_SECOND_PATH, attributeName));
+                   ?? GetNode(string.Concat(ATTR_SECOND_PATH, attributeName))
+                   ?? GetNode(string.Concat(SRC_MAIN_PATH, attributeName))
+                   ?? GetNode(string.Concat(SRC_SECOND_PATH, attributeName))
+                   ?? GetNode(string.Concat(PUBLISH_MAIN_PATH, attributeName))
+                   ?? GetNode(string.Concat(PUBLISH_SECOND_PATH, attributeName));
 
 
             return title ?? string.Empty;

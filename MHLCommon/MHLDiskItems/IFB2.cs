@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MHLCommon.MHLDiskItems
 {
-    public interface IFB2 : IDiskItemFile, IBook
+    public interface IFB2 : IFile, IBook
     {
     }
 }

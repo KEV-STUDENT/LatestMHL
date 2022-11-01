@@ -6,20 +6,22 @@ namespace MHLSourceOnDisk
 {
     using System.Collections.Generic;
     using System.ComponentModel;
+    using MHLCommon;
     using MHLCommon.MHLDiskItems;
 
-    public class DiskItemDirectory : IDiskItemDirectory
+    public class DiskItemDirectory : DiskItem, IDiskItemDirectory
     {
-        #region [Private Fields]
-        private readonly string path;
-        private readonly string name;
-        #endregion
 
         #region [Constructors]
-        public DiskItemDirectory(string path)
+        public DiskItemDirectory(string path):base(path, Path.GetFileName(path))
         {
-            this.path = path;
-            name = Path.GetFileName(path);
+        }
+        #endregion
+
+        #region [Properties]
+        private string Path2Item
+        {
+            get => ((IDiskItem)this).Path2Item;
         }
         #endregion
 
@@ -31,7 +33,7 @@ namespace MHLSourceOnDisk
             Exception? error = null;
             try
             {
-                dir = Directory.EnumerateDirectories(path);
+                dir = Directory.EnumerateDirectories(Path2Item);
             }
             catch (Exception ex)
             {
@@ -40,7 +42,7 @@ namespace MHLSourceOnDisk
 
             if (error != null)
             {
-                yield return DiskItemFabrick.GetDiskItem(path, error);
+                yield return DiskItemFabrick.GetDiskItem(Path2Item, error);
             }
             else
             {
@@ -55,7 +57,7 @@ namespace MHLSourceOnDisk
             error = null;
             try
             {
-                dir = Directory.EnumerateFiles(path);
+                dir = Directory.EnumerateFiles(Path2Item);
             }
             catch (Exception ex)
             {
@@ -64,7 +66,7 @@ namespace MHLSourceOnDisk
 
             if (error != null)
             {
-                yield return DiskItemFabrick.GetDiskItem(path, error);
+                yield return DiskItemFabrick.GetDiskItem(Path2Item, error);
             }
             else
             {
@@ -101,13 +103,8 @@ namespace MHLSourceOnDisk
         }
         #endregion
 
-        #region [IDiskItem Implementation]
-        string IDiskItem.Path2Item => Path2Item;
-        public string Path2Item => path;
-
-        string IDiskItem.Name => Name;
-        public string Name => name;
-        bool IDiskItem.ExportBooks<T>(T exporter)
+        #region [DiskItem Implementation]
+        public override bool ExportItem(ExpOptions exportOptions)
         {
             throw new NotImplementedException();
         }

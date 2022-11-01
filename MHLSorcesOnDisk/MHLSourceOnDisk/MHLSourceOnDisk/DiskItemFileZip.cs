@@ -1,10 +1,12 @@
-﻿using System.IO.Compression;
+﻿using System.Collections;
+using System.IO.Compression;
+using System.Runtime.Serialization;
 using MHLCommon;
 using MHLCommon.MHLDiskItems;
 
 namespace MHLSourceOnDisk
 {
-    public class DiskItemFileZip : DiskItemFile, IZip
+    public class DiskItemFileZip : DiskItemFile, IDiskCollection
     {
         private enum VirtualGroups
         {
@@ -13,8 +15,13 @@ namespace MHLSourceOnDisk
             VirtualGroupsUsed = 2
         }
 
+        #region [Fields]
         private int count = -1;
         private VirtualGroups virtualFlag = VirtualGroups.NotChecked;
+        private List<String> files = new List<string>();
+        #endregion
+
+        #region [Constructors]
         public DiskItemFileZip(string path) : base(path)
         {
         }
@@ -22,7 +29,9 @@ namespace MHLSourceOnDisk
         public DiskItemFileZip(DiskItemFileZip item, string fullName) : base(item, fullName)
         {
         }
+        #endregion
 
+        #region [Methods]
         protected override void Initialize()
         {
             count = 0;
@@ -41,9 +50,86 @@ namespace MHLSourceOnDisk
                     count = zipArchive.Entries.Count;
                     virtualFlag = VirtualGroups.VirtualGroupsNotUsed;
                 }
+                files.Clear();
+                foreach(ZipArchiveEntry entry in zipArchive.Entries)
+                {
+                    files.Add(entry.FullName);
+                }
             }
         }
 
+        private bool CheckExportDirectory4Files(string pathDestination)
+        {
+            bool ret = true;
+            foreach (string file in files)
+            {
+                if (File.Exists(Path.Combine(pathDestination, file)))
+                {
+                    ret = false;
+                    break;
+                }
+            }
+            return ret;
+        }
+        #endregion
+
+        #region [DiskItem Implementation]
+        public override bool ExportItem(ExpOptions exportOptions)
+        {
+            bool result = true;
+            try
+            {
+                using (ZipArchive zipArchive = ZipFile.OpenRead(Path2Item))
+                {
+                    if (exportOptions.OverWriteFiles || CheckExportDirectory4Files(exportOptions.PathDestination))
+                        zipArchive.ExtractToDirectory(exportOptions.PathDestination, exportOptions.OverWriteFiles);
+                    else
+                    {
+                        foreach (string file in files)
+                        {
+                            ExtractToDirectorySeparately(exportOptions.PathDestination, file, zipArchive.GetEntry(file));
+                        }
+                    }
+                }
+
+            }
+            catch (IOException ie)
+            {
+                System.Diagnostics.Debug.WriteLine(ie.Message);
+                System.Diagnostics.Debug.WriteLine(ie.Data.Count);
+                foreach (DictionaryEntry de in ie.Data)
+                    System.Diagnostics.Debug.WriteLine("    Key: {0,-20}      Value: {1}",
+                                      "'" + de.Key.ToString() + "'", de.Value);
+                result = false;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                result = false;
+            }
+            return result;
+        }
+
+        private void ExtractToDirectorySeparately(string pathDestination, string file, ZipArchiveEntry? zipArchiveEntry)
+        {
+            string newFile, name, ext;
+            int i = 0;
+
+            if (zipArchiveEntry != null)
+            {
+                name = Path.GetFileNameWithoutExtension(file);
+                ext = Path.GetExtension(file);
+                newFile = Path.Combine(pathDestination, file);
+                while(File.Exists(newFile))
+                {
+                    newFile = Path.Combine(pathDestination, Path.ChangeExtension(string.Format("{0}({1})",name, i++), ext));
+                }
+                zipArchiveEntry.ExtractToFile(newFile);
+            }
+        }
+        #endregion
+
+        #region [IDiskCollection implementation]
         int IDiskCollection.Count
         {
             get
@@ -120,5 +206,6 @@ namespace MHLSourceOnDisk
                 }
             }
         }
+        #endregion
     }
 }

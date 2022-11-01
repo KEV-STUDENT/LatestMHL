@@ -1,6 +1,6 @@
 ﻿namespace MHLCommon.MHLDiskItems
 {
-    public interface IDiskItemVirtualGroup : IDiskItem, IDiskCollection
+    public interface IVirtualGroup : IDiskCollection
     {
 
         IDiskCollection ParentCollection { get; }

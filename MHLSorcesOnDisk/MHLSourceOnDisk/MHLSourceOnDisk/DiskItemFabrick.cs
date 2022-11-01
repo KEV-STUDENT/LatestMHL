@@ -69,7 +69,7 @@ namespace MHLSourceOnDisk
             }
         }
 
-        public static IDiskItem GetDiskItem(IDiskItemVirtualGroup virtualGroup, string itemName)
+        public static IDiskItem GetDiskItem(IVirtualGroup virtualGroup, string itemName)
         {
             IDiskItem? diskItem = null;
             if (virtualGroup.ParentCollection is DiskItemFileZip zip)
@@ -205,15 +205,16 @@ namespace MHLSourceOnDisk
 
         public static bool ExportBooks<T>(IEnumerable<IDiskItem>? books, T exporter) where T : class, IExport
         {
+            bool result = true;
             if ((books?.Count()??0) > 0)
             {
                 foreach (IDiskItem item in books)
                 {
-                    item.ExportBooks<T>(exporter);
+                    if (!item.ExportBooks<T>(exporter))
+                        result = false;
                 }
             }
-
-            return false;
+            return result;
         }
     }
 }

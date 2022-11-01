@@ -1,6 +1,6 @@
 ﻿namespace MHLCommon.MHLDiskItems
 {
-    public interface IDiskItemFile : IDiskItem
+    public interface IFile
     {
         IDiskCollection? Parent { get; }
     }

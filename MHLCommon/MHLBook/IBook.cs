@@ -8,6 +8,7 @@ namespace MHLCommon.MHLBook
         List<IBookAttribute<XmlNode>> Authors { get; }
         List<IBookAttribute<XmlNode>> Genres { get; }
         List<IBookAttribute<string>> Keywords { get; }
+        List<IBookAttribute<XmlNode>> SequenceAndNumber { get; }
         string Annotation { get; }
         string Cover { get; }
     }

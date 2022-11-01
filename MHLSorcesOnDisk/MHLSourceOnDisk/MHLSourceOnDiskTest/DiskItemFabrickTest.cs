@@ -4,6 +4,8 @@ using MHLSourceOnDisk;
 using MHLCommon.MHLDiskItems;
 using System.Collections.Generic;
 using MHLCommon.MHLBook;
+using System.IO;
+using System.Runtime.Serialization;
 
 namespace MHLSourceOnDiskTest
 {
@@ -37,7 +39,7 @@ namespace MHLSourceOnDiskTest
         public void GetDiskItem_pathFile_IDiskItemFile()
         {
             IDiskItem item = DiskItemFabrick.GetDiskItem(pathFile);
-            Assert.IsInstanceOfType(item, typeof(IDiskItemFile));
+            Assert.IsInstanceOfType(item, typeof(IFile));
         }
 
         [TestMethod]
@@ -112,10 +114,14 @@ namespace MHLSourceOnDiskTest
         {
             IDiskItem item = DiskItemFabrick.GetDiskItem(pathZip);
             IEnumerable<IDiskItem>? books = null;
-
             if (item is IDiskCollection diskCollection)
             {
                 books = diskCollection.GetChilds();
+            }
+
+            if (Directory.Exists(pathDestination))
+            {
+                Directory.Delete(pathDestination, true);
             }
 
             Export2Dir exporter = new Export2Dir(pathDestination);

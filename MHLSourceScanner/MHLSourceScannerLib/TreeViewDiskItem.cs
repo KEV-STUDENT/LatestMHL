@@ -118,7 +118,7 @@ namespace MHLSourceScannerLib
                 newTreeItem = new TreeViewFB2(diskItemChild, shower, this);
             else if (diskItemChild is DiskItemFileZip)
                 newTreeItem = new TreeViewZip(diskItemChild, shower, this);
-            else if (diskItemChild is IDiskItemVirtualGroup)
+            else if (diskItemChild is IVirtualGroup)
                 newTreeItem = new TreeViewVirtualGroup(diskItemChild, shower, this);
             else if (diskItemChild is DiskItemDirectorySystem || diskItemChild is DiskItemFileSystem)
                 newTreeItem = new TreeViewSystem(diskItemChild, shower, this);

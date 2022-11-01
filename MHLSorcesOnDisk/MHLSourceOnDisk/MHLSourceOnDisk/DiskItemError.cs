@@ -1,35 +1,28 @@
-﻿using MHLCommon.MHLDiskItems;
+﻿using MHLCommon;
+using MHLCommon.MHLDiskItems;
 
 namespace MHLSourceOnDisk
 {
-    public class DiskItemError : IDiskItemError
+    public class DiskItemError : DiskItem, IDiskItemError
     {
         #region [Private Fields]
-        private readonly string path;
-        private readonly string name;
         private readonly Exception? exp;
         #endregion
 
         #region [Constructor]
-        public DiskItemError(string path, Exception? exp)
+        public DiskItemError(string path, Exception? exp) : base(path, Path.GetFileName(path))
         {
-            this.path = path;
             this.exp = exp;
-            name = Path.GetFileName(path);
         }
         #endregion
 
         #region [Public Properties]
-        public string Name => name;
-        public string Path2Item => path;
+        public string Name => ((IDiskItem)this).Name;
+        public string Path2Item => ((IDiskItem)this).Path2Item;
         #endregion
 
-        #region [IDiskItem Implentation]
-        string IDiskItem.Path2Item => Path2Item;
-
-        string IDiskItem.Name => Name;
-
-        bool IDiskItem.ExportBooks<T>(T exporter)
+        #region [DiskItem Implentation]
+        public override bool ExportItem(ExpOptions exportOptions)
         {
             throw new NotImplementedException();
         }

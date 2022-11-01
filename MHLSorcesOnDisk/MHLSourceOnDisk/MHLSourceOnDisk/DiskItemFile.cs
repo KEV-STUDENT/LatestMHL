@@ -1,38 +1,31 @@
 ﻿using System.IO;
+using MHLCommon;
 using MHLCommon.MHLDiskItems;
 
 namespace MHLSourceOnDisk
 {
-    public class DiskItemFile : IDiskItemFile
+    public class DiskItemFile : DiskItem, IFile
     {
         #region [Private Fields]
-        private readonly string path;
-        private readonly string name;
-
         private readonly IDiskCollection? parent;
         #endregion
 
         #region [Constructors]
-        public DiskItemFile(string path)
+        public DiskItemFile(string path) : base(path, Path.GetFileName(path))
         {
-            this.path = path;
-            name = Path.GetFileName(path);
             Initialize();
         }
 
-        public DiskItemFile(DiskItemFileZip zip, string fullName)
+        public DiskItemFile(DiskItemFileZip zip, string fullName) : base(zip.Path2Item, fullName)
         {
-            path = zip.Path2Item;
-            name = fullName;
             parent = zip;
-
             Initialize();
         }
         #endregion
 
         #region [Public Properties]
-        public string Path2Item => path;
-        public string Name { get => name;}
+        public string Path2Item => ((IDiskItem)this).Path2Item;
+        public string Name => ((IDiskItem)this).Name;
         #endregion
 
         #region [Protected Methods]
@@ -41,24 +34,15 @@ namespace MHLSourceOnDisk
         }
         #endregion
 
-        #region [IDiskItem Implementation]
-        string IDiskItem.Path2Item => Path2Item;
-        string IDiskItem.Name => Name;
-        bool IDiskItem.ExportBooks<T>(T exporter)
+        #region [DiskItem Implementation]
+        public override bool ExportItem(ExpOptions exportOptions)
         {
-            bool result = false;
-
-            if (exporter.CheckDestination())
-            {
-                result = exporter.Export((IDiskItem)this);
-            }
-
-            return result;
+            throw new NotImplementedException();
         }
         #endregion
 
         #region [IDiskCollection Implementation]
-        IDiskCollection? IDiskItemFile.Parent => parent;
+        IDiskCollection? IFile.Parent => parent;
         #endregion
     }
 }

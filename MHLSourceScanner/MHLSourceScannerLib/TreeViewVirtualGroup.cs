@@ -57,7 +57,7 @@ namespace MHLSourceScannerLib
         {
 
             if ((diskCollection?.Count ?? 0) != 0 && !string.IsNullOrEmpty(source?.Path2Item) && 
-                (diskCollection is IDiskItemVirtualGroup virtGroup) && 
+                (diskCollection is IVirtualGroup virtGroup) && 
                 (virtGroup.ParentCollection is DiskItemFileZip fileZip))
             {
                 List<Task> tasks = new List<Task>();
