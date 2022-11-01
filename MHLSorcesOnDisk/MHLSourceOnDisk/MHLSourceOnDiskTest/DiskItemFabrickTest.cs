@@ -119,11 +119,6 @@ namespace MHLSourceOnDiskTest
                 books = diskCollection.GetChilds();
             }
 
-            if (Directory.Exists(pathDestination))
-            {
-                Directory.Delete(pathDestination, true);
-            }
-
             Export2Dir exporter = new Export2Dir(pathDestination);
             bool res = DiskItemFabrick.ExportBooks(books, exporter);
             Assert.IsTrue(res);
