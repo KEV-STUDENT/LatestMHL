@@ -146,7 +146,7 @@ namespace MHLSourceOnDisk
         {
             get
             {
-                if(_sequenceAndNumber == null)
+                if (_sequenceAndNumber == null)
                 {
                     _sequenceAndNumber = GetBookAttributes<MHLSequenceNum>("sequence");
                 }
@@ -155,7 +155,52 @@ namespace MHLSourceOnDisk
         }
         #endregion
 
-        #region [Private Methods]
+        #region [DiskItem Implementation]
+        public override bool ExportItem(ExpOptions exportOptions)
+        {
+            bool result = true;
+            IFile file = this;
+            string entryName, newFile;
+
+            entryName = ((IDiskItem)this).Name;
+
+            if (file.Parent is DiskItemFileZip zip)
+            {
+                using (ZipArchive zipArchive = ZipFile.OpenRead(zip.Path2Item))
+                {
+                    ZipArchiveEntry? fileInZip = zipArchive.GetEntry(entryName);
+
+                    if (fileInZip != null)
+                    {
+                        try
+                        {
+                            if (exportOptions.OverWriteFiles)
+                                newFile = Path.Combine(exportOptions.PathDestination, entryName);
+                            else
+                                newFile = MHLSourceOnDiskStatic.GetNewFileName(exportOptions.PathDestination, entryName);
+
+                            fileInZip.ExtractToFile(newFile, exportOptions.OverWriteFiles);
+                            if (!File.Exists(newFile))
+                            {
+                                result = false;
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            result = false;
+                        }
+                    }
+                }
+            }
+            else
+            {
+
+            }
+            return result;
+        }
+        #endregion
+
+        #region [Methods]
         private XmlDocument GetXmlDocument()
         {
             XmlDocument xDoc = new();
@@ -226,7 +271,7 @@ namespace MHLSourceOnDisk
                                 nodeList = GetNodeList(string.Concat(PUBLISH_SECOND_PATH, attributeName));
                         }
                     }
-                }                   
+                }
             }
 
             if (nodeList != null)
@@ -266,9 +311,6 @@ namespace MHLSourceOnDisk
 
             return res;
         }
-        #endregion
-
-        #region [Protected Methods]
         #endregion
     }
 }

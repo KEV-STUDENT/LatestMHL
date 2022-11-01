@@ -68,12 +68,14 @@ namespace MHLSourceOnDisk
                     {
                         try
                         {
-                            newFile = Path.Combine(exportOptions.PathDestination, entryName);
-                            //System.Diagnostics.Debug.WriteLine(newFile);
-                            file.ExtractToFile(newFile, true);
+                            if(exportOptions.OverWriteFiles)
+                                newFile = Path.Combine(exportOptions.PathDestination, entryName);
+                            else
+                                newFile = MHLSourceOnDiskStatic.GetNewFileName(exportOptions.PathDestination, entryName);
+
+                            file.ExtractToFile(newFile, exportOptions.OverWriteFiles);
                             if (!File.Exists(newFile))
                             {
-                                System.Diagnostics.Debug.WriteLine("ERROR : " + newFile);
                                 result = false;
                             }
                         }
@@ -85,7 +87,6 @@ namespace MHLSourceOnDisk
                     }
                 }
             }
-            System.Diagnostics.Debug.WriteLine(result);
             return result;
         }
         #endregion

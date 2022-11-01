@@ -87,7 +87,7 @@ namespace MHLSourceOnDisk
                     {
                         foreach (string file in files)
                         {
-                            ExtractToDirectorySeparately(exportOptions.PathDestination, file, zipArchive.GetEntry(file));
+                            ExtractArchiveEntryToDirectorySeparately(exportOptions.PathDestination, file, zipArchive.GetEntry(file));
                         }
                     }
                 }
@@ -110,20 +110,12 @@ namespace MHLSourceOnDisk
             return result;
         }
 
-        private void ExtractToDirectorySeparately(string pathDestination, string file, ZipArchiveEntry? zipArchiveEntry)
+        private void ExtractArchiveEntryToDirectorySeparately(string pathDestination, string file, ZipArchiveEntry? zipArchiveEntry)
         {
-            string newFile, name, ext;
-            int i = 0;
-
+            string newFile;
             if (zipArchiveEntry != null)
             {
-                name = Path.GetFileNameWithoutExtension(file);
-                ext = Path.GetExtension(file);
-                newFile = Path.Combine(pathDestination, file);
-                while(File.Exists(newFile))
-                {
-                    newFile = Path.Combine(pathDestination, Path.ChangeExtension(string.Format("{0}({1})",name, i++), ext));
-                }
+                newFile = MHLSourceOnDiskStatic.GetNewFileName(pathDestination, file);
                 zipArchiveEntry.ExtractToFile(newFile);
             }
         }

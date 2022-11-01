@@ -38,6 +38,7 @@ namespace MHLSourceOnDiskTest
             IDiskCollection? item = DiskItemFabrick.GetDiskItem(pathDir) as IDiskCollection;
             Debug.WriteLine(item?.Count);
             Assert.AreNotEqual(0, item?.Count??0);
-        }       
+        }
+
     }
 }
