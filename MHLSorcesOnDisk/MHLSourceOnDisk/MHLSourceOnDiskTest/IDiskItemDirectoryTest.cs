@@ -8,10 +8,9 @@ namespace MHLSourceOnDiskTest
     [TestClass]
     public class IDiskItemDirectoryTest
     {
-        protected const string pathDir = @"F:\1\test";
-        
         [TestMethod]
-        public void IDiskItemDirectory()
+        [DataRow(@"F:\1\test")]
+        public void IDiskItemDirectory(string pathDir)
         {
             IDiskItem item = DiskItemFabrick.GetDiskItem(pathDir);
             Assert.IsInstanceOfType(item, typeof(IDiskItemDirectory));
@@ -19,7 +18,8 @@ namespace MHLSourceOnDiskTest
 
 
         [TestMethod]
-        public void GetChilds_pathDir()
+        [DataRow(@"F:\1\test")]
+        public void GetChilds_pathDir(string pathDir)
         {
             IDiskItemDirectory? item = DiskItemFabrick.GetDiskItem(pathDir) as IDiskItemDirectory;
             int cnt = 0;
@@ -33,7 +33,8 @@ namespace MHLSourceOnDiskTest
         }
 
         [TestMethod]
-        public void Count_pathDir()
+        [DataRow(@"F:\1\test")]
+        public void Count_pathDir(string pathDir)
         {
             IDiskCollection? item = DiskItemFabrick.GetDiskItem(pathDir) as IDiskCollection;
             Debug.WriteLine(item?.Count);

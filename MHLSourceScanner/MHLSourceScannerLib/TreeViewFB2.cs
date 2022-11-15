@@ -48,7 +48,7 @@ namespace MHLSourceScannerLib
 
                     _sequenceNumLoaded = true;
                 }
-                return (_sequenceNum == null ? Visibility.Collapsed : Visibility.Visible) ;
+                return (_sequenceNum == null || string.IsNullOrEmpty(_sequenceNum?.Name) ? Visibility.Collapsed : Visibility.Visible) ;
             }
         }
 

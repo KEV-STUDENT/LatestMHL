@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.IO.Compression;
 using System.Text;
 using System.Xml;
-using System.Xml.Linq;
 
 namespace MHLSourceOnDisk
 {
@@ -21,8 +20,13 @@ namespace MHLSourceOnDisk
         private const string PUBLISH_MAIN_PATH = "//fb:description/fb:publish-info/fb:";
         private const string PUBLISH_SECOND_PATH = "//description/publish-info/";
 
+        private const string BODY_START = "<body";
+        private const string BODY_END = "</body>";
 
         private const string BINARY = "binary";
+
+        private bool _xDocLoaded = false;
+
         #endregion
 
         #region [Fields]
@@ -56,8 +60,11 @@ namespace MHLSourceOnDisk
         {
             get
             {
-                if (_xDoc == null)
+                if (!_xDocLoaded)
+                {
+                    _xDocLoaded = true;
                     _xDoc = GetXmlDocument();
+                }
                 return _xDoc;
             }
         }
@@ -201,9 +208,9 @@ namespace MHLSourceOnDisk
         #endregion
 
         #region [Methods]
-        private XmlDocument GetXmlDocument()
+        private XmlDocument? GetXmlDocument()
         {
-            XmlDocument xDoc = new();
+            XmlDocument? xDoc = new();
             IDiskItem item = this;
             IFile file = this;
 
@@ -214,11 +221,7 @@ namespace MHLSourceOnDisk
                     ZipArchiveEntry? entry = archive.GetEntry(item.Name);
                     using (Stream? st = entry?.Open())
                     {
-                        if (st != null)
-                        {
-                            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-                            xDoc.Load(st);
-                        }
+                        xDoc = LoadFromStream(st);
                     }
                 }
             }
@@ -226,11 +229,70 @@ namespace MHLSourceOnDisk
             {
                 if (!string.IsNullOrEmpty(item.Path2Item))
                 {
-                    Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-                    xDoc.Load(item.Path2Item);
+                    using (Stream st = File.OpenRead(item.Path2Item))
+                    {
+                        xDoc = LoadFromStream(st);
+                    }
                 }
             }
             return xDoc;
+        }
+
+        private XmlDocument? LoadFromStream(Stream? st)
+        {
+            XmlDocument? xDoc = null;
+            string xml;
+            if (st != null)
+            {
+                using (var ms = new MemoryStream())
+                {
+                    Stream.Synchronized(st).CopyTo(ms);
+                    xml = GetStringFromBytes(ms.ToArray());
+                    xDoc = new XmlDocument();
+                    xDoc.LoadXml(xml);
+                }
+            }
+            return xDoc;
+        }
+
+        private string GetStringFromBytes(byte[] byte4book)
+        {
+            int markerLength = DiskItemFabrick.CheckFileMarker(byte4book);
+            if (markerLength > 0)
+            {
+                byte[] bookCopy = new byte[byte4book.Length - markerLength];
+                Array.Copy(byte4book, markerLength, bookCopy, 0, bookCopy.Length);
+                byte4book = bookCopy;
+            }
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+            Encoding encoding = Encoding.GetEncoding("windows-1251");
+
+            if (byte4book.Length > 37)
+            {
+                if ((byte4book[30] == 85 || byte4book[30] == 117) &&
+                    (byte4book[31] == 84 || byte4book[31] == 116) &&
+                    (byte4book[32] == 70 || byte4book[32] == 102) &&
+                    byte4book[33] == 45 && byte4book[34] == 56 && byte4book[35] == 34 &&
+                    byte4book[36] == 63 && byte4book[37] == 62)
+                {
+                    encoding = Encoding.UTF8;
+                }
+            }
+
+            string xml = encoding.GetString(byte4book, 0, byte4book.Length);
+            if (!string.IsNullOrEmpty(xml))
+            {
+                int bodyStart = xml.IndexOf(BODY_START);
+                if (bodyStart > 0)
+                    bodyStart += BODY_START.Length;
+
+                int bodyEnd = xml.IndexOf(BODY_END);
+                if (bodyStart > 0 && bodyEnd > 0)
+                {
+                    xml = xml[..(bodyStart == 0?bodyEnd:bodyStart)] + (bodyStart > 0 ? ">" : "") + xml[(bodyEnd == 0?bodyStart:bodyEnd)..];
+                }
+            }
+            return xml;
         }
 
         private string? GetNode(string node)

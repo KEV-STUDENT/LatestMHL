@@ -1,7 +1,6 @@
-﻿using System.Diagnostics;
-using System.IO.Compression;
-using MHLCommon.MHLBook;
+﻿using MHLCommon.MHLBook;
 using MHLCommon.MHLDiskItems;
+using System.IO.Compression;
 
 namespace MHLSourceOnDisk
 {
@@ -14,6 +13,7 @@ namespace MHLSourceOnDisk
     }
     public static class DiskItemFabrick
     {
+        static readonly byte[] fileMarker = { 0xEF, 0xBB, 0xBF };
         static readonly byte[] fb2Signature = { 0x3C, 0x3F, 0x78, 0x6D, 0x6C, 0x20 };
         static readonly byte[] zipSignature = { 0x50, 0x4B, 0x03, 0x04 };
         public static IDiskItem GetDiskItem(string path)
@@ -69,6 +69,20 @@ namespace MHLSourceOnDisk
             }
         }
 
+        public static int CheckFileMarker(byte[] bytes)
+        {
+            byte[] fileHead = new byte[fileMarker.Length];
+
+            if (bytes.Length >= fileMarker.Length)
+            {
+                Array.Copy(bytes, fileHead, fileHead.Length);
+
+                if (Enumerable.SequenceEqual(fileMarker, fileHead))
+                    return fileMarker.Length;
+            }
+            return 0;
+        }
+
         public static IDiskItem GetDiskItem(IVirtualGroup virtualGroup, string itemName)
         {
             IDiskItem? diskItem = null;
@@ -96,16 +110,30 @@ namespace MHLSourceOnDisk
 
             FileType type = FileType.Unknown;
             Exception? exp = null;
+            DiskItemFileFB2? fb2 = null;
+
             try
             {
                 using (Stream fileStream = zipArchiveEntry.Open())
                 {
                     type = CheckFileType(fileStream);
+
+                    if (type == FileType.Fb2)
+                    {
+                        fb2 = new DiskItemFileFB2(item, zipArchiveEntry.FullName);
+                        {
+                            if (string.IsNullOrEmpty(((IBook)fb2).Title))
+                            {
+                                fb2 = null;
+                                type = FileType.Error;
+                            }
+                        }
+                    }
                 }
             }
             catch (Exception e)
             {
-                System.Diagnostics.Debug.WriteLine(e.Message);
+                fb2 = null;
                 type = FileType.Error;
                 exp = e;
             }
@@ -117,8 +145,9 @@ namespace MHLSourceOnDisk
                     return new DiskItemFileZip(item, zipArchiveEntry.FullName);
                 case FileType.Fb2:
                     System.Diagnostics.Debug.WriteLine("DiskItemFabrick.GetDiskItem({0},{1}) - FB2", item.Path2Item, zipArchiveEntry.FullName);
-                    return new DiskItemFileFB2(item, zipArchiveEntry.FullName);
+                    return fb2;
                 case FileType.Error:
+                    System.Diagnostics.Debug.WriteLine(exp?.Message ?? string.Empty);
                     System.Diagnostics.Debug.WriteLine("DiskItemFabrick.GetDiskItem({0},{1}) - Error", item.Path2Item, zipArchiveEntry.FullName);
                     return new DiskItemError(zipArchiveEntry.FullName, exp);
                 default:
@@ -135,9 +164,17 @@ namespace MHLSourceOnDisk
 
         private static FileType CheckFileType(Stream fileStream)
         {
+            byte[] fileFB2Head = new byte[fb2Signature.Length + fileMarker.Length];
             byte[] fileFB2 = new byte[fb2Signature.Length];
 
-            fileStream.Read(fileFB2, 0, fb2Signature.Length);
+            fileStream.Read(fileFB2Head, 0, fileFB2Head.Length);
+            int markerLength = CheckFileMarker(fileFB2Head);
+
+            if (markerLength > 0)
+                Array.Copy(fileFB2Head, markerLength, fileFB2, 0, fb2Signature.Length);
+            else
+                Array.Copy(fileFB2Head, fileFB2, fb2Signature.Length);
+
             if (Enumerable.SequenceEqual(fileFB2, fb2Signature))
             {
                 return FileType.Fb2;
@@ -206,7 +243,7 @@ namespace MHLSourceOnDisk
         public static bool ExportBooks<T>(IEnumerable<IDiskItem>? books, T exporter) where T : class, IExport
         {
             bool result = true;
-            if ((books?.Count()??0) > 0)
+            if ((books?.Count() ?? 0) > 0)
             {
                 foreach (IDiskItem item in books)
                 {

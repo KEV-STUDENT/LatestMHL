@@ -12,14 +12,9 @@ namespace MHLSourceOnDiskTest
     [TestClass]
     public class DiskItemFileZipTest
     {
-        protected string pathZip1 = @"F:\1\test\fb2-495000-500999.zip";
-        protected string pathZip = @"E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip";
-        protected int pathZipCnt = 30;
-
-        protected string pathDestination = @"F:\1\test\destination";
-
         [TestMethod]
-        public void GetChilds_pathDir_IDiskItem()
+        [DataRow(@"E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip")]
+        public void GetChilds_IDiskItem(string pathZip)
         {
             IDiskItem item = DiskItemFabrick.GetDiskItem(pathZip);
             int cnt = 0;
@@ -37,7 +32,8 @@ namespace MHLSourceOnDiskTest
 
       
         [TestMethod]
-        public void Count_pathZip()
+        [DataRow(@"E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip")]
+        public void Count(string pathZip)
         {
             IDiskItem item = DiskItemFabrick.GetDiskItem(pathZip);
             IDiskCollection? diskCollection = item as IDiskCollection;
@@ -46,7 +42,8 @@ namespace MHLSourceOnDiskTest
         }
 
         [TestMethod]
-        public void GetChilds_IDiskVirtualGroup_pathZip()
+        [DataRow(@"E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip")]
+        public void GetChilds_IDiskVirtualGroup(string pathZip)
         {
             IDiskCollection? zip = DiskItemFabrick.GetDiskItem(pathZip) as IDiskCollection;
             IEnumerable<IDiskItem> childs = zip.GetChilds();
@@ -63,7 +60,8 @@ namespace MHLSourceOnDiskTest
         }
 
         [TestMethod]
-        public void GetChilds_Count_pathZip_pathZipCnt()
+        [DataRow(@"E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip", 30)]
+        public void GetChilds_Count(string pathZip, int pathZipCnt)
         {
             IDiskCollection? zip = DiskItemFabrick.GetDiskItem(pathZip) as IDiskCollection;
             IEnumerable<IDiskItem> childs = zip.GetChilds();
@@ -80,40 +78,49 @@ namespace MHLSourceOnDiskTest
         }
 
         [TestMethod]
-        public void ExportBooks_pathZip_true_pathDestination()
-        {
-            IDiskItem zip = DiskItemFabrick.GetDiskItem(pathZip);
-            Directory.Delete(pathDestination, true);
-
-            ExpOptions expOptions = new ExpOptions(pathDestination, true);
-            Export2Dir exporter = new Export2Dir(expOptions);
-            Assert.IsTrue( zip.ExportBooks(exporter));
-        }
-
-        [TestMethod]
-        public void ExportBooks_pathZip_false_pathDestination()
+        [DataRow(@"E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip", @"F:\1\test\destination", true)]
+        [DataRow(@"E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip", @"F:\1\test\destination", false)]
+        public void ExportBooks(string pathZip, string pathDestination, bool createNewFlag)
         {
             IDiskItem zip = DiskItemFabrick.GetDiskItem(pathZip);
             int res = 0, init = 0;
-            if(Directory.Exists(pathDestination))
+
+            if (createNewFlag)
             {
-                init = Directory.GetFiles(pathDestination).Length;
-            }    
-            ExpOptions expOptions = new ExpOptions(pathDestination, false);
+                Directory.Delete(pathDestination, true);
+            }
+            else
+            {
+                if (Directory.Exists(pathDestination))
+                {
+                    init = Directory.GetFiles(pathDestination).Length;
+                }
+            }
+
+            ExpOptions expOptions = new ExpOptions(pathDestination, createNewFlag);
             Export2Dir exporter = new Export2Dir(expOptions);
 
-            using (ZipArchive zipArchive = ZipFile.OpenRead(zip.Path2Item))
+            if (createNewFlag)
+                Assert.IsTrue( zip.ExportBooks(exporter));
+            else
             {
-                init += zipArchive.Entries.Count;
-            }
+                foreach(var vg in ((IDiskCollection)zip).GetChilds())
+                {
+                    if (vg is IDiskCollection diskCollection)
+                    {
+                        init += diskCollection.Count;
+                    }
+                    else
+                        init++;
+                }
+                if (zip.ExportBooks(exporter) && Directory.Exists(pathDestination))
+                {
+                    res = Directory.GetFiles(pathDestination).Length;
+                }
 
-            if (zip.ExportBooks(exporter) && Directory.Exists(pathDestination))
-            {
-                res = Directory.GetFiles(pathDestination).Length;
+                System.Diagnostics.Debug.WriteLine("{0}-{1}", res, init);
+                Assert.AreEqual(init, res);
             }
-
-            System.Diagnostics.Debug.WriteLine("{0}-{1}", res, init);
-            Assert.AreEqual(init, res);
         }
     }
 }

@@ -1,11 +1,6 @@
 ﻿using MHLCommon.MHLBook;
 using MHLSourceOnDisk;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MHLSourceOnDiskTest
 {
@@ -16,21 +11,24 @@ namespace MHLSourceOnDiskTest
         protected string pathZip = @"F:\1\test\fb2-495000-500999.zip";
 
         [TestMethod]
-        public void Authors_pathDirZip()
+        [DataRow(@"F:\1\test\426096.fb2")]
+        public void Authors(string pathFile) 
         {
             IBook book = new DiskItemFileFB2(pathFile);
             Assert.AreNotEqual(0, book.Authors.Count);
         }
 
         [TestMethod]
-        public void Genres_pathDirZip()
+        [DataRow(@"F:\1\test\426096.fb2")]
+        public void Genres(string pathFile)
         {
             IBook book = new DiskItemFileFB2(pathFile);
             Assert.AreNotEqual(0, book.Genres.Count);
         }
 
         [TestMethod]
-        public void Keywords_pathDirZip()
+        [DataRow(@"F:\1\test\426096.fb2")]
+        public void Keywords(string pathFile)
         {
             IBook book = new DiskItemFileFB2(pathFile);
             foreach(var key in book.Keywords)
@@ -42,7 +40,8 @@ namespace MHLSourceOnDiskTest
 
 
         [TestMethod]
-        public void Annotation_pathDirZip()
+        [DataRow(@"F:\1\test\426096.fb2")]
+        public void Annotation(string pathFile)
         {
             IBook book = new DiskItemFileFB2(pathFile);
             
