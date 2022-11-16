@@ -24,13 +24,17 @@ namespace MHLSourceScanner
         {
             CloseCommand = new RelayCommand(ExecuteCloseCommand, CanExecuteCloseCommand);
             RunCommand = new RelayCommand(ExecuteRunCommand, CanExecuteRunCommand);
+            SetDestinationDirCommand = new RelayCommand(ExecuteSetDestinationDirCommand, CanExecuteSetDestinationDirCommand);
         }
         #endregion
 
         #region [Properties]
         public Action? CloseAction;
+        public Action? RunAction;
+        public Action? SetDestinationDirAction;
         public ICommand CloseCommand { get; set; }
         public ICommand RunCommand { get; set; }
+        public ICommand SetDestinationDirCommand { get; set; }
 
         public bool DestinationIsDirectory
         {
@@ -60,16 +64,25 @@ namespace MHLSourceScanner
         }
         private bool CanExecuteCloseCommand(object? obj)
         {
-            return true;
+            return CloseAction != null;
         }
 
         private void ExecuteRunCommand(object? obj)
         {
-            CloseAction?.Invoke();
+            RunAction?.Invoke();
         }
         private bool CanExecuteRunCommand(object? obj)
         {
-            return false;
+            return RunAction != null;
+        }
+
+        private void ExecuteSetDestinationDirCommand(object? obj)
+        {
+            SetDestinationDirAction?.Invoke();
+        }
+        private bool CanExecuteSetDestinationDirCommand(object? obj)
+        {
+            return SetDestinationDirAction != null;
         }
         #endregion
     }

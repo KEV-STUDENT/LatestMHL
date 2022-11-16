@@ -11,7 +11,7 @@
             VerticalContentAlignment="Center"
             Height="24" Width="60" >
     <DockPanel LastChildFill="True">
-        <Image DockPanel.Dock="Left" Source="{Binding Image}" Width="16" Height="16" />
+        <Image DockPanel.Dock="Left" Source="{Binding Image}" Width="{Binding ImgWidth}" Height="{Binding ImgHeigh}" />
         <local:MHLTextBlock DockPanel.Dock="Left" Text="{Binding Caption}" Margin="5,0,0,0"/>
     </DockPanel>
 </Button>

@@ -99,11 +99,30 @@ namespace MHLResources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Settings.
+        /// </summary>
+        public static string MHLButtonSettings_CPT {
+            get {
+                return ResourceManager.GetString("MHLButtonSettings_CPT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
         public static System.Drawing.Bitmap RunButton {
             get {
                 object obj = ResourceManager.GetObject("RunButton", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap SettingsButton {
+            get {
+                object obj = ResourceManager.GetObject("SettingsButton", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

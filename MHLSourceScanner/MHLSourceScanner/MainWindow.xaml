@@ -33,7 +33,12 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <MHLControls:MHLLabel Content="Destination" Margin="0,5,0,0" Grid.Row="0" Grid.Column="0"/>
-            <pickers:MHLUIPicker x:Name="DestinationDirectoryPicker" Margin="0,5,0,0" Grid.Row="0" Grid.Column="2" IsEnabled="{Binding ViewModel.DestinationIsDirectory, ElementName=Scanner}"/>
+            <DockPanel Margin="0,5,5,0" Grid.Row="0" Grid.Column="2" IsEnabled="{Binding ViewModel.DestinationIsDirectory, ElementName=Scanner}" LastChildFill="True">
+                <buttons:MHLButtonSettings x:Name="BtSettings" DockPanel.Dock="Right"
+                                           Width="24" ImgHeigh="20" ImgWidth="20" 
+                                           Command="{Binding ViewModel.SetDestinationDirCommand, ElementName=Scanner}"/>
+                <pickers:MHLUIPicker x:Name="DestinationDirectoryPicker" DockPanel.Dock="Left"/>
+            </DockPanel>
             <pickers:MHLUIPicker x:Name="DestinationDBPicker" Margin="0,5,0,0" Grid.Row="1" Grid.Column="2" IsEnabled="{Binding ViewModel.DestinationIsDBFile, ElementName=Scanner}"/>
             <MHLControls:MHLRadioButton GroupName="Destination" x:Name="DestinationDirectory" Margin="0,5,0,0" Grid.Row="0" Grid.Column="1" Content="Directory"
                                         IsChecked="{Binding ViewModel.DestinationIsDirectory, ElementName=Scanner}"/>
