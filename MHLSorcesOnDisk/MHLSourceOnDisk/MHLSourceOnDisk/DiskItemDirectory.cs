@@ -1,13 +1,8 @@
-﻿using System.Diagnostics;
-using System.Collections.ObjectModel;
-using System.Runtime.CompilerServices;
-
-namespace MHLSourceOnDisk
+﻿namespace MHLSourceOnDisk
 {
-    using System.Collections.Generic;
-    using System.ComponentModel;
     using MHLCommon;
     using MHLCommon.MHLDiskItems;
+    using System.Collections.Generic;
 
     public class DiskItemDirectory : DiskItem, IDiskItemDirectory
     {

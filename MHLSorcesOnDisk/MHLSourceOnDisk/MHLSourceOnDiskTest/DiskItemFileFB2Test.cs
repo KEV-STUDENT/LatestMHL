@@ -24,7 +24,7 @@ namespace MHLSourceOnDiskTest
         [DataRow(@"F:\1\test\fb2-495000-500999.zip", "495000.fb2")]
         public void Constructor_ZIP(string pathZip, string fb2Name)
         {
-            IBook? itemFB2 = GetBookFromZip(pathZip, fb2Name);
+            IBook? itemFB2 = MHLSourceOnDiskStatic.GetBookFromZip(pathZip, fb2Name);
             Assert.IsInstanceOfType(itemFB2, typeof(DiskItemFileFB2));
         }
 
@@ -51,7 +51,7 @@ namespace MHLSourceOnDiskTest
         [DataRow(@"E:\librus_MyHomeLib\lib.rus.ec\fb2-060424-074391.zip", "60586.fb2")]
         public void Title_ZIP(string pathZip, string fb2Name)
         {
-            IBook? itemFB2 = GetBookFromZip(pathZip, fb2Name);
+            IBook? itemFB2 = MHLSourceOnDiskStatic.GetBookFromZip(pathZip, fb2Name);
             System.Diagnostics.Debug.WriteLine(itemFB2?.Title ?? "NULL");
             Assert.AreNotEqual(string.Empty, itemFB2?.Title ?? string.Empty);
         }
@@ -83,16 +83,18 @@ namespace MHLSourceOnDiskTest
             Assert.AreNotEqual(string.Empty, sequenceNum?.Name ?? string.Empty);
         }
 
-
         [TestMethod]
         [DataRow(@"F:\1\test\fb2-495000-500999.zip", "495000.fb2", @"F:\1\test\destination\FB2Test", true)]
         [DataRow(@"F:\1\test\fb2-495000-500999.zip", "495000.fb2", @"F:\1\test\destination\FB2Test", false)]
-        public void ExportBooks(string pathZip, string fb2Name, string pathDestination, bool createNewFlag)
+        [DataRow(@"F:\1\test\426096.fb2", "", @"F:\1\test\destination", true)]
+        [DataRow(@"F:\1\test\426096.fb2", "", @"F:\1\test\destination", false)]
+        public void ExportBooks(string pathFile, string fb2Name, string pathDestination, bool overWriteFile)
         {
             bool result = false;
             int res = 0, init = 0;
+            DiskItemFileFB2? itemFB2;
 
-            if(!createNewFlag)
+            if (!overWriteFile)
             {
                 if (Directory.Exists(pathDestination))
                 {
@@ -101,15 +103,20 @@ namespace MHLSourceOnDiskTest
                 init += 1;
             }
 
-            DiskItemFileFB2? itemFB2 = GetBookFromZip(pathZip, fb2Name) as DiskItemFileFB2;
+            if (string.IsNullOrEmpty(fb2Name))
+                itemFB2 = DiskItemFabrick.GetDiskItem(pathFile) as DiskItemFileFB2;
+            else
+                itemFB2 = MHLSourceOnDiskStatic.GetBookFromZip(pathFile, fb2Name) as DiskItemFileFB2;
+
             if (itemFB2 != null)
             {
-                ExpOptions expOptions = new ExpOptions(pathDestination, createNewFlag);
+                ExpOptions expOptions = new ExpOptions(pathDestination, overWriteFile);
                 Export2Dir exporter = new Export2Dir(expOptions);
                 result = itemFB2.ExportBooks(exporter);
             }
-            if (createNewFlag)
-                Assert.IsTrue(result && File.Exists(Path.Combine(pathDestination, fb2Name)));
+
+            if (overWriteFile)
+                Assert.IsTrue(result && File.Exists(Path.Combine(pathDestination, itemFB2?.Name)));
             else
             {
                 if (result)
@@ -118,22 +125,6 @@ namespace MHLSourceOnDiskTest
                 }
                 Assert.AreEqual(init, res);
             }
-        }
-
-        private IBook? GetBookFromZip(string pathZip, string fb2Name)
-        {
-            DiskItemFileZip zip = new DiskItemFileZip(pathZip);
-            IBook? itemFB2 = null;
-            using (ZipArchive zipArchive = ZipFile.OpenRead(zip.Path2Item))
-            {
-                ZipArchiveEntry? file = zipArchive.GetEntry(fb2Name);
-                if (file != null)
-                {
-                    itemFB2 = DiskItemFabrick.GetDiskItem(zip, file) as IBook;
-                }
-            }
-
-            return itemFB2;
-        }
+        }       
     }
 }

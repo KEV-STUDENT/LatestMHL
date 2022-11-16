@@ -1,3 +1,4 @@
+using MHLCommon;
 using MHLCommon.MHLDiskItems;
 using MHLSourceOnDisk;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -113,19 +114,28 @@ namespace MHLSourceOnDiskTest
 
 
         [TestMethod]
-        [DataRow(@"F:\1\test\destination", @"F:\1\test\fb2-495000-500999.zip")]
-        public void ExportBooks_pathZip(string pathDestination, string pathZip)
+        [DataRow(@"F:\1\test\destination", @"F:\1\test\fb2-495000-500999.zip", true)]
+        [DataRow(@"F:\1\test\destination", @"F:\1\test\fb2-495000-500999.zip", false)]
+        [DataRow(@"F:\1\test\destination", @"F:\1\test\426096.fb2", true)]
+        [DataRow(@"F:\1\test\destination", @"F:\1\test\426096.fb2", false)]
+        public void ExportBooks(string pathDestination, string pathFile, bool overWriteFile)
         {
-            IDiskItem item = DiskItemFabrick.GetDiskItem(pathZip);
-            IEnumerable<IDiskItem>? books = null;
+            bool res;
+            ExpOptions expOptions = new ExpOptions(pathDestination, overWriteFile);
+            Export2Dir exporter = new Export2Dir(expOptions);
+
+            IDiskItem item = DiskItemFabrick.GetDiskItem(pathFile);
             if (item is IDiskCollection diskCollection)
             {
+                IEnumerable<IDiskItem>? books = null;
                 books = diskCollection.GetChilds();
+                res = DiskItemFabrick.ExportBooks(books, exporter);
             }
-
-            Export2Dir exporter = new Export2Dir(pathDestination);
-            bool res = DiskItemFabrick.ExportBooks(books, exporter);
+            else
+            {
+                res = DiskItemFabrick.ExportBooks(item, exporter);
+            }
             Assert.IsTrue(res);
-        }
+        }       
     }
 }

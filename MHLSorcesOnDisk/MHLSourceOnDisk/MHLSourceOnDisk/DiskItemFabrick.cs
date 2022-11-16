@@ -253,5 +253,11 @@ namespace MHLSourceOnDisk
             }
             return result;
         }
+
+        public static bool ExportBooks<T>(IDiskItem? book, T exporter) where T : class, IExport
+        {
+            return book?.ExportBooks<T>(exporter) ?? false;
+        }
+
     }
 }

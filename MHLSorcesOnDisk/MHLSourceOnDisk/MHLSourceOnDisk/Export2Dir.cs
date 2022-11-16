@@ -13,11 +13,7 @@ namespace MHLSourceOnDisk
         private ExpOptions exportOptions;
         #endregion
 
-        #region [Constructors]
-        public Export2Dir(string pathDestination)
-        {
-            exportOptions = new ExpOptions(pathDestination);
-        }
+        #region [Constructors]      
         public Export2Dir(ExpOptions expOptions)
         {
             exportOptions = expOptions;

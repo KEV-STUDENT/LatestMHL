@@ -171,37 +171,32 @@ namespace MHLSourceOnDisk
 
             entryName = ((IDiskItem)this).Name;
 
-            if (file.Parent is DiskItemFileZip zip)
+            if (exportOptions.OverWriteFiles)
+                newFile = Path.Combine(exportOptions.PathDestination, entryName);
+            else
+                newFile = MHLSourceOnDiskStatic.GetNewFileName(exportOptions.PathDestination, entryName);
+
+            try
             {
-                using (ZipArchive zipArchive = ZipFile.OpenRead(zip.Path2Item))
-                {
-                    ZipArchiveEntry? fileInZip = zipArchive.GetEntry(entryName);
 
-                    if (fileInZip != null)
+                if (file.Parent is DiskItemFileZip zip)
+                    using (ZipArchive zipArchive = ZipFile.OpenRead(zip.Path2Item))
                     {
-                        try
-                        {
-                            if (exportOptions.OverWriteFiles)
-                                newFile = Path.Combine(exportOptions.PathDestination, entryName);
-                            else
-                                newFile = MHLSourceOnDiskStatic.GetNewFileName(exportOptions.PathDestination, entryName);
+                        ZipArchiveEntry? fileInZip = zipArchive.GetEntry(entryName);
 
-                            fileInZip.ExtractToFile(newFile, exportOptions.OverWriteFiles);
-                            if (!File.Exists(newFile))
-                            {
-                                result = false;
-                            }
-                        }
-                        catch (Exception e)
+                        if (fileInZip != null)
                         {
-                            result = false;
+                            fileInZip.ExtractToFile(newFile, exportOptions.OverWriteFiles);
                         }
                     }
-                }
-            }
-            else
-            {
+                else
+                    File.Copy(this.Path2Item, newFile, exportOptions.OverWriteFiles);
 
+                result = File.Exists(newFile);                
+            }
+            catch (Exception e)
+            {
+                result = false;
             }
             return result;
         }
@@ -289,7 +284,7 @@ namespace MHLSourceOnDisk
                 int bodyEnd = xml.IndexOf(BODY_END);
                 if (bodyStart > 0 && bodyEnd > 0)
                 {
-                    xml = xml[..(bodyStart == 0?bodyEnd:bodyStart)] + (bodyStart > 0 ? ">" : "") + xml[(bodyEnd == 0?bodyStart:bodyEnd)..];
+                    xml = xml[..(bodyStart == 0 ? bodyEnd : bodyStart)] + (bodyStart > 0 ? ">" : "") + xml[(bodyEnd == 0 ? bodyStart : bodyEnd)..];
                 }
             }
             return xml;
