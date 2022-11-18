@@ -1,12 +1,14 @@
-﻿namespace MHLCommon.MHLScanner
+﻿using MHLCommon.ViewModels;
+using System.ComponentModel;
+
+namespace MHLCommon.MHLScanner
 {
     public interface IPicker<T>
     {
 
         T Value { get; set; }
 
-        void AskUserForInput();
-
+        event Action<IPicker<T>>? AskUserForInputEvent;
         ReturnResultEnum CheckValue(out T value);
     }
 }

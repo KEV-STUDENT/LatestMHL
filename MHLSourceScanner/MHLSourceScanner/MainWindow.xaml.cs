@@ -8,7 +8,7 @@ using System.Windows;
 using MHLResources;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolTip;
-
+using System;
 
 namespace MHLSourceScanner
 {
@@ -26,19 +26,24 @@ namespace MHLSourceScanner
             viewModel = new ViewModel4Scanner();
             InitializeComponent();           
             SourceDirectoryPicker.Caption = "Source Directory";
-            SourceDirectoryPicker.CaptionWidth = 110;
-            SourceDirectoryPicker.PropertyChanged += SourceDirectoryPickerChanged;
-            SourceDirectoryPicker.AskUserForInput += MHLAsk4Picker.AskDirectory;
+            SourceDirectoryPicker.CaptionWidth = 110;           
+            SourceDirectoryPicker.AskUserForInputEvent += MHLAsk4Picker.AskDirectory;
 
-            DestinationDirectoryPicker.AskUserForInput += MHLAsk4Picker.AskDirectory;
-            DestinationDBPicker.AskUserForInput += MHLAsk4Picker.AskFile;
+            DestinationDirectoryPicker.AskUserForInputEvent += MHLAsk4Picker.AskDirectory;
+            DestinationDBPicker.AskUserForInputEvent += MHLAsk4Picker.AskFile;
 
             DataContext = this;
             viewModel.CloseAction += () => { Close(); };
+            viewModel.ChangeDestinationDirAction += ChangeDestinationDir;
+            viewModel.ChangeSourceDirAction += ChangedSourceDir;
+        }
+
+        private void ChangeDestinationDir()
+        { 
         }
 
 
-        private void SourceDirectoryPickerChanged(object? sender, PropertyChangedEventArgs e)
+        private void ChangedSourceDir()
         {
             string directory;
 

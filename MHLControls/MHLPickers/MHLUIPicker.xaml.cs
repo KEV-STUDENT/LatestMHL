@@ -1,96 +1,135 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-
 //using MHLSourceScannerModelLib;
 using MHLCommon;
 using MHLCommon.MHLScanner;
+using MHLCommon.ViewModels;
+using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+//using System.Windows.Forms;
 
 namespace MHLControls.MHLPickers
 {
     /// <summary>
     /// Interaction logic for DirectoryPicker.xaml
     /// </summary>
-    public partial class MHLUIPicker : UserControl, INotifyPropertyChanged, IPicker<string>
+    //public partial class MHLUIPicker : MHLLogicPicker
+    public partial class MHLUIPicker : UserControl, IPicker<string>, ICommandSource
     {
-        private IPicker<String> picker;
-        private const string _property = "Value";
+        #region [Fields]
+        private MHLLogicPicker picker;
+        //private const string _property = "Value";
 
         private string _caption = "";
         private int _captionWidth = 5;
+        #endregion
 
+        #region [Properties]
+        public MHLUIPickerViewModel PickerViewModel => picker.PickerViewModel;
         public int CaptionWidth
         {
             set { _captionWidth = value; }
             get { return _captionWidth; }
         }
 
-        public Action<IPicker<string>>? AskUserForInput;
-
         public string Caption
         {
             set { _caption = value; }
             get { return _caption; }
         }
-
         public string Value
         {
-            get { return picker.Value; }
-            set
-            {
-                picker.Value = value;
-                OnPropertyChanged(_property);
-            }
+            get => picker.Value;
+            set => picker.Value = value;
         }
 
+        public ICommand Command
+        {
+            get { return (ICommand)GetValue(CommandProperty); }
+            set { SetValue(CommandProperty, value); }
+        }
+
+        public object CommandParameter
+        {
+            get { return (object)GetValue(CommandParameterProperty); }
+            set { SetValue(CommandParameterProperty, value); }
+        }
+
+        public IInputElement CommandTarget
+        {
+            get { return (IInputElement)GetValue(CommandTargetProperty); }
+            set { SetValue(CommandTargetProperty, value); }
+        }
+        #endregion
+
+        public event Action<IPicker<string>>? AskUserForInputEvent
+        {
+            add { picker.AskUserForInputEvent += value; }
+            remove { picker.AskUserForInputEvent -= value; }
+        }
+
+        #region [Constructors]
         public MHLUIPicker()
         {
             picker = new MHLLogicPicker();
-            ((MHLLogicPicker)picker).AskUserForInputAction = AskValue;
+            picker.PickerViewModel.ValueChanged += GenerateCommand;
             InitializeComponent();
             DataContext = this;
+
         }
 
-        private void AskValue()
+        private void GenerateCommand()
         {
-            AskUserForInput?.Invoke(this);
+            if (Command != null)
+            {
+                if (Command is RoutedCommand command)
+                {
+                    command.Execute(CommandParameter, CommandTarget);
+                }
+                else
+                {
+                    ((ICommand)Command).Execute(CommandParameter);
+                }
+            }
         }
+        #endregion
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string prop = "")
-        {
-            var handler = System.Threading.Interlocked.CompareExchange(ref PropertyChanged, null, null);
-            if (handler != null)
-                handler(this, new PropertyChangedEventArgs(prop));
-        }
+        public static readonly DependencyProperty CommandProperty = DependencyProperty.Register(
+            "Command",
+            typeof(ICommand),
+            typeof(MHLUIPicker),
+            new UIPropertyMetadata(null));
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            ((IPicker<string>)this).AskUserForInput();
-        }
-       
+        // Using a DependencyProperty as the backing store for CommandParameter.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CommandParameterProperty = DependencyProperty.Register(
+            "CommandParameter",
+            typeof(object),
+            typeof(MHLUIPicker),
+            new UIPropertyMetadata(null));
+
+        // Using a DependencyProperty as the backing store for CommandTarget.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CommandTargetProperty = DependencyProperty.Register(
+            "CommandTarget",
+            typeof(IInputElement),
+            typeof(MHLUIPicker),
+            new UIPropertyMetadata(null));
+
+        #region [ICommandSource Implementation]
+        ICommand ICommandSource.Command => Command;
+        object ICommandSource.CommandParameter => CommandParameter;
+        IInputElement ICommandSource.CommandTarget => CommandTarget;
+        #endregion
+
         #region[IPicker<string> Implementation]
-        string IPicker<string>.Value { get => Value; set => this.Value = value; }
-
-        void IPicker<string>.AskUserForInput()
+        event Action<IPicker<string>>? IPicker<string>.AskUserForInputEvent
         {
-            picker.AskUserForInput();
+            add { AskUserForInputEvent += value; }
+            remove { AskUserForInputEvent -= value; }
         }
+
+        string IPicker<string>.Value { get => Value; set => Value = value; }
 
         ReturnResultEnum IPicker<string>.CheckValue(out string value)
         {

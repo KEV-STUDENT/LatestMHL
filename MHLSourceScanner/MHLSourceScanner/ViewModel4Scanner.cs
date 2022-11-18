@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using MHLSourceScannerLib;
 using MHLControls;
+using System.CodeDom.Compiler;
 
 namespace MHLSourceScanner
 {
@@ -25,6 +26,8 @@ namespace MHLSourceScanner
             CloseCommand = new RelayCommand(ExecuteCloseCommand, CanExecuteCloseCommand);
             RunCommand = new RelayCommand(ExecuteRunCommand, CanExecuteRunCommand);
             SetDestinationDirCommand = new RelayCommand(ExecuteSetDestinationDirCommand, CanExecuteSetDestinationDirCommand);
+            ChangeDestinationDirCommand = new RelayCommand(ExecuteChangeDestinationDirCommand, CanExecuteChangeDestinationDirCommand);
+            ChangeSourceDirCommand = new RelayCommand(ExecuteChangeSourceDirCommand, CanExecuteChangeSourceDirCommand);
         }
         #endregion
 
@@ -32,14 +35,20 @@ namespace MHLSourceScanner
         public Action? CloseAction;
         public Action? RunAction;
         public Action? SetDestinationDirAction;
+        public Action? ChangeDestinationDirAction;
+        public Action? ChangeSourceDirAction;
+
         public ICommand CloseCommand { get; set; }
         public ICommand RunCommand { get; set; }
         public ICommand SetDestinationDirCommand { get; set; }
+        public ICommand ChangeDestinationDirCommand { get; set; }
+        public ICommand ChangeSourceDirCommand { get; set; }
 
         public bool DestinationIsDirectory
         {
             get { return _destinationIsDirectory; }
-            set {
+            set
+            {
                 _destinationIsDirectory = value;
                 OnPropertyChanged("DestinationIsDBFile");
                 OnPropertyChanged("DestinationIsDirectory");
@@ -49,7 +58,8 @@ namespace MHLSourceScanner
         public bool DestinationIsDBFile
         {
             get { return !_destinationIsDirectory; }
-            set { 
+            set
+            {
                 _destinationIsDirectory = !value;
                 OnPropertyChanged("DestinationIsDBFile");
                 OnPropertyChanged("DestinationIsDirectory");
@@ -59,31 +69,31 @@ namespace MHLSourceScanner
 
         #region [Private Methods]
         private void ExecuteCloseCommand(object? obj)
-        {
-            CloseAction?.Invoke();
-        }
+        { CloseAction?.Invoke(); }
         private bool CanExecuteCloseCommand(object? obj)
-        {
-            return CloseAction != null;
-        }
+        { return CloseAction != null; }
 
         private void ExecuteRunCommand(object? obj)
-        {
-            RunAction?.Invoke();
-        }
+        { RunAction?.Invoke(); }
         private bool CanExecuteRunCommand(object? obj)
-        {
-            return RunAction != null;
-        }
+        { return RunAction != null; }
 
         private void ExecuteSetDestinationDirCommand(object? obj)
-        {
-            SetDestinationDirAction?.Invoke();
-        }
+        { SetDestinationDirAction?.Invoke();}
         private bool CanExecuteSetDestinationDirCommand(object? obj)
-        {
-            return SetDestinationDirAction != null;
-        }
+        { return SetDestinationDirAction != null; }
+
+        private void ExecuteChangeDestinationDirCommand(object? obj)
+        { ChangeDestinationDirAction?.Invoke(); }
+
+        private bool CanExecuteChangeDestinationDirCommand(object? obj)
+        { return ChangeDestinationDirAction != null; }
+
+        private void ExecuteChangeSourceDirCommand(object? obj)
+        { ChangeSourceDirAction?.Invoke(); }
+
+        private bool CanExecuteChangeSourceDirCommand(object? obj)
+        { return ChangeSourceDirAction != null; }
         #endregion
     }
 }
