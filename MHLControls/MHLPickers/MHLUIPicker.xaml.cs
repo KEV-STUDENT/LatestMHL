@@ -20,10 +20,28 @@ namespace MHLControls.MHLPickers
     {
         #region [Fields]
         private MHLLogicPicker picker;
-        //private const string _property = "Value";
-
         private string _caption = "";
         private int _captionWidth = 5;
+
+        public static readonly DependencyProperty CommandProperty = DependencyProperty.Register(
+           "Command",
+           typeof(ICommand),
+           typeof(MHLUIPicker),
+           new UIPropertyMetadata(null));
+
+        // Using a DependencyProperty as the backing store for CommandParameter.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CommandParameterProperty = DependencyProperty.Register(
+            "CommandParameter",
+            typeof(object),
+            typeof(MHLUIPicker),
+            new UIPropertyMetadata(null));
+
+        // Using a DependencyProperty as the backing store for CommandTarget.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CommandTargetProperty = DependencyProperty.Register(
+            "CommandTarget",
+            typeof(IInputElement),
+            typeof(MHLUIPicker),
+            new UIPropertyMetadata(null));
         #endregion
 
         #region [Properties]
@@ -64,11 +82,13 @@ namespace MHLControls.MHLPickers
         }
         #endregion
 
+        #region [Events]
         public event Action<IPicker<string>>? AskUserForInputEvent
         {
             add { picker.AskUserForInputEvent += value; }
             remove { picker.AskUserForInputEvent -= value; }
         }
+        #endregion
 
         #region [Constructors]
         public MHLUIPicker()
@@ -79,7 +99,9 @@ namespace MHLControls.MHLPickers
             DataContext = this;
 
         }
+        #endregion
 
+        #region [Methods]
         private void GenerateCommand()
         {
             if (Command != null)
@@ -95,26 +117,6 @@ namespace MHLControls.MHLPickers
             }
         }
         #endregion
-
-        public static readonly DependencyProperty CommandProperty = DependencyProperty.Register(
-            "Command",
-            typeof(ICommand),
-            typeof(MHLUIPicker),
-            new UIPropertyMetadata(null));
-
-        // Using a DependencyProperty as the backing store for CommandParameter.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty CommandParameterProperty = DependencyProperty.Register(
-            "CommandParameter",
-            typeof(object),
-            typeof(MHLUIPicker),
-            new UIPropertyMetadata(null));
-
-        // Using a DependencyProperty as the backing store for CommandTarget.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty CommandTargetProperty = DependencyProperty.Register(
-            "CommandTarget",
-            typeof(IInputElement),
-            typeof(MHLUIPicker),
-            new UIPropertyMetadata(null));
 
         #region [ICommandSource Implementation]
         ICommand ICommandSource.Command => Command;

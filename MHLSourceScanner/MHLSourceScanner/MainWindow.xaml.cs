@@ -36,6 +36,12 @@ namespace MHLSourceScanner
             viewModel.CloseAction += () => { Close(); };
             viewModel.ChangeDestinationDirAction += ChangeDestinationDir;
             viewModel.ChangeSourceDirAction += ChangedSourceDir;
+            viewModel.SetDestinationDirAction += SettingsDestionnDir;
+        }
+
+        private void SettingsDestionnDir()
+        {
+            //throw new NotImplementedException();
         }
 
         private void ChangeDestinationDir()
