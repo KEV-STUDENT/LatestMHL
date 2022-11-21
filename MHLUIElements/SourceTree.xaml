@@ -58,54 +58,6 @@
                                 </StackPanel>
                             </StackPanel>
                         </Border>
-                        <!--StackPanel Orientation="Vertical"  >
-                            <MHLControls:MHLCheckBox Style="{StaticResource TreeViewItemStyleCheckBoxItem}"/>
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                </Grid.RowDefinitions>
-                                <StackPanel Orientation="Horizontal" Grid.Row="0">
-                                    <MHLControls:MHLTextBlock Text="{Binding Path=Name, StringFormat='File: {0}'}" 
-                                                      Style="{StaticResource TreeViewItemStyle}" 
-                                                      Margin="20,0,0,0"/>
-                                    <MHLControls:MHLTextBlock Text="{Binding Path=Title, StringFormat='Title: {0}'}" 
-                                                      Style="{StaticResource TreeViewItemStyle}" 
-                                                      Margin="20,0,0,0"/>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal"  Grid.Row="1" Visibility="{Binding SequenceVisibility}">
-                                    <MHLControls:MHLTextBlock Text="{Binding Path=Sequence, StringFormat='Sequence: {0}'}" 
-                                                      Style="{StaticResource TreeViewItemStyle}"/>
-                                    <MHLControls:MHLTextBlock Text="{Binding Path=Number, StringFormat='Part: {0}'}" 
-                                                      Style="{StaticResource TreeViewItemStyle}"
-                                                      Margin="20,0,0,0"/>
-                                </StackPanel>
-                            </Grid>
-                        </StackPanel-->
-
-                        <!--MHLControls:MHLCheckBox Style="{StaticResource TreeViewItemStyleCheckBoxItem}">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                </Grid.RowDefinitions>
-                                <StackPanel Orientation="Horizontal" Grid.Row="0">
-                                    <MHLControls:MHLTextBlock Text="{Binding Path=Name, StringFormat='File: {0}'}" 
-                                                      Style="{StaticResource TreeViewItemStyle}" 
-                                                      Margin="20,0,0,0"/>
-                                    <MHLControls:MHLTextBlock Text="{Binding Path=Title, StringFormat='Title: {0}'}" 
-                                                      Style="{StaticResource TreeViewItemStyle}" 
-                                                      Margin="20,0,0,0"/>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal"  Grid.Row="1" Visibility="{Binding SequenceVisibility}">
-                                    <MHLControls:MHLTextBlock Text="{Binding Path=Sequence, StringFormat='Sequence: {0}'}" 
-                                                      Style="{StaticResource TreeViewItemStyle}"/>
-                                    <MHLControls:MHLTextBlock Text="{Binding Path=Number, StringFormat='Part: {0}'}" 
-                                                      Style="{StaticResource TreeViewItemStyle}"
-                                                      Margin="20,0,0,0"/>
-                                </StackPanel>
-                            </Grid>
-                        </MHLControls:MHLCheckBox-->
                     </HierarchicalDataTemplate>
 
                     <HierarchicalDataTemplate DataType = "{x:Type local:TreeViewDirectory}" ItemsSource="{Binding Path=SourceItems}">

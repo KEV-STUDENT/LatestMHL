@@ -12,6 +12,24 @@ namespace MHLControls.MHLPickers
 {
     public class MHLUIPickerViewModel : ViewModel
     {
+        #region [Fields]
+        private string _value;
+        #endregion
+
+        #region [Properties]
+        public string Value
+        {
+            get { return _value; }
+            set
+            {
+                _value = value;
+                OnPropertyChanged("Value");
+                ValueChangedAction?.Invoke();
+            }
+        }
+
+        public ICommand AskUserEntryCommand { get; set; }
+        #endregion
 
         #region [Constructors]
         public MHLUIPickerViewModel()
@@ -33,28 +51,11 @@ namespace MHLControls.MHLPickers
         public Action? AskUserEntryAction;
         #endregion
 
-        #region [Properties]
-        public ICommand AskUserEntryCommand { get; set; }
-        #endregion
-
         #region [Private Methods]
         private void ExecuteAskUserEntryCommand(object? obj)
         { AskUserEntryAction?.Invoke(); }
         private bool CanExecuteAskUserEntryCommand(object? obj)
         { return AskUserEntryAction != null; }
         #endregion
-
-
-        private string _value;
-        public string Value
-        {
-            get { return _value; }
-            set
-            {
-                _value = value;
-                OnPropertyChanged("Value");
-                ValueChangedAction?.Invoke();
-            }
-        }
     }
 }

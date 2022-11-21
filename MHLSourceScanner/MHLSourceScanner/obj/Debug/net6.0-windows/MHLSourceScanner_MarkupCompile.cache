@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
 F:\LatestMHL\MHLSourceScanner\MHLSourceScanner\App.xaml
-11407045341
+2105564554
 
-431094913
+62099505709
 210-1354447478
-MainWindow.xaml;
+DirectorySetting\DirSetting.xaml;MainWindow.xaml;
 
 False
 

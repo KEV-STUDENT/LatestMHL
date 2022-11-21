@@ -1,30 +1,17 @@
-﻿using MHLCommon.MHLBook;
-using MHLCommon.MHLScanner;
-using MHLCommon.ViewModels;
+﻿using MHLControls;
+using MHLControls.ViewModels4Forms;
 using System;
-using System.Collections.ObjectModel;
-using System.Drawing;
-using System.IO;
-using System.Resources;
-using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
-using MHLSourceScannerLib;
-using MHLControls;
-using System.CodeDom.Compiler;
 
 namespace MHLSourceScanner
 {
-    public class ViewModel4Scanner : ViewModel
+    public class ViewModel4Scanner : VMEditForm
     {
         private bool _destinationIsDirectory = true;
 
         #region [Constructors]
-        public ViewModel4Scanner()
+        public ViewModel4Scanner():base()
         {
-            CloseCommand = new RelayCommand(ExecuteCloseCommand, CanExecuteCloseCommand);
-            RunCommand = new RelayCommand(ExecuteRunCommand, CanExecuteRunCommand);
             SetDestinationDirCommand = new RelayCommand(ExecuteSetDestinationDirCommand, CanExecuteSetDestinationDirCommand);
             ChangeDestinationDirCommand = new RelayCommand(ExecuteChangeDestinationDirCommand, CanExecuteChangeDestinationDirCommand);
             ChangeSourceDirCommand = new RelayCommand(ExecuteChangeSourceDirCommand, CanExecuteChangeSourceDirCommand);
@@ -32,14 +19,9 @@ namespace MHLSourceScanner
         #endregion
 
         #region [Properties]
-        public Action? CloseAction;
-        public Action? RunAction;
         public Action? SetDestinationDirAction;
         public Action? ChangeDestinationDirAction;
         public Action? ChangeSourceDirAction;
-
-        public ICommand CloseCommand { get; set; }
-        public ICommand RunCommand { get; set; }
         public ICommand SetDestinationDirCommand { get; set; }
         public ICommand ChangeDestinationDirCommand { get; set; }
         public ICommand ChangeSourceDirCommand { get; set; }
@@ -68,16 +50,6 @@ namespace MHLSourceScanner
         #endregion
 
         #region [Private Methods]
-        private void ExecuteCloseCommand(object? obj)
-        { CloseAction?.Invoke(); }
-        private bool CanExecuteCloseCommand(object? obj)
-        { return CloseAction != null; }
-
-        private void ExecuteRunCommand(object? obj)
-        { RunAction?.Invoke(); }
-        private bool CanExecuteRunCommand(object? obj)
-        { return RunAction != null; }
-
         private void ExecuteSetDestinationDirCommand(object? obj)
         { SetDestinationDirAction?.Invoke();}
         private bool CanExecuteSetDestinationDirCommand(object? obj)
