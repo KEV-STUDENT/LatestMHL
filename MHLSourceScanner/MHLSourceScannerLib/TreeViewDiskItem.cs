@@ -1,6 +1,7 @@
 ﻿using MHLCommon.MHLBook;
 using MHLCommon.MHLDiskItems;
 using MHLCommon.MHLScanner;
+using MHLCommon.ViewModels;
 using MHLSourceOnDisk;
 using MHLSourceScannerModelLib;
 using System.Windows;
@@ -65,10 +66,8 @@ namespace MHLSourceScannerLib
         }
     }
 
-    public abstract class TreeViewDiskItem<T> : TreeDiskItem<ViewModel4TreeItem> where T : IDecorator, new()
+    public abstract class TreeViewDiskItem<T> : TreeDiskItem<T> where T : IDecorator4WPF, new()
     {
-        private readonly T decorator = new T();
-
         public TreeViewDiskItem(ITreeItem? parent) :base(parent)
         {
         }
@@ -92,23 +91,24 @@ namespace MHLSourceScannerLib
 
         public Brush ForeGround
         {
-            get => decorator.ForeGround;
+            get => ((IDecorator4WPF)Decor).ForeGround;
         }
 
         public FontWeight FontWeight
         {
-            get => decorator.FontWeight;
+            get => ((IDecorator4WPF)Decor).FontWeight;
         }
 
         public bool Focusable
         {
-            get => decorator.Focusable;
+            get => Decor.Focusable;
         }
 
         public bool ThreeState
         {
-            get => decorator.ThreeState;
+            get => Decor.ThreeState;
         }
+
 
         public override ITreeDiskItem CreateTreeViewItem(IDiskItem diskItemChild)
         {
@@ -130,5 +130,75 @@ namespace MHLSourceScannerLib
 
             return newTreeItem;
         }
+    }
+
+    public abstract class TreeViewDiskItem<T1, T2> : TreeViewDiskItem<T1>, IItemSelected
+        where T1 : IDecorator4WPF, new()
+        where T2 : ISelected, new()
+    {
+        #region [Fields]
+        private T2 viewModel;
+        #endregion
+
+        #region [Constructors]
+        public TreeViewDiskItem(ITreeItem? parent) : base(parent)
+        {
+        }
+        public TreeViewDiskItem(IShower? shower, ITreeItem? parent) : base(shower, parent)
+        {
+        }
+
+        public TreeViewDiskItem(string path, ITreeItem? parent) : base(path, parent)
+        {
+        }
+        public TreeViewDiskItem(string path, IShower? shower, ITreeItem? parent) : base(path, shower, parent)
+        {
+        }
+
+        public TreeViewDiskItem(IDiskItem diskItemSource, ITreeItem? parent) : base(diskItemSource, parent)
+        {
+        }
+        public TreeViewDiskItem(IDiskItem diskItemSource, IShower? shower, ITreeItem? parent) : base(diskItemSource, shower, parent)
+        {
+        }
+        #endregion
+
+        #region [IItemSelected Implementation]
+        bool? IItemSelected.Selected
+        {
+            get => Selected;
+            set => Selected = value;
+        }
+        #endregion
+
+        #region [Properties]
+        public T2 ViewModel
+        {
+            get => viewModel;
+        }
+
+        public virtual bool? Selected
+        {
+            get
+            {
+                return viewModel.IsSelected;
+            }
+
+            set
+            {
+                viewModel.IsSelected = value;
+                viewModel.SetParentSelected(Parent, value);
+            }
+        }
+        #endregion
+
+        #region [Methods]
+        protected override void InitSourceItems()
+        {
+            base.InitSourceItems();
+            viewModel = new T2();
+            viewModel.SetSelecetdFromParent(Parent);
+        }
+        #endregion
     }
 }

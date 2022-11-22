@@ -1,47 +1,21 @@
-﻿using MHLCommon.MHLBook;
-using MHLCommon.MHLScanner;
+﻿using MHLCommon.MHLScanner;
 using MHLCommon.ViewModels;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MHLSourceScannerModelLib
 {
-    public class TreeCollectionItem<T> : TreeItem<T>, ITreeCollectionItem where T : ISelected, new()
+    public class TreeCollectionItem: TreeItem, ITreeCollectionItem
     {
 
         private bool childsLoaded;
         private ObservableCollection<ITreeItem> sourceItems = new ObservableCollection<ITreeItem>();
 
         #region [Constructors]
-        public TreeCollectionItem(string name, ITreeItem? parent) : base(name, parent) { }
-        public TreeCollectionItem(ITreeItem? parent) : base(parent) { }
+        public TreeCollectionItem(string name, ITreeItem parent) : base(name, parent) { }
+        public TreeCollectionItem(ITreeItem parent) : base(parent) { }
         #endregion
 
         #region [Properties]
-        public override bool? Selected
-        {
-
-            get
-            {
-                return base.Selected;
-            }
-
-            set
-            {
-                base.Selected = value;
-                if (value != null)
-                    foreach (ITreeItem child in SourceItems)
-                    {
-                        if (child.Selected != value)
-                            child.Selected = value;
-                    }
-            }
-        }
-
         public ObservableCollection<ITreeItem> SourceItems
         {
             get => sourceItems;
@@ -77,11 +51,11 @@ namespace MHLSourceScannerModelLib
 
         async Task<ObservableCollection<ITreeItem>> ITreeCollectionItem.LoadChildsCollectionAsync()
         {
-            System.Diagnostics.Debug.WriteLine("Thread 1 : {0}  Task : {1}", System.Threading.Thread.CurrentThread.ManagedThreadId, Task.CurrentId);
             return await Task<ObservableCollection<ITreeDiskItem>>.Run(() => LoadChildsCollection());
         }
         #endregion
 
+        #region [Methods]
         public virtual void LoadChilds()
         {
             throw new NotImplementedException();
@@ -96,6 +70,6 @@ namespace MHLSourceScannerModelLib
         {
             throw new NotImplementedException();
         }
-
+        #endregion
     }
 }

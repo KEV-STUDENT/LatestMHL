@@ -7,12 +7,12 @@ using System.Windows.Media;
 
 namespace MHLSourceScannerLib
 {
-    public struct Decor4FB2AttrSection : IDecorator
+    public struct Decor4FB2AttrSection : IDecorator4WPF
     {
-        Brush IDecorator.ForeGround => Brushes.BlueViolet;
-        FontWeight IDecorator.FontWeight => FontWeights.Bold;
-        bool IDecorator.Focusable => false;
-        bool IDecorator.ThreeState => false;
+        public Brush ForeGround => Brushes.BlueViolet;
+        public FontWeight FontWeight => FontWeights.Bold;
+        public bool Focusable => false;
+        public bool ThreeState => false;
     }
 
     public class FB2Authors : TreeViewFB2AttrSection<Decor4FB2AttrSection>
@@ -70,7 +70,7 @@ namespace MHLSourceScannerLib
     }
 
 
-    public abstract class TreeViewFB2AttrSection<T> : TreeCollectionItem<ViewModel4TreeItem> where T : IDecorator, new()
+    public abstract class TreeViewFB2AttrSection<T> : TreeCollectionItem where T : IDecorator4WPF, new()
     {
         #region [Fields]
         private readonly T decorator = new T();

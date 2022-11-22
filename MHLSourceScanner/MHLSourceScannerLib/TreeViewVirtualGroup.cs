@@ -10,16 +10,15 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace MHLSourceScannerLib
 {
-    public struct Decor4VirtualGroup : IDecorator
+    public struct Decor4VirtualGroup : IDecorator4WPF
     {
-        Brush IDecorator.ForeGround => Brushes.DarkBlue;
-        FontWeight IDecorator.FontWeight => FontWeights.Bold;
-        bool IDecorator.Focusable => true;
-
-        bool IDecorator.ThreeState => true;
+        public Brush ForeGround => Brushes.DarkBlue;
+        public FontWeight FontWeight => FontWeights.Bold;
+        public bool Focusable => true;
+        public bool ThreeState => true;
     }
 
-    public class TreeViewVirtualGroup : TreeViewDiskItem<Decor4VirtualGroup>
+    public class TreeViewVirtualGroup : TreeViewDiskItem<Decor4VirtualGroup, ViewModel4TreeItem>
     {
         private readonly object sourceLock = new object();
 

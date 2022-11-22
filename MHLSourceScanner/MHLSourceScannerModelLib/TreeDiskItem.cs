@@ -5,20 +5,29 @@ using MHLCommon.MHLScanner;
 using MHLCommon.ViewModels;
 using MHLSourceOnDisk;
 using System.Collections.ObjectModel;
-using System.Diagnostics.Tracing;
 
 namespace MHLSourceScannerModelLib
 {
-    public class TreeDiskItem<T> : TreeCollectionItem<T>, ITreeDiskItem where T:ISelected, new()
+    public class TreeDiskItem : TreeCollectionItem, ITreeDiskItem
     {
-        protected readonly IDiskItem? source;
-        protected readonly IShower? shower;
-        
+        protected IDiskItem? source;
+        protected IShower? shower;
+
         private readonly object sourceLock = new object();
 
         #region [Properties]
-        string ITreeDiskItem.Path2Item => source?.Path2Item ?? String.Empty;
-
+        public string Path2Item => source?.Path2Item ?? String.Empty;
+        string ITreeDiskItem.Path2Item => Path2Item;
+        public IShower? Shower { get => shower; set => shower = value; }
+        public IDiskItem? Source
+        {
+            get => source;
+            set
+            {
+                source = value;
+                InitSourceItems();
+            }
+        }
         public bool TestMode { get; set; }
         #endregion
 
@@ -36,19 +45,16 @@ namespace MHLSourceScannerModelLib
         }
         public TreeDiskItem(string path, IShower? shower, ITreeItem? parent) : this(shower, parent)
         {
-            source = DiskItemFabrick.GetDiskItem(path);
-            InitSourceItems();
+            Source = DiskItemFabrick.GetDiskItem(path);
         }
 
         public TreeDiskItem(IDiskItem diskItemSource, ITreeItem? parent) : this(diskItemSource, null, parent)
         {
-            source = diskItemSource;
-            InitSourceItems();
+            Source = diskItemSource;
         }
         public TreeDiskItem(IDiskItem diskItemSource, IShower? shower, ITreeItem? parent) : this(shower, parent)
         {
-            source = diskItemSource;
-            InitSourceItems();
+            Source = diskItemSource;
         }
         #endregion
 
@@ -98,7 +104,7 @@ namespace MHLSourceScannerModelLib
         #endregion
 
         #region [Private Methods]
-        private void InitSourceItems()
+        protected virtual void InitSourceItems()
         {
             if (source is IDiskCollection diskCollection)
             {
@@ -109,7 +115,7 @@ namespace MHLSourceScannerModelLib
             }
             else if (source is IBook)
                 SourceItems.Add(CreateEmptyItem());
-            
+
             name = source?.Name ?? String.Empty;
         }
         #endregion
@@ -139,15 +145,15 @@ namespace MHLSourceScannerModelLib
         #region [Public Methods]
         public virtual ITreeItem CreateEmptyItem()
         {
-            return new TreeItem<T>(null);
+            return new TreeItem(null);
         }
 
         public virtual ITreeItem CreateTreeViewItem(IDiskItem diskItemChild)
         {
-            return new TreeDiskItem<T>(diskItemChild, this);
+            return new TreeDiskItem(diskItemChild, this);
         }
 
-        protected virtual void AddDiskItem(IDiskItem diskItemChild)
+        public virtual void AddDiskItem(IDiskItem diskItemChild)
         {
             if (diskItemChild != null)
             {
@@ -170,6 +176,42 @@ namespace MHLSourceScannerModelLib
                 }
             }
         }
+        #endregion
+    }
+
+    public class TreeDiskItem<T> : TreeDiskItem, IDecorated<T> where T : IDecorator, new()
+    {
+        #region [Fields]
+        private readonly T decorator = new T();
+        #endregion
+
+        #region [Properties]
+        protected IDecorator Decor { get => decorator; }            
+        #endregion
+
+        #region [IDecorated<T> Implementation]
+        bool IDecorated<T>.Focusable => decorator.Focusable;
+        bool IDecorated<T>.ThreeState => decorator.ThreeState;
+        #endregion
+
+        #region [Constructors]
+        public TreeDiskItem(ITreeItem? parent) : base(parent)
+        {
+        }
+        public TreeDiskItem(IShower? shower, ITreeItem? parent) : base(shower, parent)
+        {
+        }
+        public TreeDiskItem(string path, ITreeItem? parent) : base(path, parent)
+        {
+        }
+        public TreeDiskItem(string path, IShower? shower, ITreeItem? parent) : base(path, shower, parent)
+        {
+        }
+
+        public TreeDiskItem(IDiskItem diskItemSource, ITreeItem? parent) : base(diskItemSource, parent)
+        {
+        }
+        public TreeDiskItem(IDiskItem diskItemSource, IShower? shower, ITreeItem? parent) : base(diskItemSource, shower, parent) { }
         #endregion
     }
 }

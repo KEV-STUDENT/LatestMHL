@@ -4,16 +4,27 @@ using MHLCommon.MHLDiskItems;
 
 namespace MHLCommon.MHLScanner
 {
-    public interface ITreeItem : IComparable<ITreeItem>
+
+    public interface IItemSelected
+    {
+        bool? Selected { get; set; }
+    }
+    
+    public interface ITreeItem: IComparable<ITreeItem>
     {
         ITreeItem? Parent { get; }
         string Name { get; }
-        bool? Selected { get; set; }
+    }
+
+    public interface IDecorated<T> where T : IDecorator, new()
+    {
+        bool Focusable { get; }
+        bool ThreeState { get; }
     }
 
     public interface ITreeCollectionItem : ITreeItem
     {
-        ObservableCollection<ITreeItem> SourceItems { get; protected set; }
+        ObservableCollection<ITreeItem> SourceItems { get; set; }
         void LoadItemCollection();
         void LoadChilds();
         ObservableCollection<ITreeItem> LoadChildsCollection();

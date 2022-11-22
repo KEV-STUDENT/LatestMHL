@@ -5,12 +5,12 @@ using System.Windows.Media;
 
 namespace MHLSourceScannerLib
 {
-    public struct Decor4Ddirectory : IDecorator
+    public struct Decor4Ddirectory : IDecorator4WPF
     {
-        Brush IDecorator.ForeGround => Brushes.DarkBlue;
-        FontWeight IDecorator.FontWeight => FontWeights.Bold;
-        bool IDecorator.Focusable => true;
-        bool IDecorator.ThreeState => true;
+        public Brush ForeGround => Brushes.DarkBlue;
+        public FontWeight FontWeight => FontWeights.Bold;
+        public bool Focusable => true;
+        public bool ThreeState => true;
     }
 
     public class TreeViewDirectory : TreeViewDiskItem<Decor4Ddirectory>

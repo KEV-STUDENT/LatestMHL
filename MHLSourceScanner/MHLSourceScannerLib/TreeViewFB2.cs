@@ -8,16 +8,15 @@ using System.Windows.Media;
 
 namespace MHLSourceScannerLib
 {
-    public struct Decor4FB2 : IDecorator
+    public struct Decor4FB2 : IDecorator4WPF
     {
-        Brush IDecorator.ForeGround => Brushes.DarkGreen;
-        FontWeight IDecorator.FontWeight => FontWeights.Bold;
-        bool IDecorator.Focusable => true;
-        bool IDecorator.ThreeState => false;
-
+        public Brush ForeGround => Brushes.DarkGreen;
+        public FontWeight FontWeight => FontWeights.Bold;
+        public bool Focusable => true;
+        public bool ThreeState => false;
     }
 
-    public class TreeViewFB2 : TreeViewDiskItem<Decor4FB2>
+    public class TreeViewFB2 : TreeViewDiskItem<Decor4FB2, ViewModel4TreeItem>
     {
         #region [Fields]
         private MHLSequenceNum? _sequenceNum = null;

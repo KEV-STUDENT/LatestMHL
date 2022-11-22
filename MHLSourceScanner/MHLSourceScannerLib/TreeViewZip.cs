@@ -9,15 +9,15 @@ using System.Windows.Media;
 
 namespace MHLSourceScannerLib
 {
-    public struct Decor4Zip : IDecorator
+    public struct Decor4Zip : IDecorator4WPF
     {
-        Brush IDecorator.ForeGround => Brushes.DarkBlue;
-        FontWeight IDecorator.FontWeight => FontWeights.Bold;
-        bool IDecorator.Focusable => true;
-        bool IDecorator.ThreeState => true;
+        public Brush ForeGround => Brushes.DarkBlue;
+        public FontWeight FontWeight => FontWeights.Bold;
+        public bool Focusable => true;
+        public bool ThreeState => true;
     }
 
-    public class TreeViewZip : TreeViewDiskItem<Decor4Zip>
+    public class TreeViewZip : TreeViewDiskItem<Decor4Zip, ViewModel4TreeItem>
     {
         private readonly object sourceLock = new object();
 

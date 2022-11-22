@@ -7,12 +7,12 @@ using System.Xml;
 
 namespace MHLSourceScannerLib
 {
-    public struct Decor4FB2Attr : IDecorator
+    public struct Decor4FB2Attr : IDecorator4WPF
     {
-        Brush IDecorator.ForeGround => Brushes.Black;
-        FontWeight IDecorator.FontWeight => FontWeights.Normal;
-        bool IDecorator.Focusable => false;
-        bool IDecorator.ThreeState => false;
+        public Brush ForeGround => Brushes.Black;
+        public FontWeight FontWeight => FontWeights.Normal;
+        public bool Focusable => false;
+        public bool ThreeState => false;
 
     }
 
@@ -20,7 +20,7 @@ namespace MHLSourceScannerLib
     {
         public double TextWidth
         {
-            get => 700  ;
+            get => 700;
         }
         #region [Constructors]
         public FB2Annotation(string bookAttribute, ITreeItem? parent) : base(bookAttribute, parent)
@@ -348,7 +348,8 @@ namespace MHLSourceScannerLib
                 case MHLCommon.FB2Genres.nonf_criticism:
                     Name = "Критика";
                     break;
-                case MHLCommon.FB2Genres.design: Name = "Искусство и Дизайн";
+                case MHLCommon.FB2Genres.design:
+                    Name = "Искусство и Дизайн";
                     break;
                 case MHLCommon.FB2Genres.nonfiction:
                     Name = "Документальная литература";
@@ -458,16 +459,14 @@ namespace MHLSourceScannerLib
         #endregion
     }
 
-    public abstract class TreeViewFB2Attr<T1, T2> : TreeItem<ViewModel4TreeItem>
-    where T1 : IDecorator, new()
+    public abstract class TreeViewFB2Attr<T1, T2> : TreeItem<T1> where T1 : IDecorator4WPF, new()
     {
-        #region [Fields]
-        private readonly T1 decorator = new T1();
+        #region [Fields]       
         protected readonly T2 bookAttribute;
         #endregion
 
         #region [Constructors]
-        public TreeViewFB2Attr(T2 bookAttribute, ITreeItem? parent):base(parent)
+        public TreeViewFB2Attr(T2 bookAttribute, ITreeItem? parent) : base(parent)
         {
             this.bookAttribute = bookAttribute;
         }
@@ -476,17 +475,17 @@ namespace MHLSourceScannerLib
         #region [Proprties]
         public Brush ForeGround
         {
-            get => decorator.ForeGround;
+            get => ((IDecorator4WPF)Decor).ForeGround;
         }
 
         public FontWeight FontWeight
         {
-            get => decorator.FontWeight;
+            get => ((IDecorator4WPF)Decor).FontWeight;
         }
 
         public bool Focusable
         {
-            get => decorator.Focusable;
+            get => Decor.Focusable;
         }
         #endregion
     }

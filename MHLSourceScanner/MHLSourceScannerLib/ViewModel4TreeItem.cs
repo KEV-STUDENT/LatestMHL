@@ -3,6 +3,7 @@ using System.Windows.Input;
 using MHLSourceScannerModelLib;
 using MHLCommon.MHLScanner;
 using MHLControls;
+using System.Linq;
 
 namespace MHLSourceScannerLib
 {
@@ -21,13 +22,6 @@ namespace MHLSourceScannerLib
                 OnPropertyChanged("IsSelected");
             }
         }
-
-        bool? ISelected.IsSelected
-        {
-            get => IsSelected;
-            set => IsSelected = value;
-        }
-
         public ICommand CheckedCommand { get; set; }
 
         #region[Constructors]
@@ -40,17 +34,21 @@ namespace MHLSourceScannerLib
         #region [Private Methodth]
         private void ExecuteCheckedCommand(object? obj)
         {
-            if (obj is ITreeItem treeItem)
+            if (obj is IItemSelected itemSelected)
             {
-                if(treeItem.Parent != null)
-                   treeItem.Selected = !prevSelected;
-            }
-
-            if(obj is ITreeCollectionItem collectionItem)
-            {
-                foreach(ITreeItem item in collectionItem.SourceItems)
+                if (obj is ITreeItem treeItem)
                 {
-                    item.Selected = collectionItem.Selected;
+                    if (treeItem.Parent != null)
+                        itemSelected.Selected = !prevSelected;
+                }
+
+                if (obj is TreeCollectionItem collectionItem)
+                {
+                    foreach (TreeItem item in collectionItem.SourceItems)
+                    {
+                        if(item is IItemSelected selected)
+                            selected.Selected = itemSelected.Selected;
+                    }
                 }
             }
         }
@@ -60,5 +58,37 @@ namespace MHLSourceScannerLib
         }
         #endregion
 
+        #region [ISelected Implementation]
+        bool? ISelected.IsSelected
+        {
+            get => IsSelected;
+            set => IsSelected = value;
+        }
+
+        void ISelected.SetParentSelected(ITreeItem? parent, bool? value)
+        {
+            if ((parent is IItemSelected _parentSelected) && _parentSelected != null && !(_parentSelected.Selected == null && value == null) && _parentSelected.Selected != value)
+            {
+                if (parent is ITreeCollectionItem collectionItem)
+                {
+                    var p = from a in collectionItem.SourceItems
+                            where !(_parentSelected.Selected == null && value == null) && (a is IItemSelected selected) && selected?.Selected != value
+                            select a;
+
+                    if (p.Any())
+                        _parentSelected.Selected = null;
+                    else
+                        _parentSelected.Selected = value;
+                }
+            }
+        }
+
+
+        void ISelected.SetSelecetdFromParent(ITreeItem? parent)
+        {
+            if ((parent is IItemSelected itemSelected) && (itemSelected?.Selected != null))
+                IsSelected = itemSelected.Selected;
+        }
+        #endregion
     }
 }
