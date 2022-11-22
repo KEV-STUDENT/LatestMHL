@@ -131,7 +131,7 @@ namespace MHLUIElements
             if (obj is RoutedEventArgs arg)
             {
                 TreeViewItem? tvi = arg.Source as TreeViewItem;
-                if (tvi?.Header is ITreeCollectionItem treeItem)
+                if (tvi?.Header is ITreeItemCollection treeItem)
                 {
                     treeItem.LoadChilds();
                 }

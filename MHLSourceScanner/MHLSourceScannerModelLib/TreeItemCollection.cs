@@ -4,15 +4,17 @@ using System.Collections.ObjectModel;
 
 namespace MHLSourceScannerModelLib
 {
-    public class TreeCollectionItem: TreeItem, ITreeCollectionItem
+    public class TreeItemCollection: TreeItem, ITreeItemCollection
     {
 
         private bool childsLoaded;
         private ObservableCollection<ITreeItem> sourceItems = new ObservableCollection<ITreeItem>();
 
         #region [Constructors]
-        public TreeCollectionItem(string name, ITreeItem parent) : base(name, parent) { }
-        public TreeCollectionItem(ITreeItem parent) : base(parent) { }
+        public TreeItemCollection(string name, ITreeItem? parent) : base(name, parent) { }
+        public TreeItemCollection(string name) : base(name) { }
+        public TreeItemCollection(ITreeItem? parent) : base(parent) { }
+        public TreeItemCollection() : base() { }
         #endregion
 
         #region [Properties]
@@ -22,7 +24,7 @@ namespace MHLSourceScannerModelLib
             set => sourceItems = value;
 
         }
-        ObservableCollection<ITreeItem> ITreeCollectionItem.SourceItems
+        ObservableCollection<ITreeItem> ITreeItemCollection.SourceItems
         {
             get => SourceItems;
             set => SourceItems = value;
@@ -30,7 +32,7 @@ namespace MHLSourceScannerModelLib
         #endregion
 
         #region [ITreeCollectionItem implementation]
-        void ITreeCollectionItem.LoadChilds()
+        void ITreeItemCollection.LoadChilds()
         {
             if (childsLoaded)
                 return;
@@ -39,17 +41,17 @@ namespace MHLSourceScannerModelLib
 
             childsLoaded = true;
         }
-        void ITreeCollectionItem.LoadItemCollection()
+        void ITreeItemCollection.LoadItemCollection()
         {
             LoadItemCollection();
         }
 
-        ObservableCollection<ITreeItem> ITreeCollectionItem.LoadChildsCollection()
+        ObservableCollection<ITreeItem> ITreeItemCollection.LoadChildsCollection()
         {
             return LoadChildsCollection();
         }
 
-        async Task<ObservableCollection<ITreeItem>> ITreeCollectionItem.LoadChildsCollectionAsync()
+        async Task<ObservableCollection<ITreeItem>> ITreeItemCollection.LoadChildsCollectionAsync()
         {
             return await Task<ObservableCollection<ITreeDiskItem>>.Run(() => LoadChildsCollection());
         }

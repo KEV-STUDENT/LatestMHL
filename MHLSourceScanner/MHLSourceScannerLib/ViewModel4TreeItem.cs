@@ -42,7 +42,7 @@ namespace MHLSourceScannerLib
                         itemSelected.Selected = !prevSelected;
                 }
 
-                if (obj is TreeCollectionItem collectionItem)
+                if (obj is TreeItemCollection collectionItem)
                 {
                     foreach (TreeItem item in collectionItem.SourceItems)
                     {
@@ -69,7 +69,7 @@ namespace MHLSourceScannerLib
         {
             if ((parent is IItemSelected _parentSelected) && _parentSelected != null && !(_parentSelected.Selected == null && value == null) && _parentSelected.Selected != value)
             {
-                if (parent is ITreeCollectionItem collectionItem)
+                if (parent is ITreeItemCollection collectionItem)
                 {
                     var p = from a in collectionItem.SourceItems
                             where !(_parentSelected.Selected == null && value == null) && (a is IItemSelected selected) && selected?.Selected != value

@@ -8,7 +8,7 @@ using System.Collections.ObjectModel;
 
 namespace MHLSourceScannerModelLib
 {
-    public class TreeDiskItem : TreeCollectionItem, ITreeDiskItem
+    public class TreeDiskItem : TreeItemCollection, ITreeDiskItem
     {
         protected IDiskItem? source;
         protected IShower? shower;
@@ -145,7 +145,7 @@ namespace MHLSourceScannerModelLib
         #region [Public Methods]
         public virtual ITreeItem CreateEmptyItem()
         {
-            return new TreeItem(null);
+            return new TreeItem();
         }
 
         public virtual ITreeItem CreateTreeViewItem(IDiskItem diskItemChild)

@@ -30,16 +30,17 @@ namespace MHLSourceScannerModelLib
 
 
         #region [Constructors]
-
-        public TreeItem(string name, ITreeItem parent)
+        public TreeItem(string name, ITreeItem? parent)
         {
             this.name = name;
             this.parent = parent;
         }
 
-        public TreeItem(ITreeItem parent) : this(string.Empty, parent)
-        {
-        }
+        public TreeItem(string name) : this(name, null) { }
+
+        public TreeItem(ITreeItem? parent) : this(string.Empty, parent) { }
+
+        public TreeItem() : this(string.Empty, null) { }
         #endregion
 
         #region [TreeItemComparer : Comparer<ITreeItem> implementation]

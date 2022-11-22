@@ -70,7 +70,7 @@ namespace MHLSourceScannerLib
     }
 
 
-    public abstract class TreeViewFB2AttrSection<T> : TreeCollectionItem where T : IDecorator4WPF, new()
+    public abstract class TreeViewFB2AttrSection<T> : TreeItemCollection where T : IDecorator4WPF, new()
     {
         #region [Fields]
         private readonly T decorator = new T();
@@ -101,7 +101,7 @@ namespace MHLSourceScannerLib
             this.sectionType = sectionType;
             this.book = book;
 
-            ITreeCollectionItem treeCollection = this;
+            ITreeItemCollection treeCollection = this;
             treeCollection.LoadChilds();
         }
         #endregion

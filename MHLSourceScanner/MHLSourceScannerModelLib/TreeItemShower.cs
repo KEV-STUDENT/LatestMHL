@@ -5,13 +5,13 @@ using MHLCommon.MHLScanner;
 
 namespace MHLSourceScannerModelLib
 {
-    public class DiskItemShower : IShower
+    public class TreeItemShower : IShower
     {
         public Action? BeforeUpdateView;
         public Action? AfterUpdateView;
         public Action? UpdateView;
         public Action<IDiskItem, ITreeItem>? CreateItem;
-        public Action<ITreeCollectionItem>? LoadCollection;    
+        public Action<ITreeItemCollection>? LoadCollection;    
     
         protected ObservableCollection<ITreeItem> sourceItems = new ObservableCollection<ITreeItem>();
 
@@ -24,7 +24,7 @@ namespace MHLSourceScannerModelLib
             get { return SourceItems; }
         }
 
-        void IShower.LoadItemCollection(ITreeCollectionItem treeItem)
+        void IShower.LoadItemCollection(ITreeItemCollection treeItem)
         {
             if(LoadCollection == null)
                 treeItem.LoadItemCollection();

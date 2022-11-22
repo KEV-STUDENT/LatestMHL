@@ -22,7 +22,7 @@ namespace MHLCommon.MHLScanner
         bool ThreeState { get; }
     }
 
-    public interface ITreeCollectionItem : ITreeItem
+    public interface ITreeItemCollection : ITreeItem
     {
         ObservableCollection<ITreeItem> SourceItems { get; set; }
         void LoadItemCollection();
@@ -31,7 +31,7 @@ namespace MHLCommon.MHLScanner
         Task<ObservableCollection<ITreeItem>> LoadChildsCollectionAsync();
     }
 
-    public interface ITreeDiskItem : ITreeCollectionItem
+    public interface ITreeDiskItem : ITreeItemCollection
     {
         string Path2Item { get; }
 

@@ -22,7 +22,7 @@ namespace MHLUIElements
             ViewModel = new ViewModel4Shower();
 
             InitializeComponent();
-            DiskItemShower shower = new DiskItemShower();
+            TreeItemShower shower = new TreeItemShower();
             shower.UpdateView = UpdateViewAction;
             shower.LoadCollection = LoadItemCollection;
             this.shower = shower;
@@ -37,12 +37,12 @@ namespace MHLUIElements
             ViewModel.Source = SourceItems;
         }
 
-        private void CreateViewItem(IDiskItem item, ITreeDiskItem parent)
+       /* private void CreateViewItem(IDiskItem item, ITreeDiskItem parent)
         {
             parent.AddDiskItem(item);
-        }
+        }*/
 
-        private void LoadItemCollection(ITreeCollectionItem parent)
+        private void LoadItemCollection(ITreeItemCollection parent)
         {
             if (parent is ITreeDiskItem diskItem)
                 diskItem.SourceItems.Clear();
@@ -79,7 +79,7 @@ namespace MHLUIElements
             }));
         }
 
-        void IShower.LoadItemCollection(ITreeCollectionItem treeItem)
+        void IShower.LoadItemCollection(ITreeItemCollection treeItem)
         {
             shower.LoadItemCollection(treeItem);
         }
