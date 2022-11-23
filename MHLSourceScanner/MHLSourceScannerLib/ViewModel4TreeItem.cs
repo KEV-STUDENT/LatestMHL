@@ -1,9 +1,9 @@
-﻿using MHLCommon.ViewModels;
-using System.Windows.Input;
+﻿using MHLCommon.MHLScanner;
+using MHLCommon.ViewModels;
 using MHLSourceScannerModelLib;
-using MHLCommon.MHLScanner;
-using MHLControls;
 using System.Linq;
+using System.Windows.Input;
+using MHLCommands;
 
 namespace MHLSourceScannerLib
 {

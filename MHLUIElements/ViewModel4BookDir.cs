@@ -9,7 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MHLSourceScannerModelLib;
-using MHLSourceScannerLib;
+using MHLSourceScannerLib.BookDir;
+
 namespace MHLUIElements
 {
     public class ViewModel4BookDir : ViewModel
@@ -30,7 +31,7 @@ namespace MHLUIElements
         public ViewModel4BookDir()
         {
             source = new ObservableCollection<ITreeItem>();
-            source.Add(new TreeItemCollection("Test"));
+            source.Add(new PathRow());
         }
         #endregion
     }

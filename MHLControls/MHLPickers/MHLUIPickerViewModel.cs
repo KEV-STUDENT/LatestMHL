@@ -1,12 +1,7 @@
-﻿using MHLCommon;
-using MHLCommon.MHLScanner;
+﻿using MHLCommands;
 using MHLCommon.ViewModels;
 using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows;
 using System.Windows.Input;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace MHLControls.MHLPickers
 {

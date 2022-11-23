@@ -3,18 +3,26 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:ModelLib="clr-namespace:MHLSourceScannerModelLib;assembly=MHLSourceScannerModelLib"
+             xmlns:ScannerLib="clr-namespace:MHLSourceScannerLib.BookDir;assembly=MHLSourceScannerLib"
              xmlns:local="clr-namespace:MHLUIElements"
-             xmlns:MHLControls="clr-namespace:MHLControls;assembly=MHLControls"
+             xmlns:MHLControls="clr-namespace:MHLControls.BookDirControls;assembly=MHLControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" x:Name="DirTree">
     <Grid>
         <TreeView x:Name="ShowDir" Margin="0">
             <TreeView.Resources>
                 <ResourceDictionary>
-                    <HierarchicalDataTemplate DataType = "{x:Type ModelLib:TreeItem}" ItemsSource="{Binding Path=SourceItems}">
-                        <MHLControls:MHLTextBlock Text="{Binding Name}"/>
-                    </HierarchicalDataTemplate>
+                    <HierarchicalDataTemplate DataType = "{x:Type ScannerLib:PathRow}" ItemsSource="{Binding Path=SourceItems}">
+                        <Border BorderBrush="Gainsboro" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" >
+                                <MHLControls:BookDirCombobox SelectedIndex="1" />
+                                <ComboBox />
+                                <ComboBox />
+                                <ComboBox />
+                                <ComboBox />
+                            </StackPanel>
+                        </Border>
+                    </HierarchicalDataTemplate>                  
                 </ResourceDictionary>
             </TreeView.Resources>
         </TreeView>

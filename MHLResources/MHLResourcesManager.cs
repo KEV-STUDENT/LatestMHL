@@ -7,6 +7,7 @@ using System.Resources;
 using System.Windows.Media.Imaging;
 using System.IO;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace MHLResources
 {

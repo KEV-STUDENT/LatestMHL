@@ -108,6 +108,51 @@ namespace MHLResources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на First Letter from: .
+        /// </summary>
+        public static string PathElement_1stLetter {
+            get {
+                return ResourceManager.GetString("PathElement_1stLetter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Author.
+        /// </summary>
+        public static string PathElement_Author {
+            get {
+                return ResourceManager.GetString("PathElement_Author", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Sequence Name.
+        /// </summary>
+        public static string PathElement_SequenceName {
+            get {
+                return ResourceManager.GetString("PathElement_SequenceName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Number in Sequence.
+        /// </summary>
+        public static string PathElement_SequenceNum {
+            get {
+                return ResourceManager.GetString("PathElement_SequenceNum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Title.
+        /// </summary>
+        public static string PathElement_Title {
+            get {
+                return ResourceManager.GetString("PathElement_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
         public static System.Drawing.Bitmap RunButton {

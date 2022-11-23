@@ -2,7 +2,7 @@
 using System;
 using System.Windows.Input;
 
-namespace MHLControls
+namespace MHLCommands
 {
     public class RelayCommand : ICommand
     {

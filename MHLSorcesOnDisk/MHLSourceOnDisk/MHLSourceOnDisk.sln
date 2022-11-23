@@ -11,7 +11,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MHLSourceScannerModelLib", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MHLSourceScannerModelLibTest", "..\..\MHLSourceScanner\MHLSourceScannerModelLibTest\MHLSourceScannerModelLibTest.csproj", "{3EA2FA6E-E70F-42F0-BA1F-6EB446627C6D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MHLCommon", "..\..\MHLCommon\MHLCommon.csproj", "{F6481ADD-1458-4DB9-86BC-E1614EA9E268}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MHLCommon", "..\..\MHLCommon\MHLCommon.csproj", "{F6481ADD-1458-4DB9-86BC-E1614EA9E268}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MHLSourceScannerLib", "..\..\MHLSourceScanner\MHLSourceScannerLib\MHLSourceScannerLib.csproj", "{401097E5-3FE9-4DC7-A47A-F8E5DB74DCED}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MHLSourceScannerLibTest", "..\..\MHLSourceScanner\MHLSourceScannerLibTest\MHLSourceScannerLibTest.csproj", "{AEC60D19-2A62-4EA4-A7AD-B56AA529ADE1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MHLResources", "..\..\MHLResources\MHLResources.csproj", "{0AD80C70-5C84-4290-B733-FBEB988B978E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +45,18 @@ Global
 		{F6481ADD-1458-4DB9-86BC-E1614EA9E268}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6481ADD-1458-4DB9-86BC-E1614EA9E268}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F6481ADD-1458-4DB9-86BC-E1614EA9E268}.Release|Any CPU.Build.0 = Release|Any CPU
+		{401097E5-3FE9-4DC7-A47A-F8E5DB74DCED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{401097E5-3FE9-4DC7-A47A-F8E5DB74DCED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{401097E5-3FE9-4DC7-A47A-F8E5DB74DCED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{401097E5-3FE9-4DC7-A47A-F8E5DB74DCED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEC60D19-2A62-4EA4-A7AD-B56AA529ADE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEC60D19-2A62-4EA4-A7AD-B56AA529ADE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEC60D19-2A62-4EA4-A7AD-B56AA529ADE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEC60D19-2A62-4EA4-A7AD-B56AA529ADE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AD80C70-5C84-4290-B733-FBEB988B978E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AD80C70-5C84-4290-B733-FBEB988B978E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AD80C70-5C84-4290-B733-FBEB988B978E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AD80C70-5C84-4290-B733-FBEB988B978E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -15,6 +15,11 @@
           "MHLSourceScanner.dll": {}
         }
       },
+      "MHLCommands/1.0.0": {
+        "runtime": {
+          "MHLCommands.dll": {}
+        }
+      },
       "MHLCommon/1.0.0": {
         "runtime": {
           "MHLCommon.dll": {}
@@ -22,8 +27,10 @@
       },
       "MHLControls/1.0.0": {
         "dependencies": {
+          "MHLCommands": "1.0.0",
           "MHLCommon": "1.0.0",
-          "MHLResources": "1.0.0"
+          "MHLResources": "1.0.0",
+          "MHLSourceScannerLib": "1.0.0"
         },
         "runtime": {
           "MHLControls.dll": {}
@@ -44,8 +51,9 @@
       },
       "MHLSourceScannerLib/1.0.0": {
         "dependencies": {
+          "MHLCommands": "1.0.0",
           "MHLCommon": "1.0.0",
-          "MHLControls": "1.0.0",
+          "MHLResources": "1.0.0",
           "MHLSourceScannerModelLib": "1.0.0"
         },
         "runtime": {
@@ -77,6 +85,11 @@
   },
   "libraries": {
     "MHLSourceScanner/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "MHLCommands/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

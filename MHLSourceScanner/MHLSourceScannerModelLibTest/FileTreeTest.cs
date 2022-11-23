@@ -4,7 +4,7 @@ using MHLCommon.MHLScanner;
 
 namespace MHLSourceScannerModelLibTest
 {
-    internal class FileTreeTest : DiskItemShower
+    internal class FileTreeTest : TreeItemShower
     {
        public FileTreeTest()
         {

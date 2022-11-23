@@ -10,30 +10,38 @@ namespace MHLSourceScannerModelLibTest
     {
         private bool? _selected;
         bool? ISelected.IsSelected { get => _selected; set =>_selected = value; }
+
+        void ISelected.SetParentSelected(ITreeItem? parent, bool? value)
+        {
+            throw new NotImplementedException();
+        }
+
+        void ISelected.SetSelecetdFromParent(ITreeItem? parent)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     [TestClass]
     public class ITreeItemTest
     {
-        protected readonly string pathDir = @"F:\1\test";
-        protected readonly string pathDirZip = @"E:\librus_MyHomeLib\lib.rus.ec\fb2-284000-291999.zip";
-
-
         [TestMethod]
-        public void LoadChilds_pathDirZip()
+        [DataRow(@"E:\librus_MyHomeLib\lib.rus.ec\fb2-284000-291999.zip")]
+        public void LoadChilds_pathDirZip(string pathDirZip)
         {
-            DiskItemShower shower = new DiskItemShower();
-            ITreeDiskItem treeItem = new TreeDiskItem<ViewModelTest>(pathDirZip, shower, null);
-            ((TreeDiskItem<ViewModelTest>)treeItem).TestMode = true;
+            TreeItemShower shower = new TreeItemShower();
+            ITreeDiskItem treeItem = new TreeDiskItem(pathDirZip, shower, null);
+            ((TreeDiskItem)treeItem).TestMode = true;
             treeItem.LoadChilds();
             Assert.AreNotEqual(0, treeItem.SourceItems.Count);
         }
 
         [TestMethod]
-        public void LoadChildsCollection_pathDirZip()
+        [DataRow(@"E:\librus_MyHomeLib\lib.rus.ec\fb2-284000-291999.zip")]
+        public void LoadChildsCollection_pathDirZip(string pathDirZip)
         {
-            DiskItemShower shower = new DiskItemShower();
-            ITreeCollectionItem treeItem = new TreeDiskItem<ViewModelTest>(pathDirZip, shower, null);
+            TreeItemShower shower = new TreeItemShower();
+            ITreeItemCollection treeItem = new TreeDiskItem(pathDirZip, shower, null);
             ObservableCollection<ITreeItem> collection = treeItem.LoadChildsCollection();
             
             foreach (ITreeItem item in collection)
@@ -43,10 +51,11 @@ namespace MHLSourceScannerModelLibTest
         }
 
         [TestMethod]
-        public void LoadChildsCollectionAsync_pathDirZip()
+        [DataRow(@"E:\librus_MyHomeLib\lib.rus.ec\fb2-284000-291999.zip")]
+        public void LoadChildsCollectionAsync_pathDirZip(string pathDirZip)
         {
-            DiskItemShower shower = new DiskItemShower();
-            ITreeCollectionItem treeItem = new TreeDiskItem<ViewModelTest>(pathDirZip, shower, null);
+            TreeItemShower shower = new TreeItemShower();
+            ITreeItemCollection treeItem = new TreeDiskItem(pathDirZip, shower, null);
             Task<ObservableCollection<ITreeItem>> task = treeItem.LoadChildsCollectionAsync();
             task.Wait();
             foreach (ITreeItem item in task.Result)
@@ -55,13 +64,13 @@ namespace MHLSourceScannerModelLibTest
             Assert.AreNotEqual(0, task.Result.Count);
         }
 
-
         [TestMethod]
-        public void LoadItemCollection_pathDirZip()
+        [DataRow(@"E:\librus_MyHomeLib\lib.rus.ec\fb2-284000-291999.zip")]
+        public void LoadItemCollection_pathDirZip(string pathDirZip)
         {
-            DiskItemShower shower = new DiskItemShower();
-            ITreeDiskItem treeItem = new TreeDiskItem<ViewModelTest>(pathDirZip, shower, null);
-            ((TreeDiskItem<ViewModelTest>)treeItem).TestMode = true;
+            TreeItemShower shower = new TreeItemShower();
+            ITreeDiskItem treeItem = new TreeDiskItem(pathDirZip, shower, null);
+            ((TreeDiskItem)treeItem).TestMode = true;
             
             treeItem.LoadItemCollection();
             

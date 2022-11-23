@@ -1,18 +1,16 @@
-﻿using MHLCommon.MHLBook;
+﻿using MHLCommands;
+using MHLCommon.MHLBook;
 using MHLCommon.MHLScanner;
 using MHLCommon.ViewModels;
+using MHLResources;
+using MHLSourceScannerLib;
 using System;
 using System.Collections.ObjectModel;
-using System.Drawing;
 using System.IO;
-using System.Resources;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-using MHLSourceScannerLib;
-using MHLControls;
-using MHLResources;
 
 
 namespace MHLUIElements

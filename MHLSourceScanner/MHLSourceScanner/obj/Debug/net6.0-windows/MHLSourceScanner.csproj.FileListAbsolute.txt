@@ -33,7 +33,8 @@ F:\LatestMHL\MHLSourceScanner\MHLSourceScanner\bin\Debug\net6.0-windows\MHLUIEle
 F:\LatestMHL\MHLSourceScanner\MHLSourceScanner\bin\Debug\net6.0-windows\MHLUIElements.pdb
 F:\LatestMHL\MHLSourceScanner\MHLSourceScanner\bin\Debug\net6.0-windows\MHLResources.dll
 F:\LatestMHL\MHLSourceScanner\MHLSourceScanner\bin\Debug\net6.0-windows\MHLResources.pdb
-F:\LatestMHL\MHLSourceScanner\MHLSourceScanner\bin\Debug\net6.0-windows\Resources\BookCover.png
 F:\LatestMHL\MHLSourceScanner\MHLSourceScanner\obj\Debug\net6.0-windows\MHLSourceScanner_MarkupCompile.lref
 F:\LatestMHL\MHLSourceScanner\MHLSourceScanner\obj\Debug\net6.0-windows\DirectorySetting\DirSetting.g.cs
 F:\LatestMHL\MHLSourceScanner\MHLSourceScanner\obj\Debug\net6.0-windows\DirectorySetting\DirSetting.baml
+F:\LatestMHL\MHLSourceScanner\MHLSourceScanner\bin\Debug\net6.0-windows\MHLCommands.dll
+F:\LatestMHL\MHLSourceScanner\MHLSourceScanner\bin\Debug\net6.0-windows\MHLCommands.pdb

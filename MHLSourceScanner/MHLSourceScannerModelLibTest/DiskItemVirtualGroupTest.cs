@@ -8,8 +8,6 @@ namespace MHLSourceScannerModelLibTest
     [TestClass]
     public class DiskItemVirtualGroupTest
     {
-        protected string pathZip = @"F:\1\test\fb2-495000-500999.zip";
-
         protected IDiskItem? GetDiskItemVirtualGroup (string path)
         {
             DiskItemFileZip? zip = DiskItemFabrick.GetDiskItem(path) as DiskItemFileZip;
@@ -32,7 +30,8 @@ namespace MHLSourceScannerModelLibTest
         }
 
         [TestMethod]
-        public void GetDiskItemVirtualGroup_pathZip()
+        [DataRow(@"F:\1\test\fb2-495000-500999.zip")]
+        public void GetDiskItemVirtualGroup_pathZip(string pathZip)
         {
             IDiskItem? item = GetDiskItemVirtualGroup(pathZip);
             if (item == null)
@@ -50,7 +49,8 @@ namespace MHLSourceScannerModelLibTest
         }
 
         [TestMethod]
-        public void GetDiskItemFileFB2_pathZip()
+        [DataRow(@"F:\1\test\fb2-495000-500999.zip")]
+        public void GetDiskItemFileFB2_pathZip(string pathZip)
         {
             IDiskItem? item = GetDiskItemVirtualGroup(pathZip);
             IVirtualGroup? virtualGroup = item as IVirtualGroup;

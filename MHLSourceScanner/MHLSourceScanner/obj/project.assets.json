@@ -2,6 +2,19 @@
   "version": 3,
   "targets": {
     "net6.0-windows7.0": {
+      "MHLCommands/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/MHLCommands.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MHLCommands.dll": {}
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App"
+        ]
+      },
       "MHLCommon/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
@@ -16,8 +29,10 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
+          "MHLCommands": "1.0.0",
           "MHLCommon": "1.0.0",
-          "MHLResources": "1.0.0"
+          "MHLResources": "1.0.0",
+          "MHLSourceScannerLib": "1.0.0"
         },
         "compile": {
           "bin/placeholder/MHLControls.dll": {}
@@ -59,8 +74,9 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
+          "MHLCommands": "1.0.0",
           "MHLCommon": "1.0.0",
-          "MHLControls": "1.0.0",
+          "MHLResources": "1.0.0",
           "MHLSourceScannerModelLib": "1.0.0"
         },
         "compile": {
@@ -110,6 +126,11 @@
     }
   },
   "libraries": {
+    "MHLCommands/1.0.0": {
+      "type": "project",
+      "path": "../MHLCommands/MHLCommands.csproj",
+      "msbuildProject": "../MHLCommands/MHLCommands.csproj"
+    },
     "MHLCommon/1.0.0": {
       "type": "project",
       "path": "../../MHLCommon/MHLCommon.csproj",

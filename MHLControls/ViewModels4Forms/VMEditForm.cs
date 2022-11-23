@@ -1,6 +1,7 @@
 ﻿using System;
 using MHLCommon.ViewModels;
 using System.Windows.Input;
+using MHLCommands;
 
 namespace MHLControls.ViewModels4Forms
 {

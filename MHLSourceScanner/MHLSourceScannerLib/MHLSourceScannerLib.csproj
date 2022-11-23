@@ -9,7 +9,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\MHLCommon\MHLCommon.csproj" />
-    <ProjectReference Include="..\..\MHLControls\MHLControls.csproj" />
+    <ProjectReference Include="..\..\MHLResources\MHLResources.csproj" />
+    <ProjectReference Include="..\MHLCommands\MHLCommands.csproj" />
     <ProjectReference Include="..\MHLSourceScannerModelLib\MHLSourceScannerModelLib.csproj" />
   </ItemGroup>
 

@@ -2,6 +2,19 @@
   "version": 3,
   "targets": {
     "net6.0-windows7.0": {
+      "MHLCommands/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/MHLCommands.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MHLCommands.dll": {}
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App"
+        ]
+      },
       "MHLCommon/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
@@ -11,23 +24,6 @@
         "runtime": {
           "bin/placeholder/MHLCommon.dll": {}
         }
-      },
-      "MHLControls/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v6.0",
-        "dependencies": {
-          "MHLCommon": "1.0.0",
-          "MHLResources": "1.0.0"
-        },
-        "compile": {
-          "bin/placeholder/MHLControls.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/MHLControls.dll": {}
-        },
-        "frameworkReferences": [
-          "Microsoft.WindowsDesktop.App"
-        ]
       },
       "MHLResources/1.0.0": {
         "type": "project",
@@ -72,15 +68,15 @@
     }
   },
   "libraries": {
+    "MHLCommands/1.0.0": {
+      "type": "project",
+      "path": "../MHLCommands/MHLCommands.csproj",
+      "msbuildProject": "../MHLCommands/MHLCommands.csproj"
+    },
     "MHLCommon/1.0.0": {
       "type": "project",
       "path": "../../MHLCommon/MHLCommon.csproj",
       "msbuildProject": "../../MHLCommon/MHLCommon.csproj"
-    },
-    "MHLControls/1.0.0": {
-      "type": "project",
-      "path": "../../MHLControls/MHLControls.csproj",
-      "msbuildProject": "../../MHLControls/MHLControls.csproj"
     },
     "MHLResources/1.0.0": {
       "type": "project",
@@ -100,8 +96,9 @@
   },
   "projectFileDependencyGroups": {
     "net6.0-windows7.0": [
+      "MHLCommands >= 1.0.0",
       "MHLCommon >= 1.0.0",
-      "MHLControls >= 1.0.0",
+      "MHLResources >= 1.0.0",
       "MHLSourceScannerModelLib >= 1.0.0"
     ]
   },
@@ -144,8 +141,11 @@
             "F:\\LatestMHL\\MHLCommon\\MHLCommon.csproj": {
               "projectPath": "F:\\LatestMHL\\MHLCommon\\MHLCommon.csproj"
             },
-            "F:\\LatestMHL\\MHLControls\\MHLControls.csproj": {
-              "projectPath": "F:\\LatestMHL\\MHLControls\\MHLControls.csproj"
+            "F:\\LatestMHL\\MHLResources\\MHLResources.csproj": {
+              "projectPath": "F:\\LatestMHL\\MHLResources\\MHLResources.csproj"
+            },
+            "F:\\LatestMHL\\MHLSourceScanner\\MHLCommands\\MHLCommands.csproj": {
+              "projectPath": "F:\\LatestMHL\\MHLSourceScanner\\MHLCommands\\MHLCommands.csproj"
             },
             "F:\\LatestMHL\\MHLSourceScanner\\MHLSourceScannerModelLib\\MHLSourceScannerModelLib.csproj": {
               "projectPath": "F:\\LatestMHL\\MHLSourceScanner\\MHLSourceScannerModelLib\\MHLSourceScannerModelLib.csproj"
