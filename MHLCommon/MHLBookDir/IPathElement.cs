@@ -1,14 +1,16 @@
-﻿namespace MHLCommon.MHLBookDir
+﻿using MHLCommon.ViewModels;
+using System.Collections.ObjectModel;
+
+namespace MHLCommon.MHLBookDir
 {
-    public interface IPathElement
+    public interface IPathElement<T1, T2>
     {
         bool IsTyped { get; }
         string Name { get; }
         BookPathItem ElementType { get; }
-    }
-
-    public interface IPathElementTyped<T> : IPathElement
-    {
-        T TypedItem { get; set; }
+        T1 TypedItem { get; set; }
+        ObservableCollection<T1> Source { get; }
+        T1 SelectedItem { get; set; }
+        T2 ViewModel { get; }
     }
 }

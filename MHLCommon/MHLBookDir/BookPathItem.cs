@@ -2,6 +2,7 @@
 {
     public enum BookPathItem
     {
+        None = 0,
         FirstLetter,
         Author,
         Title,
@@ -11,6 +12,7 @@
 
     public enum BookPathTypedItem
     {
+        None = 0,
         Author,
         Title,
         SequenceName

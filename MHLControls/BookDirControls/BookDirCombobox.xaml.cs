@@ -27,16 +27,6 @@ namespace MHLControls.BookDirControls
         public BookDirCombobox()
         {
             InitializeComponent();
-            this.ItemsSource = GetSource();
-        }
-
-        private IEnumerable<IPathElement> GetSource()
-        {
-            yield return new PathElement(BookPathItem.Author);
-            yield return new FirstLetter();
-            yield return new PathElement(BookPathItem.SequenceName);
-            yield return new PathElement(BookPathItem.SequenceNum);
-            yield return new PathElement(BookPathItem.Title);
         }
     }
 }

@@ -4,9 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MHLControls.BookDirControls"
-             xmlns:BookDirItems="clr-namespace:MHLSourceScannerLib.BookDir;assembly=MHLSourceScannerLib"
+             xmlns:bookdir="clr-namespace:MHLSourceScannerLib.BookDir;assembly=MHLSourceScannerLib"
+             d:DataContext="{d:DesignInstance Type=bookdir:ViewModel4PathElement}"
              mc:Ignorable="d" 
-             x:Name="BookDirCombo"
              d:DesignHeight="450" d:DesignWidth="800">
 
     <ComboBox.Resources>
@@ -18,11 +18,13 @@
     </ComboBox.Resources>
 
     <ComboBox.ItemTemplate>
-        <DataTemplate>
-            <StackPanel Orientation="Horizontal"  >
-                <TextBlock Text="{Binding Name}"/>
-                <local:BookDirTypedCombobox SelectedIndex="0"
-                    Visibility="{Binding IsTyped, Converter={StaticResource BTVConverter}}"/>
+        <DataTemplate >
+            <StackPanel Orientation="Horizontal" DataContext="{Binding ViewModel}">
+                <TextBlock  Text="{Binding Name}"/>
+                <local:BookDirTypedCombobox                    
+                    Visibility="{Binding IsTyped, Converter={StaticResource BTVConverter}}"
+                    ItemsSource="{Binding Source}"
+                    SelectedItem="{Binding SelectedItem, Mode=TwoWay}"/>
             </StackPanel>
         </DataTemplate>
     </ComboBox.ItemTemplate>

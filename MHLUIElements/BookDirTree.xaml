@@ -6,16 +6,22 @@
              xmlns:ScannerLib="clr-namespace:MHLSourceScannerLib.BookDir;assembly=MHLSourceScannerLib"
              xmlns:local="clr-namespace:MHLUIElements"
              xmlns:MHLControls="clr-namespace:MHLControls.BookDirControls;assembly=MHLControls"
+             d:DataContext="{d:DesignInstance Type=local:ViewModel4BookDir}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" x:Name="DirTree">
     <Grid>
         <TreeView x:Name="ShowDir" Margin="0">
             <TreeView.Resources>
                 <ResourceDictionary>
-                    <HierarchicalDataTemplate DataType = "{x:Type ScannerLib:PathRow}" ItemsSource="{Binding Path=SourceItems}">
+                    <HierarchicalDataTemplate 
+                        DataType = "{x:Type ScannerLib:PathRow}"                        
+                        ItemsSource="{Binding Path=SourceItems}">
                         <Border BorderBrush="Gainsboro" BorderThickness="1">
                             <StackPanel Orientation="Horizontal" >
-                                <MHLControls:BookDirCombobox SelectedIndex="1" />
+                                <MHLControls:BookDirCombobox      
+                                    DataContext="{Binding ViewModel[0]}"
+                                    ItemsSource="{Binding Source}" 
+                                    SelectedItem="{Binding SelectedItem, Mode=TwoWay}" />
                                 <ComboBox />
                                 <ComboBox />
                                 <ComboBox />

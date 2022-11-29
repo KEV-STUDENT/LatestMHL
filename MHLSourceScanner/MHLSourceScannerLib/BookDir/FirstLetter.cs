@@ -1,4 +1,5 @@
 ﻿using MHLCommon.MHLBookDir;
+using MHLCommon.ViewModels;
 using MHLSourceScannerLib.BookDir;
 using System;
 using System.Xml.Linq;
@@ -31,38 +32,32 @@ namespace MHLSourceScannerLib
         public BookPathTypedItem TypeID { get; }
     }
 
-    public class FirstLetter : PathElement, IPathElementTyped<ElementType>
+    public class FirstLetter : PathElement
     {
         #region [Fields]
         private ElementType typedItem;
         #endregion
         #region [Constructor]
-        public FirstLetter() : base(BookPathItem.FirstLetter)
+        public FirstLetter(BookPathTypedItem typedItem, PathRowElement pathRowElement) : base(BookPathItem.FirstLetter, pathRowElement)
         {
-            typedItem = new ElementType(BookPathTypedItem.Author);
+            this.typedItem = new ElementType(typedItem);
+            
+            Source.Add(new ElementType(BookPathTypedItem.Author));
+            Source.Add(new ElementType(BookPathTypedItem.SequenceName));
+            Source.Add(new ElementType(BookPathTypedItem.Title));
+
+            selectedItem = Source[1];
         }
         #endregion
 
         #region [Properties]
-        public ElementType TypedItem
+        protected override ElementType TypedItem
         {
             get => typedItem;
-            set
-            {
-                typedItem = value;
-            }
+            set => typedItem = value;
         }
-        public override bool IsTyped => true;
+        protected override bool IsTyped => true;
         #endregion
-
-        #region [IPathElementTyped Implemenation]
-        ElementType IPathElementTyped<ElementType>.TypedItem
-        {
-            get => TypedItem;
-            set => TypedItem = value;
-        }
-        #endregion
-
         #region [Methods]
         #endregion
     }

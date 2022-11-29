@@ -3,14 +3,16 @@ using MHLCommon.MHLScanner;
 using MHLSourceScannerModelLib;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace MHLSourceScannerLib.BookDir
 {
-    public class PathRow : TreeItemCollection, IPathRow
+    public class PathRow : TreeItemCollection, IPathRow<PathRowElement>
     {
-        #region [Fields]
-        private List<IPathElement> items = new List<IPathElement>();
-        private ViewModel4PathRowItem viewModelmodel;
+        #region [Fields]       
+        private ViewModel4PathRow viewModel;
+        private List<PathRowElement> items = new List<PathRowElement>();
         #endregion
 
         #region [Constructors]
@@ -31,44 +33,60 @@ namespace MHLSourceScannerLib.BookDir
         #endregion
 
         #region [Properties]
-        public ViewModel4PathRowItem ViewModel => viewModelmodel;
+        public ViewModel4PathRow ViewModel => viewModel;
         #endregion
 
-        #region [Indexer]
-        public IPathElement? this[int i]
-        {
-            get{
-                return (i >= items.Count ? null : items[i]);
-            }
-        }
-        #endregion
 
         #region [Methods]
         private void InitPathRow()
         {
-            items.Add(new FirstLetter());
-            viewModelmodel= new ViewModel4PathRowItem();
+            items.Add(new PathRowElement());
+            viewModel = new ViewModel4PathRow(this);
+        }
 
+        private void InsertTo(int i)
+        {
+            if (i < items.Count)
+                items.Insert(i, new PathRowElement());
+            else
+                items.Add(new PathRowElement());
+        }
+
+        private void RemoveFrom(int i)
+        {
+            if (i < items.Count)
+                items.Remove(items[i]);
+        }
+        #endregion
+
+        #region [Indexer]
+        public PathRowElement this[int i]
+        {
+            get
+            {
+                return (i >= items.Count ? items.Last() : items[i]);
+            }
+            set
+            {
+                items[i] = value;
+            }
         }
         #endregion
 
         #region [IPathRow Implementation] 
-        int IPathRow.Count => items.Count;
+        int IPathRow<PathRowElement>.Count => items.Count;
 
-        IPathElement? IPathRow.this[int i] => this[i];
+        PathRowElement IPathRow<PathRowElement>.this[int i] 
+        { get => this[i]; set => this[i] = value; }
        
-        void IPathRow.InsertTo(int i)
+        void IPathRow<PathRowElement>.InsertTo(int i)
         {
-            if (i < items.Count)
-                items.Insert(i, new PathElement(BookPathItem.Author));
-            else
-                items.Add(new PathElement(BookPathItem.Author));
+            InsertTo(i);
         }
 
-        void IPathRow.RemoveFrom(int i)
+        void IPathRow<PathRowElement>.RemoveFrom(int i)
         {
-            if (i < items.Count)
-                items.Remove(items[i]);
+            RemoveFrom(i);
         }
         #endregion
     }

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace MHLCommon.MHLBookDir
 {
-    public interface IPathRow
+    public interface IPathRow<T>
     {
-        public IPathElement? this[int i] { get; }
+        T this[int i]{get; set;}
         public int Count { get; }
         public void InsertTo(int i);
         public void RemoveFrom(int i);
