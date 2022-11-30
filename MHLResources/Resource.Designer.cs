@@ -63,6 +63,36 @@ namespace MHLResources {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap Add_12x12 {
+            get {
+                object obj = ResourceManager.GetObject("Add_12x12", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Add_16x16 {
+            get {
+                object obj = ResourceManager.GetObject("Add_16x16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap check_24x24 {
+            get {
+                object obj = ResourceManager.GetObject("check_24x24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap CloseButton {
             get {
                 object obj = ResourceManager.GetObject("CloseButton", resourceCulture);
@@ -81,11 +111,29 @@ namespace MHLResources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Add.
+        /// </summary>
+        public static string MHLButtonAdd_CPT {
+            get {
+                return ResourceManager.GetString("MHLButtonAdd_CPT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Close.
         /// </summary>
         public static string MHLButtonClose_CPT {
             get {
                 return ResourceManager.GetString("MHLButtonClose_CPT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Delete.
+        /// </summary>
+        public static string MHLButtonDelete_CPT {
+            get {
+                return ResourceManager.GetString("MHLButtonDelete_CPT", resourceCulture);
             }
         }
         
@@ -104,6 +152,26 @@ namespace MHLResources {
         public static string MHLButtonSettings_CPT {
             get {
                 return ResourceManager.GetString("MHLButtonSettings_CPT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Minus_12x12 {
+            get {
+                object obj = ResourceManager.GetObject("Minus_12x12", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Minus_16x16 {
+            get {
+                object obj = ResourceManager.GetObject("Minus_16x16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

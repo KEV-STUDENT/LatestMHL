@@ -3,33 +3,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:ScannerLib="clr-namespace:MHLSourceScannerLib.BookDir;assembly=MHLSourceScannerLib"
              xmlns:local="clr-namespace:MHLUIElements"
-             xmlns:MHLControls="clr-namespace:MHLControls.BookDirControls;assembly=MHLControls"
              d:DataContext="{d:DesignInstance Type=local:ViewModel4BookDir}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" x:Name="DirTree">
     <Grid>
         <TreeView x:Name="ShowDir" Margin="0">
             <TreeView.Resources>
-                <ResourceDictionary>
-                    <HierarchicalDataTemplate 
-                        DataType = "{x:Type ScannerLib:PathRow}"                        
-                        ItemsSource="{Binding Path=SourceItems}">
-                        <Border BorderBrush="Gainsboro" BorderThickness="1">
-                            <StackPanel Orientation="Horizontal" >
-                                <MHLControls:BookDirCombobox      
-                                    DataContext="{Binding ViewModel[0]}"
-                                    ItemsSource="{Binding Source}" 
-                                    SelectedItem="{Binding SelectedItem, Mode=TwoWay}" />
-                                <ComboBox />
-                                <ComboBox />
-                                <ComboBox />
-                                <ComboBox />
-                            </StackPanel>
-                        </Border>
-                    </HierarchicalDataTemplate>                  
-                </ResourceDictionary>
+                    <ResourceDictionary>
+                        <ResourceDictionary.MergedDictionaries>
+                            <ResourceDictionary Source="Themes/ResourceDictionaryBookDirTree.xaml" />
+                        </ResourceDictionary.MergedDictionaries>
+                    </ResourceDictionary>
             </TreeView.Resources>
         </TreeView>
     </Grid>

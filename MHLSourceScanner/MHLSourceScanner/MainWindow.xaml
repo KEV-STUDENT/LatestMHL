@@ -38,7 +38,7 @@
             <MHLControls:MHLLabel Content="Destination" Margin="0,5,0,0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
             <DockPanel Margin="0,5,5,0" Grid.Row="0" Grid.Column="3" IsEnabled="{Binding ViewModel.DestinationIsDirectory, ElementName=Scanner}" LastChildFill="True" Grid.ColumnSpan="3">
                 <buttons:MHLButtonSettings x:Name="BtSettings" DockPanel.Dock="Right"
-                                           Width="24" ImgHeigh="20" ImgWidth="20" 
+                                           Width="24" ImgHeight="20" ImgWidth="20" 
                                            Command="{Binding ViewModel.SetDestinationDirCommand, ElementName=Scanner}"/>
                 <pickers:MHLUIPicker x:Name="DestinationDirectoryPicker" DockPanel.Dock="Left" Command="{Binding ViewModel.ChangeDestinationDirCommand, ElementName=Scanner}"/>
             </DockPanel>

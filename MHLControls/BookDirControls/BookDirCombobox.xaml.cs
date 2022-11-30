@@ -1,4 +1,5 @@
 ﻿using MHLCommon.MHLBookDir;
+using MHLControls.MHLPickers;
 using MHLSourceScannerLib;
 using MHLSourceScannerLib.BookDir;
 using System;
@@ -21,12 +22,14 @@ namespace MHLControls.BookDirControls
     /// <summary>
     /// Логика взаимодействия для BookDirCombobox.xaml
     /// </summary>
-    public partial class BookDirCombobox : ComboBox
+    public partial class BookDirCombobox : CommandCombobox
     {
-
+        #region [Constructors]
         public BookDirCombobox()
         {
             InitializeComponent();
         }
+        #endregion
+
     }
 }

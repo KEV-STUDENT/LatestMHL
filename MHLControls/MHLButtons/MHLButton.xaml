@@ -9,9 +9,27 @@
             d:DesignWidth="80" FontFamily="Arial" FontSize="12"
             HorizontalContentAlignment="Left"
             VerticalContentAlignment="Center"
-            Height="24" Width="60" >
+            Height="{Binding ButtonHeight}" Width="{Binding ButtonWidth}" >
+
+    <Button.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Themes/ResourceDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Button.Resources>
+
     <DockPanel LastChildFill="True">
-        <Image DockPanel.Dock="Left" Source="{Binding Image}" Width="{Binding ImgWidth}" Height="{Binding ImgHeigh}" />
-        <local:MHLTextBlock DockPanel.Dock="Left" Text="{Binding Caption}" Margin="5,0,0,0"/>
+        <Image 
+            DockPanel.Dock="Left" 
+            Source="{Binding Image}" 
+            Width="{Binding ImgWidth}" 
+            Height="{Binding ImgHeight}"
+            Visibility="{Binding IsImage, Converter={StaticResource BTVConverter}}"/>
+        <local:MHLTextBlock 
+            DockPanel.Dock="Left" 
+            Text="{Binding Caption}"
+            Margin="5,0,0,0"
+            Visibility="{Binding IsText, Converter={StaticResource BTVConverter}}"/>
     </DockPanel>
 </Button>
