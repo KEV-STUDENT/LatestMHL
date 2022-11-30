@@ -1,23 +1,21 @@
 ﻿using MHLResources;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows;
 
 namespace MHLControls.MHLButtons
 {
     public class MHLButtonDelete : MHLButton
     {
-        public MHLButtonDelete() : base()
+        protected override void SetComponent()
         {
-            //Caption = MHLResourcesManager.GetStringFromResources("MHLButtonDelete_CPT", "Delete");
-            Image = MHLResourcesManager.GetImageFromResources("Minus_12x12");
-            ImgHeight = 12;
-            ImgWidth = 12;
-            ButtonWidth = 16;
-            ButtonHeight = 16;
-            IsText = false;
+            Img.Source = MHLResourcesManager.GetImageFromResources("Minus_12x12");
+            Img.Width = 12;
+            Img.Height = 12;
+
+            Txt.Text = string.Empty;
+            Txt.Visibility = Visibility.Collapsed;
+
+            Height = 16;
+            Width = 16;
         }
     }
 }

@@ -3,11 +3,12 @@
 namespace MHLControls.MHLButtons
 {
     public class MHLButtonSettings : MHLButton
+    {
+        protected override void SetComponent()
         {
-            public MHLButtonSettings() : base()
-            {
-                Caption = MHLResourcesManager.GetStringFromResources("MHLButtonSettings_CPT", "Settings");
-                Image = MHLResourcesManager.GetImageFromResources("SettingsButton");
-            }
+            base.SetComponent();
+            Txt.Text = MHLResourcesManager.GetStringFromResources("MHLButtonSettings_CPT", "Settings");
+            Img.Source = MHLResourcesManager.GetImageFromResources("SettingsButton");
         }
     }
+}

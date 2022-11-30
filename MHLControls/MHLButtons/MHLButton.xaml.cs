@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
 namespace MHLControls.MHLButtons
@@ -8,8 +9,12 @@ namespace MHLControls.MHLButtons
     /// </summary>
     public partial class MHLButton : Button
     {
+
+        public static readonly DependencyProperty ImageProperty = DependencyProperty.Register("Image", typeof(BitmapImage), typeof(MHLButton));
+
         #region [Fields]
         private BitmapImage? _image;
+        private bool _useThisDataContext;
         #endregion
 
         #region [Properties]
@@ -32,19 +37,23 @@ namespace MHLControls.MHLButtons
 
         #region [Constructors]
         public MHLButton()
-        {
-            ImgHeight = 16;
-            ImgWidth = 16;
-
-            ButtonHeight = 24;
-            ButtonWidth = 60;
-
-            IsImage = true;
-            IsText = true;
-
-            Caption = string.Empty;
+        {           
             InitializeComponent();
-            DataContext = this;
+            SetComponent();
+        }
+        #endregion
+
+        #region [Methods]
+        protected virtual void SetComponent()
+        {
+            Img.Source = Image;
+            Img.Width = 16;
+            Img.Height = 16;
+
+            Txt.Text = string.Empty;
+
+            Height = 24;
+            Width = 60;
         }
         #endregion
     }

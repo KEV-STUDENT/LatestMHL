@@ -6,23 +6,45 @@
 
     <Style x:Key="PathRowButton" TargetType="MHLButtons:MHLButton">
         <Setter Property="Margin" Value="0,5,5,5"/>
+        <Setter Property="CommandParameter" Value="{Binding}"/>
+    </Style>
+    <Style x:Key="PathRowAddButton" BasedOn="{StaticResource PathRowButton}" TargetType="MHLButtons:MHLButtonAdd">
+        <Setter Property="Command" Value="{Binding Path=ViewModel.AddElementCommand}" />
+    </Style>
+    <Style x:Key="PathRowDeleteButton" BasedOn="{StaticResource PathRowButton}" TargetType="MHLButtons:MHLButtonDelete">
+        <Setter Property="Command" Value="{Binding Path=ViewModel.DeleteElementCommand}" />
     </Style>
 
     <Style x:Key="PathRowCombobox" TargetType="MHLControls:BookDirCombobox">
-        <Setter Property="DataContext" Value="{Binding ViewModel[0]}"/>
+        <Setter Property="DataContext" Value="{Binding ViewModel}"/>
         <Setter Property="ItemsSource" Value="{Binding Source}"/>
         <Setter Property="SelectedItem" Value="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         <Setter Property="Command" Value="{Binding  ElementChangedCommand}"/>
     </Style>
 
-    <HierarchicalDataTemplate DataType = "{x:Type ScannerLib:PathRow}" ItemsSource="{Binding Path=SourceItems}">
+    <HierarchicalDataTemplate x:Name="PathRow" DataType = "{x:Type ScannerLib:PathRow}" ItemsSource="{Binding Path=SourceItems}">
         <Border BorderBrush="Gainsboro" BorderThickness="1">
             <StackPanel Orientation="Vertical"  >
                 <StackPanel Orientation="Horizontal">
-                    <MHLButtons:MHLButtonAdd Style="{StaticResource PathRowButton}"/>
-                    <MHLButtons:MHLButtonDelete Style="{StaticResource PathRowButton}"/>
+                    <MHLButtons:MHLButtonAdd 
+                        Style="{StaticResource PathRowAddButton}"/>
+                    <MHLButtons:MHLButtonDelete 
+                        Style="{StaticResource PathRowDeleteButton}"/>
                 </StackPanel>
-                <MHLControls:BookDirCombobox Style="{StaticResource PathRowCombobox}"/>
+                <ItemsControl x:Name="tStack" 
+                              DataContext="{Binding ViewModel}"
+                              ItemsSource="{Binding Items}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <MHLControls:BookDirCombobox Style="{StaticResource PathRowCombobox}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </StackPanel>
         </Border>
     </HierarchicalDataTemplate>

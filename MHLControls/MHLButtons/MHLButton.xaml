@@ -6,7 +6,8 @@
              xmlns:local="clr-namespace:MHLControls"        
              xmlns:buttons="clr-namespace:MHLControls.MHLButtons"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance Type=buttons:MHLButton}"
-            d:DesignWidth="80" FontFamily="Arial" FontSize="12"
+            d:DesignWidth="80" 
+            FontFamily="Arial" FontSize="12"
             HorizontalContentAlignment="Left"
             VerticalContentAlignment="Center"
             Height="{Binding ButtonHeight}" Width="{Binding ButtonWidth}" >
@@ -20,16 +21,10 @@
     </Button.Resources>
 
     <DockPanel LastChildFill="True">
-        <Image 
+        <Image x:Name="Img"
+            DockPanel.Dock="Left" />
+        <local:MHLTextBlock x:Name="Txt" 
             DockPanel.Dock="Left" 
-            Source="{Binding Image}" 
-            Width="{Binding ImgWidth}" 
-            Height="{Binding ImgHeight}"
-            Visibility="{Binding IsImage, Converter={StaticResource BTVConverter}}"/>
-        <local:MHLTextBlock 
-            DockPanel.Dock="Left" 
-            Text="{Binding Caption}"
-            Margin="5,0,0,0"
-            Visibility="{Binding IsText, Converter={StaticResource BTVConverter}}"/>
+            Margin="5,0,0,0"/>
     </DockPanel>
 </Button>

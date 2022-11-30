@@ -9,12 +9,31 @@
         mc:Ignorable="d"
         x:Name="Settings"
         Title="DirectorySetting" Height="450" Width="800">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MHLUIElements;Component/Themes/ResourceDictionaryBookDirTree.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="29"/>
+            <RowDefinition Height="19"/>
             <RowDefinition></RowDefinition>
             <RowDefinition Height="29"/>
         </Grid.RowDefinitions>
+
+        <DockPanel Grid.Row="0" HorizontalAlignment="Right" >
+            <buttons:MHLButtonAdd 
+                        Style="{StaticResource PathRowButton}"
+                        Command="{Binding ViewModel.AddRowCommand, ElementName=DirectoryTree}" Margin="0,0,5,0"/>
+            <buttons:MHLButtonDelete 
+                        Style="{StaticResource PathRowButton}"
+                        Command="{Binding ViewModel.DeleteRowCommand, ElementName=DirectoryTree}" Margin="0,0,5,0"/>
+        </DockPanel>
+        
         <MHLUIElements:BookDirTree x:Name="DirectoryTree" Grid.Row="1" Grid.Column="3" Margin="5,5,5,5" />
         <DockPanel x:Name="ButtonSection" Grid.Row="2" HorizontalAlignment="Right">
             <buttons:MHLButtonRun x:Name="BtRun" Margin="0,0,5,5"                                  

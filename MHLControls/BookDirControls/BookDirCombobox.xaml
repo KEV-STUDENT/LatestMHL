@@ -19,7 +19,7 @@
 
     <ComboBox.ItemTemplate>
         <DataTemplate >
-            <StackPanel Orientation="Horizontal" DataContext="{Binding ViewModel}">
+            <StackPanel Orientation="Horizontal" DataContext="{Binding ViewModel}" VerticalAlignment="Center" Height="24">
                 <TextBlock  Text="{Binding Name}" VerticalAlignment="Center"/>
                 <local:BookDirTypedCombobox     
                     VerticalAlignment="Center"                   

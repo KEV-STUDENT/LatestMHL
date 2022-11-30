@@ -1,18 +1,14 @@
 ﻿using MHLResources;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MHLControls.MHLButtons
 {
     public class MHLButtonClose : MHLButton
     {
-        public MHLButtonClose() : base()
+        protected override void SetComponent()
         {
-            Caption = MHLResourcesManager.GetStringFromResources("MHLButtonClose_CPT", "Close");
-            Image = MHLResourcesManager.GetImageFromResources("CloseButton");
+            base.SetComponent();
+            Txt.Text = MHLResourcesManager.GetStringFromResources("MHLButtonClose_CPT", "Close");
+            Img.Source = MHLResourcesManager.GetImageFromResources("CloseButton");
         }
     }
 }

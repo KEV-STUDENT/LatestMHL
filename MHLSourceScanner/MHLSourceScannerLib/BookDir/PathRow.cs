@@ -12,7 +12,7 @@ namespace MHLSourceScannerLib.BookDir
     {
         #region [Fields]       
         private ViewModel4PathRow viewModel;
-        private List<PathRowElement> items = new List<PathRowElement>();
+        private ObservableCollection<PathRowElement> items = new ObservableCollection<PathRowElement>();
         #endregion
 
         #region [Constructors]
@@ -34,6 +34,7 @@ namespace MHLSourceScannerLib.BookDir
 
         #region [Properties]
         public ViewModel4PathRow ViewModel => viewModel;
+        public ObservableCollection<PathRowElement> Items => items;
         #endregion
 
 
@@ -55,7 +56,9 @@ namespace MHLSourceScannerLib.BookDir
         private void RemoveFrom(int i)
         {
             if (i < items.Count)
-                items.Remove(items[i]);
+                items.RemoveAt(i);
+            else
+                items.RemoveAt(items.Count - 1);
         }
         #endregion
 
@@ -75,6 +78,7 @@ namespace MHLSourceScannerLib.BookDir
 
         #region [IPathRow Implementation] 
         int IPathRow<PathRowElement>.Count => items.Count;
+         ObservableCollection<PathRowElement> IPathRow<PathRowElement>.Items => Items;
 
         PathRowElement IPathRow<PathRowElement>.this[int i] 
         { get => this[i]; set => this[i] = value; }

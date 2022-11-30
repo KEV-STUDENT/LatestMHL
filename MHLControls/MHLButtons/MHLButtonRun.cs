@@ -9,10 +9,11 @@ namespace MHLControls.MHLButtons
 {
     public class MHLButtonRun : MHLButton
     {
-        public MHLButtonRun() : base()
+        protected override void SetComponent()
         {
-            Caption = MHLResourcesManager.GetStringFromResources("MHLButtonRun_CPT", "Run");
-            Image = MHLResourcesManager.GetImageFromResources("RunButton");
+            base.SetComponent();
+            Txt.Text = MHLResourcesManager.GetStringFromResources("MHLButtonRun_CPT", "Run");
+            Img.Source = MHLResourcesManager.GetImageFromResources("RunButton");
         }
     }
 }
