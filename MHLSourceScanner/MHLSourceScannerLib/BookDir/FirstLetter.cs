@@ -46,7 +46,7 @@ namespace MHLSourceScannerLib
             Source.Add(new ElementType(BookPathTypedItem.SequenceName));
             Source.Add(new ElementType(BookPathTypedItem.Title));
 
-            selectedItem = Source[1];
+            selectedItem = Source[0];
         }
         #endregion
 

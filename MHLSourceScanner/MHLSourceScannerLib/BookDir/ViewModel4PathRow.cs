@@ -2,6 +2,7 @@
 using MHLCommon.MHLBookDir;
 using MHLCommon.MHLScanner;
 using MHLCommon.ViewModels;
+using MHLSourceScannerModelLib;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,12 +17,13 @@ namespace MHLSourceScannerLib.BookDir
     {
         #region [Fields]
         private IPathRow<PathRowElement> pathRow;
+        private bool isSelected;
         #endregion
 
         #region [Constructors]
         public ViewModel4PathRow(IPathRow<PathRowElement> item)
         {
-            pathRow= item;
+            pathRow = item;
             AddElementCommand = new RelayCommand(ExecuteAddElementCommand, CanExecuteAddElementCommand);
             DeleteElementCommand = new RelayCommand(ExecuteDeleteElementCommand, CanExecuteDeleteElementCommand);
         }
@@ -30,6 +32,46 @@ namespace MHLSourceScannerLib.BookDir
         #region [Properies]
         public int Count => pathRow.Count;
         public ObservableCollection<PathRowElement> Items => pathRow.Items;
+        public bool IsExpanded
+        {
+            get => pathRow.IsExpanded;
+            set
+            {
+                pathRow.IsExpanded = value;
+                OnPropertyChanged("IsExpanded");
+            }
+        }
+
+        public bool IsFileName
+        {
+            get => pathRow.IsFileName;
+            set
+            {
+                pathRow.IsFileName = value;
+                OnPropertyChanged("IsFileName");
+            }
+        }
+
+        public bool IsSelected
+        {
+            get => isSelected;
+            set { 
+                isSelected = value;
+                OnPropertyChanged("IsSelected");
+            }
+        }
+
+        public bool IsEnabled
+        {
+            get
+            {
+                if (pathRow is TreeItemCollection collection)
+                {
+                    return collection.SourceItems.Count == 0;
+                }
+                return false;
+            }
+        }
         public ICommand AddElementCommand { get; set; }
         public ICommand DeleteElementCommand { get; set; }
         #endregion

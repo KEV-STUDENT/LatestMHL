@@ -15,6 +15,10 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MHLUIElements;Component/Themes/ResourceDictionaryBookDirTree.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+
+            <Style x:Key="PathRowAddButtonSettings" BasedOn="{StaticResource PathRowButton}" TargetType="buttons:MHLButton">
+                <Setter Property="Margin" Value="0,0,5,0" />
+            </Style>
         </ResourceDictionary>
     </Window.Resources>
 
@@ -27,11 +31,12 @@
 
         <DockPanel Grid.Row="0" HorizontalAlignment="Right" >
             <buttons:MHLButtonAdd 
-                        Style="{StaticResource PathRowButton}"
-                        Command="{Binding ViewModel.AddRowCommand, ElementName=DirectoryTree}" Margin="0,0,5,0"/>
+                        Style="{StaticResource PathRowAddButtonSettings}"
+                        Command="{Binding ViewModel.AddRowCommand, ElementName=Settings}"
+                        CommandParameter="{Binding}"/>
             <buttons:MHLButtonDelete 
-                        Style="{StaticResource PathRowButton}"
-                        Command="{Binding ViewModel.DeleteRowCommand, ElementName=DirectoryTree}" Margin="0,0,5,0"/>
+                        Style="{StaticResource PathRowAddButtonSettings}"
+                        Command="{Binding ViewModel.DeleteRowCommand, ElementName=Settings}"/>
         </DockPanel>
         
         <MHLUIElements:BookDirTree x:Name="DirectoryTree" Grid.Row="1" Grid.Column="3" Margin="5,5,5,5" />

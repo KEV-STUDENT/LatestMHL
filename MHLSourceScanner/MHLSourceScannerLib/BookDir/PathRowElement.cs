@@ -28,7 +28,7 @@ namespace MHLSourceScannerLib.BookDir
             source.Add(new PathElement(BookPathItem.SequenceNum, this));
             source.Add(new PathElement(BookPathItem.Title, this));
 
-            selectedItem = source[2];
+            selectedItem = source[0];
         }
         #endregion
 

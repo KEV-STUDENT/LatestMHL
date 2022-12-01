@@ -1,5 +1,6 @@
 ﻿using MHLCommon;
 using MHLCommon.MHLScanner;
+using System.Windows.Controls;
 
 namespace MHLSourceScannerModelLib
 {
@@ -30,7 +31,7 @@ namespace MHLSourceScannerModelLib
 
 
         #region [Constructors]
-        public TreeItem(string name, ITreeItem? parent)
+        public TreeItem(string name, ITreeItem? parent) : base()
         {
             this.name = name;
             this.parent = parent;

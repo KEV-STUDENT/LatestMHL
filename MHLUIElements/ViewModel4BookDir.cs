@@ -27,39 +27,17 @@ namespace MHLUIElements
             get => source;
             set => source = value;
         }
-        public ICommand AddRowCommand { get; set; }
-        public ICommand DeleteRowCommand { get; set; }
         #endregion
 
         #region [Constructor]
         public ViewModel4BookDir()
         {
-            AddRowCommand = new RelayCommand(ExecuteAddRowCommand, CanExecuteAddRowCommand);
-            DeleteRowCommand = new RelayCommand(ExecuteDeleteRowCommand, CanExecuteDeleteRowCommand);
 
             source = new ObservableCollection<ITreeItem>();
-            source.Add(new PathRow());
+            PathRow row = new PathRow();
+            row.ViewModel.IsSelected = true;
+            source.Add(row);
         }
-        #endregion
-
-        #region [Methods]
-        private void ExecuteAddRowCommand(object? obj)
-        {
-            source.Add(new PathRow());
-        }
-        private bool CanExecuteAddRowCommand(object? obj)
-        {
-            return true;
-        }
-
-        private void ExecuteDeleteRowCommand(object? obj)
-        {
-
-        }
-        private bool CanExecuteDeleteRowCommand(object? obj)
-        {
-            return true;
-        }
-        #endregion
+        #endregion       
     }
 }

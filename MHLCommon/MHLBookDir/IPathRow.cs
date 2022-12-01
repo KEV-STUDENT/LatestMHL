@@ -15,5 +15,7 @@ namespace MHLCommon.MHLBookDir
         public void InsertTo(int i);
         public void RemoveFrom(int i);
         ObservableCollection<T> Items { get; }
+        bool IsExpanded { get; set; }
+        bool IsFileName { get; set; }
     }
 }

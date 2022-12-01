@@ -101,7 +101,10 @@
         },
         "runtime": {
           "bin/placeholder/MHLSourceScannerModelLib.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App"
+        ]
       },
       "MHLUIElements/1.0.0": {
         "type": "project",

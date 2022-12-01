@@ -18,7 +18,7 @@ namespace MHLSourceScanner
         public MainWindow()
         {
             _vm = new ViewModel4Scanner();
-            _vm.CloseAction += () => { Close(); };
+            _vm.Close += () => { Close(); };
             _vm.ChangeDestinationDirAction += ChangeDestinationDir;
             _vm.ChangeSourceDirAction += ChangedSourceDir;
             _vm.SetDestinationDirAction += SettingsDestionnDir;

@@ -34,6 +34,9 @@ namespace MHLUIElements
         {
             get { return ViewModel.Source; }
         }
+        public ITreeItem? SelectedItem{
+            get => ShowDir.SelectedItem as ITreeItem;
+        }
         #endregion
 
         #region [Constructors]
@@ -42,7 +45,7 @@ namespace MHLUIElements
             ViewModel= new ViewModel4BookDir();
             InitializeComponent();     
             shower = new TreeItemShower();
-            ShowDir.ItemsSource = ViewModel.Source;
+            ShowDir.ItemsSource = ViewModel.Source;        
         }
         #endregion
 

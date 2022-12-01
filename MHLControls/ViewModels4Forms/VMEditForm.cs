@@ -15,10 +15,26 @@ namespace MHLControls.ViewModels4Forms
         }
         #endregion
 
-        #region [Properties]
-        public Action? CloseAction;
-        public Action? RunAction;
+        #region [Delegates]
+        private Action? CloseAction;
+        private Action? RunAction;
+        #endregion
 
+        #region [Events]
+        public event Action? Run
+        {
+            add => RunAction += value;
+            remove => RunAction -= value;
+        }
+
+        public event Action? Close
+        {
+            add => CloseAction += value;
+            remove => CloseAction -= value;
+        }
+        #endregion
+
+        #region [Properties]
         public ICommand CloseCommand { get; set; }
         public ICommand RunCommand { get; set; }
         #endregion
