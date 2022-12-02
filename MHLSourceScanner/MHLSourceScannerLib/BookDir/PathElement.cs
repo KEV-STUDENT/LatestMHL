@@ -5,12 +5,14 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace MHLSourceScannerLib.BookDir
 {    public class PathElement : IPathElement<ElementType, ViewModel4PathElement>
     {
         #region [Fields]
+        private readonly ElementType noneType = new ElementType(BookPathTypedItem.None);
         private readonly BookPathItem elementType;
         private readonly string name;
 
@@ -50,11 +52,13 @@ namespace MHLSourceScannerLib.BookDir
             viewModel = new ViewModel4PathElement(this);
             source = new ObservableCollection<ElementType>();
             parent = pathRowElement;
-        }       
+        }
         #endregion
 
         #region [Properties]
+        [JsonIgnore]
         public ViewModel4PathElement ViewModel => viewModel;
+        [JsonIgnore]
         protected ObservableCollection<ElementType> Source => source;
         protected ElementType SelectedItem
         {
@@ -65,11 +69,11 @@ namespace MHLSourceScannerLib.BookDir
             }
         }
 
-        protected virtual string Name => name;
-        protected BookPathItem ElementType => elementType;
+        public virtual string Name => name;
+        public BookPathItem ElementType => elementType;
         protected virtual bool IsTyped => elementType == BookPathItem.FirstLetter;
-        protected virtual ElementType TypedItem {
-            get { throw new NotSupportedException(); }
+        public virtual ElementType TypedItem {
+            get { return noneType; }
             set { throw new NotSupportedException(); }
         }
         #endregion

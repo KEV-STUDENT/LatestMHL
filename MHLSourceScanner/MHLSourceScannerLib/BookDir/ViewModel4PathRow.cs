@@ -1,14 +1,8 @@
 ﻿using MHLCommands;
 using MHLCommon.MHLBookDir;
-using MHLCommon.MHLScanner;
 using MHLCommon.ViewModels;
 using MHLSourceScannerModelLib;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace MHLSourceScannerLib.BookDir

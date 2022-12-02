@@ -5,13 +5,14 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text.Json.Serialization;
 
 namespace MHLSourceScannerLib.BookDir
 {
     public class PathRow : TreeItemCollection, IPathRow<PathRowElement>
     {
         #region [Fields]       
-        private bool isExpanded = false;
+        private bool isExpanded = false;       
         private ViewModel4PathRow viewModel;
         private ObservableCollection<PathRowElement> items = new ObservableCollection<PathRowElement>();
         private bool isFileName = true;
@@ -34,10 +35,11 @@ namespace MHLSourceScannerLib.BookDir
         }
         #endregion
 
-        #region [Properties]
-        public ViewModel4PathRow ViewModel => viewModel;
+        #region [Properties]       
+        [JsonIgnore]
+        public ViewModel4PathRow ViewModel => viewModel;      
         public ObservableCollection<PathRowElement> Items => items;
-
+        [JsonIgnore]
         public bool IsExpanded
         {
             get => isExpanded;
@@ -48,7 +50,7 @@ namespace MHLSourceScannerLib.BookDir
         {
             get => isFileName;
             set => isFileName = value;
-        }
+        }       
         #endregion
 
 

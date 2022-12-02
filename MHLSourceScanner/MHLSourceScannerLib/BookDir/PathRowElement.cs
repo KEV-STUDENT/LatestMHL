@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace MHLSourceScannerLib.BookDir
@@ -33,7 +34,9 @@ namespace MHLSourceScannerLib.BookDir
         #endregion
 
         #region [Properties]
+        [JsonIgnore]
         public ViewModel4PathRowElement ViewModel => viewModel;
+        [JsonIgnore]
         public ObservableCollection<PathElement> Source => source;
         public PathElement SelectedItem
         {

@@ -38,3 +38,4 @@ F:\LatestMHL\MHLSourceScanner\MHLSourceScanner\obj\Debug\net6.0-windows\Director
 F:\LatestMHL\MHLSourceScanner\MHLSourceScanner\obj\Debug\net6.0-windows\DirectorySetting\DirSetting.baml
 F:\LatestMHL\MHLSourceScanner\MHLSourceScanner\bin\Debug\net6.0-windows\MHLCommands.dll
 F:\LatestMHL\MHLSourceScanner\MHLSourceScanner\bin\Debug\net6.0-windows\MHLCommands.pdb
+F:\LatestMHL\MHLSourceScanner\MHLSourceScanner\bin\Debug\net6.0-windows\MHLSourceScanner.dll.config

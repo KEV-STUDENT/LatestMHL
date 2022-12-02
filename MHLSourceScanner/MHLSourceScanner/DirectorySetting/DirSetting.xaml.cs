@@ -1,15 +1,8 @@
-﻿using MHLCommon;
-using MHLCommon.MHLScanner;
-using MHLControls.MHLPickers;
-using MHLSourceScannerLib;
-using MHLUIElements;
-using System.ComponentModel;
-using System.Windows;
-using MHLResources;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolTip;
+﻿using System.Windows;
 using System;
-using MHLCommon.ViewModels;
+using System.Text.Json;
+using MHLUIElements;
+using MHLSourceScannerLib.BookDir;
 
 namespace MHLSourceScanner.DirectorySettings
 {
@@ -27,11 +20,26 @@ namespace MHLSourceScanner.DirectorySettings
         public DirSetting()
         {
             _vm = new ViewModel4DirSetting();
-            _vm.Close += () => { Close(); };
+            _vm.Close += () => {
+                SaveData2Json();
+                Close(); 
+            };
 
             InitializeComponent();
 
             DataContext = this;
+        }
+
+        private void SaveData2Json()
+        {
+            string fileName = @"F:\1\WeatherForecast.json";
+            PathRow? row = DirectoryTree.ViewModel.Source[0] as PathRow; 
+
+            string jsonString = JsonSerializer.Serialize<PathRow?>(row);
+
+            PathRow? row2 = JsonSerializer.Deserialize<PathRow?>(jsonString);
+            // File.WriteAllText(fileName, jsonString);
+            // Console.WriteLine(File.ReadAllText(fileName));
         }
     }
 }

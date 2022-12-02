@@ -1,6 +1,7 @@
 ﻿using MHLCommon.MHLScanner;
 using MHLCommon.ViewModels;
 using System.Collections.ObjectModel;
+using System.Text.Json.Serialization;
 
 namespace MHLSourceScannerModelLib
 {
@@ -18,20 +19,21 @@ namespace MHLSourceScannerModelLib
         #endregion
 
         #region [Properties]
+        [JsonIgnore]
         public ObservableCollection<ITreeItem> SourceItems
         {
             get => sourceItems;
             set => sourceItems = value;
 
         }
+        #endregion
+
+        #region [ITreeCollectionItem implementation]
         ObservableCollection<ITreeItem> ITreeItemCollection.SourceItems
         {
             get => SourceItems;
             set => SourceItems = value;
         }
-        #endregion
-
-        #region [ITreeCollectionItem implementation]
         void ITreeItemCollection.LoadChilds()
         {
             if (childsLoaded)

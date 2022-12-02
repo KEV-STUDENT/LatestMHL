@@ -24,6 +24,9 @@ namespace MHLSourceScannerLib
                 case BookPathTypedItem.Title:
                     Name = MHLResources.MHLResourcesManager.GetStringFromResources("PathElement_Title", "Title");
                     break;
+                case BookPathTypedItem.None:
+                    Name = String.Empty;
+                    break;
                 default:
                     throw new Exception("Unknown path element");
             }
@@ -51,7 +54,7 @@ namespace MHLSourceScannerLib
         #endregion
 
         #region [Properties]
-        protected override ElementType TypedItem
+        public override ElementType TypedItem
         {
             get => typedItem;
             set => typedItem = value;

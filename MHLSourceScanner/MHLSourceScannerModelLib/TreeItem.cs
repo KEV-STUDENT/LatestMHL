@@ -1,5 +1,6 @@
 ﻿using MHLCommon;
 using MHLCommon.MHLScanner;
+using System.Text.Json.Serialization;
 using System.Windows.Controls;
 
 namespace MHLSourceScannerModelLib
@@ -12,11 +13,13 @@ namespace MHLSourceScannerModelLib
         #endregion
 
         #region [Properties]
+        [JsonIgnore]
         public string Name
         {
             get => name;
             set => name = value;
         }
+        [JsonIgnore]
         public ITreeItem? Parent
         {
             get => parent;
