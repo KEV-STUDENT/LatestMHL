@@ -1,80 +1,84 @@
 ﻿using MHLCommon.MHLBookDir;
-using MHLResources;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace MHLSourceScannerLib.BookDir
-{    public class PathElement : IPathElement<ElementType, ViewModel4PathElement>
+{
+    public class PathElement : IPathElement<ElementType, ViewModel4PathElement>
     {
         #region [Fields]
         private readonly ElementType noneType = new ElementType(BookPathTypedItem.None);
-        private readonly BookPathItem elementType;
+        private BookPathItem elementType;
         private readonly string name;
 
         protected ObservableCollection<ElementType> source;
         protected ElementType selectedItem;
 
         private ViewModel4PathElement viewModel;
-        protected PathRowElement parent;
+        protected PathRowElement? parent;
         #endregion
 
         #region [IPathElement implementation]
-        string IPathElement<ElementType, ViewModel4PathElement>.Name => Name;
-        BookPathItem IPathElement<ElementType, ViewModel4PathElement>.ElementType {
+        string IPathElement.Name => Name;
+        BookPathItem IPathElement.ElementType {
            get => ElementType;
         }
-        bool IPathElement<ElementType, ViewModel4PathElement>.IsTyped => IsTyped;
-        ElementType IPathElement<ElementType, ViewModel4PathElement>.TypedItem
-        {
-            get => TypedItem;
-            set => TypedItem = value;
-        }
-
-        ViewModel4PathElement IPathElement<ElementType, ViewModel4PathElement>.ViewModel => ViewModel;
-        ObservableCollection<ElementType> IPathElement<ElementType, ViewModel4PathElement>.Source => Source;
-        ElementType IPathElement<ElementType, ViewModel4PathElement>.SelectedItem
+        bool IPathElement.IsTyped => IsTyped;
+        ObservableCollection<ElementType> IPathElement<ElementType>.Source => Source;
+        ElementType IPathElement<ElementType>.SelectedItem
         {
             get => SelectedItem;
             set => SelectedItem = value;
         }
+        ViewModel4PathElement IPathElement<ElementType, ViewModel4PathElement>.ViewModel => ViewModel;
         #endregion
 
         #region [Constructors]
-        public PathElement(BookPathItem typeId, PathRowElement pathRowElement)
+        public PathElement(BookPathItem typeId, PathRowElement? pathRowElement) : this(typeId, BookPathTypedItem.None, pathRowElement) { }
+        public PathElement(BookPathItem elementType, BookPathTypedItem elementItemType, PathRowElement? pathRowElement)
         {
-            elementType = typeId;
-            name = GetNameByTypeId();
-            viewModel = new ViewModel4PathElement(this);
             source = new ObservableCollection<ElementType>();
+            ElementType = elementType;
+            LoadSource();
+            ElementItemType = elementItemType;
+
+            viewModel = new ViewModel4PathElement(this);
+            name = GetNameByTypeId();
             parent = pathRowElement;
         }
         #endregion
 
         #region [Properties]
-        [JsonIgnore]
-        public ViewModel4PathElement ViewModel => viewModel;
-        [JsonIgnore]
         protected ObservableCollection<ElementType> Source => source;
-        protected ElementType SelectedItem
+        protected bool IsTyped => ElementType == BookPathItem.FirstLetter;
+        public ViewModel4PathElement ViewModel => viewModel;
+        public string Name => name;       
+        public ElementType SelectedItem
         {
             get => selectedItem;
+            set => selectedItem = value;
+        }
+        public BookPathTypedItem ElementItemType
+        {
+            get => SelectedItem.TypeID;
             set
             {
-                selectedItem = value;
+                foreach(ElementType item in Source)
+                {
+                    if(item.TypeID == value)
+                    {
+                        SelectedItem = item;
+                        return;
+                    }
+                }
+                SelectedItem = noneType;
             }
         }
 
-        public virtual string Name => name;
-        public BookPathItem ElementType => elementType;
-        protected virtual bool IsTyped => elementType == BookPathItem.FirstLetter;
-        public virtual ElementType TypedItem {
-            get { return noneType; }
-            set { throw new NotSupportedException(); }
+        public BookPathItem ElementType
+        {
+            get => elementType;
+            set => elementType = value;
         }
         #endregion
 
@@ -95,6 +99,16 @@ namespace MHLSourceScannerLib.BookDir
                     return MHLResources.MHLResourcesManager.GetStringFromResources("PathElement_Title", "Title");
             }
             throw new Exception("Unknown path element");
+        }
+
+        protected void LoadSource()
+        {
+            if (ElementType == BookPathItem.FirstLetter)
+            {
+                Source.Add(new ElementType(BookPathTypedItem.Author));
+                Source.Add(new ElementType(BookPathTypedItem.SequenceName));
+                Source.Add(new ElementType(BookPathTypedItem.Title));
+            }
         }
         #endregion
     }

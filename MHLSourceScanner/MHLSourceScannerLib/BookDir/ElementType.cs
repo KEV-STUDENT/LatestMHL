@@ -1,9 +1,6 @@
 ﻿using MHLCommon.MHLBookDir;
-using MHLCommon.ViewModels;
-using MHLSourceScannerLib.BookDir;
 using System;
-using System.Xml.Linq;
-using System.Xml.XPath;
+using System.Text.Json.Serialization;
 
 namespace MHLSourceScannerLib
 {
@@ -31,37 +28,8 @@ namespace MHLSourceScannerLib
                     throw new Exception("Unknown path element");
             }
         }
+        [JsonIgnore]
         public string Name { get; }
         public BookPathTypedItem TypeID { get; }
-    }
-
-    public class FirstLetter : PathElement
-    {
-        #region [Fields]
-        private ElementType typedItem;
-        #endregion
-        #region [Constructor]
-        public FirstLetter(BookPathTypedItem typedItem, PathRowElement pathRowElement) : base(BookPathItem.FirstLetter, pathRowElement)
-        {
-            this.typedItem = new ElementType(typedItem);
-            
-            Source.Add(new ElementType(BookPathTypedItem.Author));
-            Source.Add(new ElementType(BookPathTypedItem.SequenceName));
-            Source.Add(new ElementType(BookPathTypedItem.Title));
-
-            selectedItem = Source[0];
-        }
-        #endregion
-
-        #region [Properties]
-        public override ElementType TypedItem
-        {
-            get => typedItem;
-            set => typedItem = value;
-        }
-        protected override bool IsTyped => true;
-        #endregion
-        #region [Methods]
-        #endregion
-    }
+    }   
 }

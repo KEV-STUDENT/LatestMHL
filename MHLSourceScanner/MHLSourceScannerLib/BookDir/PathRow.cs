@@ -1,44 +1,46 @@
 ﻿using MHLCommon.MHLBookDir;
-using MHLCommon.MHLScanner;
-using MHLSourceScannerModelLib;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.Json.Serialization;
 
 namespace MHLSourceScannerLib.BookDir
 {
-    public class PathRow : TreeItemCollection, IPathRow<PathRowElement>
+    public class PathRow : IPathRow<PathRowElement, PathRow>
     {
         #region [Fields]       
-        private bool isExpanded = false;       
         private ViewModel4PathRow viewModel;
         private ObservableCollection<PathRowElement> items = new ObservableCollection<PathRowElement>();
         private bool isFileName = true;
+        private bool isExpanded = true;
+
+        private PathRow? parent;
+        private ObservableCollection<PathRow> subRows;
         #endregion
 
-        #region [Constructors]
-        public PathRow(string name, ITreeItem? parent) : base(name, parent)
+        #region [Constructors]       
+        public PathRow(PathRow? parent)
         {
-            InitPathRow();
+            InitPathRow(parent);
         }
 
-        public PathRow(ITreeItem? parent) : base(parent)
+        public PathRow() : this(null) { }
+
+        public PathRow(ObservableCollection<PathRowElement> items, bool isFileName, ObservableCollection<PathRow> subRows)
         {
-            InitPathRow();
+            IsFileName = isFileName;
+            Items = items;
+            SubRows = subRows;
+            viewModel = new ViewModel4PathRow(this);           
         }
 
-        public PathRow() : base()
-        {
-            InitPathRow();
-        }
         #endregion
 
         #region [Properties]       
         [JsonIgnore]
-        public ViewModel4PathRow ViewModel => viewModel;      
-        public ObservableCollection<PathRowElement> Items => items;
+        public int Count => Items.Count;
+
+        [JsonIgnore]
+        public ViewModel4PathRow ViewModel => viewModel;
         [JsonIgnore]
         public bool IsExpanded
         {
@@ -46,22 +48,39 @@ namespace MHLSourceScannerLib.BookDir
             set => isExpanded = value;
         }
 
+        [JsonIgnore]
+        public PathRow? Parent { 
+            get => parent; 
+            set => parent = value;
+        }
+        public ObservableCollection<PathRow> SubRows
+        {
+            get => subRows;
+            set => subRows = value;
+        }
+        public ObservableCollection<PathRowElement> Items
+        {
+            get => items;
+            set => items = value;
+        }
         public bool IsFileName
         {
             get => isFileName;
             set => isFileName = value;
-        }       
+        }
         #endregion
 
 
         #region [Methods]
-        private void InitPathRow()
+        private void InitPathRow(PathRow? parent)
         {
+            this.parent = parent;
             items.Add(new PathRowElement());
             viewModel = new ViewModel4PathRow(this);
+            subRows = new ObservableCollection<PathRow>();
         }
 
-        private void InsertTo(int i)
+        public void InsertTo(int i)
         {
             if (i < items.Count)
                 items.Insert(i, new PathRowElement());
@@ -69,7 +88,7 @@ namespace MHLSourceScannerLib.BookDir
                 items.Add(new PathRowElement());
         }
 
-        private void RemoveFrom(int i)
+        public void RemoveFrom(int i)
         {
             if (i < items.Count)
                 items.RemoveAt(i);
@@ -93,29 +112,21 @@ namespace MHLSourceScannerLib.BookDir
         #endregion
 
         #region [IPathRow Implementation] 
-        int IPathRow<PathRowElement>.Count => items.Count;
-        bool IPathRow<PathRowElement>.IsExpanded
-        {
-            get => IsExpanded;
-            set => IsExpanded = value;
-        }
-
-        ObservableCollection<PathRowElement> IPathRow<PathRowElement>.Items => Items;
-
-        bool IPathRow<PathRowElement>.IsFileName { get => IsFileName; set => IsFileName = value; }
-
-        PathRowElement IPathRow<PathRowElement>.this[int i]
-        { get => this[i]; set => this[i] = value; }
-
-        void IPathRow<PathRowElement>.InsertTo(int i)
+        int IPathRow.Count => Count;
+        bool IPathRow.IsExpanded { get => IsExpanded; set => IsExpanded = value; }
+        bool IPathRow.IsFileName { get => IsFileName; set => IsFileName = value; }
+        void IPathRow.InsertTo(int i)
         {
             InsertTo(i);
         }
 
-        void IPathRow<PathRowElement>.RemoveFrom(int i)
+        void IPathRow.RemoveFrom(int i)
         {
             RemoveFrom(i);
         }
+        ObservableCollection<PathRow> IPathRow<PathRowElement, PathRow>.SubRows { get => SubRows; set => SubRows = value; }
+        PathRowElement IPathRow<PathRowElement>.this[int i]{ get => this[i]; set => this[i] = value; }
+        ObservableCollection<PathRowElement> IPathRow<PathRowElement>.Items { get => Items; set => Items = value; }
         #endregion
     }
 }

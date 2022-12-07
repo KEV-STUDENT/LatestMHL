@@ -21,15 +21,22 @@ namespace MHLSourceScannerLib.BookDir
         #endregion
 
         #region [Constructors]
-        public PathRowElement() { 
-            viewModel= new ViewModel4PathRowElement(this);
+        public PathRowElement() : this(BookPathItem.Author, BookPathTypedItem.None) { }
+
+        [JsonConstructor]
+        public PathRowElement(BookPathItem selectedItemType, BookPathTypedItem selectedTypedItemType)
+        {
+            viewModel = new ViewModel4PathRowElement(this);
             source.Add(new PathElement(BookPathItem.Author, this));
-            source.Add(new FirstLetter(BookPathTypedItem.Title, this));
+            source.Add(new PathElement(BookPathItem.FirstLetter, BookPathTypedItem.Title, this));
             source.Add(new PathElement(BookPathItem.SequenceName, this));
             source.Add(new PathElement(BookPathItem.SequenceNum, this));
             source.Add(new PathElement(BookPathItem.Title, this));
 
-            selectedItem = source[0];
+            selectedItem = Source[0];
+
+            SelectedItemType = selectedItemType;
+            SelectedTypedItemType = selectedTypedItemType;
         }
         #endregion
 
@@ -38,10 +45,33 @@ namespace MHLSourceScannerLib.BookDir
         public ViewModel4PathRowElement ViewModel => viewModel;
         [JsonIgnore]
         public ObservableCollection<PathElement> Source => source;
+        [JsonIgnore]
         public PathElement SelectedItem
         {
             get => selectedItem;
             set => selectedItem = value;
+        }
+
+        public BookPathItem SelectedItemType
+        {
+            get=>selectedItem.ElementType;
+            set
+            {
+                foreach (PathElement item in source)
+                {
+                    if (item.ElementType == value)
+                    {
+                        SelectedItem = item;
+                        return;
+                    }
+                }
+            }
+        }
+
+        public BookPathTypedItem SelectedTypedItemType
+        {
+            get => selectedItem.ElementItemType;
+            set => selectedItem.ElementItemType = value;
         }
         #endregion
 

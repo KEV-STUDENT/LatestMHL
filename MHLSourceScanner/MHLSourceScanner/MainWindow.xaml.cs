@@ -24,9 +24,16 @@ namespace MHLSourceScanner
         {
             _vm = new ViewModel4Scanner();
             _vm.Close += () => {                 
-                SaveConfigurations();
                 Close();
             };
+
+            _vm.Run += () =>
+            {
+                SaveConfigurations();
+                ExportSelectedData();
+                Close();
+            };
+
             _vm.ChangeDestinationDirAction += ChangeDestinationDir;
             _vm.ChangeSourceDirAction += ChangedSourceDir;
             _vm.SetDestinationDirAction += SettingsDestionnDir;
@@ -41,6 +48,11 @@ namespace MHLSourceScanner
 
             DataContext = this;
             LoadDataFromConfig();
+        }
+
+        private void ExportSelectedData()
+        {
+            throw new NotImplementedException();
         }
 
         private void SaveConfigurations()
@@ -66,9 +78,6 @@ namespace MHLSourceScanner
                     destinationSection.FolderItems[0].Path = DestinationDBPicker.Value;
                 }
             }
-
-
-
             cfg.Save();
         }
 

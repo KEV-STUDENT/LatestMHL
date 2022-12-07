@@ -1,13 +1,6 @@
 ﻿using MHLCommands;
-using MHLCommon.MHLScanner;
-using MHLControls;
 using MHLControls.ViewModels4Forms;
-using MHLResources;
 using MHLSourceScannerLib.BookDir;
-using System;
-using System.Collections.ObjectModel;
-using System.Security.Cryptography;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace MHLSourceScanner.DirectorySettings
@@ -33,7 +26,7 @@ namespace MHLSourceScanner.DirectorySettings
                 {
                     PathRow newRow = new PathRow(selectedRow);
                     newRow.IsFileName = selectedRow.IsFileName;
-                    selectedRow.SourceItems.Add(newRow);
+                    selectedRow.SubRows.Add(newRow);
                     selectedRow.ViewModel.IsFileName = false;
                     selectedRow.ViewModel.IsExpanded = true;
                     selectedRow.ViewModel.OnPropertyChanged("IsEnabled");
@@ -47,7 +40,7 @@ namespace MHLSourceScanner.DirectorySettings
             {
                 if (form.DirectoryTree.SelectedItem is PathRow selectedRow)
                 {
-                   return selectedRow.SourceItems.Count == 0;
+                   return selectedRow.SubRows.Count == 0;
                 }
             }
             return false;
@@ -59,12 +52,9 @@ namespace MHLSourceScanner.DirectorySettings
             {
                 if (form.DirectoryTree.SelectedItem is PathRow selectedRow)
                 {
-                    if(selectedRow.Parent is ITreeItemCollection collection)
-                    {
-                        collection.SourceItems.Remove(selectedRow);
-                    }
                     if(selectedRow.Parent is PathRow row)
                     {
+                        row.SubRows.Remove(selectedRow);
                         row.ViewModel.IsFileName = selectedRow.IsFileName;
                         row.ViewModel.OnPropertyChanged("IsEnabled");
                     }
@@ -76,10 +66,7 @@ namespace MHLSourceScanner.DirectorySettings
         {
             if (obj is DirSetting form)
             {
-                if (form.DirectoryTree.SelectedItem is PathRow selectedRow)
-                {
-                    return (selectedRow.Parent is ITreeItemCollection);
-                }
+                return form.DirectoryTree.SelectedItem is PathRow;
             }
             return false;
         }

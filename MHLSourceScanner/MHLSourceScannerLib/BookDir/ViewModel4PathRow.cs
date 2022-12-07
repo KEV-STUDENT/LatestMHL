@@ -1,7 +1,5 @@
 ﻿using MHLCommands;
-using MHLCommon.MHLBookDir;
 using MHLCommon.ViewModels;
-using MHLSourceScannerModelLib;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -10,12 +8,12 @@ namespace MHLSourceScannerLib.BookDir
     public class ViewModel4PathRow : ViewModel
     {
         #region [Fields]
-        private IPathRow<PathRowElement> pathRow;
+        private PathRow pathRow;
         private bool isSelected;
         #endregion
 
         #region [Constructors]
-        public ViewModel4PathRow(IPathRow<PathRowElement> item)
+        public ViewModel4PathRow(PathRow item)
         {
             pathRow = item;
             AddElementCommand = new RelayCommand(ExecuteAddElementCommand, CanExecuteAddElementCommand);
@@ -59,9 +57,9 @@ namespace MHLSourceScannerLib.BookDir
         {
             get
             {
-                if (pathRow is TreeItemCollection collection)
+                if (pathRow is PathRow collection)
                 {
-                    return collection.SourceItems.Count == 0;
+                    return collection.SubRows.Count == 0;
                 }
                 return false;
             }
