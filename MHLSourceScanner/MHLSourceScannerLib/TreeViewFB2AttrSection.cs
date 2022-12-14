@@ -7,12 +7,10 @@ using System.Windows.Media;
 
 namespace MHLSourceScannerLib
 {
-    public struct Decor4FB2AttrSection : IDecorator4WPF
+    public class Decor4FB2AttrSection : Decorator4WPF
     {
-        public Brush ForeGround => Brushes.BlueViolet;
-        public FontWeight FontWeight => FontWeights.Bold;
-        public bool Focusable => false;
-        public bool ThreeState => false;
+        public override Brush ForeGround => Brushes.BlueViolet;
+        public override FontWeight FontWeight => FontWeights.Bold;
     }
 
     public class FB2Authors : TreeViewFB2AttrSection<Decor4FB2AttrSection>
@@ -107,7 +105,7 @@ namespace MHLSourceScannerLib
         #endregion
 
         #region [TreeItem implementation]
-        public override void LoadChilds()
+        public override void LoadChilds4Collection()
         {
             LoadItemCollection();
         }       

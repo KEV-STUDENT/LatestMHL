@@ -64,7 +64,8 @@
         </DockPanel>
         <DockPanel x:Name="ButtonSection" Grid.Row="4" HorizontalAlignment="Right">
             <buttons:MHLButtonRun x:Name="BtRun" Margin="0,0,5,5"                                  
-                                   Command="{Binding ViewModel.RunCommand, ElementName=Scanner}"/>
+                                  IsEnabled="{Binding ViewModel.NotBusy, ElementName=Scanner}"
+                                   Command="{Binding ViewModel.RunCommandAsync, ElementName=Scanner}"/>
             <buttons:MHLButtonClose x:Name="BtClose" Margin="0,0,5,5"                                  
                                    Command="{Binding ViewModel.CloseCommand, ElementName=Scanner}"/>
 

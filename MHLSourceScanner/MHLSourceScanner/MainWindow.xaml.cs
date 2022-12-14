@@ -7,6 +7,9 @@ using MHLSourceScannerLib;
 using System;
 using System.Configuration;
 using System.Windows;
+using System.Threading.Tasks;
+using MHLSourceOnDisk;
+using MHLControls.ViewModels4Forms;
 
 namespace MHLSourceScanner
 {
@@ -27,12 +30,7 @@ namespace MHLSourceScanner
                 Close();
             };
 
-            _vm.Run += () =>
-            {
-                SaveConfigurations();
-                ExportSelectedData();
-                Close();
-            };
+            _vm.RunAsync += RunCommandAsync;           
 
             _vm.ChangeDestinationDirAction += ChangeDestinationDir;
             _vm.ChangeSourceDirAction += ChangedSourceDir;
@@ -50,9 +48,11 @@ namespace MHLSourceScanner
             LoadDataFromConfig();
         }
 
-        private void ExportSelectedData()
+        private async Task ExportSelectedDataAsync()
         {
-            throw new NotImplementedException();
+            ExpOptions expOptions = new ExpOptions(DestinationDirectoryPicker.Value);
+            Export2Dir exporter = new Export2Dir(expOptions);
+            await SourceDirectoryTree.ViewModel.ExportSelectedItemsAsync(SourceDirectoryTree.SourceItems, exporter);
         }
 
         private void SaveConfigurations()
@@ -111,7 +111,6 @@ namespace MHLSourceScanner
         {
         }
 
-
         private void ChangedSourceDir()
         {
             string directory;
@@ -124,5 +123,31 @@ namespace MHLSourceScanner
                 shower.UpdateView(treeViewDiskItem);
             }
         }
+
+        private async Task RunCommandAsync()
+        {
+            _vm.NotBusy = false;
+            SaveConfigurations();
+            await ExportSelectedDataAsync();
+            _vm.NotBusy = true;
+        }
+
+        /*private void ExportSelectedData(VMEditForm vm)
+       {
+           ExpOptions expOptions = new ExpOptions(DestinationDirectoryPicker.Value);
+           Export2Dir exporter = new Export2Dir(expOptions);
+           SourceDirectoryTree.ViewModel.ExportSelectedItems(SourceDirectoryTree.SourceItems, exporter);
+       }
+        private void RunCommand()
+        {
+            _vm.NotBusy = false;
+            SaveConfigurations();
+            ExportSelectedData(_vm);
+        }
+
+        private void SetBusy(Task task)
+        {
+            _vm.NotBusy = true;
+        }*/
     }
 }

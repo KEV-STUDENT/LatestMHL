@@ -10,5 +10,6 @@ namespace MHLCommon.MHLScanner
         void UpdateView(ITreeItem treeViewDiskItem);
         void AddDiskItem(IDiskItem item, ITreeDiskItem parent);
         void LoadItemCollection(ITreeItemCollection treeItem);
+        void Clear(ITreeItemCollection treeItem);
     }
 }

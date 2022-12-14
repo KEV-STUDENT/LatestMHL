@@ -2,22 +2,29 @@
 using MHLCommon.ViewModels;
 using System.Windows.Input;
 using MHLCommands;
+using System.Threading.Tasks;
+using System.Windows;
 
 namespace MHLControls.ViewModels4Forms
 {
     public class VMEditForm :ViewModel
     {
+
+        private bool notBusy = true;
         #region [Constructors]
         public VMEditForm()
         {
             CloseCommand = new RelayCommand(ExecuteCloseCommand, CanExecuteCloseCommand);
             RunCommand = new RelayCommand(ExecuteRunCommand, CanExecuteRunCommand);
+
+            RunCommandAsync = new AsyncCommand(ExecuteRunCommandAsync, CanExecuteRunCommandAsync);
         }
         #endregion
 
         #region [Delegates]
         private Action? CloseAction;
         private Action? RunAction;
+        private Func<Task>? RunAsyncFunction;
         #endregion
 
         #region [Events]
@@ -32,11 +39,25 @@ namespace MHLControls.ViewModels4Forms
             add => CloseAction += value;
             remove => CloseAction -= value;
         }
+
+        public event Func<Task>? RunAsync
+        {
+            add => RunAsyncFunction += value;
+            remove => RunAsyncFunction -= value; 
+        }
         #endregion
 
         #region [Properties]
         public ICommand CloseCommand { get; set; }
         public ICommand RunCommand { get; set; }
+        public IAsyncCommand RunCommandAsync { get; set; }       
+        public bool NotBusy{ 
+            get => notBusy; 
+            set{
+                notBusy = value;
+                OnPropertyChanged("NotBusy");
+            }
+        }
         #endregion
 
         #region [Private Methods]
@@ -49,6 +70,16 @@ namespace MHLControls.ViewModels4Forms
         { RunAction?.Invoke(); }
         private bool CanExecuteRunCommand(object? obj)
         { return RunAction != null; }
+
+        private bool CanExecuteRunCommandAsync(object? obj)
+        {
+            return RunAsyncFunction != null;
+        }
+
+        private async Task ExecuteRunCommandAsync()
+        {
+            await RunAsyncFunction?.Invoke();
+        }
         #endregion
 
     }

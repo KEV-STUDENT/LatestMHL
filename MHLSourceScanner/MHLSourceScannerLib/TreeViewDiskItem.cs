@@ -66,7 +66,7 @@ namespace MHLSourceScannerLib
         }
     }
 
-    public abstract class TreeViewDiskItem<T> : TreeDiskItem<T> where T : IDecorator4WPF, new()
+    public abstract class TreeViewDiskItem<T> : TreeDiskItem<T> where T : Decorator4WPF, new()
     {
         public TreeViewDiskItem(ITreeItem? parent) :base(parent)
         {
@@ -133,7 +133,7 @@ namespace MHLSourceScannerLib
     }
 
     public abstract class TreeViewDiskItem<T1, T2> : TreeViewDiskItem<T1>, IItemSelected
-        where T1 : IDecorator4WPF, new()
+        where T1 : Decorator4WPF, new()
         where T2 : ISelected, new()
     {
         #region [Fields]

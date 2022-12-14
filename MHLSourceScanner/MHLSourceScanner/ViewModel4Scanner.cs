@@ -66,6 +66,9 @@ namespace MHLSourceScanner
 
         private bool CanExecuteChangeSourceDirCommand(object? obj)
         { return ChangeSourceDirAction != null; }
+
+
+
         #endregion
     }
 }

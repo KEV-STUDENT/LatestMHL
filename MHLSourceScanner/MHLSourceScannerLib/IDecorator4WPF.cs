@@ -9,27 +9,34 @@ namespace MHLSourceScannerLib
         Brush ForeGround { get; }
         FontWeight FontWeight { get; }
     }
-    public struct Decor4Unknown : IDecorator4WPF
+
+    public class Decorator4WPF : IDecorator4WPF
     {
-        public Brush ForeGround => Brushes.Black;
-        public FontWeight FontWeight => FontWeights.Normal;
-        public bool Focusable => true;
-        public bool ThreeState => false;
+        Brush IDecorator4WPF.ForeGround => this.ForeGround;
+        FontWeight IDecorator4WPF.FontWeight => this.FontWeight;
+
+        bool IDecorator.Focusable => this.Focusable;
+
+        bool IDecorator.ThreeState => this.ThreeState;
+
+        public virtual Brush ForeGround => Brushes.Black;
+        public virtual FontWeight FontWeight => FontWeights.Normal;
+        public virtual bool Focusable => false;
+        public virtual bool ThreeState => false;
+    }
+    public class Decor4Unknown : Decorator4WPF
+    {
+        public override bool Focusable => true;
     }
 
-    public struct Decor4System : IDecorator4WPF
+    public class Decor4System : Decorator4WPF
     {
-        public Brush ForeGround => Brushes.Gray;
-        public FontWeight FontWeight => FontWeights.Normal;
-        public bool Focusable => false;
-        public bool ThreeState => false;
+        public override Brush ForeGround => Brushes.Gray;
     }
 
-    public struct Decor4Error : IDecorator4WPF
+    public class Decor4Error : Decorator4WPF
     {
-        public Brush ForeGround => Brushes.Red;
-        public FontWeight FontWeight => FontWeights.Light;
-        public bool Focusable => false;
-        public bool ThreeState => false;
+        public override Brush ForeGround => Brushes.Red;
+        public override FontWeight FontWeight => FontWeights.Light;
     }
 }

@@ -59,7 +59,7 @@ namespace MHLSourceScannerModelLib
         #endregion
 
         #region [TreeItem implementation]
-        public override void LoadChilds()
+        public override void LoadChilds4Collection()
         {
             if (shower == null)
                 LoadItemCollection();
@@ -71,7 +71,10 @@ namespace MHLSourceScannerModelLib
         {
             if (source is IDiskCollection diskCollection)
             {
-                SourceItems.Clear();
+                if (shower == null)
+                    SourceItems.Clear();
+                else
+                    shower.Clear(this);               
                 LoadItemCollection(diskCollection);
             }
         }

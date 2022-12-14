@@ -29,9 +29,14 @@
 
             return result;
         }
+
+        public async Task<bool> ExportBooksAsync<T>(T exporter) where T : class, IExport
+        {
+           return  await Task<bool>.Run(()=> { return ExportBooks(exporter); });
+        }
         #endregion
 
-        #region [IDiskItem implementation]
+            #region [IDiskItem implementation]
         string IDiskItem.Path2Item => path2Item;
 
 

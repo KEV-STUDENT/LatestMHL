@@ -1,8 +1,5 @@
 ﻿using MHLCommon.MHLDiskItems;
 using MHLCommon.MHLScanner;
-using MHLCommon.ViewModels;
-using MHLSourceScannerLib;
-using MHLSourceScannerModelLib;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
@@ -14,18 +11,14 @@ namespace MHLUIElements
     /// </summary>
     public partial class SourceTree : UserControl, IShower
     {
+        protected ObservableCollection<ITreeItem> sourceItems = new ObservableCollection<ITreeItem>();
         public ViewModel4Shower ViewModel { get; }
 
-        protected IShower shower;
         public SourceTree()
         {
             ViewModel = new ViewModel4Shower();
 
             InitializeComponent();
-            TreeItemShower shower = new TreeItemShower();
-            shower.UpdateView = UpdateViewAction;
-            shower.LoadCollection = LoadItemCollection;
-            this.shower = shower;
             
             ShowSource.ItemsSource = ViewModel.Source;
             ShowSource.SelectedItemChanged += ViewModel.ItemChanged;          
@@ -37,21 +30,26 @@ namespace MHLUIElements
             ViewModel.Source = SourceItems;
         }
 
-       /* private void CreateViewItem(IDiskItem item, ITreeDiskItem parent)
-        {
-            parent.AddDiskItem(item);
-        }*/
-
         private void LoadItemCollection(ITreeItemCollection parent)
         {
-            if (parent is ITreeDiskItem diskItem)
-                diskItem.SourceItems.Clear();
+            Clear(parent);
             parent.LoadItemCollection();
+        }
+
+        private void Clear(ITreeItemCollection parent)
+        {
+            if (parent is ITreeDiskItem diskItem)
+            {
+                Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    diskItem.SourceItems.Clear();
+                }));
+            }
         }
 
         public ObservableCollection<ITreeItem> SourceItems
         {
-            get { return shower.SourceItems; }
+            get { return sourceItems; }
         }
 
 
@@ -63,12 +61,17 @@ namespace MHLUIElements
 
         void IShower.UpdateView()
         {
-            shower.UpdateView();
+            UpdateViewAction();
         }
 
         void IShower.UpdateView(ITreeItem treeItem)
         {
-            shower.UpdateView(treeItem);
+            if (treeItem is ITreeDiskItem treeViewDiskItem)
+            {
+                treeViewDiskItem.LoadChilds();
+                sourceItems = treeViewDiskItem.SourceItems;
+            }
+            UpdateViewAction();
         }
 
         void IShower.AddDiskItem(IDiskItem diskItem, ITreeDiskItem treeItem)
@@ -81,7 +84,12 @@ namespace MHLUIElements
 
         void IShower.LoadItemCollection(ITreeItemCollection treeItem)
         {
-            shower.LoadItemCollection(treeItem);
+            LoadItemCollection(treeItem);
+        }
+
+        void IShower.Clear(ITreeItemCollection treeItem)
+        {
+            Clear(treeItem);
         }
         #endregion
     }

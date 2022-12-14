@@ -8,12 +8,11 @@ using System.Windows.Media;
 
 namespace MHLSourceScannerLib
 {
-    public struct Decor4FB2 : IDecorator4WPF
+    public class Decor4FB2 : Decorator4WPF
     {
-        public Brush ForeGround => Brushes.DarkGreen;
-        public FontWeight FontWeight => FontWeights.Bold;
-        public bool Focusable => true;
-        public bool ThreeState => false;
+        public  override Brush ForeGround => Brushes.DarkGreen;
+        public override FontWeight FontWeight => FontWeights.Bold;
+        public override bool Focusable => true;
     }
 
     public class TreeViewFB2 : TreeViewDiskItem<Decor4FB2, ViewModel4TreeItem>

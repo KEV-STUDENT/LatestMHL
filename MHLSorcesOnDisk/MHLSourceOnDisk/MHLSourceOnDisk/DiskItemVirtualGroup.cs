@@ -1,6 +1,8 @@
 ﻿using MHLCommon;
 using MHLCommon.MHLDiskItems;
+using System.Collections.Concurrent;
 using System.IO.Compression;
+using System.Runtime.Serialization;
 using System.Xml.Linq;
 using System.Xml.XPath;
 
@@ -14,7 +16,7 @@ namespace MHLSourceOnDisk
         #endregion
 
         #region [Constructors]
-        public DiskItemVirtualGroup(IDiskCollection item, List<string> subList):
+        public DiskItemVirtualGroup(IDiskCollection item, List<string> subList) :
             base(GetPath4Collection(item), GetName4List(subList))
         {
             this.item = item;
@@ -55,38 +57,69 @@ namespace MHLSourceOnDisk
         #region [DiskItem implementation]
         public override bool ExportItem(ExpOptions exportOptions)
         {
-            bool result = true;
-            using(ZipArchive zipArchive = ZipFile.OpenRead(((IDiskItem)this).Path2Item))
+            bool result;
+            using (ZipArchive zipArchive = ZipFile.OpenRead(((IDiskItem)this).Path2Item))
             {
-                ZipArchiveEntry? file = null;
-                string newFile;
+                ConcurrentBag<string> errorEnries = new ConcurrentBag<string>();
 
-                foreach (string entryName in subList)
+                Parallel.ForEach(subList, entryName =>
                 {
-                    file = zipArchive.GetEntry(entryName);
-                    if (file != null)
+                    bool exported = ExportEntry(exportOptions, entryName);
+                    if (!exported)
                     {
-                        try
-                        {
-                            if(exportOptions.OverWriteFiles)
-                                newFile = Path.Combine(exportOptions.PathDestination, entryName);
-                            else
-                                newFile = MHLSourceOnDiskStatic.GetNewFileName(exportOptions.PathDestination, entryName);
+                        errorEnries.Add(entryName);
+                    }
+                });
 
-                            file.ExtractToFile(newFile, exportOptions.OverWriteFiles);
-                            if (!File.Exists(newFile))
-                            {
-                                result = false;
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            System.Diagnostics.Debug.WriteLine(e.Message);
-                            result = false;
-                        }
+                result = errorEnries.Count == 0;
+                if(!result)
+                {
+                    foreach(string entry in errorEnries)
+                    {
+                        System.Diagnostics.Debug.WriteLine(string.Concat("Not Exported: ", entry));
                     }
                 }
             }
+            return result;
+        }
+
+        private bool ExportEntry(ExpOptions exportOptions, string entry)
+        {
+            bool result = true;
+            using (ZipArchive zipArchive = ZipFile.OpenRead(((IDiskItem)this).Path2Item))
+            {
+                result = ExportFile(exportOptions, zipArchive.GetEntry(entry));
+            }
+            return result;
+        }
+
+        private bool ExportFile(ExpOptions exportOptions, ZipArchiveEntry? file)
+        {
+            bool result = (file != null);
+            string newFile;
+
+            if(result)
+            {
+                try
+                {
+                    if (exportOptions.OverWriteFiles)
+                        newFile = Path.Combine(exportOptions.PathDestination, file.Name);
+                    else
+                        newFile = MHLSourceOnDiskStatic.GetNewFileName(exportOptions.PathDestination, file.Name);
+
+                    file.ExtractToFile(newFile, exportOptions.OverWriteFiles);
+                    if (!File.Exists(newFile))
+                    {
+                        result = false;
+                    }
+                }
+                catch (Exception e)
+                {
+                    System.Diagnostics.Debug.WriteLine(e.Message);
+                    result = false;
+                }
+            }
+
             return result;
         }
         #endregion

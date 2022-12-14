@@ -1,7 +1,4 @@
-﻿using MHLCommon.MHLBookDir;
-using MHLCommon.MHLScanner;
-using MHLSourceScannerLib.BookDir;
-using MHLSourceScannerModelLib;
+﻿using MHLSourceScannerLib.BookDir;
 using System.Windows.Controls;
 
 namespace MHLUIElements
@@ -12,7 +9,6 @@ namespace MHLUIElements
     public partial class BookDirTree : UserControl
     {
         #region [Fields]
-        protected IShower shower;
         #endregion
 
         #region [Properties]
@@ -27,7 +23,6 @@ namespace MHLUIElements
         {
             ViewModel= new ViewModel4BookDir();
             InitializeComponent();     
-            shower = new TreeItemShower();
             ShowDir.ItemsSource = ViewModel.Source;        
         }
         #endregion

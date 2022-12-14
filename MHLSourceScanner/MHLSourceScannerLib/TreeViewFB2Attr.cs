@@ -7,18 +7,9 @@ using System.Xml;
 
 namespace MHLSourceScannerLib
 {
-    public struct Decor4FB2Attr : IDecorator4WPF
+    public class FB2Annotation : TreeViewFB2Attr<Decorator4WPF, string>
     {
-        public Brush ForeGround => Brushes.Black;
-        public FontWeight FontWeight => FontWeights.Normal;
-        public bool Focusable => false;
-        public bool ThreeState => false;
-
-    }
-
-    public class FB2Annotation : TreeViewFB2Attr<Decor4FB2Attr, string>
-    {
-        public double TextWidth
+        public static double TextWidth
         {
             get => 700;
         }
@@ -30,7 +21,7 @@ namespace MHLSourceScannerLib
         #endregion
     }
 
-    public class FB2Keyword : TreeViewFB2Attr<Decor4FB2Attr, MHLKeyword>
+    public class FB2Keyword : TreeViewFB2Attr<Decorator4WPF, MHLKeyword>
     {
         #region [Constructors]
         public FB2Keyword(MHLKeyword bookAttribute, ITreeItem? parent) : base(bookAttribute, parent)
@@ -40,7 +31,7 @@ namespace MHLSourceScannerLib
         #endregion
     }
 
-    public class FB2Genre : TreeViewFB2Attr<Decor4FB2Attr, MHLGenre>
+    public class FB2Genre : TreeViewFB2Attr<Decorator4WPF, MHLGenre>
     {
         #region [Constructors]
         public FB2Genre(MHLGenre bookAttribute, ITreeItem? parent) : base(bookAttribute, parent)
@@ -423,6 +414,8 @@ namespace MHLSourceScannerLib
                 case MHLCommon.FB2Genres.popadanec:
                     Name = "Попаданец";
                     break;
+                case MHLCommon.FB2Genres.none:
+                    break;
                 #endregion
                 default:
                     Name = bookAttribute.Genre.ToString();
@@ -432,7 +425,7 @@ namespace MHLSourceScannerLib
         #endregion
     }
 
-    public class FB2Author : TreeViewFB2Attr<Decor4FB2Attr, MHLAuthor>
+    public class FB2Author : TreeViewFB2Attr<Decorator4WPF, MHLAuthor>
     {
         #region [Proprties]
         public string LastName

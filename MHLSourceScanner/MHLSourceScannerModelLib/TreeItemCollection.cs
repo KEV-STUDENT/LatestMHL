@@ -26,6 +26,12 @@ namespace MHLSourceScannerModelLib
             set => sourceItems = value;
 
         }
+
+        public bool ChildsLoaded
+        {
+            get => childsLoaded;
+            set => childsLoaded = value;
+        }
         #endregion
 
         #region [ITreeCollectionItem implementation]
@@ -39,7 +45,7 @@ namespace MHLSourceScannerModelLib
             if (childsLoaded)
                 return;
 
-            LoadChilds();
+            LoadChilds4Collection();
 
             childsLoaded = true;
         }
@@ -60,7 +66,7 @@ namespace MHLSourceScannerModelLib
         #endregion
 
         #region [Methods]
-        public virtual void LoadChilds()
+        public virtual void LoadChilds4Collection()
         {
             throw new NotImplementedException();
         }

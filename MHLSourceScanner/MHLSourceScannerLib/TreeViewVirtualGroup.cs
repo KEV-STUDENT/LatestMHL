@@ -6,16 +6,15 @@ using System.IO.Compression;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace MHLSourceScannerLib
 {
-    public struct Decor4VirtualGroup : IDecorator4WPF
+    public class Decor4VirtualGroup : Decorator4WPF
     {
-        public Brush ForeGround => Brushes.DarkBlue;
-        public FontWeight FontWeight => FontWeights.Bold;
-        public bool Focusable => true;
-        public bool ThreeState => true;
+        public override Brush ForeGround => Brushes.DarkBlue;
+        public override FontWeight FontWeight => FontWeights.Bold;
+        public override bool Focusable => true;
+        public override bool ThreeState => true;
     }
 
     public class TreeViewVirtualGroup : TreeViewDiskItem<Decor4VirtualGroup, ViewModel4TreeItem>

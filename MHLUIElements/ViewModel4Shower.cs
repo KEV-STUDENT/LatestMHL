@@ -11,7 +11,12 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-
+using System.Threading.Tasks;
+using MHLSourceOnDisk;
+using MHLCommon;
+using MHLSourceScannerModelLib;
+using MHLCommon.MHLDiskItems;
+using System.Linq;
 
 namespace MHLUIElements
 {
@@ -58,7 +63,7 @@ namespace MHLUIElements
                 string authorName;
 
                 if ((book?.Authors?.Count ?? 0) > 0)
-                    foreach (MHLAuthor author in book.Authors)
+                    foreach (MHLAuthor author in book.Authors.Cast<MHLAuthor>())
                     {
                         authorName = author.LastName.Trim();
                         authorName = string.Format("{0} {1}", authorName, author.FirstName.Trim());
@@ -158,6 +163,96 @@ namespace MHLUIElements
             {
                 Book = null;
             }
+        }
+
+        public async Task ExportSelectedItemsAsync(ObservableCollection<ITreeItem> collection, Export2Dir exporter)
+        {
+            await Parallel.ForEachAsync<ITreeItem>(collection, async (item, cancelToken) =>
+            {
+                string name;
+                bool? continueExport;
+                continueExport = CheckItem4Export(item);
+                if(continueExport ?? true)
+                {
+                    name = item.Name;
+                    if (item is TreeDiskItem diskItem)
+                    {
+                        if (continueExport ?? false)
+                        {
+                            await ExportSelectedDiskItemAsync(diskItem.Source, exporter);
+                        }
+                        else
+                        {
+                            await ExportSelectedItemsAsync(diskItem.SourceItems, exporter);
+                        }
+                    }
+                }              
+            });
+        }
+
+        public void ExportSelectedItems(ObservableCollection<ITreeItem> collection, Export2Dir exporter)
+        {
+            bool? continueExport;
+            string name;
+
+            foreach (ITreeItem item in collection)
+            {
+                continueExport = CheckItem4Export(item);
+                if (continueExport??true)
+                {
+                    name = item.Name;
+                    if (item is TreeDiskItem diskItem)
+                    {
+                        if (continueExport ?? false)
+                            ExportSelectedDiskItem(diskItem.Source, exporter);
+                        else
+                            ExportSelectedItems(diskItem.SourceItems, exporter);
+                    }
+                }
+            }
+        }
+
+        private static bool? CheckItem4Export(ITreeItem item)
+        {
+            bool? result;
+
+            if (item is TreeViewZip zip)
+            {
+                result = zip.Selected;
+            }
+            else if (item is TreeViewVirtualGroup vg)
+            {
+                result = vg.Selected;
+            }
+            else if (item is TreeViewFB2 fb2)
+            {
+                result = (fb2.Selected ?? false);
+            }
+            else if (item is TreeViewDirectory dir)
+            {
+                result = (dir.ChildsLoaded && dir.SourceItems.Count > 0 ? null : false);
+            }
+            else
+            {
+                result = false;
+            }
+
+            return result;
+        }
+
+        private static void ExportSelectedDiskItem(IDiskItem? diskItem, Export2Dir exporter)
+        {
+            string name;
+            if (diskItem != null)
+            {
+                name = diskItem.Name;
+                diskItem.ExportBooks(exporter);
+            }
+        }
+
+        private static async Task ExportSelectedDiskItemAsync(IDiskItem? diskItem, Export2Dir exporter)
+        {
+           await Task.Run(() => ExportSelectedDiskItem(diskItem, exporter));
         }
         #endregion
     }
