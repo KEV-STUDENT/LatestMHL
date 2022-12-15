@@ -25,7 +25,7 @@ namespace MHLSourceScannerLib
         {
             get
             {
-                if (source != null && source is IDiskCollection diskCollection)
+                if (Source != null && Source is IDiskCollection diskCollection)
                 {
                     return diskCollection.Count;
                 }
@@ -38,11 +38,11 @@ namespace MHLSourceScannerLib
             get
             {
                 int cnt = 0;
-                if (source != null && source is IDiskCollection diskCollection)
+                if (Source != null && Source is IDiskCollection diskCollection)
                 {
                     foreach (var item in diskCollection.GetChilds())
                     {
-                        if(item is IDiskCollection collection)
+                        if (item is IDiskCollection collection)
                             cnt += collection.Count;
                     }
                 }
@@ -52,7 +52,7 @@ namespace MHLSourceScannerLib
 
         public System.Windows.Visibility Visibility2TotalCount
         {
-            get { return (TotalCount < IDiskCollection.MaxItemsInVirtualGroup ? System.Windows.Visibility.Collapsed : System.Windows.Visibility.Visible) ; }
+            get { return (TotalCount < IDiskCollection.MaxItemsInVirtualGroup ? System.Windows.Visibility.Collapsed : System.Windows.Visibility.Visible); }
         }
         #region [Constructors]
         public TreeViewZip(string path, ITreeItem? parent) : base(path, parent)
@@ -74,53 +74,14 @@ namespace MHLSourceScannerLib
         #region [Protected Methods]
         protected override void LoadItemCollection(IDiskCollection diskCollection)
         {
-            if(diskCollection.IsVirtualGroupsUsed)
+            IEnumerable<IDiskItem> itemsList = diskCollection.GetChilds();
+            Parallel.ForEach(itemsList, item =>
             {
-                base.LoadItemCollection(diskCollection);
-            }
-            else
-            {
-                if ((diskCollection?.Count ?? 0) != 0 && !string.IsNullOrEmpty(source?.Path2Item) && (source is DiskItemFileZip fileZip))
-                {
-                    List<Task> tasks = new List<Task>();
-                    List<string> list = new List<string>();
+                ITreeItem newItem = CreateTreeViewItem(item);
 
-                    using (ZipArchive zipArchive = ZipFile.OpenRead(source.Path2Item))
-                    {
-                        foreach (ZipArchiveEntry file in zipArchive.Entries)
-                            list.Add(file.Name);
-                    }
-
-                    foreach (string name in list)
-                    {
-                        tasks.Add(Task.Run(() =>
-                        {
-                            IDiskItem? diskItemChild = null;
-                            lock (sourceLock)
-                            {
-                                using (ZipArchive zipArchive = ZipFile.OpenRead(source.Path2Item))
-                                {
-                                    ZipArchiveEntry? file = zipArchive.GetEntry(name);
-                                    if (file != null)
-                                        diskItemChild = DiskItemFabrick.GetDiskItem(fileZip, file);
-                                }
-                            }
-
-                            if (diskItemChild != null)
-                            {
-                                ITreeDiskItem diskItem = this;
-                                if (shower == null)
-                                    diskItem.AddDiskItem(diskItemChild);
-                                else
-                                    shower.AddDiskItem(diskItemChild, diskItem);
-                            }
-                        }));
-                    }
-
-                    if (TestMode)
-                        Task.WaitAll(tasks.ToArray());
-                }
-            }
+                if (!Insert2SourceLock(newItem))
+                    Add2SourceLock(newItem);
+            });
         }
         #endregion
     }

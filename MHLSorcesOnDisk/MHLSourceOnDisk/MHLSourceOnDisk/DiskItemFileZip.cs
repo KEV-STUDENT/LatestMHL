@@ -198,6 +198,11 @@ namespace MHLSourceOnDisk
                 }
             }
         }
+
+        IEnumerable<string> IDiskCollection.GetChildsNames()
+        {
+            return files;
+        }
         #endregion
     }
 }

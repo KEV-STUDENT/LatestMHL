@@ -138,6 +138,11 @@ namespace MHLSourceOnDisk
         {
             return item.GetChilds(subList);
         }
+
+        IEnumerable<string> IDiskCollection.GetChildsNames()
+        {
+            return subList;
+        }
         #endregion
     }
 }

@@ -9,11 +9,13 @@ namespace MHLCommon.MHLScanner
     {
         bool? Selected { get; set; }
     }
-    
-    public interface ITreeItem: IComparable<ITreeItem>
+
+    public interface ITreeItem : IComparable<ITreeItem>
     {
         ITreeItem? Parent { get; }
         string Name { get; }
+
+        IDiskItem? Source{get;set;}
     }
 
     public interface IDecorated<T> where T : IDecorator, new()
@@ -25,10 +27,16 @@ namespace MHLCommon.MHLScanner
     public interface ITreeItemCollection : ITreeItem
     {
         ObservableCollection<ITreeItem> SourceItems { get; set; }
-        void LoadItemCollection();
-        void LoadChilds();
-        ObservableCollection<ITreeItem> LoadChildsCollection();
-        Task<ObservableCollection<ITreeItem>> LoadChildsCollectionAsync();
+        bool ChildsLoaded { get; }
+
+        //void LoadItemCollection();
+        //void LoadChilds();
+        //ObservableCollection<ITreeItem> LoadChildsCollection();
+        //Task<ObservableCollection<ITreeItem>> LoadChildsCollectionAsync();
+        Task LoadChildsAsync();
+        void Add2Source(ITreeItem item);
+        void ClearCollection();
+        bool Insert2Source(ITreeItem item);
     }
 
     public interface ITreeDiskItem : ITreeItemCollection

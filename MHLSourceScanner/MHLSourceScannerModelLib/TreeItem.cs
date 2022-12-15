@@ -1,4 +1,6 @@
 ﻿using MHLCommon;
+using MHLCommon.MHLBook;
+using MHLCommon.MHLDiskItems;
 using MHLCommon.MHLScanner;
 using System.Text.Json.Serialization;
 using System.Windows.Controls;
@@ -10,6 +12,7 @@ namespace MHLSourceScannerModelLib
         #region [Fields]
         protected string name = string.Empty;
         protected ITreeItem? parent;
+        private IDiskItem? source = null;
         #endregion
 
         #region [Properties]
@@ -25,11 +28,21 @@ namespace MHLSourceScannerModelLib
             get => parent;
             set => parent = value;
         }
+        public IDiskItem? Source
+        {
+            get => source;
+            set{
+                source = value;
+                InitSourceItems();
+            }
+        }
         #endregion
 
         #region [ITreeItem Implementation]
         string ITreeItem.Name => Name;
         ITreeItem? ITreeItem.Parent => parent;
+
+        IDiskItem? ITreeItem.Source { get => Source; set => Source = value; }
         #endregion
 
 
@@ -53,6 +66,13 @@ namespace MHLSourceScannerModelLib
             return MHLCommonStatic.CompareStringByLength(this.Name, other?.Name ?? String.Empty);
         }
         #endregion
+
+        #region [Private Methods]
+        protected virtual void InitSourceItems()
+        {
+            Name = Source?.Name ?? String.Empty;
+        }
+        #endregion
     }
 
     public class TreeItem<T> : TreeItem, IDecorated<T> where T : IDecorator, new()
@@ -72,7 +92,7 @@ namespace MHLSourceScannerModelLib
 
         #region [Constructors]
 
-        public TreeItem(string name, ITreeItem parent):base(name, parent)
+        public TreeItem(string name, ITreeItem parent) : base(name, parent)
         {
             decorator = new T();
         }

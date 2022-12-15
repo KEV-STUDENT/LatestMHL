@@ -24,7 +24,7 @@ namespace MHLControls.ViewModels4Forms
         #region [Delegates]
         private Action? CloseAction;
         private Action? RunAction;
-        private Func<Task>? RunAsyncFunction;
+        private Func<object?,Task>? RunAsyncFunction;
         #endregion
 
         #region [Events]
@@ -40,7 +40,7 @@ namespace MHLControls.ViewModels4Forms
             remove => CloseAction -= value;
         }
 
-        public event Func<Task>? RunAsync
+        public event Func<object?,Task>? RunAsync
         {
             add => RunAsyncFunction += value;
             remove => RunAsyncFunction -= value; 
@@ -76,9 +76,9 @@ namespace MHLControls.ViewModels4Forms
             return RunAsyncFunction != null;
         }
 
-        private async Task ExecuteRunCommandAsync()
+        private async Task ExecuteRunCommandAsync(object? obj)
         {
-            await RunAsyncFunction?.Invoke();
+            await RunAsyncFunction?.Invoke(obj);
         }
         #endregion
 

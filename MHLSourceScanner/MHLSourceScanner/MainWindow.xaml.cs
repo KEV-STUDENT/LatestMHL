@@ -87,7 +87,6 @@ namespace MHLSourceScanner
             if (section != null && section.FolderItems.Count > 0)
             {
                 SourceDirectoryPicker.Value = section.FolderItems[0].Path;
-                _vm.ChangeSourceDirAction?.Invoke();
             }
 
             DestinationConfigSection destinationConfigSection = (DestinationConfigSection)ConfigurationManager.GetSection("DestinationFolders");
@@ -119,17 +118,16 @@ namespace MHLSourceScanner
             {
                 IShower shower = SourceDirectoryTree;
                 ITreeDiskItem treeViewDiskItem = new TreeViewDirectory(directory, shower, null);
-                shower.SourceItems.Clear();
+                shower.Clear(treeViewDiskItem);
                 shower.UpdateView(treeViewDiskItem);
             }
         }
 
-        private async Task RunCommandAsync()
+        private async Task RunCommandAsync(object? obj)
         {
             _vm.NotBusy = false;
             SaveConfigurations();
-            await ExportSelectedDataAsync();
-            _vm.NotBusy = true;
+            await ExportSelectedDataAsync().ContinueWith((t) => { _vm.NotBusy = t.IsCompleted; });
         }
 
         /*private void ExportSelectedData(VMEditForm vm)

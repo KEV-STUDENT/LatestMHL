@@ -8,7 +8,7 @@ using System.Xml;
 
 namespace MHLSourceOnDisk
 {
-    public class DiskItemFileFB2 : DiskItemFile, IFB2
+    public class DiskItemFileFB2 : DiskItemFile, IBook
     {
         #region [Consatants]
         private const string ATTR_MAIN_PATH = "//fb:description/fb:title-info/fb:";

@@ -1,8 +1,12 @@
 ﻿using MHLCommon.MHLDiskItems;
 using MHLCommon.MHLScanner;
+using MHLResources;
+using MHLSourceScannerModelLib;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
+using System.Windows.Threading;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace MHLUIElements
 {
@@ -19,32 +23,15 @@ namespace MHLUIElements
             ViewModel = new ViewModel4Shower();
 
             InitializeComponent();
-            
+
             ShowSource.ItemsSource = ViewModel.Source;
-            ShowSource.SelectedItemChanged += ViewModel.ItemChanged;          
+            ShowSource.SelectedItemChanged += ViewModel.ItemChanged;
         }
 
         private void UpdateViewAction()
         {
             ShowSource.ItemsSource = SourceItems;
             ViewModel.Source = SourceItems;
-        }
-
-        private void LoadItemCollection(ITreeItemCollection parent)
-        {
-            Clear(parent);
-            parent.LoadItemCollection();
-        }
-
-        private void Clear(ITreeItemCollection parent)
-        {
-            if (parent is ITreeDiskItem diskItem)
-            {
-                Dispatcher.BeginInvoke(new Action(() =>
-                {
-                    diskItem.SourceItems.Clear();
-                }));
-            }
         }
 
         public ObservableCollection<ITreeItem> SourceItems
@@ -59,16 +46,12 @@ namespace MHLUIElements
             get { return SourceItems; }
         }
 
-        void IShower.UpdateView()
-        {
-            UpdateViewAction();
-        }
-
         void IShower.UpdateView(ITreeItem treeItem)
         {
             if (treeItem is ITreeDiskItem treeViewDiskItem)
             {
-                treeViewDiskItem.LoadChilds();
+                treeViewDiskItem.ClearCollection();
+                treeViewDiskItem.LoadChildsAsync();
                 sourceItems = treeViewDiskItem.SourceItems;
             }
             UpdateViewAction();
@@ -82,14 +65,33 @@ namespace MHLUIElements
             }));
         }
 
-        void IShower.LoadItemCollection(ITreeItemCollection treeItem)
-        {
-            LoadItemCollection(treeItem);
-        }
-
         void IShower.Clear(ITreeItemCollection treeItem)
         {
-            Clear(treeItem);
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                treeItem.ClearCollection();
+            }));
+        }
+
+        void IShower.Add2Source(ITreeItem item, ITreeItemCollection treeView)
+        {
+            System.Diagnostics.Debug.WriteLine("Shower Add : " + item.Name);
+            Dispatcher.InvokeAsync(new Action(() =>
+            {
+                treeView.Add2Source(item);
+            }));
+        }
+
+        bool IShower.Insert2Source(ITreeItem item, ITreeItemCollection treeView)
+        {
+            System.Diagnostics.Debug.WriteLine("Shower Insert : " + item.Name);
+
+            Dispatcher.InvokeAsync(new Action(() =>
+            {
+                if(!treeView.Insert2Source(item))
+                    treeView.Add2Source(item);
+            }));
+            return true;
         }
         #endregion
     }

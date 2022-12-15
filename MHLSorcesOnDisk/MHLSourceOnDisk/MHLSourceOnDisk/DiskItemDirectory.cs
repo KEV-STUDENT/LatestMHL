@@ -1,14 +1,16 @@
 ﻿namespace MHLSourceOnDisk
 {
     using MHLCommon;
+    using MHLCommon.MHLBook;
     using MHLCommon.MHLDiskItems;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
 
-    public class DiskItemDirectory : DiskItem, IDiskItemDirectory
+    public class DiskItemDirectory : DiskItem, IDiskCollection
     {
 
         #region [Constructors]
-        public DiskItemDirectory(string path):base(path, Path.GetFileName(path))
+        public DiskItemDirectory(string path) : base(path, Path.GetFileName(path))
         {
         }
         #endregion
@@ -28,7 +30,7 @@
             Exception? error = null;
             try
             {
-                dir = Directory.EnumerateDirectories(Path2Item);
+                dir = GetChildsNames();
             }
             catch (Exception ex)
             {
@@ -41,37 +43,31 @@
             }
             else
             {
-                if (dir != null)
+                if ((dir?.Count() ?? 0) > 0)
                 {
-                    foreach (string item in dir)
-                        yield return DiskItemFabrick.GetDiskItem(item);
-                }
-            }
-
-            dir = null;
-            error = null;
-            try
-            {
-                dir = Directory.EnumerateFiles(Path2Item);
-            }
-            catch (Exception ex)
-            {
-                error = ex;
-            }
-
-            if (error != null)
-            {
-                yield return DiskItemFabrick.GetDiskItem(Path2Item, error);
-            }
-            else
-            {
-                if (dir != null)
-                {
-                    foreach (string item in dir)
-                        yield return DiskItemFabrick.GetDiskItem(item);
+                    ConcurrentBag<IDiskItem> res = new ConcurrentBag<IDiskItem>();
+                    Parallel.ForEach(dir, item =>
+                    {
+                        IDiskItem diskItem = DiskItemFabrick.GetDiskItem(item);
+                        res.Add(diskItem);
+                    }
+                    );
+                    /*foreach (string item in dir)
+                        yield return DiskItemFabrick.GetDiskItem(item);*/
+                    foreach (IDiskItem item in res)
+                        yield return item;
                 }
             }
             yield break;
+        }
+
+        private IEnumerable<string> GetChildsNames()
+        {
+            foreach (string item in Directory.EnumerateDirectories(Path2Item))
+                yield return item;
+
+            foreach (string item in Directory.EnumerateFiles(Path2Item))
+                yield return item;
         }
         #endregion
 
@@ -95,6 +91,10 @@
         IEnumerable<IDiskItem> IDiskCollection.GetChilds(List<string> subList)
         {
             throw new NotImplementedException();
+        }
+        IEnumerable<string> IDiskCollection.GetChildsNames()
+        {
+            return GetChildsNames();
         }
         #endregion
 

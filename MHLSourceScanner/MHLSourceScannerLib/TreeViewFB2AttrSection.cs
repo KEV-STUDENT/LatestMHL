@@ -98,9 +98,7 @@ namespace MHLSourceScannerLib
         {
             this.sectionType = sectionType;
             this.book = book;
-
-            ITreeItemCollection treeCollection = this;
-            treeCollection.LoadChilds();
+            LoadChilds();
         }
         #endregion
 

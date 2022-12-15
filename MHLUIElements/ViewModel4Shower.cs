@@ -27,7 +27,8 @@ namespace MHLUIElements
         private readonly BitmapImage defaultCover;
 
         #region [Properies]
-        public ICommand ExpandingCommand { get; set; }
+        //public ICommand ExpandingCommandAsync { get; set; }
+        public IAsyncCommand ExpandingCommandAsync { get; set; }
 
         public IBook? Book
         {
@@ -122,21 +123,25 @@ namespace MHLUIElements
         #region [Constructor]
         public ViewModel4Shower()
         {
-            ExpandingCommand = new RelayCommand(ExecuteExpandingCommand, CanExecuteExpandingCommand);
+            //ExpandingCommandAsync = new RelayCommand(ExecuteExpandingCommand, CanExecuteExpandingCommand);
+            ExpandingCommandAsync = new AsyncCommand(ExecuteExpandingCommandAsync, CanExecuteExpandingCommand);
             defaultCover = MHLResourcesManager.GetImageFromResources("DefaultBookCover");
             source = new ObservableCollection<ITreeItem>();
         }
         #endregion
 
         #region [Execute...Command]
-        void ExecuteExpandingCommand(object? obj)
+        public async Task ExecuteExpandingCommandAsync(object? obj)
         {
             if (obj is RoutedEventArgs arg)
             {
                 TreeViewItem? tvi = arg.Source as TreeViewItem;
                 if (tvi?.Header is ITreeItemCollection treeItem)
                 {
-                    treeItem.LoadChilds();
+                   if(!treeItem.ChildsLoaded)
+                     treeItem.ClearCollection();
+
+                   await treeItem.LoadChildsAsync();
                 }
             }
         }
@@ -190,28 +195,6 @@ namespace MHLUIElements
             });
         }
 
-        public void ExportSelectedItems(ObservableCollection<ITreeItem> collection, Export2Dir exporter)
-        {
-            bool? continueExport;
-            string name;
-
-            foreach (ITreeItem item in collection)
-            {
-                continueExport = CheckItem4Export(item);
-                if (continueExport??true)
-                {
-                    name = item.Name;
-                    if (item is TreeDiskItem diskItem)
-                    {
-                        if (continueExport ?? false)
-                            ExportSelectedDiskItem(diskItem.Source, exporter);
-                        else
-                            ExportSelectedItems(diskItem.SourceItems, exporter);
-                    }
-                }
-            }
-        }
-
         private static bool? CheckItem4Export(ITreeItem item)
         {
             bool? result;
@@ -242,10 +225,8 @@ namespace MHLUIElements
 
         private static void ExportSelectedDiskItem(IDiskItem? diskItem, Export2Dir exporter)
         {
-            string name;
             if (diskItem != null)
             {
-                name = diskItem.Name;
                 diskItem.ExportBooks(exporter);
             }
         }

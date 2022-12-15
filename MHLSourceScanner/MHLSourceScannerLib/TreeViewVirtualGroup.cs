@@ -25,7 +25,7 @@ namespace MHLSourceScannerLib
         {
             get
             {
-                if (source != null && source is IDiskCollection diskCollection)
+                if (Source != null && Source is IDiskCollection diskCollection)
                 {
                     return diskCollection.Count;
                 }
@@ -54,39 +54,31 @@ namespace MHLSourceScannerLib
         protected override void LoadItemCollection(IDiskCollection diskCollection)
         {
 
-            if ((diskCollection?.Count ?? 0) != 0 && !string.IsNullOrEmpty(source?.Path2Item) && 
-                (diskCollection is IVirtualGroup virtGroup) && 
+            if ((diskCollection?.Count ?? 0) != 0 && !string.IsNullOrEmpty(Source?.Path2Item) &&
+                (diskCollection is IVirtualGroup virtGroup) &&
                 (virtGroup.ParentCollection is DiskItemFileZip fileZip))
             {
-                List<Task> tasks = new List<Task>();
-                foreach (string name in virtGroup.ItemsNames)
+                Parallel.ForEach(virtGroup.ItemsNames, name =>
                 {
-                    tasks.Add(Task.Run(() =>
+                    IDiskItem? diskItemChild = null;
+                    ITreeItem newItem;
+
+                    using (ZipArchive zipArchive = ZipFile.OpenRead(Source.Path2Item))
                     {
-                        IDiskItem? diskItemChild = null;
-                        lock (sourceLock)
+                        ZipArchiveEntry? file = zipArchive.GetEntry(name);
+                        if (file != null)
                         {
-                            using (ZipArchive zipArchive = ZipFile.OpenRead(source.Path2Item))
-                            {
-                                ZipArchiveEntry? file = zipArchive.GetEntry(name);
-                                if(file != null)
-                                    diskItemChild = DiskItemFabrick.GetDiskItem(fileZip, file);
-                            }
+                            diskItemChild = DiskItemFabrick.GetDiskItem(fileZip, file);
                         }
+                    }
 
-                        if (diskItemChild != null)
-                        {
-                            ITreeDiskItem diskItem = this;
-                            if (shower == null)
-                                diskItem.AddDiskItem(diskItemChild);
-                            else
-                                shower.AddDiskItem(diskItemChild, diskItem);
-                        }
-                    }));
-                }
+                    if (diskItemChild != null) {
+                        newItem = CreateTreeViewItem(diskItemChild);
+                        if (!Insert2SourceLock(newItem))
+                            Add2SourceLock(newItem);
 
-                if (TestMode)
-                    Task.WaitAll(tasks.ToArray());
+                    }
+                });
             }
         }
         #endregion

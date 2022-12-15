@@ -3,7 +3,7 @@ using MHLCommon.MHLDiskItems;
 
 namespace MHLSourceOnDisk
 {
-    public class DiskItemError : DiskItem, IDiskItemError
+    public class DiskItemError : DiskItem
     {
         #region [Private Fields]
         private readonly Exception? exp;

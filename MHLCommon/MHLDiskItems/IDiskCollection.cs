@@ -7,5 +7,6 @@
         bool IsVirtualGroupsUsed { get; }
         IEnumerable<IDiskItem> GetChilds();
         IEnumerable<IDiskItem> GetChilds(List<string> subList);
+        IEnumerable<string> GetChildsNames();
     }
 }

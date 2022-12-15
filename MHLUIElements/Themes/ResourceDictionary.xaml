@@ -4,7 +4,7 @@
                     xmlns:MHLControls="clr-namespace:MHLControls;assembly=MHLControls">
     
     <Style TargetType="TreeViewItem">
-        <Setter Property="local:Behaviours.ExpandingBehaviour" Value="{Binding ElementName=TreeShower, Path = ViewModel.ExpandingCommand}"/>
+        <Setter Property="local:Behaviours.ExpandingBehaviour" Value="{Binding ElementName=TreeShower, Path = ViewModel.ExpandingCommandAsync}"/>
         <Setter Property="Focusable" Value="{Binding Focusable}"/>
     </Style>
 

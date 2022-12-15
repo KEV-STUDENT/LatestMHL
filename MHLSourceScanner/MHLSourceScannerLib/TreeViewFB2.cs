@@ -27,7 +27,7 @@ namespace MHLSourceScannerLib
         {
             get
             {
-                if (source is IBook book)
+                if (Source is IBook book)
                 {
                     return book.Title;
                 }
@@ -41,7 +41,7 @@ namespace MHLSourceScannerLib
             {
                 if (!_sequenceNumLoaded)
                 {
-                    if (source is IBook book)
+                    if (Source is IBook book)
                         _sequenceNum = (book.SequenceAndNumber.FirstOrDefault() as MHLSequenceNum);
 
                     _sequenceNumLoaded = true;
@@ -56,7 +56,7 @@ namespace MHLSourceScannerLib
             {
                 if (!_sequenceNumLoaded)
                 {
-                    if (source is IBook book)
+                    if (Source is IBook book)
                         _sequenceNum = (book.SequenceAndNumber.FirstOrDefault() as MHLSequenceNum);
 
                     _sequenceNumLoaded = true;
@@ -71,7 +71,7 @@ namespace MHLSourceScannerLib
             {
                 if (!_sequenceNumLoaded)
                 {
-                    if (source is IBook book)
+                    if (Source is IBook book)
                         _sequenceNum = (book.SequenceAndNumber.FirstOrDefault() as MHLSequenceNum);
 
                     _sequenceNumLoaded = true;
@@ -89,13 +89,13 @@ namespace MHLSourceScannerLib
         {
             get
             {
-                if (source is IBook book)
+                if (Source is IBook book)
                     return book.Cover;
                 return string.Empty;
             }
         }
 
-        public IBook? Book { get { return source as IBook; } }
+        public IBook? Book { get { return Source as IBook; } }
         #endregion
 
         #region [Constructors]
@@ -117,21 +117,29 @@ namespace MHLSourceScannerLib
 
         #region [Protected Methods]
         public override void LoadItemCollection()
-        {
-            if (source is IBook book)
+        {           
+            if (Source is IBook book)
             {
                 /* if (!string.IsNullOrEmpty(book.Annotation))
                      SourceItems.Add(new FB2Annotation(book.Annotation));*/
 
                 if (book.Authors.Count > 0)
-                    SourceItems.Add(new FB2Authors(book, this));
+                    Add2Source(new FB2Authors(book, this));
 
                 if (book.Genres.Count > 0)
-                    SourceItems.Add(new FB2Genres(book, this));
+                    Add2Source(new FB2Genres(book, this));
 
                 if (book.Keywords.Count > 0)
-                    SourceItems.Add(new FB2Keywords(book, this));
+                    Add2Source(new FB2Keywords(book, this));
             }
+        }
+        
+        private void Add2Source(ITreeItem item)
+        {
+            if (Shower == null)
+                SourceItems.Add(item);
+            else
+                Shower.Add2Source(item, this);
         }
         #endregion
     }
