@@ -1,10 +1,9 @@
 ﻿using MHLSourceScanner.Configurations.RowFolder;
 using MHLSourceScannerLib.BookDir;
+using System;
 using System.Configuration;
 using System.Text.Json;
 using System.Windows;
-using System;
-using MHLSourceScanner.Configurations.SourceFolder;
 
 namespace MHLSourceScanner.DirectorySettings
 {
@@ -49,18 +48,23 @@ namespace MHLSourceScanner.DirectorySettings
                {
                     PathRowVM? row = JsonSerializer.Deserialize<PathRowVM>(str);
                     DirectoryTree.ViewModel.Source.Clear();
-                    DirectoryTree.ViewModel.Source.Add(row);
-
-                    while((row?.SubRows?.Count ?? 0) > 0)
+                    if (row != null)
                     {
-                        foreach(PathRowVM subRow in row.SubRows) 
+                        DirectoryTree.ViewModel.Source.Add(row);
+                        while ((row?.SubRows?.Count ?? 0) > 0)
                         {
-                            subRow.Parent = row;
+                            if (row != null)
+                            {
+                                foreach (PathRowVM subRow in row.SubRows)
+                                {
+                                    subRow.Parent = row;
+                                }
+                                row = row.SubRows[0];
+                            }
                         }
-                        row = row.SubRows[0] as PathRowVM;
+                        if (row != null)
+                            row.ViewModel.IsSelected = true;
                     }
-                    if(row != null)
-                        row.ViewModel.IsSelected = true;
                 }
                 catch (Exception e)
                 { 
@@ -69,7 +73,7 @@ namespace MHLSourceScanner.DirectorySettings
         }
         private void SaveData2Json()
         {
-            PathRowVM? row = DirectoryTree.ViewModel.Source[0] as PathRowVM;
+            PathRowVM? row = DirectoryTree.ViewModel.Source[0];
 
             string jsonString = JsonSerializer.Serialize<PathRowVM?>(row);
 

@@ -98,6 +98,7 @@ namespace MHLSourceOnDiskTest
         [TestMethod]
         [DataRow(@"E:\librus_MyHomeLib\lib.rus.ec\fb2-060424-074391.zip", "60481.fb2")]
         [DataRow(@"F:\1\test\fb2-495000-500999.zip", "498446.fb2")]
+        [DataRow(@"F:\1\test\fb2-426000-433000.zip", "426649.fb2")]
         public void GetDiskItem_DiskItemFB2_name_ZIP(string path2Zip, string nameFB2)
         {
 

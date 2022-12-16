@@ -313,7 +313,7 @@ namespace MHLSourceOnDisk
                 if (bodyStart > 0)
                     bodyStart += BODY_START.Length;
 
-                int bodyEnd = xml.IndexOf(BODY_END);
+                int bodyEnd = xml.LastIndexOf(BODY_END);
                 if (bodyStart > 0 && bodyEnd > 0)
                 {
                     xml = xml[..(bodyStart == 0 ? bodyEnd : bodyStart)] + (bodyStart > 0 ? ">" : "") + xml[(bodyEnd == 0 ? bodyStart : bodyEnd)..];
