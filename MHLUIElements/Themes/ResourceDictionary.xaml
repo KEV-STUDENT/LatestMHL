@@ -3,6 +3,8 @@
                     xmlns:local="clr-namespace:MHLSourceScannerLib;assembly=MHLSourceScannerLib"
                     xmlns:MHLControls="clr-namespace:MHLControls;assembly=MHLControls">
     
+    <BooleanToVisibilityConverter x:Key="BTVConverter"/>
+
     <Style TargetType="TreeViewItem">
         <Setter Property="local:Behaviours.ExpandingBehaviour" Value="{Binding ElementName=TreeShower, Path = ViewModel.ExpandingCommandAsync}"/>
         <Setter Property="Focusable" Value="{Binding Focusable}"/>
@@ -20,13 +22,27 @@
         <Setter Property="FontWeight" Value="{Binding FontWeight}"/>
         <Setter Property="IsThreeState" Value="{Binding ThreeState}"/>
         <Setter Property="Command" Value="{Binding Path=ViewModel.CheckedCommand}"/>
-        <Setter Property="IsChecked" Value="{Binding Path=ViewModel.IsSelected ,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <Setter Property="IsChecked" Value="{Binding Path=ViewModel.IsSelected,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         <Setter Property="CommandParameter" Value="{Binding}"/>
     </Style>
 
     <Style x:Key="TreeViewAttrStyle" TargetType="MHLControls:MHLTextBlock">
         <Setter Property="Foreground" Value="{Binding ForeGround}"/>
         <Setter Property="FontWeight" Value="{Binding FontWeight}"/>
+    </Style>
+
+    <Style x:Key="ExportedStyle" TargetType="MHLControls:MHLTextBlock">
+        <Setter Property="Foreground" Value="DarkSeaGreen"/>
+        <Setter Property="FontWeight" Value="ExtraBold"/>
+        <Setter Property="Text" Value="Exported"/>
+        <Setter Property="Visibility" Value="{Binding Path=ViewModel.IsExported, Mode=OneWay, Converter={StaticResource BTVConverter}}"/>
+        <Setter Property="Margin" Value="20,0,0,0"/>
+    </Style>
+
+    <Style x:Key="ExportedImage" TargetType="Image">
+        <Setter Property="Source" Value="{Binding ViewModel.ExportImage}"/>
+        <Setter Property="Margin" Value="20,0,0,0"/>
+        <Setter Property="Visibility" Value="{Binding ViewModel.IsExported, Mode=OneWay, Converter={StaticResource BTVConverter}}"/>
     </Style>
 
 </ResourceDictionary>

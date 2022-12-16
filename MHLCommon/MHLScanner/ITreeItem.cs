@@ -1,6 +1,5 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
-using MHLCommon.MHLDiskItems;
+﻿using MHLCommon.MHLDiskItems;
+using System.Collections.ObjectModel;
 
 namespace MHLCommon.MHLScanner
 {
@@ -8,6 +7,7 @@ namespace MHLCommon.MHLScanner
     public interface IItemSelected
     {
         bool? Selected { get; set; }
+        bool IsExported { get; set; }
     }
 
     public interface ITreeItem : IComparable<ITreeItem>
@@ -28,11 +28,6 @@ namespace MHLCommon.MHLScanner
     {
         ObservableCollection<ITreeItem> SourceItems { get; set; }
         bool ChildsLoaded { get; }
-
-        //void LoadItemCollection();
-        //void LoadChilds();
-        //ObservableCollection<ITreeItem> LoadChildsCollection();
-        //Task<ObservableCollection<ITreeItem>> LoadChildsCollectionAsync();
         Task LoadChildsAsync();
         void Add2Source(ITreeItem item);
         void ClearCollection();
@@ -46,5 +41,6 @@ namespace MHLCommon.MHLScanner
         void AddDiskItem(IDiskItem diskItemChild);
 
         ITreeItem CreateTreeViewItem(IDiskItem diskItemChild);
+        Task ExportItemAsync(IExport exporter);
     }
 }

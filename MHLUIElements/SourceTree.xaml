@@ -29,13 +29,24 @@
                     <HierarchicalDataTemplate DataType = "{x:Type local:TreeViewZip}" ItemsSource="{Binding Path=SourceItems}">
                         <Border BorderBrush="Gainsboro" BorderThickness="1">
                             <StackPanel Orientation="Vertical" >
-                                <MHLControls:MHLCheckBox Style="{StaticResource TreeViewItemStyleCheckBoxItem}"/>
+                                <StackPanel Orientation="Horizontal" >
+                                    <MHLControls:MHLCheckBox Style="{StaticResource TreeViewItemStyleCheckBoxItem}"/>
+                                    <Image Style="{StaticResource ExportedImage}"/>
+                                </StackPanel>
                                 <StackPanel Orientation="Horizontal" >
                                     <MHLControls:MHLTextBlock Text="{Binding Path=Count, StringFormat='Archive include {0} blocks.'}" Margin="20,0,0,0" Visibility="{Binding Visibility2TotalCount }"/>
                                     <MHLControls:MHLTextBlock Text="{Binding Path=TotalCount, StringFormat='Total count of items {0}'}" Margin="5,0,0,0" />
                                 </StackPanel>
                             </StackPanel>
                         </Border>
+                    </HierarchicalDataTemplate>
+
+                    <HierarchicalDataTemplate DataType = "{x:Type local:TreeViewVirtualGroup}" ItemsSource="{Binding Path=SourceItems}">
+                        <StackPanel Orientation="Horizontal" >
+                            <MHLControls:MHLCheckBox Style="{StaticResource TreeViewItemStyleCheckBoxItem}"/>
+                            <MHLControls:MHLTextBlock Text="{Binding Path=Count, StringFormat='Block include {0} items'}" Margin="15,0,0,0"/>
+                            <Image Style="{StaticResource ExportedImage}"/>
+                        </StackPanel>
                     </HierarchicalDataTemplate>
 
                     <HierarchicalDataTemplate DataType = "{x:Type local:TreeViewFB2}" ItemsSource="{Binding Path=SourceItems}">
@@ -48,6 +59,7 @@
                                     <MHLControls:MHLTextBlock Text="{Binding Path=Title}" 
                                                       Style="{StaticResource TreeViewItemStyle}" 
                                                       Margin="20,0,0,0"/>
+                                    <Image Style="{StaticResource ExportedImage}"/>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal"  Visibility="{Binding SequenceVisibility}">
                                     <MHLControls:MHLTextBlock Text="{Binding Path=Sequence, StringFormat='Series: {0}'}" 
@@ -62,13 +74,6 @@
 
                     <HierarchicalDataTemplate DataType = "{x:Type local:TreeViewDirectory}" ItemsSource="{Binding Path=SourceItems}">
                         <MHLControls:MHLTextBlock Style="{StaticResource TreeViewItemStyle}"  />
-                    </HierarchicalDataTemplate>
-
-                    <HierarchicalDataTemplate DataType = "{x:Type local:TreeViewVirtualGroup}" ItemsSource="{Binding Path=SourceItems}">
-                        <StackPanel Orientation="Horizontal" >
-                            <MHLControls:MHLCheckBox Style="{StaticResource TreeViewItemStyleCheckBoxItem}"/>
-                            <MHLControls:MHLTextBlock Text="{Binding Path=Count, StringFormat='Block include {0} items'}" Margin="15,0,0,0"/>
-                        </StackPanel>
                     </HierarchicalDataTemplate>
 
                     <HierarchicalDataTemplate DataType = "{x:Type local:TreeViewUnknown}" ItemsSource="{Binding Path=SourceItems}">

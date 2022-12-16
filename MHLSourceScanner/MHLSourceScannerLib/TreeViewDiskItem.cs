@@ -4,6 +4,7 @@ using MHLCommon.MHLScanner;
 using MHLCommon.ViewModels;
 using MHLSourceOnDisk;
 using MHLSourceScannerModelLib;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 
@@ -49,7 +50,7 @@ namespace MHLSourceScannerLib
         public TreeViewError(ITreeItem? parent) : base(parent)
         {
         }
-        public TreeViewError(string path, ITreeItem? parent) : base(path,parent)
+        public TreeViewError(string path, ITreeItem? parent) : base(path, parent)
         {
         }
 
@@ -68,7 +69,7 @@ namespace MHLSourceScannerLib
 
     public abstract class TreeViewDiskItem<T> : TreeDiskItem<T> where T : Decorator4WPF, new()
     {
-        public TreeViewDiskItem(ITreeItem? parent) :base(parent)
+        public TreeViewDiskItem(ITreeItem? parent) : base(parent)
         {
         }
         public TreeViewDiskItem(IShower? shower, ITreeItem? parent) : base(shower, parent)
@@ -144,34 +145,21 @@ namespace MHLSourceScannerLib
         #endregion
 
         #region [Constructors]
-        public TreeViewDiskItem(ITreeItem? parent) : base(parent)
-        {
-        }
-        public TreeViewDiskItem(IShower? shower, ITreeItem? parent) : base(shower, parent)
-        {
-        }
+        public TreeViewDiskItem(ITreeItem? parent) : base(parent) { }
 
-        public TreeViewDiskItem(string path, ITreeItem? parent) : base(path, parent)
-        {
-        }
-        public TreeViewDiskItem(string path, IShower? shower, ITreeItem? parent) : base(path, shower, parent)
-        {
-        }
+        public TreeViewDiskItem(IShower? shower, ITreeItem? parent) : base(shower, parent) { }
 
-        public TreeViewDiskItem(IDiskItem diskItemSource, ITreeItem? parent) : base(diskItemSource, parent)
-        {
-        }
-        public TreeViewDiskItem(IDiskItem diskItemSource, IShower? shower, ITreeItem? parent) : base(diskItemSource, shower, parent)
-        {
-        }
+        public TreeViewDiskItem(string path, ITreeItem? parent) : base(path, parent) { }
+        public TreeViewDiskItem(string path, IShower? shower, ITreeItem? parent) : base(path, shower, parent) { }
+
+        public TreeViewDiskItem(IDiskItem diskItemSource, ITreeItem? parent) : base(diskItemSource, parent) { }
+
+        public TreeViewDiskItem(IDiskItem diskItemSource, IShower? shower, ITreeItem? parent) : base(diskItemSource, shower, parent) { }
         #endregion
 
         #region [IItemSelected Implementation]
-        bool? IItemSelected.Selected
-        {
-            get => Selected;
-            set => Selected = value;
-        }
+        bool? IItemSelected.Selected { get => Selected; set => Selected = value; }
+        bool IItemSelected.IsExported { get => IsExported; set => IsExported = value; }
         #endregion
 
         #region [Properties]
@@ -180,17 +168,27 @@ namespace MHLSourceScannerLib
             get => viewModel;
         }
 
+        public bool IsExported
+        {
+            get => viewModel.IsExported;
+            set
+            {
+                ViewModel.IsExported = value;
+                ViewModel.SetParentExported(Parent, value);
+            }
+        }
+
         public virtual bool? Selected
         {
             get
             {
-                return viewModel.IsSelected;
+                return ViewModel.IsSelected;
             }
 
             set
             {
-                viewModel.IsSelected = value;
-                viewModel.SetParentSelected(Parent, value);
+                ViewModel.IsSelected = value;
+                ViewModel.SetParentSelected(Parent, value);
             }
         }
         #endregion
@@ -200,7 +198,16 @@ namespace MHLSourceScannerLib
         {
             base.InitSourceItems();
             viewModel = new T2();
-            viewModel.SetSelecetdFromParent(Parent);
+            ViewModel.SetSelecetdFromParent(Parent);
+            ViewModel.SetExportedFromParent(Parent);
+        }
+
+        public override async Task ExportItemAsync(IExport exporter)
+        {
+            await base.ExportItemAsync(exporter).ContinueWith((t) =>
+            {
+                IsExported = t.IsCompleted;
+            });
         }
         #endregion
     }

@@ -1,22 +1,20 @@
 ﻿using MHLCommands;
 using MHLCommon.MHLBook;
+using MHLCommon.MHLDiskItems;
 using MHLCommon.MHLScanner;
 using MHLCommon.ViewModels;
 using MHLResources;
+using MHLSourceOnDisk;
 using MHLSourceScannerLib;
+using MHLSourceScannerModelLib;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media.Imaging;
-using System.Threading.Tasks;
-using MHLSourceOnDisk;
-using MHLCommon;
-using MHLSourceScannerModelLib;
-using MHLCommon.MHLDiskItems;
-using System.Linq;
 
 namespace MHLUIElements
 {
@@ -138,10 +136,10 @@ namespace MHLUIElements
                 TreeViewItem? tvi = arg.Source as TreeViewItem;
                 if (tvi?.Header is ITreeItemCollection treeItem)
                 {
-                   if(!treeItem.ChildsLoaded)
-                     treeItem.ClearCollection();
+                    if (!treeItem.ChildsLoaded)
+                        treeItem.ClearCollection();
 
-                   await treeItem.LoadChildsAsync();
+                    await treeItem.LoadChildsAsync();
                 }
             }
         }
@@ -170,70 +168,40 @@ namespace MHLUIElements
             }
         }
 
-        public async Task ExportSelectedItemsAsync(ObservableCollection<ITreeItem> collection, Export2Dir exporter)
+        public async Task ExportSelectedItemsAsync(ObservableCollection<ITreeItem> collection, IExport exporter)
         {
             await Parallel.ForEachAsync<ITreeItem>(collection, async (item, cancelToken) =>
             {
-                string name;
-                bool? continueExport;
-                continueExport = CheckItem4Export(item);
-                if(continueExport ?? true)
+                bool? continueExport = CheckItem4Export(item);
+
+                if (continueExport ?? true)
                 {
-                    name = item.Name;
                     if (item is TreeDiskItem diskItem)
                     {
                         if (continueExport ?? false)
                         {
-                            await ExportSelectedDiskItemAsync(diskItem.Source, exporter);
+                            await diskItem.ExportItemAsync(exporter);
                         }
                         else
                         {
                             await ExportSelectedItemsAsync(diskItem.SourceItems, exporter);
                         }
                     }
-                }              
+                }
             });
         }
 
         private static bool? CheckItem4Export(ITreeItem item)
         {
-            bool? result;
-
-            if (item is TreeViewZip zip)
+            bool? result = item switch
             {
-                result = zip.Selected;
-            }
-            else if (item is TreeViewVirtualGroup vg)
-            {
-                result = vg.Selected;
-            }
-            else if (item is TreeViewFB2 fb2)
-            {
-                result = (fb2.Selected ?? false);
-            }
-            else if (item is TreeViewDirectory dir)
-            {
-                result = (dir.ChildsLoaded && dir.SourceItems.Count > 0 ? null : false);
-            }
-            else
-            {
-                result = false;
-            }
-
+                TreeViewZip zip => zip.Selected,
+                TreeViewVirtualGroup vg => vg.Selected,
+                TreeViewFB2 fb2 => fb2.Selected ?? false,
+                TreeViewDirectory dir => dir.ChildsLoaded && dir.SourceItems.Count > 0 ? null : false,
+                _ => false,
+            };
             return result;
-        }
-
-        private static void ExportSelectedDiskItem(IDiskItem? diskItem, Export2Dir exporter)
-        {
-            if (diskItem != null)
-            {
-                diskItem.ExportBooks(exporter);
-            }
-        }
-
-        private static async Task ExportSelectedDiskItemAsync(IDiskItem? diskItem, Export2Dir exporter)
-        {
-           await Task.Run(() => ExportSelectedDiskItem(diskItem, exporter));
         }
         #endregion
     }

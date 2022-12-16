@@ -83,6 +83,16 @@ namespace MHLResources {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap check_12x12 {
+            get {
+                object obj = ResourceManager.GetObject("check_12x12", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap check_24x24 {
             get {
                 object obj = ResourceManager.GetObject("check_24x24", resourceCulture);

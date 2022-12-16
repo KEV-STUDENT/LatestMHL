@@ -1,6 +1,7 @@
 ﻿using MHLCommon.MHLDiskItems;
 using MHLCommon.MHLScanner;
 using MHLSourceOnDisk;
+using System.Windows.Documents;
 
 namespace MHLSourceScannerModelLib
 {
@@ -8,14 +9,10 @@ namespace MHLSourceScannerModelLib
     {
         protected IShower? shower;
 
-        private readonly object sourceLock = new object();
-
         #region [Properties]
         public string Path2Item => Source?.Path2Item ?? String.Empty;
         string ITreeDiskItem.Path2Item => Path2Item;
-        public IShower? Shower { get => shower; set => shower = value; }
-
-        public bool TestMode { get; set; }
+        public IShower? Shower { get => shower; set => shower = value; }      
         #endregion
 
         #region [Constructors]
@@ -47,7 +44,7 @@ namespace MHLSourceScannerModelLib
         #endregion
 
 
-        #region [ITreeDiskItem implementation]
+        #region [ITreeDiskItem implementation]       
         void ITreeDiskItem.AddDiskItem(IDiskItem diskItemChild)
         {
             AddDiskItem(diskItemChild);
@@ -56,6 +53,10 @@ namespace MHLSourceScannerModelLib
         ITreeItem ITreeDiskItem.CreateTreeViewItem(IDiskItem diskItemChild)
         {
             return CreateTreeViewItem(diskItemChild);
+        }
+        async Task ITreeDiskItem.ExportItemAsync(IExport exporter)
+        {
+            await ExportItemAsync(exporter);
         }
         #endregion
 
@@ -94,6 +95,12 @@ namespace MHLSourceScannerModelLib
                 return base.Insert2SourceLock(item);
             else
                 return shower.Insert2Source(item, this);
+        }
+
+        public virtual async Task ExportItemAsync(IExport exporter)
+        {
+            if (Source != null)
+                await Source.ExportBooksAsync(exporter);
         }
         #endregion
     }

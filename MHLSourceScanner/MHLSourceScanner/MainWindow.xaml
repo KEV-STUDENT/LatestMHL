@@ -22,7 +22,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1"  IsEnabled="{Binding ViewModel.NotBusy, ElementName=Scanner}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="29"/>
                 <RowDefinition Height="29"/>
@@ -50,7 +50,8 @@
         </Grid>
 
         <pickers:MHLUIPicker x:Name="SourceDirectoryPicker" Grid.Row="0" Grid.Column="0" Margin="0,5,0,0" 
-                              Command="{Binding ViewModel.ChangeSourceDirCommand, ElementName=Scanner}"/>
+                              Command="{Binding ViewModel.ChangeSourceDirCommand, ElementName=Scanner}"
+                              IsEnabled="{Binding ViewModel.NotBusy, ElementName=Scanner}"/>
         <MHLUIElements:SourceTree x:Name="SourceDirectoryTree" Grid.Row="2" Grid.Column="3" Margin="5,5,5,5" />
         <DockPanel x:Name="CoverSection" Grid.Row="3" Grid.Column="0" Margin="5,5,5,5">
             <Image Source="{Binding ViewModel.Cover, ElementName=SourceDirectoryTree}" Width="100"/>
@@ -65,9 +66,10 @@
         <DockPanel x:Name="ButtonSection" Grid.Row="4" HorizontalAlignment="Right">
             <buttons:MHLButtonRun x:Name="BtRun" Margin="0,0,5,5"                                  
                                   IsEnabled="{Binding ViewModel.NotBusy, ElementName=Scanner}"
-                                   Command="{Binding ViewModel.RunCommandAsync, ElementName=Scanner}"/>
+                                  Command="{Binding ViewModel.RunCommandAsync, ElementName=Scanner}"/>
             <buttons:MHLButtonClose x:Name="BtClose" Margin="0,0,5,5"                                  
-                                   Command="{Binding ViewModel.CloseCommand, ElementName=Scanner}"/>
+                                  IsEnabled="{Binding ViewModel.NotBusy, ElementName=Scanner}"
+                                  Command="{Binding ViewModel.CloseCommand, ElementName=Scanner}"/>
 
         </DockPanel>
     </Grid>
