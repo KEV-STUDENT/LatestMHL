@@ -7,11 +7,11 @@ namespace MHLUIElements
     public class ViewModel4BookDir : ViewModel
     {
         #region [Fields]
-        private ObservableCollection<PathRow> source;
+        private ObservableCollection<PathRowVM> source;
         #endregion
 
         #region [Properies]
-        public ObservableCollection<PathRow> Source
+        public ObservableCollection<PathRowVM> Source
         {
             get => source;
             set => source = value;
@@ -22,8 +22,8 @@ namespace MHLUIElements
         public ViewModel4BookDir()
         {
 
-            source = new ObservableCollection<PathRow>();
-            PathRow row = new PathRow();
+            source = new ObservableCollection<PathRowVM>();
+            PathRowVM row = new PathRowVM();
             row.ViewModel.IsSelected = true;
             source.Add(row);
         }

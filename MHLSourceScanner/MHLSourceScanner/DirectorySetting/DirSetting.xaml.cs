@@ -47,20 +47,20 @@ namespace MHLSourceScanner.DirectorySettings
                var str = section.RowItems[0].StructureJson;
                try
                {
-                    PathRow row = JsonSerializer.Deserialize<PathRow>(str);
+                    PathRowVM? row = JsonSerializer.Deserialize<PathRowVM>(str);
                     DirectoryTree.ViewModel.Source.Clear();
                     DirectoryTree.ViewModel.Source.Add(row);
 
-                    while(row.SubRows.Count > 0)
+                    while((row?.SubRows?.Count ?? 0) > 0)
                     {
-                        foreach(PathRow subRow in row.SubRows) 
+                        foreach(PathRowVM subRow in row.SubRows) 
                         {
                             subRow.Parent = row;
                         }
-                        row = row.SubRows[0];
+                        row = row.SubRows[0] as PathRowVM;
                     }
-
-                    row.ViewModel.IsSelected = true;
+                    if(row != null)
+                        row.ViewModel.IsSelected = true;
                 }
                 catch (Exception e)
                 { 
@@ -69,9 +69,9 @@ namespace MHLSourceScanner.DirectorySettings
         }
         private void SaveData2Json()
         {
-            PathRow? row = DirectoryTree.ViewModel.Source[0] as PathRow;
+            PathRowVM? row = DirectoryTree.ViewModel.Source[0] as PathRowVM;
 
-            string jsonString = JsonSerializer.Serialize<PathRow?>(row);
+            string jsonString = JsonSerializer.Serialize<PathRowVM?>(row);
 
 
             Configuration cfg = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);

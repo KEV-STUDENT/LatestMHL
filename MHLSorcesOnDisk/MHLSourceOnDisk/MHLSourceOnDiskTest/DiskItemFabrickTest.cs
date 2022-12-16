@@ -24,7 +24,7 @@ namespace MHLSourceOnDiskTest
         public void GetDiskItem_IDiskItemDirectory(string pathDir)
         {
             IDiskItem item = DiskItemFabrick.GetDiskItem(pathDir);
-            Assert.IsInstanceOfType(item, typeof(IDiskItemDirectory));
+            Assert.IsInstanceOfType(item, typeof(IDiskCollection));
         }
 
         [TestMethod]
@@ -77,9 +77,8 @@ namespace MHLSourceOnDiskTest
         [DataRow(@"F:\1\test\fb2-495000-500999.zip", 0)]
         public void GetDiskItem_DiskItemFileFB2_ZIP(string pathZip, int entryIndex)
         {
-            DiskItemFileZip? zip = DiskItemFabrick.GetDiskItem(pathZip) as DiskItemFileZip;
             IDiskItem? childItem = null;
-            if(zip != null)
+            if(DiskItemFabrick.GetDiskItem(pathZip) is DiskItemFileZip zip)
             using (ZipArchive zipArchive = ZipFile.OpenRead(zip.Path2Item))
             {
                 childItem = DiskItemFabrick.GetDiskItem(zip, zipArchive.Entries[entryIndex]);
@@ -97,7 +96,8 @@ namespace MHLSourceOnDiskTest
         }
         
         [TestMethod]
-        [DataRow(@"E:\librus_MyHomeLib\lib.rus.ec\fb2-060424-074391.zip", "60481.fb2")]       
+        [DataRow(@"E:\librus_MyHomeLib\lib.rus.ec\fb2-060424-074391.zip", "60481.fb2")]
+        [DataRow(@"F:\1\test\fb2-495000-500999.zip", "498446.fb2")]
         public void GetDiskItem_DiskItemFB2_name_ZIP(string path2Zip, string nameFB2)
         {
 
@@ -127,8 +127,7 @@ namespace MHLSourceOnDiskTest
             IDiskItem item = DiskItemFabrick.GetDiskItem(pathFile);
             if (item is IDiskCollection diskCollection)
             {
-                IEnumerable<IDiskItem>? books = null;
-                books = diskCollection.GetChilds();
+                IEnumerable<IDiskItem>? books = diskCollection.GetChilds();
                 res = DiskItemFabrick.ExportBooks(books, exporter);
             }
             else

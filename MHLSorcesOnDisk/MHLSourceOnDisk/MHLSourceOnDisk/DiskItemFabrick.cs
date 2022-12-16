@@ -111,6 +111,8 @@ namespace MHLSourceOnDisk
             FileType type = FileType.Unknown;
             Exception? exp = null;
             DiskItemFileFB2? fb2 = null;
+            bool nextTry;
+            int ns;
 
             try
             {
@@ -122,11 +124,23 @@ namespace MHLSourceOnDisk
                     {
                         fb2 = new DiskItemFileFB2(item, zipArchiveEntry.FullName);
                         {
-                            if (string.IsNullOrEmpty(((IBook)fb2).Title))
+                            do
                             {
-                                fb2 = null;
-                                type = FileType.Error;
-                            }
+                                System.Diagnostics.Debug.WriteLine(((IBook)fb2).Title);
+                                nextTry = string.IsNullOrEmpty(((IBook)fb2).Title);
+                                if (nextTry)
+                                {
+                                    ns = fb2.CurrentNameSpace;
+                                    fb2.CurrentNameSpace += 1;                                    
+                                    if (ns == fb2.CurrentNameSpace)
+                                    {
+                                        nextTry = false;
+                                        fb2 = null;
+                                        type = FileType.Error;
+                                    }
+                                }
+
+                            } while (nextTry);
                         }
                     }
                 }

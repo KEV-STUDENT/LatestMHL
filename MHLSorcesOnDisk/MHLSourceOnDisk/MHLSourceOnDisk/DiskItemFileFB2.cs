@@ -22,11 +22,12 @@ namespace MHLSourceOnDisk
 
         private const string BODY_START = "<body";
         private const string BODY_END = "</body>";
-
         private const string BINARY = "binary";
+        private const string NAMESPACE = "fb";
 
-        private bool _xDocLoaded = false;
-
+        private string[] NAMESPACEURL = new string[2] {
+            "http://www.gribuser.ru/xml/fictionbook/2.0",
+            "http://www.gribuser.ru/xml/fictionbook/2.1"};
         #endregion
 
         #region [Fields]
@@ -39,9 +40,30 @@ namespace MHLSourceOnDisk
         private List<IBookAttribute<XmlNode>>? _genres = null;
         private List<IBookAttribute<String>>? _keywords = null;
         private List<IBookAttribute<XmlNode>>? _sequenceAndNumber = null;
+        private bool _xDocLoaded = false;
+        private byte _nameSpaceUrl = 0;
         #endregion
 
         #region [Properies]
+
+        public byte CurrentNameSpace
+        {
+            get => _nameSpaceUrl;
+            set
+            {
+                System.Diagnostics.Debug.WriteLine("Current name space:" + value);
+                if (value < NAMESPACE.Length)
+                {
+                    if (_namespaceManager != null)
+                    {
+                        ClearProperties();
+                        _namespaceManager.RemoveNamespace(NAMESPACE, NAMESPACEURL[_nameSpaceUrl]);
+                        _namespaceManager.AddNamespace(NAMESPACE, NAMESPACEURL[value]);
+                    }
+                    _nameSpaceUrl = value;
+                }
+            }
+        }
         private XmlNamespaceManager NamespaceManager
         {
             get
@@ -49,7 +71,7 @@ namespace MHLSourceOnDisk
                 if (_namespaceManager == null)
                 {
                     _namespaceManager = new XmlNamespaceManager(new NameTable());
-                    _namespaceManager.AddNamespace("fb", "http://www.gribuser.ru/xml/fictionbook/2.0");
+                    _namespaceManager.AddNamespace(NAMESPACE, NAMESPACEURL[_nameSpaceUrl]);
                 }
                 return _namespaceManager;
 
@@ -192,7 +214,7 @@ namespace MHLSourceOnDisk
                 else
                     File.Copy(this.Path2Item, newFile, exportOptions.OverWriteFiles);
 
-                result = File.Exists(newFile);                
+                result = File.Exists(newFile);
             }
             catch (Exception e)
             {
@@ -203,6 +225,16 @@ namespace MHLSourceOnDisk
         #endregion
 
         #region [Methods]
+        private void ClearProperties()
+        {
+            _title = null;
+            /*_annotation = null;
+            _cover = null;
+            _authors = null;
+            _genres = null;
+            _keywords = null;
+            _sequenceAndNumber = null;*/
+        }
         private XmlDocument? GetXmlDocument()
         {
             XmlDocument? xDoc = new();

@@ -29,7 +29,7 @@
     </Style>
 
     <HierarchicalDataTemplate x:Name="PathRow"
-                              DataType = "{x:Type ScannerLib:PathRow}"
+                              DataType = "{x:Type ScannerLib:PathRowVM}"
                               ItemsSource="{Binding Path=SubRows}">
         <Border BorderBrush="Gainsboro" BorderThickness="1">
             <StackPanel Orientation="Vertical"  >

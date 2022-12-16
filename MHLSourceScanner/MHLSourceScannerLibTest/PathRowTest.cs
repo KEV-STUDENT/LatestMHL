@@ -16,7 +16,7 @@ namespace MHLSourceScannerModelLibTest
         public void PathRowTest_ITreeItem()
         {
             PathRow pathRow = new PathRow();
-            Assert.IsInstanceOfType(pathRow, typeof(ITreeItem));
+            Assert.IsInstanceOfType(pathRow, typeof(IPathRow));
         }
         
         [TestMethod]
@@ -24,8 +24,8 @@ namespace MHLSourceScannerModelLibTest
         public void PathRowTest_I_IPathElement(int i)
         {
             PathRow pathRow = new PathRow();
-            System.Diagnostics.Debug.WriteLine(pathRow[i].Name);
-            Assert.IsInstanceOfType(pathRow[i], typeof(IPathElement));
+            //System.Diagnostics.Debug.WriteLine(pathRow[i].Name);
+            Assert.IsInstanceOfType(pathRow[i], typeof(PathRowElement));
         }
 
         [TestMethod]

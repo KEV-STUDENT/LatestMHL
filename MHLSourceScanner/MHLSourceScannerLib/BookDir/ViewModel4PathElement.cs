@@ -16,11 +16,11 @@ namespace MHLSourceScannerLib.BookDir
     public class ViewModel4PathElement : ViewModel
     {
         #region [Fields]
-        private IPathElement<ElementType, ViewModel4PathElement> pathElement;
+        private PathElementVM pathElement;
         #endregion
 
         #region [Constructors]
-        public ViewModel4PathElement(PathElement pathElement)
+        public ViewModel4PathElement(PathElementVM pathElement)
         {
             this.pathElement = pathElement;
             TypeChangedCommand = new RelayCommand(ExecuteTypeChangedCommand, CanExecuteTypeChangedCommand);
@@ -29,8 +29,8 @@ namespace MHLSourceScannerLib.BookDir
 
         #region [Properties]
         public ICommand TypeChangedCommand { get; set; }
-        public ObservableCollection<ElementType> Source => pathElement.Source;
-        public ElementType SelectedItem
+        public ObservableCollection<ElementTypeUI> Source => pathElement.Source;
+        public ElementTypeUI SelectedItem
         {
             get => pathElement.SelectedItem;
             set

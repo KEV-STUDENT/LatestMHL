@@ -8,12 +8,11 @@ namespace MHLSourceScannerModelLibTest
     [TestClass]
     public class DiskItemVirtualGroupTest
     {
-        protected IDiskItem? GetDiskItemVirtualGroup (string path)
+        protected static IDiskItem? GetDiskItemVirtualGroup (string path)
         {
-            DiskItemFileZip? zip = DiskItemFabrick.GetDiskItem(path) as DiskItemFileZip;
             IDiskItem? item = null;
 
-            if (zip != null)
+            if (DiskItemFabrick.GetDiskItem(path) is DiskItemFileZip zip)
             {
                 using ZipArchive zipArchive = ZipFile.OpenRead(zip.Path2Item);
                 {
@@ -36,8 +35,7 @@ namespace MHLSourceScannerModelLibTest
             IDiskItem? item = GetDiskItemVirtualGroup(pathZip);
             if (item == null)
             {
-                IVirtualGroup? virtualGroup = item as IVirtualGroup;
-                if (virtualGroup != null)
+                if (item is IVirtualGroup virtualGroup)
                 {
                     foreach (string file in virtualGroup.ItemsNames)
                     {
@@ -52,11 +50,8 @@ namespace MHLSourceScannerModelLibTest
         [DataRow(@"F:\1\test\fb2-495000-500999.zip")]
         public void GetDiskItemFileFB2_pathZip(string pathZip)
         {
-            IDiskItem? item = GetDiskItemVirtualGroup(pathZip);
-            IVirtualGroup? virtualGroup = item as IVirtualGroup;
-
             IDiskItem? itemFB2 = null;
-            if(virtualGroup != null)
+            if(GetDiskItemVirtualGroup(pathZip) is IVirtualGroup virtualGroup)
                 itemFB2 = DiskItemFabrick.GetDiskItem(virtualGroup, virtualGroup.ItemsNames[0]);
 
             System.Diagnostics.Debug.WriteLine("----------");

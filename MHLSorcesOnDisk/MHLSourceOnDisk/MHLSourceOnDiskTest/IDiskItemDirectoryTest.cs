@@ -13,7 +13,7 @@ namespace MHLSourceOnDiskTest
         public void IDiskItemDirectory(string pathDir)
         {
             IDiskItem item = DiskItemFabrick.GetDiskItem(pathDir);
-            Assert.IsInstanceOfType(item, typeof(IDiskItemDirectory));
+            Assert.IsInstanceOfType(item, typeof(IDiskCollection));
         }
 
 
@@ -21,9 +21,8 @@ namespace MHLSourceOnDiskTest
         [DataRow(@"F:\1\test")]
         public void GetChilds_pathDir(string pathDir)
         {
-            IDiskItemDirectory? item = DiskItemFabrick.GetDiskItem(pathDir) as IDiskItemDirectory;
             int cnt = 0;
-            if (item != null)
+            if (DiskItemFabrick.GetDiskItem(pathDir) is IDiskCollection item)
                 foreach (var child in item.GetChilds())
                 {
                     cnt++;

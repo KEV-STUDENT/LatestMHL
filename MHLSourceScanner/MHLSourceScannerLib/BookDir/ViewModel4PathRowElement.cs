@@ -15,12 +15,10 @@ namespace MHLSourceScannerLib.BookDir
     public class ViewModel4PathRowElement:ViewModel
     {
         #region [Fields]
-        private PathRowElement pathRowElement;
+        private PathRowElementVM pathRowElement;
         #endregion
-
-
         #region [Constructors]
-        public ViewModel4PathRowElement(PathRowElement pathRowElement)
+        public ViewModel4PathRowElement(PathRowElementVM pathRowElement)
         {
             this.pathRowElement = pathRowElement;
             ElementChangedCommand = new RelayCommand(ExecuteElementChangedCommand, CanExecuteElementChangedCommand);
@@ -28,10 +26,10 @@ namespace MHLSourceScannerLib.BookDir
         #endregion
 
         #region [Properties]
-        public ObservableCollection<PathElement> Source => pathRowElement.Source;
-        public PathElement SelectedItem
+        public ObservableCollection<PathElementVM> Source => pathRowElement.Source;
+        public PathElementVM SelectedItem
         {
-            get => pathRowElement.SelectedItem;
+            get => (PathElementVM)pathRowElement.SelectedItem;
             set
             {
                 pathRowElement.SelectedItem = value;

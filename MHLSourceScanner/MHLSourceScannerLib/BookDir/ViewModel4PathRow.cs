@@ -8,12 +8,12 @@ namespace MHLSourceScannerLib.BookDir
     public class ViewModel4PathRow : ViewModel
     {
         #region [Fields]
-        private PathRow pathRow;
+        private PathRowVM pathRow;
         private bool isSelected;
         #endregion
 
         #region [Constructors]
-        public ViewModel4PathRow(PathRow item)
+        public ViewModel4PathRow(PathRowVM item)
         {
             pathRow = item;
             AddElementCommand = new RelayCommand(ExecuteAddElementCommand, CanExecuteAddElementCommand);
@@ -23,7 +23,7 @@ namespace MHLSourceScannerLib.BookDir
 
         #region [Properies]
         public int Count => pathRow.Count;
-        public ObservableCollection<PathRowElement> Items => pathRow.Items;
+        public ObservableCollection<PathRowElementVM> Items => pathRow.Items;
         public bool IsExpanded
         {
             get => pathRow.IsExpanded;
@@ -57,9 +57,9 @@ namespace MHLSourceScannerLib.BookDir
         {
             get
             {
-                if (pathRow is PathRow collection)
+                if (pathRow is PathRowVM collection)
                 {
-                    return collection.SubRows.Count == 0;
+                    return (collection.SubRows?.Count ?? 0) == 0;
                 }
                 return false;
             }

@@ -1,6 +1,6 @@
 ﻿using MHLSourceScannerLib.BookDir;
 using System.Windows.Controls;
-
+using MHLSourceScannerLib.BookDir;
 namespace MHLUIElements
 {
     /// <summary>
@@ -13,8 +13,8 @@ namespace MHLUIElements
 
         #region [Properties]
         public ViewModel4BookDir ViewModel { get; }
-        public PathRow? SelectedItem{
-            get => ShowDir.SelectedItem as PathRow;
+        public PathRowVM? SelectedItem{
+            get => ShowDir.SelectedItem as PathRowVM;
         }
         #endregion
 

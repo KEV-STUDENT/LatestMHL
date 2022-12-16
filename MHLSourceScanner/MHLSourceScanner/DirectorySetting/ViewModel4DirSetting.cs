@@ -22,9 +22,9 @@ namespace MHLSourceScanner.DirectorySettings
         private void ExecuteAddRowCommand(object? obj)
         {
             if(obj is DirSetting form) {
-                if(form.DirectoryTree.SelectedItem is PathRow selectedRow)
+                if(form.DirectoryTree.SelectedItem is PathRowVM selectedRow)
                 {
-                    PathRow newRow = new PathRow(selectedRow);
+                    PathRowVM newRow = new PathRowVM(selectedRow);
                     newRow.IsFileName = selectedRow.IsFileName;
                     selectedRow.SubRows.Add(newRow);
                     selectedRow.ViewModel.IsFileName = false;
@@ -38,9 +38,9 @@ namespace MHLSourceScanner.DirectorySettings
         {
             if (obj is DirSetting form)
             {
-                if (form.DirectoryTree.SelectedItem is PathRow selectedRow)
+                if (form.DirectoryTree.SelectedItem is PathRowVM selectedRow)
                 {
-                   return selectedRow.SubRows.Count == 0;
+                   return (selectedRow.SubRows?.Count ?? 0) == 0;
                 }
             }
             return false;
@@ -50,9 +50,9 @@ namespace MHLSourceScanner.DirectorySettings
         {
             if (obj is DirSetting form)
             {
-                if (form.DirectoryTree.SelectedItem is PathRow selectedRow)
+                if (form.DirectoryTree.SelectedItem is PathRowVM selectedRow)
                 {
-                    if(selectedRow.Parent is PathRow row)
+                    if(selectedRow.Parent is PathRowVM row)
                     {
                         row.SubRows.Remove(selectedRow);
                         row.ViewModel.IsFileName = selectedRow.IsFileName;
@@ -66,7 +66,7 @@ namespace MHLSourceScanner.DirectorySettings
         {
             if (obj is DirSetting form)
             {
-                return form.DirectoryTree.SelectedItem is PathRow;
+                return form.DirectoryTree.SelectedItem is PathRowVM;
             }
             return false;
         }

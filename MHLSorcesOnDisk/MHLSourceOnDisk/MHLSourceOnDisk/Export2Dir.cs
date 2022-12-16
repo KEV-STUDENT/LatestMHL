@@ -7,35 +7,20 @@ using System.Security.Principal;
 
 namespace MHLSourceOnDisk
 {
-    public class Export2Dir : IExport
+    public class Export2Dir : ExportDiskItems
     {
-        #region [Fields]
-        private ExpOptions exportOptions;
-        #endregion
-
         #region [Constructors]      
-        public Export2Dir(ExpOptions expOptions)
-        {
-            exportOptions = expOptions;
-        }
+        public Export2Dir(ExpOptions expOptions) :base(expOptions) { }
         #endregion
 
         #region [Methods]
-        #endregion
-
-        #region [IExport implementation]
-        bool IExport.CheckDestination()
+        public override bool CheckDestination()
         {
-            if (!Directory.Exists(exportOptions.PathDestination))
+            if (!Directory.Exists(ExportOptions.PathDestination))
             {
-               Directory.CreateDirectory(exportOptions.PathDestination);
+               Directory.CreateDirectory(ExportOptions.PathDestination);
             }
-            return Directory.Exists(exportOptions.PathDestination);
-        }
-
-        bool IExport.Export(IDiskItem diskItem)
-        {
-            return diskItem.ExportItem(exportOptions);
+            return Directory.Exists(ExportOptions.PathDestination);
         }
         #endregion
     }

@@ -4,9 +4,9 @@ using System.Text.Json.Serialization;
 
 namespace MHLSourceScannerLib
 {
-    public struct ElementType
+    public struct ElementTypeUI : IElementTypeUI
     {
-        public ElementType(BookPathTypedItem typeID)
+        public ElementTypeUI(BookPathTypedItem typeID)
         {
             TypeID = typeID;
 

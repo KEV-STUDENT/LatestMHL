@@ -1,23 +1,19 @@
 ﻿using System.Collections.ObjectModel;
-using System.Text.Json.Serialization;
 
 namespace MHLCommon.MHLBookDir
 {
-    public interface IPathRow
+    public interface IPathRow<out T> where T : IPathRowElement
     {
+        bool IsFileName { get; set; }
+        IEnumerable<IPathRow<T>> SubRows {get; }
+        IEnumerable<T> Items { get; }
         public int Count { get; }
         public void InsertTo(int i);
         public void RemoveFrom(int i);
+        T this[int i] { get; }
+    }
+    public interface IPathRowUI<out T>: IPathRow<T> where T : IPathRowElement
+    {
         bool IsExpanded { get; set; }
-        bool IsFileName { get; set; }
-    }
-    public interface IPathRow<T> : IPathRow
-    {
-        T this[int i] { get; set; }
-        ObservableCollection<T> Items { get; set; }
-    }
-    public interface IPathRow<T,K>: IPathRow<T>
-    {
-        ObservableCollection<K> SubRows { get; set; }
     }
 }
