@@ -1,11 +1,11 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MHLSourceOnDisk;
-using MHLSourceScannerModelLib;
-using System.Collections.Generic;
+﻿using MHLCommon;
 using MHLCommon.MHLDiskItems;
-using MHLCommon;
+using MHLSourceOnDisk;
+using MHLSourceOnDisk.BookDir;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 using System.IO;
-using System.IO.Compression;
+using System.Text.Json;
 
 namespace MHLSourceOnDiskTest
 {
@@ -30,7 +30,7 @@ namespace MHLSourceOnDiskTest
             Assert.AreNotEqual(0, cnt);
         }
 
-      
+
         [TestMethod]
         [DataRow(@"E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip")]
         public void Count(string pathZip)
@@ -38,7 +38,7 @@ namespace MHLSourceOnDiskTest
             IDiskItem item = DiskItemFabrick.GetDiskItem(pathZip);
             IDiskCollection? diskCollection = item as IDiskCollection;
             System.Diagnostics.Debug.WriteLine(diskCollection?.Count);
-            Assert.AreNotEqual(0, diskCollection?.Count??0);
+            Assert.AreNotEqual(0, diskCollection?.Count ?? 0);
         }
 
         [TestMethod]
@@ -47,7 +47,7 @@ namespace MHLSourceOnDiskTest
         {
             IDiskCollection? zip = DiskItemFabrick.GetDiskItem(pathZip) as IDiskCollection;
             IEnumerable<IDiskItem> childs = zip.GetChilds();
-            
+
             System.Diagnostics.Debug.WriteLine(zip?.Count);
             IDiskItem? childFirst = null;
 
@@ -78,9 +78,19 @@ namespace MHLSourceOnDiskTest
         }
 
         [TestMethod]
-        [DataRow(@"E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip", @"F:\1\test\destination", true)]
-        [DataRow(@"E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip", @"F:\1\test\destination", false)]
-        public void ExportBooks(string pathZip, string pathDestination, bool createNewFlag)
+        [DataRow(@"E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip", @"F:\1\test\destination", true, "")]
+        [DataRow(@"E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip", @"F:\1\test\destination", false, "")]
+        [DataRow(@"E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip", @"F:\1\test\destination", true,
+            @"{""SubRows"":[{
+                    ""SubRows"":[{
+                        ""SubRows"":[],
+                        ""Items"":[
+                            { ""SelectedItemType"":1,""SelectedTypedItemType"":1}],""IsFileName"":true}],
+                    ""Items"":[
+                            {""SelectedItemType"":2,""SelectedTypedItemType"":0}],""IsFileName"":false}],
+                ""Items"":[
+                    { ""SelectedItemType"":1,""SelectedTypedItemType"":2}],""IsFileName"":false}")]
+        public void ExportBooks(string pathZip, string pathDestination, bool createNewFlag, string jsonStr)
         {
             IDiskItem zip = DiskItemFabrick.GetDiskItem(pathZip);
             int res = 0, init = 0;
@@ -93,11 +103,17 @@ namespace MHLSourceOnDiskTest
             {
                 if (Directory.Exists(pathDestination))
                 {
-                    init = Directory.GetFiles(pathDestination).Length;
+                    init = Directory.GetFiles(pathDestination,"*", SearchOption.AllDirectories).Length;
                 }
             }
 
-            ExpOptions expOptions = new ExpOptions(pathDestination, createNewFlag);
+            PathRowDisk? row;
+            if (string.IsNullOrEmpty(jsonStr))
+                row = null;
+            else
+                row = JsonSerializer.Deserialize<PathRowDisk>(jsonStr);
+
+            ExpOptions expOptions = new ExpOptions(pathDestination, createNewFlag, row);
             Export2Dir exporter = new Export2Dir(expOptions);
 
             if (createNewFlag)

@@ -125,8 +125,7 @@ namespace MHLSourceOnDisk
                         fb2 = new DiskItemFileFB2(item, zipArchiveEntry.FullName);
                         {
                             do
-                            {
-                                System.Diagnostics.Debug.WriteLine(((IBook)fb2).Title);
+                            {                              
                                 nextTry = string.IsNullOrEmpty(((IBook)fb2).Title);
                                 if (nextTry)
                                 {

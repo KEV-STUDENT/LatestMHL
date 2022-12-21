@@ -1,7 +1,4 @@
-﻿using MHLCommon.MHLBook;
-using System.IO.Compression;
-
-namespace MHLCommon
+﻿namespace MHLCommon
 {
     public static class MHLCommonStatic
     {
@@ -23,6 +20,22 @@ namespace MHLCommon
                 return 1;
 
             return x.CompareTo(y);
-        }        
+        }
+
+        public static string GetNewFileName(string pathDestination, string file)
+        {
+            string newFile, name, ext;
+            int i = 0;
+
+            name = Path.GetFileNameWithoutExtension(file);
+            ext = Path.GetExtension(file);
+
+            newFile = Path.Combine(pathDestination, file);
+            while (File.Exists(newFile))
+            {
+                newFile = Path.Combine(pathDestination, Path.ChangeExtension(string.Format("{0}({1})", name, ++i), ext));
+            }
+            return newFile;
+        }
     }
 }

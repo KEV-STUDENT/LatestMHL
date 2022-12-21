@@ -123,16 +123,18 @@ namespace MHLSourceOnDiskTest
         {
             bool res;
             ExpOptions expOptions = new ExpOptions(pathDestination, overWriteFile);
-            Export2Dir exporter = new Export2Dir(expOptions);
+            Export2Dir exporter;
 
             IDiskItem item = DiskItemFabrick.GetDiskItem(pathFile);
             if (item is IDiskCollection diskCollection)
             {
+                exporter = new Export2Dir(expOptions);
                 IEnumerable<IDiskItem>? books = diskCollection.GetChilds();
                 res = DiskItemFabrick.ExportBooks(books, exporter);
             }
             else
             {
+                exporter = new Export2Dir(expOptions, item);
                 res = DiskItemFabrick.ExportBooks(item, exporter);
             }
             Assert.IsTrue(res);

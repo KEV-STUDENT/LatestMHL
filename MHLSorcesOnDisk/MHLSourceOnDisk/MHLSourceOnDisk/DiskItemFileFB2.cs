@@ -1,4 +1,5 @@
 ﻿using MHLCommon;
+using MHLCommon.ExpDestinations;
 using MHLCommon.MHLBook;
 using MHLCommon.MHLDiskItems;
 using System.Diagnostics;
@@ -25,7 +26,7 @@ namespace MHLSourceOnDisk
         private const string BINARY = "binary";
         private const string NAMESPACE = "fb";
 
-        private string[] NAMESPACEURL = new string[2] {
+        private readonly string[] NAMESPACEURL = new string[2] {
             "http://www.gribuser.ru/xml/fictionbook/2.0",
             "http://www.gribuser.ru/xml/fictionbook/2.1"};
         #endregion
@@ -107,8 +108,7 @@ namespace MHLSourceOnDisk
         {
             get
             {
-                if (_title == null)
-                    _title = GetBookAttribute("book-title[1]");
+                _title ??= GetBookAttribute("book-title[1]");
                 return _title;
             }
         }
@@ -117,8 +117,7 @@ namespace MHLSourceOnDisk
         {
             get
             {
-                if (_authors == null)
-                    _authors = GetBookAttributes<MHLAuthor>("author");
+                _authors ??= GetBookAttributes<MHLAuthor>("author");
                 return _authors;
             }
         }
@@ -127,8 +126,7 @@ namespace MHLSourceOnDisk
         {
             get
             {
-                if (_genres == null)
-                    _genres = GetBookAttributes<MHLGenre>("genre");
+                _genres ??= GetBookAttributes<MHLGenre>("genre");
                 return _genres;
             }
 
@@ -138,8 +136,7 @@ namespace MHLSourceOnDisk
         {
             get
             {
-                if (_keywords == null)
-                    _keywords = GetBookAttributesFromList<MHLKeyword>(GetBookAttribute("keywords[1]"));
+                _keywords ??= GetBookAttributesFromList<MHLKeyword>(GetBookAttribute("keywords[1]"));
 
                 return _keywords;
             }
@@ -149,8 +146,7 @@ namespace MHLSourceOnDisk
         {
             get
             {
-                if (_annotation == null)
-                    _annotation = GetBookAttribute("annotation[1]");
+                _annotation ??= GetBookAttribute("annotation[1]");
                 return _annotation;
             }
         }
@@ -175,50 +171,40 @@ namespace MHLSourceOnDisk
         {
             get
             {
-                if (_sequenceAndNumber == null)
-                {
-                    _sequenceAndNumber = GetBookAttributes<MHLSequenceNum>("sequence");
-                }
+                _sequenceAndNumber ??= GetBookAttributes<MHLSequenceNum>("sequence");
                 return _sequenceAndNumber;
             }
         }
         #endregion
 
         #region [DiskItem Implementation]
-        public override bool ExportItem(ExpOptions exportOptions)
+        public override bool ExportItem(IExportDestination destination)
         {
             bool result = true;
             IFile file = this;
-            string entryName, newFile;
-
-            entryName = ((IDiskItem)this).Name;
-
-            if (exportOptions.OverWriteFiles)
-                newFile = Path.Combine(exportOptions.PathDestination, entryName);
-            else
-                newFile = MHLSourceOnDiskStatic.GetNewFileName(exportOptions.PathDestination, entryName);
-
-            try
+            string newFile;
+            if (destination is ExpDestinstions4Dir exp)
             {
+                newFile = exp.DestinationFullName;
+                System.Diagnostics.Debug.WriteLine(exp.DestinationFileName);
+                try
+                {
 
-                if (file.Parent is DiskItemFileZip zip)
-                    using (ZipArchive zipArchive = ZipFile.OpenRead(zip.Path2Item))
-                    {
-                        ZipArchiveEntry? fileInZip = zipArchive.GetEntry(entryName);
-
-                        if (fileInZip != null)
+                    if (file.Parent is DiskItemFileZip zip)
+                        using (ZipArchive zipArchive = ZipFile.OpenRead(zip.Path2Item))
                         {
-                            fileInZip.ExtractToFile(newFile, exportOptions.OverWriteFiles);
+                            ZipArchiveEntry? fileInZip = zipArchive.GetEntry(this.Name);
+                            fileInZip?.ExtractToFile(newFile, exp.OverWriteFiles);
                         }
-                    }
-                else
-                    File.Copy(this.Path2Item, newFile, exportOptions.OverWriteFiles);
+                    else
+                        File.Copy(this.Path2Item, newFile, exp.OverWriteFiles);
 
-                result = File.Exists(newFile);
-            }
-            catch (Exception e)
-            {
-                result = false;
+                    result = File.Exists(newFile);
+                }
+                catch (Exception)
+                {
+                    result = false;
+                }
             }
             return result;
         }
@@ -228,12 +214,6 @@ namespace MHLSourceOnDisk
         private void ClearProperties()
         {
             _title = null;
-            /*_annotation = null;
-            _cover = null;
-            _authors = null;
-            _genres = null;
-            _keywords = null;
-            _sequenceAndNumber = null;*/
         }
         private XmlDocument? GetXmlDocument()
         {
@@ -243,46 +223,38 @@ namespace MHLSourceOnDisk
 
             if (file?.Parent is DiskItemFileZip)
             {
-                using (ZipArchive archive = ZipFile.Open(item.Path2Item, ZipArchiveMode.Read))
-                {
-                    ZipArchiveEntry? entry = archive.GetEntry(item.Name);
-                    using (Stream? st = entry?.Open())
-                    {
-                        xDoc = LoadFromStream(st);
-                    }
-                }
+                using ZipArchive archive = ZipFile.Open(item.Path2Item, ZipArchiveMode.Read);
+                ZipArchiveEntry? entry = archive.GetEntry(item.Name);
+                using Stream? st = entry?.Open();
+                xDoc = LoadFromStream(st);
             }
             else
             {
                 if (!string.IsNullOrEmpty(item.Path2Item))
                 {
-                    using (Stream st = File.OpenRead(item.Path2Item))
-                    {
-                        xDoc = LoadFromStream(st);
-                    }
+                    using Stream st = File.OpenRead(item.Path2Item);
+                    xDoc = LoadFromStream(st);
                 }
             }
             return xDoc;
         }
 
-        private XmlDocument? LoadFromStream(Stream? st)
+        private static XmlDocument? LoadFromStream(Stream? st)
         {
             XmlDocument? xDoc = null;
             string xml;
             if (st != null)
             {
-                using (var ms = new MemoryStream())
-                {
-                    Stream.Synchronized(st).CopyTo(ms);
-                    xml = GetStringFromBytes(ms.ToArray());
-                    xDoc = new XmlDocument();
-                    xDoc.LoadXml(xml);
-                }
+                using var ms = new MemoryStream();
+                Stream.Synchronized(st).CopyTo(ms);
+                xml = GetStringFromBytes(ms.ToArray());
+                xDoc = new XmlDocument();
+                xDoc.LoadXml(xml);
             }
             return xDoc;
         }
 
-        private string GetStringFromBytes(byte[] byte4book)
+        private static string GetStringFromBytes(byte[] byte4book)
         {
             int markerLength = DiskItemFabrick.CheckFileMarker(byte4book);
             if (markerLength > 0)
@@ -386,7 +358,7 @@ namespace MHLSourceOnDisk
             return title ?? string.Empty;
         }
 
-        private List<IBookAttribute<string>> GetBookAttributesFromList<T>(string attributeList) where T : MHLBookAttribute<string>, new()
+        private static List<IBookAttribute<string>> GetBookAttributesFromList<T>(string attributeList) where T : MHLBookAttribute<string>, new()
         {
             List<IBookAttribute<string>> res = new List<IBookAttribute<string>>();
 

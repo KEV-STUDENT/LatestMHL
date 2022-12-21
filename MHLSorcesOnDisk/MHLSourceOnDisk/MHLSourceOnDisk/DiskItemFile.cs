@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using MHLCommon;
+using MHLCommon.ExpDestinations;
 using MHLCommon.MHLDiskItems;
 
 namespace MHLSourceOnDisk
@@ -35,7 +36,7 @@ namespace MHLSourceOnDisk
         #endregion
 
         #region [DiskItem Implementation]
-        public override bool ExportItem(ExpOptions exportOptions)
+        public override bool ExportItem(IExportDestination destination)
         {
             throw new NotImplementedException();
         }

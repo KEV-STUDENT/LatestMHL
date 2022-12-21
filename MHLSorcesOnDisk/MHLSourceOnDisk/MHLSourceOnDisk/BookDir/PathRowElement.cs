@@ -22,6 +22,17 @@ namespace MHLSourceOnDisk.BookDir
             get => selectedItem;
             set => selectedItem = value;
         }
+
+        public BookPathItem SelectedItemType
+        {
+            get => SelectedItem.ElementType;
+            set { SelectedItem = new PathElement(SelectedItemType); }
+        }
+        public BookPathTypedItem SelectedTypedItemType
+        {
+            get => SelectedItem.ElementItemType;
+            set => SelectedItem.ElementItemType = value;
+        }
         #endregion
 
         #region[IPathRowElement implementation]

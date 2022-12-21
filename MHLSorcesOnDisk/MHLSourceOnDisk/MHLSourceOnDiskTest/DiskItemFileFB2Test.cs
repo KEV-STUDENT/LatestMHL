@@ -2,10 +2,11 @@
 using MHLCommon.MHLBook;
 using MHLCommon.MHLDiskItems;
 using MHLSourceOnDisk;
+using MHLSourceOnDisk.BookDir;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
+using System.Text.Json;
 
 namespace MHLSourceOnDiskTest
 {
@@ -84,24 +85,29 @@ namespace MHLSourceOnDiskTest
         }
 
         [TestMethod]
-        [DataRow(@"F:\1\test\fb2-495000-500999.zip", "495000.fb2", @"F:\1\test\destination\FB2Test", true)]
-        [DataRow(@"F:\1\test\fb2-495000-500999.zip", "495000.fb2", @"F:\1\test\destination\FB2Test", false)]
-        [DataRow(@"F:\1\test\426096.fb2", "", @"F:\1\test\destination", true)]
-        [DataRow(@"F:\1\test\426096.fb2", "", @"F:\1\test\destination", false)]
-        public void ExportBooks(string pathFile, string fb2Name, string pathDestination, bool overWriteFile)
+        [DataRow(@"F:\1\test\fb2-495000-500999.zip", "495000.fb2", @"F:\1\test\destination\FB2Test", true, "")]
+        [DataRow(@"F:\1\test\fb2-495000-500999.zip", "495000.fb2", @"F:\1\test\destination\FB2Test", false, "")]
+        [DataRow(@"F:\1\test\426096.fb2", "", @"F:\1\test\destination", true, "")]
+        [DataRow(@"F:\1\test\426096.fb2", "", @"F:\1\test\destination", false, "")]
+        [DataRow(@"F:\1\test\426096.fb2", "", @"F:\1\test\destination", false,
+            @"{""SubRows"":[{
+                    ""SubRows"":[{
+                        ""SubRows"":[],
+                        ""Items"":[
+                            { ""SelectedItemType"":1,""SelectedTypedItemType"":1}],""IsFileName"":true}],
+                    ""Items"":[
+                            {""SelectedItemType"":2,""SelectedTypedItemType"":0},
+                            { ""SelectedItemType"":3,""SelectedTypedItemType"":0}],""IsFileName"":false}],
+                ""Items"":[
+                    {""SelectedItemType"":2,""SelectedTypedItemType"":0},
+                    { ""SelectedItemType"":3,""SelectedTypedItemType"":0},
+                    { ""SelectedItemType"":1,""SelectedTypedItemType"":3}],""IsFileName"":false}")]
+        public void ExportBooks(string pathFile, string fb2Name, string pathDestination, bool overWriteFile, string jsonStr)
         {
             bool result = false;
             int res = 0, init = 0;
             DiskItemFileFB2? itemFB2;
 
-            if (!overWriteFile)
-            {
-                if (Directory.Exists(pathDestination))
-                {
-                    init = Directory.GetFiles(pathDestination).Length;
-                }
-                init += 1;
-            }
 
             if (string.IsNullOrEmpty(fb2Name))
                 itemFB2 = DiskItemFabrick.GetDiskItem(pathFile) as DiskItemFileFB2;
@@ -110,8 +116,25 @@ namespace MHLSourceOnDiskTest
 
             if (itemFB2 != null)
             {
-                ExpOptions expOptions = new ExpOptions(pathDestination, overWriteFile);
-                Export2Dir exporter = new Export2Dir(expOptions);
+                PathRowDisk? row;
+                if (string.IsNullOrEmpty(jsonStr))
+                    row = null;
+                else
+                    row = JsonSerializer.Deserialize<PathRowDisk>(jsonStr);
+
+                ExpOptions expOptions = new ExpOptions(pathDestination, overWriteFile, row);
+                Export2Dir exporter = new Export2Dir(expOptions, itemFB2);
+                pathDestination = exporter.GetDestinationDir(itemFB2);
+
+                if (!overWriteFile)
+                {
+                    if (Directory.Exists(pathDestination))
+                    {
+                        init = Directory.GetFiles(pathDestination).Length;
+                    }
+                    init += 1;
+                }
+
                 result = itemFB2.ExportBooks(exporter);
             }
 
@@ -125,6 +148,6 @@ namespace MHLSourceOnDiskTest
                 }
                 Assert.AreEqual(init, res);
             }
-        }       
+        }
     }
 }

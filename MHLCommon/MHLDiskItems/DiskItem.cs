@@ -1,10 +1,14 @@
-﻿namespace MHLCommon.MHLDiskItems
+﻿using MHLCommon.ExpDestinations;
+using MHLCommon.MHLBook;
+
+namespace MHLCommon.MHLDiskItems
 {
     public abstract class DiskItem : IDiskItem
     {
         #region [Fields]
         private readonly string path2Item;
         private readonly string name;
+        private IExport? exporter = null;
         #endregion
 
         #region [Constructors]
@@ -16,13 +20,18 @@
         #endregion
 
         #region [Methods]
-        public abstract bool ExportItem(ExpOptions exportOptions);
+        public abstract bool ExportItem(IExportDestination destination);
 
         public bool ExportBooks<T>(T exporter) where T : class, IExport
         {
-            bool result = false;
-            System.Diagnostics.Debug.WriteLine("Export Books");  
-            if (exporter.CheckDestination())
+            this.exporter = exporter;
+
+            bool result;
+            System.Diagnostics.Debug.WriteLine("Export Books");
+
+            result = exporter.CheckDestination();
+
+            if (result)
             {
                 result = exporter.Export(this);
             }
@@ -36,7 +45,11 @@
         }
         #endregion
 
-            #region [IDiskItem implementation]
+        #region [Properties]
+        public IExport? Exporter { get => exporter; }
+        #endregion
+
+        #region [IDiskItem implementation]
         string IDiskItem.Path2Item => path2Item;
 
 
@@ -46,10 +59,12 @@
         {
            return ExportBooks(exporter);
         }
-        bool IDiskItem.ExportItem(ExpOptions exportOptions)
+        bool IDiskItem.ExportItem(IExportDestination destination)
         {
-            return ExportItem(exportOptions);
+            return ExportItem(destination);
         }
+
+        IExport? IDiskItem.Exporter { get => Exporter; }
         #endregion
     }
 }

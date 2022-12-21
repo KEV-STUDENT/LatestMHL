@@ -2,6 +2,7 @@
 using System.IO.Compression;
 using System.Runtime.Serialization;
 using MHLCommon;
+using MHLCommon.ExpDestinations;
 using MHLCommon.MHLDiskItems;
 
 namespace MHLSourceOnDisk
@@ -19,6 +20,7 @@ namespace MHLSourceOnDisk
         private int count = -1;
         private VirtualGroups virtualFlag = VirtualGroups.NotChecked;
         private List<String> files = new List<string>();
+        private object locker = new object();
         #endregion
 
         #region [Constructors]
@@ -51,7 +53,7 @@ namespace MHLSourceOnDisk
                     virtualFlag = VirtualGroups.VirtualGroupsNotUsed;
                 }
                 files.Clear();
-                foreach(ZipArchiveEntry entry in zipArchive.Entries)
+                foreach (ZipArchiveEntry entry in zipArchive.Entries)
                 {
                     files.Add(entry.FullName);
                 }
@@ -74,50 +76,48 @@ namespace MHLSourceOnDisk
         #endregion
 
         #region [DiskItem Implementation]
-        public override bool ExportItem(ExpOptions exportOptions)
+        public override bool ExportItem(IExportDestination destination)
         {
             bool result = true;
-            try
+            if ((destination is ExpDestinstions4Dir exp) && (Exporter != null))
             {
-                using (ZipArchive zipArchive = ZipFile.OpenRead(Path2Item))
+                try
                 {
-                    if (exportOptions.OverWriteFiles || CheckExportDirectory4Files(exportOptions.PathDestination))
-                        zipArchive.ExtractToDirectory(exportOptions.PathDestination, exportOptions.OverWriteFiles);
-                    else
+                    using (ZipArchive zipArchive = ZipFile.OpenRead(Path2Item))
                     {
-                        foreach (string file in files)
+                        Parallel.ForEach(zipArchive.Entries, entry =>
                         {
-                            ExtractArchiveEntryToDirectorySeparately(exportOptions.PathDestination, file, zipArchive.GetEntry(file));
-                        }
+                            IDiskItem? diskItem = null;
+                            lock (locker)
+                            {
+                                diskItem = DiskItemFabrick.GetDiskItem(this, entry);
+                            }
+                            if (diskItem != null)
+                            {
+                                Export2Dir exporter = new Export2Dir(Exporter.ExportOptions, diskItem);
+                                diskItem.ExportBooks(exporter);
+                            }
+                        });
                     }
+
                 }
-
+                catch (IOException ie)
+                {
+                    System.Diagnostics.Debug.WriteLine(ie.Message);
+                    System.Diagnostics.Debug.WriteLine(ie.Data.Count);
+                    foreach (DictionaryEntry de in ie.Data)
+                        System.Diagnostics.Debug.WriteLine("    Key: {0,-20}      Value: {1}",
+                                          "'" + de.Key.ToString() + "'", de.Value);
+                    result = false;
+                }
+                catch (Exception e)
+                {
+                    System.Diagnostics.Debug.WriteLine(e.Message);
+                    result = false;
+                }
             }
-            catch (IOException ie)
-            {
-                System.Diagnostics.Debug.WriteLine(ie.Message);
-                System.Diagnostics.Debug.WriteLine(ie.Data.Count);
-                foreach (DictionaryEntry de in ie.Data)
-                    System.Diagnostics.Debug.WriteLine("    Key: {0,-20}      Value: {1}",
-                                      "'" + de.Key.ToString() + "'", de.Value);
-                result = false;
-            }
-            catch (Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine(e.Message);
-                result = false;
-            }
+            else { result = false; }
             return result;
-        }
-
-        private void ExtractArchiveEntryToDirectorySeparately(string pathDestination, string file, ZipArchiveEntry? zipArchiveEntry)
-        {
-            string newFile;
-            if (zipArchiveEntry != null)
-            {
-                newFile = MHLSourceOnDiskStatic.GetNewFileName(pathDestination, file);
-                zipArchiveEntry.ExtractToFile(newFile);
-            }
         }
         #endregion
 
@@ -193,7 +193,7 @@ namespace MHLSourceOnDisk
                 foreach (string entryName in subList)
                 {
                     file = zipArchive.GetEntry(entryName);
-                    if(file != null)
+                    if (file != null)
                         yield return DiskItemFabrick.GetDiskItem(this, file);
                 }
             }

@@ -59,7 +59,7 @@ namespace MHLSourceScanner.DirectorySettings
                                 {
                                     subRow.Parent = row;
                                 }
-                                row = row.SubRows[0];
+                                row = row.SubRows[0] as PathRowVM;
                             }
                         }
                         if (row != null)

@@ -1,10 +1,9 @@
 ﻿using MHLCommon;
+using MHLCommon.ExpDestinations;
 using MHLCommon.MHLDiskItems;
 using System.Collections.Concurrent;
 using System.IO.Compression;
-using System.Runtime.Serialization;
-using System.Xml.Linq;
-using System.Xml.XPath;
+using System.Net.Sockets;
 
 namespace MHLSourceOnDisk
 {
@@ -13,6 +12,7 @@ namespace MHLSourceOnDisk
         #region [Private Fields]
         private IDiskCollection item;
         private List<string> subList;
+        private object locker = new object();
         #endregion
 
         #region [Constructors]
@@ -55,26 +55,49 @@ namespace MHLSourceOnDisk
         #endregion
 
         #region [DiskItem implementation]
-        public override bool ExportItem(ExpOptions exportOptions)
+        public override bool ExportItem(IExportDestination destination)
         {
-            bool result;
-            using (ZipArchive zipArchive = ZipFile.OpenRead(((IDiskItem)this).Path2Item))
+            bool result = false;
+            if ((destination is ExpDestinstions4Dir exp) && (item is DiskItemFileZip zip))
             {
+                using ZipArchive zipArchive = ZipFile.OpenRead(((IDiskItem)this).Path2Item);
                 ConcurrentBag<string> errorEnries = new ConcurrentBag<string>();
 
                 Parallel.ForEach(subList, entryName =>
-                {
-                    bool exported = ExportEntry(exportOptions, entryName);
-                    if (!exported)
                     {
-                        errorEnries.Add(entryName);
-                    }
-                });
+                        bool exported = false;
+                        ZipArchiveEntry? entry = null;
+                        lock (locker)
+                        {
+                            entry = (from zipEntry in zipArchive.Entries
+                                     where zipEntry.Name == entryName
+                                     select zipEntry).FirstOrDefault();
+                        }
+
+                        IDiskItem? diskItem = null;
+                        if (entry != null)
+                        {
+                            lock (locker)
+                            {
+                                diskItem = DiskItemFabrick.GetDiskItem(zip, entry);
+                            }
+                        }
+
+                        if (diskItem != null)
+                        {
+                            Export2Dir exporter = new Export2Dir(Exporter.ExportOptions, diskItem);
+                            exported = diskItem.ExportBooks(exporter);
+                        }
+
+                        if (!exported)
+                            errorEnries.Add(entryName);
+                    });
+
 
                 result = errorEnries.Count == 0;
-                if(!result)
+                if (!result)
                 {
-                    foreach(string entry in errorEnries)
+                    foreach (string entry in errorEnries)
                     {
                         System.Diagnostics.Debug.WriteLine(string.Concat("Not Exported: ", entry));
                     }
@@ -83,31 +106,29 @@ namespace MHLSourceOnDisk
             return result;
         }
 
-        private bool ExportEntry(ExpOptions exportOptions, string entry)
+        private bool ExportEntry(ExpDestinstions4Dir destination, string entry)
         {
             bool result = true;
             using (ZipArchive zipArchive = ZipFile.OpenRead(((IDiskItem)this).Path2Item))
             {
-                result = ExportFile(exportOptions, zipArchive.GetEntry(entry));
+                destination.DestinationFileName = entry;
+                result = ExportFile(destination, zipArchive.GetEntry(entry));
             }
             return result;
         }
 
-        private bool ExportFile(ExpOptions exportOptions, ZipArchiveEntry? file)
+        private bool ExportFile(ExpDestinstions4Dir destination, ZipArchiveEntry? file)
         {
             bool result = (file != null);
             string newFile;
 
-            if(result)
+            if (result)
             {
                 try
                 {
-                    if (exportOptions.OverWriteFiles)
-                        newFile = Path.Combine(exportOptions.PathDestination, file.Name);
-                    else
-                        newFile = MHLSourceOnDiskStatic.GetNewFileName(exportOptions.PathDestination, file.Name);
+                    newFile = destination.DestinationFullName;
 
-                    file.ExtractToFile(newFile, exportOptions.OverWriteFiles);
+                    file.ExtractToFile(newFile, destination.OverWriteFiles);
                     if (!File.Exists(newFile))
                     {
                         result = false;
