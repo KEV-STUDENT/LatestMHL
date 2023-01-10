@@ -22,8 +22,8 @@
 
         <buttons:MHLButton Content="..." Margin="0,0,0,0" Grid.Column="2" 
                            VerticalAlignment="Top" HorizontalContentAlignment="Center" Width="24"
-                           Command="{Binding PickerViewModel.AskUserEntryCommand, ElementName=UIPicker}"/>
+                           Command="{Binding ViewModel.AskUserEntryCommand, ElementName=UIPicker}"/>
         <local:MHLLabel Content="{Binding Path=Caption}" Margin="0,0,5,0"/>
-        <local:MHLTextBox Grid.Column="1" Text="{Binding Path=PickerViewModel.Value, ElementName=UIPicker}" Margin="0,0,0,0" IsReadOnly="True" />
+        <local:MHLTextBox Grid.Column="1" Text="{Binding Path=ViewModel.Value, ElementName=UIPicker, Mode=TwoWay}" Margin="0,0,0,0" IsReadOnly="True" />
     </Grid>
 </UserControl>

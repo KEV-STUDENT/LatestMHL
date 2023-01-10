@@ -20,7 +20,7 @@ namespace MHLSourceScanner.DirectorySettings
         }
         public DirSetting()
         {
-            _vm = new ViewModel4DirSetting();
+            _vm = new ViewModel4DirSetting(this);
             _vm.Close += () => {
                 Close(); 
             };

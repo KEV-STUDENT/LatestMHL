@@ -1,14 +1,8 @@
-//using MHLSourceScannerModelLib;
-using MHLCommon;
 using MHLCommon.MHLScanner;
-using MHLCommon.ViewModels;
 using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-//using System.Windows.Forms;
 
 namespace MHLControls.MHLPickers
 {
@@ -16,12 +10,13 @@ namespace MHLControls.MHLPickers
     /// Interaction logic for DirectoryPicker.xaml
     /// </summary>
     //public partial class MHLUIPicker : MHLLogicPicker
-    public partial class MHLUIPicker : UserControl, IPicker<string>, ICommandSource
+    public partial class MHLUIPicker : UserControl, ICommandSource
     {
         #region [Fields]
-        private MHLLogicPicker picker;
         private string _caption = "";
         private int _captionWidth = 5;
+
+        private MHLUIPickerViewModel _vm;
 
         public static readonly DependencyProperty CommandProperty = DependencyProperty.Register(
            "Command",
@@ -42,10 +37,17 @@ namespace MHLControls.MHLPickers
             typeof(IInputElement),
             typeof(MHLUIPicker),
             new UIPropertyMetadata(null));
+
+        // Using a DependencyProperty as the backing store for Value.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(
+            "Value",
+            typeof(String),
+            typeof(MHLUIPicker),
+            new UIPropertyMetadata(string.Empty, new PropertyChangedCallback(CurrentValueChanged)));        
         #endregion
 
         #region [Properties]
-        public MHLUIPickerViewModel PickerViewModel => picker.PickerViewModel;
+        public MHLUIPickerViewModel ViewModel => _vm;
         public int CaptionWidth
         {
             set { _captionWidth = value; }
@@ -57,10 +59,18 @@ namespace MHLControls.MHLPickers
             set { _caption = value; }
             get { return _caption; }
         }
+
+
         public string Value
         {
-            get => picker.Value;
-            set => picker.Value = value;
+            get
+            {
+                return (String)GetValue(ValueProperty);
+            }
+            set
+            {
+                SetValue(ValueProperty, value);
+            }
         }
 
         public ICommand Command
@@ -85,23 +95,30 @@ namespace MHLControls.MHLPickers
         #region [Events]
         public event Action<IPicker<string>>? AskUserForInputEvent
         {
-            add { picker.AskUserForInputEvent += value; }
-            remove { picker.AskUserForInputEvent -= value; }
+            add { ViewModel.AskUserEntry += value; }
+            remove { ViewModel.AskUserEntry -= value; }
         }
         #endregion
 
         #region [Constructors]
         public MHLUIPicker()
         {
-            picker = new MHLLogicPicker();
-            picker.PickerViewModel.ValueChanged += GenerateCommand;
+            _vm = new MHLUIPickerViewModel(this);
+            _vm.ValueChanged += GenerateCommand;
             InitializeComponent();
             DataContext = this;
-
         }
         #endregion
 
         #region [Methods]
+        private static void CurrentValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs args)
+        {
+            if (d is MHLUIPicker picker)
+            {
+                picker.ViewModel.ValueChangedInform();
+            }
+        }
+
         private void GenerateCommand()
         {
             if (Command != null)
@@ -122,21 +139,6 @@ namespace MHLControls.MHLPickers
         ICommand ICommandSource.Command => Command;
         object ICommandSource.CommandParameter => CommandParameter;
         IInputElement ICommandSource.CommandTarget => CommandTarget;
-        #endregion
-
-        #region[IPicker<string> Implementation]
-        event Action<IPicker<string>>? IPicker<string>.AskUserForInputEvent
-        {
-            add { AskUserForInputEvent += value; }
-            remove { AskUserForInputEvent -= value; }
-        }
-
-        string IPicker<string>.Value { get => Value; set => Value = value; }
-
-        ReturnResultEnum IPicker<string>.CheckValue(out string value)
-        {
-            return picker.CheckValue(out value);
-        }
         #endregion
     }
 }

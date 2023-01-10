@@ -1,74 +1,83 @@
 ﻿using MHLCommands;
 using MHLControls.ViewModels4Forms;
+using MHLSourceScanner.Configurations.RowFolder;
+using MHLSourceScanner.DirectorySetting;
 using MHLSourceScannerLib.BookDir;
+using System;
+using System.Configuration;
+using System.Text.Json;
 using System.Windows.Input;
 
 namespace MHLSourceScanner.DirectorySettings
 {
     public class ViewModel4DirSetting : VMEditForm
     {
+        #region [Fields]
+        private Model4DirSetting _model;
+        private DirSetting _view;
+        #endregion
+
         #region [Properies]
         public ICommand AddRowCommand { get; set; }
         public ICommand DeleteRowCommand { get; set; }
         #endregion
 
-        public ViewModel4DirSetting() : base()
+        public ViewModel4DirSetting(DirSetting dirSetting) : base()
         {
             AddRowCommand = new RelayCommand(ExecuteAddRowCommand, CanExecuteAddRowCommand);
             DeleteRowCommand = new RelayCommand(ExecuteDeleteRowCommand, CanExecuteDeleteRowCommand);
+            _model = new Model4DirSetting();
+            _view = dirSetting;
+
+            Close += () => {
+                _view.Close();
+            };
+
+            Run += () =>
+            {
+                SaveData2Json();
+                _view.Close();
+            };
+        }
+
+        private void SaveData2Json()
+        {
+           /* PathRowVM? row = _view.DirectoryTree.ViewModel.Source[0];
+
+            string jsonString = JsonSerializer.Serialize<PathRowVM?>(row);
+
+
+            Configuration cfg = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            RowConfigSection section = (RowConfigSection)cfg.Sections["RowStructure"];
+            if (section != null)
+            {
+                section.RowItems[0].StructureJson = jsonString;
+                cfg.Save();
+            }*/
         }
 
         #region [Methods]
         private void ExecuteAddRowCommand(object? obj)
         {
             if(obj is DirSetting form) {
-                if(form.DirectoryTree.SelectedItem is PathRowVM selectedRow)
-                {
-                    PathRowVM newRow = new PathRowVM(selectedRow);
-                    newRow.IsFileName = selectedRow.IsFileName;
-                    selectedRow.SubRows.Add(newRow);
-                    selectedRow.ViewModel.IsFileName = false;
-                    selectedRow.ViewModel.IsExpanded = true;
-                    selectedRow.ViewModel.OnPropertyChanged("IsEnabled");
-                    newRow.ViewModel.IsSelected = true;
-                }
+                _model.AddRow2Parent(form.DirectoryTree.SelectedItem);                   
             }
         }
         private bool CanExecuteAddRowCommand(object? obj)
         {
-            if (obj is DirSetting form)
-            {
-                if (form.DirectoryTree.SelectedItem is PathRowVM selectedRow)
-                {
-                   return (selectedRow.SubRows?.Count ?? 0) == 0;
-                }
-            }
-            return false;
+            return (obj is DirSetting form) && _model.CanAddRow2Parent(form.DirectoryTree.SelectedItem);                
         }
 
         private void ExecuteDeleteRowCommand(object? obj)
         {
             if (obj is DirSetting form)
             {
-                if (form.DirectoryTree.SelectedItem is PathRowVM selectedRow)
-                {
-                    if(selectedRow.Parent is PathRowVM row)
-                    {
-                        row.SubRows.Remove(selectedRow);
-                        row.ViewModel.IsFileName = selectedRow.IsFileName;
-                        row.ViewModel.OnPropertyChanged("IsEnabled");
-                    }
-                }
+                _model.DeleteRowFromParent(form.DirectoryTree.SelectedItem);                
             }
-
         }
         private bool CanExecuteDeleteRowCommand(object? obj)
         {
-            if (obj is DirSetting form)
-            {
-                return form.DirectoryTree.SelectedItem is PathRowVM;
-            }
-            return false;
+            return (obj is DirSetting form) && _model.CanDeleteFromParent(form.DirectoryTree.SelectedItem);               
         }
         #endregion
     }

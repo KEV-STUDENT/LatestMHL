@@ -1,4 +1,7 @@
-﻿namespace MHLCommon
+﻿using MHLCommon.MHLBookDir;
+using System.Text.Json;
+
+namespace MHLCommon
 {
     public static class MHLCommonStatic
     {
@@ -36,6 +39,12 @@
                 newFile = Path.Combine(pathDestination, Path.ChangeExtension(string.Format("{0}({1})", name, ++i), ext));
             }
             return newFile;
+        }
+
+        public static T? GetRowFromJson<T>(string str)
+        {
+            T? row = JsonSerializer.Deserialize<T>(str);
+            return row;
         }
     }
 }

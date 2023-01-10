@@ -8,7 +8,7 @@ namespace MHLCommon.MHLScanner
 
         T Value { get; set; }
 
-        event Action<IPicker<T>>? AskUserForInputEvent;
-        ReturnResultEnum CheckValue(out T value);
+        event Action<IPicker<T>>? AskUserEntry;
+        ReturnResultEnum CheckValue();
     }
 }
