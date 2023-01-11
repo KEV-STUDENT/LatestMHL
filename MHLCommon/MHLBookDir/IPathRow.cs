@@ -1,6 +1,4 @@
-﻿using System.Collections.ObjectModel;
-
-namespace MHLCommon.MHLBookDir
+﻿namespace MHLCommon.MHLBookDir
 {
 
     public interface IPathRow

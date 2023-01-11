@@ -1,5 +1,12 @@
-﻿using MHLSourceScannerLib.BookDir;
+﻿using MHLCommon;
+using MHLCommon.ViewModels;
+using MHLSourceOnDisk.BookDir;
+using MHLSourceScanner.Configurations.DestinationFolder;
+using MHLSourceScanner.Configurations.RowFolder;
+using MHLSourceScannerLib.BookDir;
 using System;
+using System.Configuration;
+using System.Text.Json;
 using System.Windows.Forms;
 
 namespace MHLSourceScanner.DirectorySetting
@@ -43,6 +50,37 @@ namespace MHLSourceScanner.DirectorySetting
                     row.ViewModel.OnPropertyChanged("IsEnabled");
                 }
             }
+        }
+
+        internal void LoadConfigurations(IVM4DirSetting vm)
+        {
+            Configuration cfg = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            RowConfigSection section = (RowConfigSection)cfg.Sections["RowStructure"];
+            if (section != null)
+            {
+                var str = section.RowItems[0].StructureJson;
+                try
+                {
+                    PathRowVM? row = MHLCommonStatic.GetRowFromJson<PathRowVM>(str);
+                    if (row != null)
+                        vm.UpdatePathRowTree(row);
+                }
+                catch (Exception)
+                {
+                }
+            }
+        }
+
+        internal void SaveConfigurations(PathRowVM row)
+        {
+             string jsonString = JsonSerializer.Serialize<PathRowVM?>(row);
+             Configuration cfg = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+             RowConfigSection section = (RowConfigSection)cfg.Sections["RowStructure"];
+             if (section != null)
+             {
+                 section.RowItems[0].StructureJson = jsonString;
+                 cfg.Save();
+             }
         }
         #endregion
     }

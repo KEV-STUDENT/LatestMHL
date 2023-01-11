@@ -1,19 +1,13 @@
 ﻿using MHLCommands;
-using MHLCommon.MHLScanner;
 using MHLCommon.ViewModels;
-using MHLCommon;
 using MHLControls.ViewModels4Forms;
-using MHLSourceScannerLib;
 using System;
-using System.Windows.Input;
 using System.Threading.Tasks;
-using MHLSourceScanner.Configurations.DestinationFolder;
-using MHLSourceScanner.Configurations.SourceFolder;
-using System.Configuration;
+using System.Windows.Input;
 
 namespace MHLSourceScanner
 {
-    public class ViewModel4Scanner : VMEditForm
+    public class ViewModel4Scanner : VMEditForm, IVM4Scanner
     {
         #region [Fields]
         private bool _destinationIsDirectory = true;
@@ -111,6 +105,14 @@ namespace MHLSourceScanner
         }
         #endregion
 
+        #region [IVM4Scanner Implementation]
+        bool IVM4Scanner.DestinationIsDirectory { get => DestinationIsDirectory; set => DestinationIsDirectory = value; }
+        bool IVM4Scanner.DestinationIsDBFile { get => DestinationIsDBFile; set => DestinationIsDBFile = value; }
+        string IVM4Scanner.DestinationDB { get => DestinationDB; set => DestinationDB = value; }
+        string IVM4Scanner.DestinationPath { get => DestinationPath; set => DestinationPath = value; }
+        string IVM4Scanner.SourcePath { get => SourcePath; set => SourcePath = value; }
+        #endregion
+
         #region [Methods]
         private void ExecuteChangeSourceDirCommand(object? obj)
         { ChangeSourceDirAction?.Invoke(); }
@@ -154,19 +156,7 @@ namespace MHLSourceScanner
 
         internal void LoadDataFromConfig()
         {
-            SourceConfigSection section = (SourceConfigSection)ConfigurationManager.GetSection("SourceFolders");
-            if (section != null && section.FolderItems.Count > 0)
-                SourcePath = section.FolderItems[0].Path;
-
-            DestinationConfigSection destinationConfigSection = (DestinationConfigSection)ConfigurationManager.GetSection("DestinationFolders");
-            if (destinationConfigSection != null && destinationConfigSection.FolderItems.Count > 0)
-            {
-                DestinationIsDirectory = (destinationConfigSection.FolderItems[0].PathType == 1);
-                if (DestinationIsDirectory)
-                    DestinationPath = destinationConfigSection.FolderItems[0].Path;
-                else
-                    DestinationDB = destinationConfigSection.FolderItems[0].Path;
-            }
+            _model.LoadConfigurations((IVM4Scanner)this);
         }
         #endregion
     }

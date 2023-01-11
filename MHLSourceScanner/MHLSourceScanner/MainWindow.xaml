@@ -41,9 +41,11 @@
                                            Width="24" ImgHeight="20" ImgWidth="20" 
                                            Command="{Binding ViewModel.SetExportDirCommand, ElementName=Scanner}"/>
                 <pickers:MHLUIPicker x:Name="DestinationDirectoryPicker" DockPanel.Dock="Left" 
-                                     Value="{Binding ViewModel.DestinationPath, ElementName=Scanner}"/>
+                                     Value="{Binding ViewModel.DestinationPath, ElementName=Scanner, Mode=TwoWay}"/>
             </DockPanel>
-            <pickers:MHLUIPicker x:Name="DestinationDBPicker" Margin="0,5,0,0" Grid.Row="1" Grid.Column="3" IsEnabled="{Binding ViewModel.DestinationIsDBFile, ElementName=Scanner}" Grid.ColumnSpan="3"/>
+            <pickers:MHLUIPicker x:Name="DestinationDBPicker" Margin="0,5,0,0" Grid.Row="1" Grid.Column="3" 
+                                 IsEnabled="{Binding ViewModel.DestinationIsDBFile, ElementName=Scanner}"
+                                 Grid.ColumnSpan="3"/>
             <MHLControls:MHLRadioButton GroupName="Destination" x:Name="DestinationDirectory" Margin="0,10,0,0" Grid.Row="0" Grid.Column="1" Content="Directory"
                                         IsChecked="{Binding ViewModel.DestinationIsDirectory, ElementName=Scanner}" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
             <MHLControls:MHLRadioButton GroupName="Destination" x:Name="DestinationDBFile" Margin="1,10,0,0" Grid.Row="1" Grid.Column="1" Content="Data Base File"

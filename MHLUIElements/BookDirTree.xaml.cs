@@ -1,6 +1,6 @@
 ﻿using MHLSourceScannerLib.BookDir;
 using System.Windows.Controls;
-using MHLSourceScannerLib.BookDir;
+
 namespace MHLUIElements
 {
     /// <summary>

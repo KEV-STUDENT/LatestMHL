@@ -4,7 +4,6 @@ using MHLCommon.MHLDiskItems;
 using MHLCommon.MHLScanner;
 using MHLCommon.ViewModels;
 using MHLResources;
-using MHLSourceOnDisk;
 using MHLSourceScannerLib;
 using MHLSourceScannerModelLib;
 using System;

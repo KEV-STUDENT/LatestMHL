@@ -1,12 +1,9 @@
 ﻿using MHLCommon.MHLDiskItems;
 using MHLCommon.MHLScanner;
-using MHLResources;
-using MHLSourceScannerModelLib;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using System.Windows.Threading;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace MHLUIElements
 {

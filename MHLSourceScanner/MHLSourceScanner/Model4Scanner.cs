@@ -1,5 +1,4 @@
 ﻿using MHLCommon;
-using MHLCommon.MHLDiskItems;
 using MHLCommon.MHLScanner;
 using MHLCommon.ViewModels;
 using MHLSourceOnDisk;
@@ -13,7 +12,6 @@ using System;
 using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Threading.Tasks;
-using System.Windows.Media;
 
 namespace MHLSourceScanner
 {
@@ -84,7 +82,6 @@ namespace MHLSourceScanner
         internal void SaveConfigurations(string sourcePath, int type, string destination)
         {
             Configuration cfg = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-
             SourceConfigSection section = (SourceConfigSection)cfg.Sections["SourceFolders"];
             if (section != null)
             {
@@ -107,6 +104,25 @@ namespace MHLSourceScanner
                 ITreeDiskItem treeViewDiskItem = new TreeViewDirectory(sourcePath ?? string.Empty, shower, null);
                 shower.Clear(treeViewDiskItem);
                 shower.UpdateView(treeViewDiskItem);
+            }
+        }
+
+        internal void LoadConfigurations(IVM4Scanner vm)
+        {
+            Configuration cfg = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            SourceConfigSection section = (SourceConfigSection)cfg.Sections["SourceFolders"];
+
+            if (section != null && section.FolderItems.Count > 0)
+                vm.SourcePath = section.FolderItems[0].Path;
+
+            DestinationConfigSection destinationConfigSection = (DestinationConfigSection)cfg.Sections["DestinationFolders"];
+            if (destinationConfigSection != null && destinationConfigSection.FolderItems.Count > 0)
+            {
+                vm.DestinationIsDirectory = (destinationConfigSection.FolderItems[0].PathType == 1);
+                if (vm.DestinationIsDirectory)
+                    vm.DestinationPath = destinationConfigSection.FolderItems[0].Path;
+                else
+                    vm.DestinationDB = destinationConfigSection.FolderItems[0].Path;
             }
         }
     }
