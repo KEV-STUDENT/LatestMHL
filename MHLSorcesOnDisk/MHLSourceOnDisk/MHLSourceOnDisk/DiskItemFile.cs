@@ -1,11 +1,9 @@
-﻿using System.IO;
-using MHLCommon;
-using MHLCommon.ExpDestinations;
+﻿using MHLCommon.ExpDestinations;
 using MHLCommon.MHLDiskItems;
 
 namespace MHLSourceOnDisk
 {
-    public class DiskItemFile : DiskItem, IFile
+    public class DiskItemFile : DiskItemExported, IFile
     {
         #region [Private Fields]
         private readonly IDiskCollection? parent;
@@ -38,7 +36,20 @@ namespace MHLSourceOnDisk
         #region [DiskItem Implementation]
         public override bool ExportItem(IExportDestination destination)
         {
-            throw new NotImplementedException();
+            bool result = true;
+            if (destination is ExpDestinstions4Dir exp)
+            {
+                try
+                {
+                    File.Copy(this.Path2Item, exp.DestinationFullName, exp.OverWriteFiles);
+                    result = File.Exists(exp.DestinationFullName);
+                }
+                catch (Exception)
+                {
+                    result = false;
+                }
+            }
+            return result;
         }
         #endregion
 

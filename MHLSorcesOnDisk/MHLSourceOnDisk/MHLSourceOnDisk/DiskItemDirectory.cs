@@ -98,12 +98,5 @@
             return GetChildsNames();
         }
         #endregion
-
-        #region [DiskItem Implementation]
-        public override bool ExportItem(IExportDestination destination)
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
     }
 }

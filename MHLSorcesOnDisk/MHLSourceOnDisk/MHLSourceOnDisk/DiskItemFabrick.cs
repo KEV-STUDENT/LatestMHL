@@ -253,12 +253,12 @@ namespace MHLSourceOnDisk
             return FileType.Unknown;
         }
 
-        public static bool ExportBooks<T>(IEnumerable<IDiskItem>? books, T exporter) where T : class, IExport
+        public static bool ExportBooks<T>(IEnumerable<IDiskItemExported>? books, T exporter) where T : class, IExport
         {
             bool result = true;
             if ((books?.Count() ?? 0) > 0)
             {
-                foreach (IDiskItem item in books)
+                foreach (IDiskItemExported item in books)
                 {
                     if (!item.ExportBooks<T>(exporter))
                         result = false;
@@ -267,7 +267,7 @@ namespace MHLSourceOnDisk
             return result;
         }
 
-        public static bool ExportBooks<T>(IDiskItem? book, T exporter) where T : class, IExport
+        public static bool ExportBooks<T>(IDiskItemExported? book, T exporter) where T : class, IExport
         {
             return book?.ExportBooks<T>(exporter) ?? false;
         }

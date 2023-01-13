@@ -99,8 +99,8 @@ namespace MHLSourceScannerModelLib
 
         public virtual async Task ExportItemAsync(IExport exporter)
         {
-            if (Source != null)
-                await Source.ExportBooksAsync(exporter);
+            if ((Source != null)&&(Source is IDiskItemExported itemExported))
+                await itemExported.ExportBooksAsync(exporter);
         }
         #endregion
     }

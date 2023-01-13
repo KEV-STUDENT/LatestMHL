@@ -1,5 +1,4 @@
-﻿using MHLCommon.MHLBookDir;
-using System.Text.Json;
+﻿using System.Text.Json;
 
 namespace MHLCommon
 {
@@ -14,12 +13,6 @@ namespace MHLCommon
                 return -1;
 
             if (!string.IsNullOrWhiteSpace(x) && string.IsNullOrWhiteSpace(y))
-                return 1;
-
-            if (x.Length < y.Length)
-                return -1;
-
-            if (y.Length < x.Length)
                 return 1;
 
             return x.CompareTo(y);

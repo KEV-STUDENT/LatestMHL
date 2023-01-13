@@ -34,14 +34,14 @@ namespace MHLSourceOnDisk
         {
             return CheckDestination();
         }
-        bool IExport.Export(IDiskItem diskItem)
+        bool IExport.Export(IDiskItemExported diskItem)
         {
             return Export(diskItem);
         }        
         #endregion
 
         #region [Methods]
-        public bool Export(IDiskItem diskItem)
+        public bool Export(IDiskItemExported diskItem)
         {
             return diskItem.ExportItem(Destination);
         }

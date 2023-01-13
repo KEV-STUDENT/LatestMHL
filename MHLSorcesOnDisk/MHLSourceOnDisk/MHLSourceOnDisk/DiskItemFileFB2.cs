@@ -177,7 +177,7 @@ namespace MHLSourceOnDisk
         }
         #endregion
 
-        #region [DiskItem Implementation]
+        #region [DiskItemExported Implementation]
         public override bool ExportItem(IExportDestination destination)
         {
             bool result = true;
@@ -186,7 +186,6 @@ namespace MHLSourceOnDisk
             if (destination is ExpDestinstions4Dir exp)
             {
                 newFile = exp.DestinationFullName;
-                System.Diagnostics.Debug.WriteLine(exp.DestinationFileName);
                 try
                 {
 

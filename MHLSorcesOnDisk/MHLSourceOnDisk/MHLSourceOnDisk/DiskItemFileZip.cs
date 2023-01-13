@@ -75,7 +75,7 @@ namespace MHLSourceOnDisk
         }
         #endregion
 
-        #region [DiskItem Implementation]
+        #region [DiskItemExported Implementation]
         public override bool ExportItem(IExportDestination destination)
         {
             bool result = true;
@@ -92,10 +92,10 @@ namespace MHLSourceOnDisk
                             {
                                 diskItem = DiskItemFabrick.GetDiskItem(this, entry);
                             }
-                            if (diskItem != null)
+                            if ((diskItem != null)&&(diskItem is DiskItemExported itemExported))
                             {
                                 Export2Dir exporter = new Export2Dir(Exporter.ExportOptions, diskItem);
-                                diskItem.ExportBooks(exporter);
+                                itemExported.ExportBooks(exporter);
                             }
                         });
                     }

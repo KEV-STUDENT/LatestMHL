@@ -1,5 +1,4 @@
-﻿using MHLCommon;
-using MHLCommon.ExpDestinations;
+﻿using MHLCommon.ExpDestinations;
 using MHLCommon.MHLDiskItems;
 
 namespace MHLSourceOnDisk
@@ -20,13 +19,6 @@ namespace MHLSourceOnDisk
         #region [Public Properties]
         public string Name => ((IDiskItem)this).Name;
         public string Path2Item => ((IDiskItem)this).Path2Item;
-        #endregion
-
-        #region [DiskItem Implentation]
-        public override bool ExportItem(IExportDestination destination)
-        {
-            throw new NotImplementedException();
-        }
         #endregion
     }
 }

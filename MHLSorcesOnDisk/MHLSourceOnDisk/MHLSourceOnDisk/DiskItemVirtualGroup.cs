@@ -1,13 +1,11 @@
-﻿using MHLCommon;
-using MHLCommon.ExpDestinations;
+﻿using MHLCommon.ExpDestinations;
 using MHLCommon.MHLDiskItems;
 using System.Collections.Concurrent;
 using System.IO.Compression;
-using System.Net.Sockets;
 
 namespace MHLSourceOnDisk
 {
-    public class DiskItemVirtualGroup : DiskItem, IVirtualGroup
+    public class DiskItemVirtualGroup : DiskItemExported, IVirtualGroup
     {
         #region [Private Fields]
         private IDiskCollection item;
@@ -60,7 +58,7 @@ namespace MHLSourceOnDisk
             bool result = false;
             if ((destination is ExpDestinstions4Dir exp) && (item is DiskItemFileZip zip))
             {
-                using ZipArchive zipArchive = ZipFile.OpenRead(((IDiskItem)this).Path2Item);
+                using ZipArchive zipArchive = ZipFile.OpenRead(((IDiskItemExported)this).Path2Item);
                 ConcurrentBag<string> errorEnries = new ConcurrentBag<string>();
 
                 Parallel.ForEach(subList, entryName =>
@@ -83,10 +81,10 @@ namespace MHLSourceOnDisk
                             }
                         }
 
-                        if (diskItem != null)
+                        if (diskItem is IDiskItemExported itemExported)
                         {
-                            Export2Dir exporter = new Export2Dir(Exporter.ExportOptions, diskItem);
-                            exported = diskItem.ExportBooks(exporter);
+                            Export2Dir exporter = new Export2Dir(Exporter.ExportOptions, itemExported);
+                            exported = itemExported.ExportBooks(exporter);
                         }
 
                         if (!exported)
@@ -104,45 +102,7 @@ namespace MHLSourceOnDisk
                 }
             }
             return result;
-        }
-
-        private bool ExportEntry(ExpDestinstions4Dir destination, string entry)
-        {
-            bool result = true;
-            using (ZipArchive zipArchive = ZipFile.OpenRead(((IDiskItem)this).Path2Item))
-            {
-                destination.DestinationFileName = entry;
-                result = ExportFile(destination, zipArchive.GetEntry(entry));
-            }
-            return result;
-        }
-
-        private bool ExportFile(ExpDestinstions4Dir destination, ZipArchiveEntry? file)
-        {
-            bool result = (file != null);
-            string newFile;
-
-            if (result)
-            {
-                try
-                {
-                    newFile = destination.DestinationFullName;
-
-                    file.ExtractToFile(newFile, destination.OverWriteFiles);
-                    if (!File.Exists(newFile))
-                    {
-                        result = false;
-                    }
-                }
-                catch (Exception e)
-                {
-                    System.Diagnostics.Debug.WriteLine(e.Message);
-                    result = false;
-                }
-            }
-
-            return result;
-        }
+        }       
         #endregion
 
         #region [IDiskCollection implementation]

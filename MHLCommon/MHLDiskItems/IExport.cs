@@ -1,5 +1,4 @@
 ﻿using MHLCommon.ExpDestinations;
-using MHLCommon.MHLBook;
 
 namespace MHLCommon.MHLDiskItems
 {
@@ -8,6 +7,6 @@ namespace MHLCommon.MHLDiskItems
         ExpOptions ExportOptions { get; }
         public IExportDestination Destination { get; }
         public bool CheckDestination();
-        bool Export(IDiskItem diskItem);
+        bool Export(IDiskItemExported diskItem);
     }
 }

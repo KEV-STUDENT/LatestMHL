@@ -132,7 +132,6 @@ namespace MHLSourceScannerModelLib
             lock (sourceLock)
             {
                 SourceItems.Add(item);
-                System.Diagnostics.Debug.WriteLine("Added: " + item.Name);
             }
         }
 
