@@ -121,7 +121,7 @@ namespace MHLSourceOnDiskTest
         [DataRow(@"F:\1\test\destination", @"F:\1\test\426096.fb2", false)]
         public void ExportBooks(string pathDestination, string pathFile, bool overWriteFile)
         {
-            bool res;
+            bool res = false;
             ExpOptions expOptions = new ExpOptions(pathDestination, overWriteFile);
             Export2Dir exporter;
 
@@ -129,13 +129,14 @@ namespace MHLSourceOnDiskTest
             if (item is IDiskCollection diskCollection)
             {
                 exporter = new Export2Dir(expOptions);
-                IEnumerable<IDiskItem>? books = diskCollection.GetChilds();
+                IEnumerable<IDiskItemExported>? books = (diskCollection.GetChilds() as IEnumerable<IDiskItemExported>);
                 res = DiskItemFabrick.ExportBooks(books, exporter);
             }
             else
             {
                 exporter = new Export2Dir(expOptions, item);
-                res = DiskItemFabrick.ExportBooks(item, exporter);
+                if (item is IDiskItemExported exported)
+                    res = DiskItemFabrick.ExportBooks(exported, exporter);
             }
             Assert.IsTrue(res);
         }       

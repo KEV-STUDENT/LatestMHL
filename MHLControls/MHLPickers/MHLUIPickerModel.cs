@@ -8,10 +8,11 @@ namespace MHLControls.MHLPickers
     {
         #region [Delegates]
         private Action<IPicker<string>>? askUserEntry;
+        private Action? askUserSettings;
         #endregion
 
         #region [Fields]
-        private readonly  MHLUIPickerViewModel _vm;
+        private readonly MHLUIPickerViewModel _vm;
         #endregion
 
         #region [Properties]
@@ -30,15 +31,29 @@ namespace MHLControls.MHLPickers
         #endregion
 
         #region [Events]
-        public event Action<IPicker<string>>? AskUserEntry 
+        public event Action<IPicker<string>>? AskUserEntry
         {
-            add { 
+            add
+            {
                 askUserEntry += value;
             }
-            remove { 
+            remove
+            {
                 askUserEntry -= value;
             }
-        }       
+        }
+
+        public event Action? AskUserSettings
+        {
+            add
+            {
+                askUserSettings += value;
+            }
+            remove
+            {
+                askUserSettings -= value;
+            }
+        }
         #endregion
 
         #region [Methods]
@@ -54,15 +69,28 @@ namespace MHLControls.MHLPickers
         #endregion
 
         #region [IPicker implementation]
-        string IPicker<string>.Value { 
-            get => Value; 
-            set => Value = value; 
+        string IPicker<string>.Value
+        {
+            get => Value;
+            set => Value = value;
+        }
+
+        bool IPicker<string>.IsReadOnlyTextInput
+        {
+            get => _vm.IsReadOnlyTextInput;
+            set => _vm.IsReadOnlyTextInput = value;
+        }
+
+        event Action IPicker<string>.AskUserSettings
+        {
+            add { AskUserSettings += value; }
+            remove { AskUserSettings -= value; }
         }
 
         event Action<IPicker<string>>? IPicker<string>.AskUserEntry
         {
-            add{ AskUserEntry += value;}
-            remove{ AskUserEntry -= value;}
+            add { AskUserEntry += value; }
+            remove { AskUserEntry -= value; }
         }
 
         ReturnResultEnum IPicker<string>.CheckValue()
@@ -73,6 +101,16 @@ namespace MHLControls.MHLPickers
                 return ReturnResultEnum.Cancel;
             }
             return ReturnResultEnum.Ok;
+        }
+
+        internal bool AskUserSettingsCanExecute()
+        {
+            return askUserSettings != null;
+        }
+
+        internal void AskUserSettingsAction()
+        {
+            askUserSettings?.Invoke();
         }
         #endregion
     }

@@ -21,9 +21,6 @@ namespace MHLSourceScanner
             };
 
             InitializeComponent();
-
-            SourceDirectoryPicker.Caption = "Source Directory";
-            SourceDirectoryPicker.CaptionWidth = 110;
             SourceDirectoryPicker.AskUserForInputEvent += MHLAsk4Picker.AskDirectory;
 
             DestinationDirectoryPicker.AskUserForInputEvent += MHLAsk4Picker.AskDirectory;

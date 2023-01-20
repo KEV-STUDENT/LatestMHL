@@ -70,7 +70,7 @@ namespace MHLSourceOnDiskTest
                     { ""SelectedItemType"":1,""SelectedTypedItemType"":2}],""IsFileName"":false}")]
         public void ExportBooks(string pathDestination, string pathZip, bool createNewFlag, string jsonStr)
         {
-            IDiskItem? item = GetFirstVirualGroupFromZip(pathZip) as IDiskItem;
+            IDiskItemExported? item = GetFirstVirualGroupFromZip(pathZip) as IDiskItemExported;
             bool result;
             int res = 0, init = 0;
 

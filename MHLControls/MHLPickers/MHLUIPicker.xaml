@@ -9,21 +9,23 @@
              mc:Ignorable="d" 
              x:Name="UIPicker"
              d:DesignHeight="24" d:DesignWidth="800" d:DataContext="{d:DesignInstance Type=pickers:MHLUIPicker}">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="{Binding Path=CaptionWidth}"/>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="34"/>
-        </Grid.ColumnDefinitions>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="24" MaxHeight="24" MinHeight="24"/>
-        </Grid.RowDefinitions>
+    <DockPanel Margin="0,0,0,0" LastChildFill="True">
+        <local:MHLLabel DockPanel.Dock="Left" Margin="5,0,0,0" 
+                        Content="{Binding Path=ViewModel.Caption, ElementName=UIPicker}"
+                        Width="{Binding Path=ViewModel.CaptionWidth, ElementName=UIPicker}"
+                        Visibility ="{Binding Path=ViewModel.CaptionVisibility, ElementName=UIPicker}"/>
 
-        <buttons:MHLButton Content="..." Margin="0,0,0,0" Grid.Column="2" 
+        <buttons:MHLButtonSettings DockPanel.Dock="Right" Margin="0,0,5,0" Width="24"
+                        Visibility ="{Binding Path=ViewModel.SettingsVisibility, ElementName=UIPicker}"
+                        Command="{Binding ViewModel.AskUserSettingsCommand, ElementName=UIPicker}"/>
+        
+        <buttons:MHLButton DockPanel.Dock="Right" Content="..." Margin="0,0,5,0"
                            VerticalAlignment="Top" HorizontalContentAlignment="Center" Width="24"
                            Command="{Binding ViewModel.AskUserEntryCommand, ElementName=UIPicker}"/>
-        <local:MHLLabel Content="{Binding Path=Caption}" Margin="0,0,5,0"/>
-        <local:MHLTextBox Grid.Column="1" Text="{Binding Path=ViewModel.Value, ElementName=UIPicker, Mode=TwoWay}" Margin="0,0,0,0" IsReadOnly="True" />
-    </Grid>
+
+        <local:MHLTextBox Margin="5,0,5,0" 
+                          Text="{Binding Path=ViewModel.Value, ElementName=UIPicker, Mode=TwoWay}" 
+                          IsReadOnly="{Binding Path = ViewModel.IsReadOnlyTextInput, ElementName=UIPicker}" />
+    </DockPanel>
 </UserControl>

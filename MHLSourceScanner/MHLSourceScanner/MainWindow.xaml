@@ -22,41 +22,43 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Grid Grid.Row="1"  IsEnabled="{Binding ViewModel.NotBusy, ElementName=Scanner}">
+        <Grid Grid.Row="1"  IsEnabled="{Binding ViewModel.NotBusy, ElementName=Scanner}" HorizontalAlignment="Center" Width="800">
             <Grid.RowDefinitions>
                 <RowDefinition Height="29"/>
                 <RowDefinition Height="29"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="{Binding CaptionWidth, ElementName=SourceDirectoryPicker}"/>
+                <ColumnDefinition Width="80"/>
                 <ColumnDefinition Width="12"/>
                 <ColumnDefinition Width="88"/>
-                <ColumnDefinition Width="476*"/>
-                <ColumnDefinition Width="173*"/>
-                <ColumnDefinition Width="46*"/>
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <MHLControls:MHLLabel Content="Destination" Margin="0,5,0,0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-            <DockPanel Margin="0,5,5,0" Grid.Row="0" Grid.Column="3" IsEnabled="{Binding ViewModel.DestinationIsDirectory, ElementName=Scanner}" LastChildFill="True" Grid.ColumnSpan="3">
-                <buttons:MHLButtonSettings x:Name="BtSettings" DockPanel.Dock="Right"
-                                           Width="24" ImgHeight="20" ImgWidth="20" 
-                                           Command="{Binding ViewModel.SetExportDirCommand, ElementName=Scanner}"/>
-                <pickers:MHLUIPicker x:Name="DestinationDirectoryPicker" DockPanel.Dock="Left" 
-                                     Value="{Binding ViewModel.DestinationPath, ElementName=Scanner, Mode=TwoWay}"/>
-            </DockPanel>
-            <pickers:MHLUIPicker x:Name="DestinationDBPicker" Margin="0,5,0,0" Grid.Row="1" Grid.Column="3" 
-                                 IsEnabled="{Binding ViewModel.DestinationIsDBFile, ElementName=Scanner}"
-                                 Grid.ColumnSpan="3"/>
+            <MHLControls:MHLLabel Content="Destination" Margin="5,5,0,0" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+            <pickers:MHLUIPicker x:Name="DestinationDirectoryPicker" DockPanel.Dock="Left" IsReadOnlyTextInput="True"
+                                 Value="{Binding ViewModel.DestinationPath, ElementName=Scanner, Mode=TwoWay}" 
+                                 SettingsVisibility="Visible" Margin="0,5,0,0"
+                                 Grid.Row="0" Grid.Column="3" IsEnabled="{Binding ViewModel.DestinationIsDirectory, ElementName=Scanner}" Grid.ColumnSpan="3"/>
+
+            <pickers:MHLUIPicker x:Name="DestinationDBPicker"  DockPanel.Dock="Left" 
+                                SettingsVisibility="Visible" Margin="0,5,0,0"
+                                Grid.Row="1" Grid.Column="3" IsEnabled="{Binding ViewModel.DestinationIsDBFile, ElementName=Scanner}" Grid.ColumnSpan="3"/>
+
+            <!--pickers:MHLUIPIckerCustom x:Name="DestinationDBPicker"  DockPanel.Dock="Left" Margin="0,5,0,0"
+                                Grid.Row="1" Grid.Column="3" IsEnabled="{Binding ViewModel.DestinationIsDBFile, ElementName=Scanner}" Grid.ColumnSpan="3"/-->
+
             <MHLControls:MHLRadioButton GroupName="Destination" x:Name="DestinationDirectory" Margin="0,10,0,0" Grid.Row="0" Grid.Column="1" Content="Directory"
                                         IsChecked="{Binding ViewModel.DestinationIsDirectory, ElementName=Scanner}" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
-            <MHLControls:MHLRadioButton GroupName="Destination" x:Name="DestinationDBFile" Margin="1,10,0,0" Grid.Row="1" Grid.Column="1" Content="Data Base File"
+            <MHLControls:MHLRadioButton GroupName="Destination" x:Name="DestinationDBFile" Margin="1,10,0,0" Grid.Row="1" Grid.Column="1" Content="SQLite DB File"
                                         IsChecked="{Binding ViewModel.DestinationIsDBFile, ElementName=Scanner}" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
         </Grid>
 
         <pickers:MHLUIPicker x:Name="SourceDirectoryPicker" Grid.Row="0" Grid.Column="0" Margin="0,5,0,0" 
+                              Caption = "Source Directory" CaptionWidth = "100" CaptionVisibility="Visible"
                               IsEnabled="{Binding ViewModel.NotBusy, ElementName=Scanner}"
                               Command="{Binding  ViewModel.ChangeSourceDirCommand, ElementName=Scanner}"
                               Value="{Binding ViewModel.SourcePath, ElementName=Scanner, Mode=TwoWay}"/>
-        
+
         <MHLUIElements:SourceTree x:Name="SourceDirectoryTree" Grid.Row="2" Grid.Column="3" Margin="5,5,5,5" />
         <DockPanel x:Name="CoverSection" Grid.Row="3" Grid.Column="0" Margin="5,5,5,5">
             <Image Source="{Binding ViewModel.Cover, ElementName=SourceDirectoryTree}" Width="100"/>

@@ -92,7 +92,7 @@ namespace MHLSourceOnDiskTest
                     { ""SelectedItemType"":1,""SelectedTypedItemType"":2}],""IsFileName"":false}")]
         public void ExportBooks(string pathZip, string pathDestination, bool createNewFlag, string jsonStr)
         {
-            IDiskItem zip = DiskItemFabrick.GetDiskItem(pathZip);
+            IDiskItemExported? zip = DiskItemFabrick.GetDiskItem(pathZip) as IDiskItemExported;
             int res = 0, init = 0;
 
             if (createNewFlag)
