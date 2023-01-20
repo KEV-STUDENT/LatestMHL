@@ -31,6 +31,7 @@
         "dependencies": {
           "MHLCommands": "1.0.0",
           "MHLCommon": "1.0.0",
+          "MHLCustomControls": "1.0.0",
           "MHLResources": "1.0.0",
           "MHLSourceScannerLib": "1.0.0"
         },
@@ -42,6 +43,19 @@
         },
         "frameworkReferences": [
           "Microsoft.WindowsDesktop.App"
+        ]
+      },
+      "MHLCustomControls/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/MHLCustomControls.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MHLCustomControls.dll": {}
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App.WPF"
         ]
       },
       "MHLResources/1.0.0": {
@@ -144,6 +158,11 @@
       "path": "../../MHLControls/MHLControls.csproj",
       "msbuildProject": "../../MHLControls/MHLControls.csproj"
     },
+    "MHLCustomControls/1.0.0": {
+      "type": "project",
+      "path": "../../MHLCustomControls/MHLCustomControls.csproj",
+      "msbuildProject": "../../MHLCustomControls/MHLCustomControls.csproj"
+    },
     "MHLResources/1.0.0": {
       "type": "project",
       "path": "../../MHLResources/MHLResources.csproj",
@@ -172,6 +191,7 @@
   },
   "projectFileDependencyGroups": {
     "net6.0-windows7.0": [
+      "MHLCustomControls >= 1.0.0",
       "MHLSourceScannerLib >= 1.0.0",
       "MHLUIElements >= 1.0.0"
     ]
@@ -212,6 +232,9 @@
         "net6.0-windows7.0": {
           "targetAlias": "net6.0-windows",
           "projectReferences": {
+            "F:\\LatestMHL\\MHLCustomControls\\MHLCustomControls.csproj": {
+              "projectPath": "F:\\LatestMHL\\MHLCustomControls\\MHLCustomControls.csproj"
+            },
             "F:\\LatestMHL\\MHLSourceScanner\\MHLSourceScannerLib\\MHLSourceScannerLib.csproj": {
               "projectPath": "F:\\LatestMHL\\MHLSourceScanner\\MHLSourceScannerLib\\MHLSourceScannerLib.csproj"
             },

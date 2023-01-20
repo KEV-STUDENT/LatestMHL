@@ -1,6 +1,4 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace MHLCustomControls.Buttons
 {
@@ -30,29 +28,16 @@ namespace MHLCustomControls.Buttons
     /// Шаг 2)
     /// Теперь можно использовать элемент управления в файле XAML.
     ///
-    ///     <MyNamespace:MHLCustomButton/>
+    ///     <MyNamespace:MHLCustomButtonImg/>
     ///
     /// </summary>
-    public class MHLCustomButton : Button
+    public class MHLCustomButtonImg : MHLCustomButton
     {
-        #region [Comstructors]
-        static MHLCustomButton()
+        static MHLCustomButtonImg()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(MHLCustomButton), new FrameworkPropertyMetadata(typeof(MHLCustomButton)));
-        }
-        #endregion
-
-        public MHLCustomButton()
-        {
-            SetComponent();
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(MHLCustomButtonImg), new FrameworkPropertyMetadata(typeof(MHLCustomButtonImg)));
         }
 
-        #region [Methods]       
-        protected virtual void SetComponent()
-        {
-            Height = 24;
-            Width = 60;
-        }
-        #endregion
+        public MHLCustomButtonImg() : base() { }
     }
 }

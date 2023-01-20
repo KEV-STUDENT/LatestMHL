@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\MHLCustomControls\MHLCustomControls.csproj" />
     <ProjectReference Include="..\..\MHLUIElements\MHLUIElements.csproj" />
     <ProjectReference Include="..\MHLSourceScannerLib\MHLSourceScannerLib.csproj" />
   </ItemGroup>

@@ -419,3 +419,8 @@ MHLSourceScanner/MHLSourceScannerLib/obj/Debug/net6.0-windows/MHLSourceScannerLi
 *.cache
 MHLSourceScanner/MHLSourceScannerModelLibTest/obj/project.assets.json
 *.cache
+/MHLSourceScanner/.vs/MHLSourceScanner/v17/.suo
+MHLSourceScanner/.vs/MHLSourceScanner/DesignTimeBuild/.dtbcache.v2
+*.cache
+*.cache
+*.cache

@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v6.0": {
       "MHLSourceScanner/1.0.0": {
         "dependencies": {
+          "MHLCustomControls": "1.0.0",
           "MHLSourceScannerLib": "1.0.0",
           "MHLUIElements": "1.0.0"
         },
@@ -29,11 +30,17 @@
         "dependencies": {
           "MHLCommands": "1.0.0",
           "MHLCommon": "1.0.0",
+          "MHLCustomControls": "1.0.0",
           "MHLResources": "1.0.0",
           "MHLSourceScannerLib": "1.0.0"
         },
         "runtime": {
           "MHLControls.dll": {}
+        }
+      },
+      "MHLCustomControls/1.0.0": {
+        "runtime": {
+          "MHLCustomControls.dll": {}
         }
       },
       "MHLResources/1.0.0": {
@@ -100,6 +107,11 @@
       "sha512": ""
     },
     "MHLControls/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "MHLCustomControls/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
