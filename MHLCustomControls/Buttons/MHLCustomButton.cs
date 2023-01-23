@@ -1,6 +1,5 @@
 ﻿using ControlsCommon.ControlsViews;
 using ControlsCommon.ViewModels;
-using System;
 using System.Windows;
 using System.Windows.Controls;
 

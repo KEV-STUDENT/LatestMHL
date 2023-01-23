@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:pickers="clr-namespace:MHLCustomControls.Pickers">
 
-    <Style TargetType="{x:Type pickers:MHLCustomPicker}" >
+    <Style TargetType="{x:Type pickers:CustomPicker}" >
         
     </Style>
 </ResourceDictionary>
