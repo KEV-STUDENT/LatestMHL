@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"        
         xmlns:MHLControls="clr-namespace:MHLControls;assembly=MHLControls"
         xmlns:pickers="clr-namespace:MHLControls.MHLPickers;assembly=MHLControls"
-        xmlns:buttons="clr-namespace:MHLControls.MHLButtons;assembly=MHLControls"    
+        xmlns:pickersUI="clr-namespace:MHLControls.Pickers;assembly=MHLControls"
+        xmlns:buttons="clr-namespace:MHLControls.MHLButtons;assembly=MHLControls"        
         xmlns:MHLUIElements="clr-namespace:MHLUIElements;assembly=MHLUIElements"
         x:Class="MHLSourceScanner.MainWindow"
         mc:Ignorable="d"
@@ -71,6 +72,7 @@
             </DockPanel>
         </DockPanel>
         <DockPanel x:Name="ButtonSection" Grid.Row="4" HorizontalAlignment="Right">
+            <pickersUI:CustomPicker Width=" 600"  Margin="0,0,0,0"/>
             <buttons:MHLButtonRun x:Name="BtRun" Margin="0,0,5,5"                                  
                                   IsEnabled="{Binding ViewModel.NotBusy, ElementName=Scanner}"
                                   Command="{Binding ViewModel.RunCommandAsync, ElementName=Scanner}"/>

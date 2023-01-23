@@ -58,7 +58,15 @@ namespace MHLCustomControls.Buttons
 
         #region [IButtonView]
         IVMButton IButtonView.ViewModel => ViewModel;
-        string IButtonView.Caption { get => (Content as string) ?? string.Empty; set => Content = value; }
+        string IButtonView.Caption {
+            get {
+                return (Content as string) ?? string.Empty;
+            }
+            set
+            {
+                Content = value;
+            }
+        }
         double IButtonView.Width { get => Width; set => Width = value; }
         double IButtonView.Height { get => Height; set => Height = value; }
         System.Windows.Media.FontFamily IButtonView.FontName { get => FontFamily; set => FontFamily = value; }

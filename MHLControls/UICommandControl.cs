@@ -4,7 +4,7 @@ using System.Windows.Input;
 
 namespace MHLControls
 {
-    public abstract class UICommandControl : UserControl, ICommandSource
+    public abstract class UICommandControl : Control, ICommandSource
     {
         public static readonly DependencyProperty CommandProperty = DependencyProperty.Register(
              "Command",

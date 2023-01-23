@@ -5,6 +5,5 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/MHLCustomControls;component/Buttons/Themes/CustomButtonsRD.xaml"></ResourceDictionary>
         <ResourceDictionary Source="/MHLCustomControls;component/Buttons/Themes/CustomButtonsImgRD.xaml"></ResourceDictionary>
-        <ResourceDictionary Source="/MHLCustomControls;component/Pickers/Themes/PickerRD.xaml"></ResourceDictionary>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

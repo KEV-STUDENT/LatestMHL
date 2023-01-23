@@ -30,10 +30,10 @@
                                    Height="{TemplateBinding ImageHeight}"
                                    Width="{TemplateBinding ImageWidth}"
                                    />
-                            <TextBlock Margin="5,0,0,0" Text="{TemplateBinding Content}" TextAlignment="Left" VerticalAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap"
-                                   FontFamily="{TemplateBinding FontFamily}"
-                                   FontSize="{TemplateBinding FontSize}"
-                                   />
+                            <TextBlock Margin="5,0,5,0" TextAlignment="Left" VerticalAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap"
+                                       Text="{TemplateBinding Content}"
+                                       FontFamily="{TemplateBinding FontFamily}"
+                                       FontSize="{TemplateBinding FontSize}"/>
                     </DockPanel>
 
                     </Microsoft_Windows_Themes:ButtonChrome>

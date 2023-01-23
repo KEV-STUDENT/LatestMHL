@@ -20,26 +20,12 @@ namespace ControlsCommon.ViewModels
             SetCaption();
             SetSize();
         }
-
-        protected virtual void SetSize()
-        {
-            Width = 65;
-            Height = 24;
-        }
-
-        protected virtual void SetCaption()
-        {
-            Caption = "Caption";
-        }
-
-        protected virtual void SetFont()
-        {
-            FontName = new System.Windows.Media.FontFamily("Arial");
-            FontSize = 12;
-        }
         #endregion
 
         #region[Methods]
+        protected virtual void SetSize() { }
+        protected virtual void SetCaption() { }
+        protected virtual void SetFont() { }
         #endregion
 
         #region [Properties]
