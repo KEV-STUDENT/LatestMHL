@@ -1,19 +1,12 @@
-﻿using MHLResources;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MHLCustomControls.Buttons;
 
 namespace MHLControls.MHLButtons
 {
-    public class MHLButtonRun : MHLButton
+    public class MHLButtonRun : MHLCustomButtonImg
     {
-        protected override void SetComponent()
+        public MHLButtonRun()
         {
-            base.SetComponent();
-            Txt.Text = MHLResourcesManager.GetStringFromResources("MHLButtonRun_CPT", "Run");
-            Img.Source = MHLResourcesManager.GetImageFromResources("RunButton");
-        }
+            ViewModel = new MHLButtonRunVM(this);
+        }       
     }
 }

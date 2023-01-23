@@ -8,7 +8,10 @@
 
   <ItemGroup>
 	  <Folder Include="Buttons\Themes\" />
-	  <Folder Include="Pickers\Themes\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ControlsCommon\ControlsCommon.csproj" />
   </ItemGroup>
 
 </Project>

@@ -16,9 +16,9 @@
         <Setter Property="BorderBrush" Value="{StaticResource ButtonNormalBorder}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Setter Property="Padding" Value="1"/>
+        <Setter Property="Padding" Value="0"/>
 
         <Setter Property="Template">
             <Setter.Value>
@@ -33,8 +33,13 @@
 
                         <DockPanel x:Name="DPanel" LastChildFill="True" 
                                    Width="{TemplateBinding Width}"
-                                   Height="{TemplateBinding Height}">
-                            <TextBlock x:Name="Txt" Margin="5,0,0,0" Text="{TemplateBinding Content}"/>
+                                   Height="{TemplateBinding Height}"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Center">
+                            <TextBlock x:Name="Txt" Margin="5,0,0,0" TextAlignment="Left" VerticalAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap" 
+                                       Text="{TemplateBinding Content}"
+                                       FontFamily="{TemplateBinding FontFamily}"
+                                       FontSize="{TemplateBinding FontSize}"/>
                         </DockPanel>
 
                     </Microsoft_Windows_Themes:ButtonChrome>

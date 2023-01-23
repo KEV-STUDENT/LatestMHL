@@ -1,14 +1,11 @@
-﻿using MHLResources;
+﻿using MHLCustomControls.Buttons;
 
 namespace MHLControls.MHLButtons
 {
-    public class MHLButtonClose : MHLButton
+    public class MHLButtonClose : MHLCustomButtonImg
     {
-        protected override void SetComponent()
-        {
-            base.SetComponent();
-            Txt.Text = MHLResourcesManager.GetStringFromResources("MHLButtonClose_CPT", "Close");
-            Img.Source = MHLResourcesManager.GetImageFromResources("CloseButton");
+        public MHLButtonClose() {
+            ViewModel = new MHLButtonCloseVM(this);
         }
     }
 }

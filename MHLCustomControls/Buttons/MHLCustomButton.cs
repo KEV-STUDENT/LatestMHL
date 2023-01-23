@@ -1,6 +1,8 @@
-﻿using System.Windows;
+﻿using ControlsCommon.ControlsViews;
+using ControlsCommon.ViewModels;
+using System;
+using System.Windows;
 using System.Windows.Controls;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace MHLCustomControls.Buttons
 {
@@ -33,26 +35,35 @@ namespace MHLCustomControls.Buttons
     ///     <MyNamespace:MHLCustomButton/>
     ///
     /// </summary>
-    public class MHLCustomButton : Button
+    public class MHLCustomButton : Button, IButtonView
     {
-        #region [Comstructors]
+        #region [Fields]
+        private IVMButton _vm;
+        #endregion
+
+        #region [Constructors]
         static MHLCustomButton()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(MHLCustomButton), new FrameworkPropertyMetadata(typeof(MHLCustomButton)));
         }
-        #endregion
 
         public MHLCustomButton()
         {
-            SetComponent();
+            _vm = new VMButton(this);
         }
+        #endregion
 
-        #region [Methods]       
-        protected virtual void SetComponent()
-        {
-            Height = 24;
-            Width = 60;
-        }
+        #region [Properties]       
+        public IVMButton ViewModel { get => _vm; set => _vm = value; }
+        #endregion
+
+        #region [IButtonView]
+        IVMButton IButtonView.ViewModel => ViewModel;
+        string IButtonView.Caption { get => (Content as string) ?? string.Empty; set => Content = value; }
+        double IButtonView.Width { get => Width; set => Width = value; }
+        double IButtonView.Height { get => Height; set => Height = value; }
+        System.Windows.Media.FontFamily IButtonView.FontName { get => FontFamily; set => FontFamily = value; }
+        double IButtonView.FontSize { get => FontSize; set => FontSize = value; }
         #endregion
     }
 }

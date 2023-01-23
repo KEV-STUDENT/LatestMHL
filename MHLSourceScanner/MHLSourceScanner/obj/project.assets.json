@@ -2,6 +2,23 @@
   "version": 3,
   "targets": {
     "net6.0-windows7.0": {
+      "ControlsCommon/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "MHLCommon": "1.0.0",
+          "MHLResources": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/ControlsCommon.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/ControlsCommon.dll": {}
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App"
+        ]
+      },
       "MHLCommands/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
@@ -48,6 +65,9 @@
       "MHLCustomControls/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "ControlsCommon": "1.0.0"
+        },
         "compile": {
           "bin/placeholder/MHLCustomControls.dll": {}
         },
@@ -143,6 +163,11 @@
     }
   },
   "libraries": {
+    "ControlsCommon/1.0.0": {
+      "type": "project",
+      "path": "../../ControlsCommon/ControlsCommon.csproj",
+      "msbuildProject": "../../ControlsCommon/ControlsCommon.csproj"
+    },
     "MHLCommands/1.0.0": {
       "type": "project",
       "path": "../MHLCommands/MHLCommands.csproj",

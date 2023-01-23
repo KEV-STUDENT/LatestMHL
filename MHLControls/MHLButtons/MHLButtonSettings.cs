@@ -1,14 +1,13 @@
-﻿using MHLResources;
+﻿using MHLCustomControls.Buttons;
 
 namespace MHLControls.MHLButtons
 {
-    public class MHLButtonSettings : MHLButton
+    public class MHLButtonSettings : MHLCustomButtonImg
     {
-        protected override void SetComponent()
+
+        public MHLButtonSettings()
         {
-            base.SetComponent();
-            Txt.Text = MHLResourcesManager.GetStringFromResources("MHLButtonSettings_CPT", "Settings");
-            Img.Source = MHLResourcesManager.GetImageFromResources("SettingsButton");
-        }
+            ViewModel = new MHLButtonSettingsVM(this);
+        }       
     }
 }

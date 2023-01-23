@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"        
         xmlns:MHLControls="clr-namespace:MHLControls;assembly=MHLControls"
-        xmlns:customButtons="clr-namespace:MHLCustomControls.Buttons;assembly=MHLCustomControls"
         xmlns:pickers="clr-namespace:MHLControls.MHLPickers;assembly=MHLControls"
         xmlns:buttons="clr-namespace:MHLControls.MHLButtons;assembly=MHLControls"    
         xmlns:MHLUIElements="clr-namespace:MHLUIElements;assembly=MHLUIElements"
@@ -37,9 +36,9 @@
             <MHLControls:MHLLabel Content="Destination" Margin="5,5,0,0" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
             <pickers:MHLUIPicker x:Name="DestinationDirectoryPicker" DockPanel.Dock="Left" IsReadOnlyTextInput="True"
-                                 Value="{Binding ViewModel.DestinationPath, ElementName=Scanner, Mode=TwoWay}" 
-                                 SettingsVisibility="Visible" Margin="0,5,0,0"
-                                 Grid.Row="0" Grid.Column="3" IsEnabled="{Binding ViewModel.DestinationIsDirectory, ElementName=Scanner}" Grid.ColumnSpan="3"/>
+                                 Value="{Binding ViewModel.DestinationPath, ElementName=Scanner, Mode=TwoWay}"                                
+                                 SettingsVisibility="Visible"
+                                 Grid.Row="0" Grid.Column="3" IsEnabled="{Binding ViewModel.DestinationIsDirectory, ElementName=Scanner}" Grid.ColumnSpan="3" Margin="0,5,0,0" CaptionWidth="0"/>
 
             <pickers:MHLUIPicker x:Name="DestinationDBPicker"  DockPanel.Dock="Left" 
                                 SettingsVisibility="Visible" Margin="0,5,0,0"
@@ -72,8 +71,6 @@
             </DockPanel>
         </DockPanel>
         <DockPanel x:Name="ButtonSection" Grid.Row="4" HorizontalAlignment="Right">
-            <customButtons:MHLCustomButtonImg DockPanel.Dock="Left" Content="Test111" VerticalAlignment="Top" HorizontalContentAlignment="Center" Width="300"/>
-            <customButtons:MHLCustomButton Width="24" DockPanel.Dock="Left" Content="..." Height="24"  VerticalAlignment="Top" HorizontalContentAlignment="Center"/>
             <buttons:MHLButtonRun x:Name="BtRun" Margin="0,0,5,5"                                  
                                   IsEnabled="{Binding ViewModel.NotBusy, ElementName=Scanner}"
                                   Command="{Binding ViewModel.RunCommandAsync, ElementName=Scanner}"/>

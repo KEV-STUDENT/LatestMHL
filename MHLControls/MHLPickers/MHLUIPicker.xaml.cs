@@ -142,6 +142,12 @@ namespace MHLControls.MHLPickers
             add { ViewModel.AskUserEntry += value; }
             remove { ViewModel.AskUserEntry -= value; }
         }
+
+        public event Action? AskUserSettings
+        {
+            add { ViewModel.AskUserSettings += value; }
+            remove { ViewModel.AskUserSettings -= value; }
+        }
         #endregion
 
         #region [Constructors]

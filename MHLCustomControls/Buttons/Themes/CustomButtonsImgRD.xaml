@@ -19,11 +19,21 @@
                                                            RenderDefaulted="{TemplateBinding IsDefaulted}" 
                                                            SnapsToDevicePixels="true">
 
-                    <DockPanel LastChildFill="True"
+                    <DockPanel LastChildFill="True"                             
                                Width="{TemplateBinding Width}"
-                               Height="{TemplateBinding Height}">
-                        <Image x:Name="Img" Margin="5,0,0,0" DockPanel.Dock="Left"/>
-                        <TextBlock x:Name="Txt2" Margin="5,0,0,0" Text="2222"/>
+                               Height="{TemplateBinding Height}"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center">
+                            <Image DockPanel.Dock="Left" HorizontalAlignment="Center"
+                                   Margin="{TemplateBinding ImageMargin}" 
+                                   Source="{TemplateBinding ImageSource}"
+                                   Height="{TemplateBinding ImageHeight}"
+                                   Width="{TemplateBinding ImageWidth}"
+                                   />
+                            <TextBlock Margin="5,0,0,0" Text="{TemplateBinding Content}" TextAlignment="Left" VerticalAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap"
+                                   FontFamily="{TemplateBinding FontFamily}"
+                                   FontSize="{TemplateBinding FontSize}"
+                                   />
                     </DockPanel>
 
                     </Microsoft_Windows_Themes:ButtonChrome>

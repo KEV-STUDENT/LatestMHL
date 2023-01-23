@@ -21,7 +21,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MHLResources", "..\MHLResou
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MHLCommands", "MHLCommands\MHLCommands.csproj", "{F37188AC-6E91-4B91-8A4B-A60F9FF0B295}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MHLCustomControls", "..\MHLCustomControls\MHLCustomControls.csproj", "{8D4A48A2-96F1-4320-ACEF-A051EF48494A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MHLCustomControls", "..\MHLCustomControls\MHLCustomControls.csproj", "{8D4A48A2-96F1-4320-ACEF-A051EF48494A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControlsCommon", "..\ControlsCommon\ControlsCommon.csproj", "{54F79D06-BB35-4668-B27F-C9D89EE90B0D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +71,10 @@ Global
 		{8D4A48A2-96F1-4320-ACEF-A051EF48494A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8D4A48A2-96F1-4320-ACEF-A051EF48494A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8D4A48A2-96F1-4320-ACEF-A051EF48494A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54F79D06-BB35-4668-B27F-C9D89EE90B0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54F79D06-BB35-4668-B27F-C9D89EE90B0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54F79D06-BB35-4668-B27F-C9D89EE90B0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54F79D06-BB35-4668-B27F-C9D89EE90B0D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

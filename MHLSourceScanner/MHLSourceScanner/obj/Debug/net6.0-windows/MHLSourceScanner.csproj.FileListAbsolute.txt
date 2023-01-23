@@ -41,3 +41,5 @@ F:\LatestMHL\MHLSourceScanner\MHLSourceScanner\bin\Debug\net6.0-windows\MHLComma
 F:\LatestMHL\MHLSourceScanner\MHLSourceScanner\bin\Debug\net6.0-windows\MHLSourceScanner.dll.config
 F:\LatestMHL\MHLSourceScanner\MHLSourceScanner\bin\Debug\net6.0-windows\MHLCustomControls.dll
 F:\LatestMHL\MHLSourceScanner\MHLSourceScanner\bin\Debug\net6.0-windows\MHLCustomControls.pdb
+F:\LatestMHL\MHLSourceScanner\MHLSourceScanner\bin\Debug\net6.0-windows\ControlsCommon.dll
+F:\LatestMHL\MHLSourceScanner\MHLSourceScanner\bin\Debug\net6.0-windows\ControlsCommon.pdb

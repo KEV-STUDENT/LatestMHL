@@ -1,21 +1,12 @@
-﻿using MHLResources;
-using System.Windows;
+﻿using MHLCustomControls.Buttons;
 
 namespace MHLControls.MHLButtons
 {
-    public class MHLButtonDelete : MHLButton
+    public class MHLButtonDelete : MHLCustomButtonImg
     {
-        protected override void SetComponent()
+        public MHLButtonDelete()
         {
-            Img.Source = MHLResourcesManager.GetImageFromResources("Minus_12x12");
-            Img.Width = 12;
-            Img.Height = 12;
-
-            Txt.Text = string.Empty;
-            Txt.Visibility = Visibility.Collapsed;
-
-            Height = 16;
-            Width = 16;
+            ViewModel = new MHLButtonDeleteVM(this);
         }
     }
 }

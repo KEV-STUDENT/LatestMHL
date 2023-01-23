@@ -1,4 +1,7 @@
-﻿using System.Windows;
+﻿using ControlsCommon.ControlsViews;
+using ControlsCommon.ViewModels;
+using System.Windows;
+using System.Windows.Media.Imaging;
 
 namespace MHLCustomControls.Buttons
 {
@@ -31,13 +34,74 @@ namespace MHLCustomControls.Buttons
     ///     <MyNamespace:MHLCustomButtonImg/>
     ///
     /// </summary>
-    public class MHLCustomButtonImg : MHLCustomButton
+    public class MHLCustomButtonImg : MHLCustomButton, IButtonImgView
     {
+        public static readonly DependencyProperty ImageSourceProperty;
+        public static readonly DependencyProperty ImageWidthProperty;
+        public static readonly DependencyProperty ImageHeightProperty;
+        public static readonly DependencyProperty ImageMarginProperty;
+
+        #region[Properties]
+        public BitmapImage ImageSource {
+            get { return (BitmapImage)GetValue(ImageSourceProperty); }
+            set { SetValue(ImageSourceProperty, value); }
+        }
+        public double ImageWidth
+        {
+            get { return (double)GetValue(ImageWidthProperty); }
+            set { SetValue(ImageWidthProperty, value); }
+        }
+        public double ImageHeight
+        {
+            get { return (double)GetValue(ImageHeightProperty); }
+            set { SetValue(ImageHeightProperty, value); }
+        }
+
+        public Thickness ImageMargin
+        {
+            get { return (Thickness)GetValue(ImageMarginProperty); }
+            set { SetValue(ImageMarginProperty, value);}
+        }
+        #endregion
+
+        #region [Constructors]
         static MHLCustomButtonImg()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(MHLCustomButtonImg), new FrameworkPropertyMetadata(typeof(MHLCustomButtonImg)));
+
+            ImageSourceProperty = DependencyProperty.Register(
+                "ImageSource",
+                typeof(BitmapImage),
+                typeof(MHLCustomButtonImg));
+
+            ImageWidthProperty = DependencyProperty.Register(
+               "ImageWidth",
+               typeof(double),
+               typeof(MHLCustomButtonImg));
+
+            ImageHeightProperty = DependencyProperty.Register(
+               "ImageHeight",
+               typeof(double),
+               typeof(MHLCustomButtonImg));
+
+            ImageMarginProperty = DependencyProperty.Register(
+                "ImageMargin",
+                typeof(Thickness),
+                typeof(MHLCustomButtonImg));
         }
 
-        public MHLCustomButtonImg() : base() { }
+        public MHLCustomButtonImg()
+        {
+            ViewModel = new VMButtonImg(this);
+        }
+        #endregion
+
+        #region[IButtonImgView]
+        IVMButtonImg IButtonImgView.ViewModel => (IVMButtonImg)ViewModel;
+        BitmapImage IButtonImgView.ImageSource { get => ImageSource; set => ImageSource = value; }
+        double IButtonImgView.ImageWidth { get => ImageWidth; set => ImageWidth = value; }
+        double IButtonImgView.ImageHeight { get => ImageHeight; set => ImageHeight = value; }
+        Thickness IButtonImgView.ImageMargin { get => ImageMargin;set => ImageMargin = value; }
+        #endregion
     }
 }

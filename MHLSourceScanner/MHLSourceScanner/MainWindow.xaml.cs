@@ -24,6 +24,8 @@ namespace MHLSourceScanner
             SourceDirectoryPicker.AskUserForInputEvent += MHLAsk4Picker.AskDirectory;
 
             DestinationDirectoryPicker.AskUserForInputEvent += MHLAsk4Picker.AskDirectory;
+            DestinationDirectoryPicker.AskUserSettings += _vm.SetExportDirAction;
+
             DestinationDBPicker.AskUserForInputEvent += MHLAsk4Picker.AskFile;
 
             DataContext = this;
