@@ -4,13 +4,13 @@
                     xmlns:local="clr-namespace:MHLControls"
                     xmlns:customButtons="clr-namespace:MHLCustomControls.Buttons;assembly=MHLCustomControls">
 
-    <Style TargetType="{x:Type pickers:CustomPicker}" >
+    <Style TargetType="{x:Type pickers:CustomPickerDirectory}" >
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type pickers:CustomPicker}">
+                <ControlTemplate TargetType="{x:Type pickers:CustomPickerDirectory}">
                     <DockPanel LastChildFill="True" VerticalAlignment="Top">
                         <customButtons:MHLCustomButton DockPanel.Dock="Right" Content="..." Margin="0,0,5,0" Width="24"
-                                                       Command="{Binding RelativeSource={RelativeSource AncestorType=pickers:CustomPicker}, Path=ViewModel.AskUserEntryCommand}"/>
+                                                       Command="{Binding RelativeSource={RelativeSource AncestorType=pickers:CustomPickerDirectory}, Path=ViewModel.AskUserEntryCommand}"/>
                         <local:MHLTextBox DockPanel.Dock="Left" Margin="5,0,5,0"
                                            Text="{TemplateBinding Value}" />
                     </DockPanel>

@@ -21,14 +21,14 @@ namespace MHLSourceScanner
             };
 
             InitializeComponent();
-            SourceDirectoryPicker.AskUserForInputEvent += MHLAsk4Picker.AskDirectory;
+            //SourceDirectoryPicker.AskUserForInputEvent += MHLAsk4Picker.AskDirectory;
 
             DestinationDirectoryPicker.AskUserForInputEvent += MHLAsk4Picker.AskDirectory;
             DestinationDirectoryPicker.AskUserSettings += _vm.SetExportDirAction;
 
             DestinationDBPicker.AskUserForInputEvent += MHLAsk4Picker.AskFile;
 
-            TestPicker.AskUserForInputEvent += MHLAsk4Picker.AskDirectory;
+            //TestPicker.AskUserForInputEvent += MHLAsk4Picker.AskDirectory;
 
             DataContext = this;
             _vm.LoadDataFromConfig();

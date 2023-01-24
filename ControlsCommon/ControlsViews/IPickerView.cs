@@ -8,13 +8,16 @@ namespace ControlsCommon.ControlsViews
         void ValueChanged();
     }
 
-    public interface IPickerView <T> : IPickerView
+    public interface IPickerView<T> : IPickerView
     {
         IVMPicker<T>? ViewModel { get; }
         T Value { get; set; }
         #region [Events]
         event Action<IMPicker<T>>? AskUserForInputEvent;
         #endregion
-
     }
+
+    public interface IPickerSettingsView<T> : IPickerView<T>, ISettings
+    { }
+}
 }

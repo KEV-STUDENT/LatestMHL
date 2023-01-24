@@ -20,14 +20,19 @@ namespace ControlsCommon.ViewModels.Pickers
         #region [Constructors]
         public VMPicker(IPickerView<T> viewUI)
         {
-            _view = viewUI;
-            _model= new MPicker<T>(this);
+            _view = viewUI;           
             _valueChanged = _view.ValueChanged;
             AskUserEntryCommand = new RelayCommand(ExecuteAskUserEntryCommand, CanExecuteAskUserEntryCommand);
+            InitVM();
         }
         #endregion
 
         #region [Methods]
+        protected virtual void InitVM()
+        {
+            _model = new MPicker<T>(this);
+        }
+
         private void ValueChangedInform()
         {
             OnPropertyChanged("Value");

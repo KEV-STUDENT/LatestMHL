@@ -3,48 +3,18 @@ using ControlsCommon.Models;
 using ControlsCommon.ViewModels.Pickers;
 using System;
 using System.Windows;
-using System.Windows.Input;
 
 namespace MHLControls.Pickers
 {
-    public class CustomPicker : UICommandControl, IPickerView<string>
+    public abstract class CustomPicker<T> : UICommandControl, IPickerView<T>
     {
-        private IVMPicker<string>? _vm;
-        public static readonly DependencyProperty ValueProperty;
-
-        #region [Constructors]
-        static CustomPicker()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(CustomPicker), new FrameworkPropertyMetadata(typeof(CustomPicker)));
-            ValueProperty = DependencyProperty.Register(
-                "Value",
-                typeof(String),
-                typeof(CustomPicker),
-                new UIPropertyMetadata(string.Empty, new PropertyChangedCallback(CurrentValueChanged)));
-        }
-
-        public CustomPicker()
-        {
-            _vm = new VMPicker<string>(this);            
-        }
-        #endregion
-
         #region [Properties]
-        public IVMPicker<string>? ViewModel => _vm;
-
-        public string Value
-        {
-            get {
-                return (String)GetValue(ValueProperty); 
-            }
-            set { 
-                SetValue(ValueProperty, value); 
-            }
-        }
+        abstract public IVMPicker<T>? ViewModel { get; }
+        abstract public T Value { get; set; }        
         #endregion
 
         #region [Events]
-        public event Action<IMPicker<string>>? AskUserForInputEvent
+        public event Action<IMPicker<T>>? AskUserForInputEvent
         {
             add {
                 if(ViewModel != null)
@@ -58,24 +28,22 @@ namespace MHLControls.Pickers
         #endregion
 
         #region [Methods]
-        private static void CurrentValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs args)
+        protected static void CurrentValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs args)
         {
-            if ((d is CustomPicker picker) && picker != null)
+            if ((d is CustomPicker<T> picker) && picker != null)
             {
                 picker?.ViewModel?.ValueChangedInform();
             }
         }
         #endregion
 
-
         #region [IVMPicker]
         void IPickerView.ValueChanged()
         {
             GenerateCommand();
         }
-
-        IVMPicker<string>? IPickerView<string>.ViewModel => ViewModel;
-        string IPickerView<string>.Value {
+        IVMPicker<T>? IPickerView<T>.ViewModel => ViewModel;
+        T IPickerView<T>.Value {
             get
             {
                 return Value;
@@ -84,7 +52,8 @@ namespace MHLControls.Pickers
                 Value = value; 
             } 
         }
-        event Action<IMPicker<string>>? IPickerView<string>.AskUserForInputEvent
+
+        event Action<IMPicker<T>>? IPickerView<T>.AskUserForInputEvent
         {
             add
             {
@@ -96,7 +65,6 @@ namespace MHLControls.Pickers
                 AskUserForInputEvent -= value;
             }
         }
-
         #endregion
     }
 }

@@ -1,5 +1,4 @@
 ﻿using ControlsCommon.Models;
-using MHLCommon.MHLScanner;
 using System.Windows.Input;
 
 namespace ControlsCommon.ViewModels.Pickers
@@ -18,4 +17,6 @@ namespace ControlsCommon.ViewModels.Pickers
         event Action<IMPicker<T>> AskUserEntry;
         ICommand AskUserEntryCommand { get; set; }
     }
+    public interface IVMPickerSettings<T> : IVMPicker<T>, ISettings
+    {    }
 }

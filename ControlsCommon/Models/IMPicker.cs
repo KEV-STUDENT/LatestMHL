@@ -1,5 +1,4 @@
 ﻿using MHLCommon;
-using MHLCommon.MHLScanner;
 
 namespace ControlsCommon.Models
 {
