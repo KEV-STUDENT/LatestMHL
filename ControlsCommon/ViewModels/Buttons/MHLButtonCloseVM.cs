@@ -1,10 +1,9 @@
 ﻿using ControlsCommon.ControlsViews;
-using ControlsCommon.ViewModels;
 using MHLResources;
 
-namespace MHLControls.MHLButtons
+namespace ControlsCommon.ViewModels.Buttons
 {
-    internal class MHLButtonCloseVM : VMButtonImg
+    public class MHLButtonCloseVM : VMButtonImg
     {
         #region [Constructors]
         public MHLButtonCloseVM(IButtonImgView buttonView) : base(buttonView) { }

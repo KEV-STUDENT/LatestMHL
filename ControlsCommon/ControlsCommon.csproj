@@ -11,6 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="..\MHLCommon\MHLCommon.csproj" />
     <ProjectReference Include="..\MHLResources\MHLResources.csproj" />
+    <ProjectReference Include="..\MHLSourceScanner\MHLCommands\MHLCommands.csproj" />
   </ItemGroup>
 
 </Project>

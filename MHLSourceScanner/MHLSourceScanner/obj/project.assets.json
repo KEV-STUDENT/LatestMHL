@@ -6,6 +6,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
+          "MHLCommands": "1.0.0",
           "MHLCommon": "1.0.0",
           "MHLResources": "1.0.0"
         },

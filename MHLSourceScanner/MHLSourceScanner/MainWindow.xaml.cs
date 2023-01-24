@@ -28,6 +28,8 @@ namespace MHLSourceScanner
 
             DestinationDBPicker.AskUserForInputEvent += MHLAsk4Picker.AskFile;
 
+            TestPicker.AskUserForInputEvent += MHLAsk4Picker.AskDirectory;
+
             DataContext = this;
             _vm.LoadDataFromConfig();
         }

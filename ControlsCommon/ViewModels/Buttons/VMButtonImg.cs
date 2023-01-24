@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Media.Imaging;
 
-namespace ControlsCommon.ViewModels
+namespace ControlsCommon.ViewModels.Buttons
 {
     public class VMButtonImg : VMButton, IVMButtonImg
     {
@@ -19,7 +19,7 @@ namespace ControlsCommon.ViewModels
             }
             set
             {
-                if (value != null && (((IVMButton)this).ButtonView is IButtonImgView view))
+                if (value != null && ((IVMButton)this).ButtonView is IButtonImgView view)
                 {
                     view.ImageSource = value;
                 }
@@ -56,7 +56,8 @@ namespace ControlsCommon.ViewModels
             }
         }
 
-        public Thickness ImageMargin {
+        public Thickness ImageMargin
+        {
             get
             {
                 return (((IVMButton)this).ButtonView as IButtonImgView)?.ImageMargin ?? new Thickness(0);
@@ -85,7 +86,7 @@ namespace ControlsCommon.ViewModels
         protected virtual void SetImageSize()
         {
             ImageWidth = 16;
-            ImageHeight= 16;
+            ImageHeight = 16;
             ImageMargin = new Thickness(4, 0, 0, 0);
         }
         #endregion
@@ -94,7 +95,7 @@ namespace ControlsCommon.ViewModels
         BitmapImage? IVMButtonImg.ImageSource { get => ImageSource; set => ImageSource = value; }
         double IVMButtonImg.ImageWidth { get => ImageWidth; set => ImageWidth = value; }
         double IVMButtonImg.ImageHeight { get => ImageHeight; set => ImageHeight = value; }
-        Thickness IVMButtonImg.ImageMargin { get=> ImageMargin; set=> ImageMargin=value; }        
+        Thickness IVMButtonImg.ImageMargin { get => ImageMargin; set => ImageMargin = value; }
         #endregion
     }
 }

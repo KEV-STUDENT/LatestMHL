@@ -1,11 +1,25 @@
 ﻿using MHLCommon.MHLScanner;
+using ControlsCommon.Models;
 using System.IO;
 
 namespace MHLControls.MHLPickers
 {
     public static class MHLAsk4Picker
     {
-       static public void AskDirectory(IPicker<string> picker)
+        static public void AskDirectory(IMPicker<string> picker)
+        {
+            using (var folder = new System.Windows.Forms.FolderBrowserDialog())
+            {
+                folder.SelectedPath = picker.Value;
+                System.Windows.Forms.DialogResult result = folder.ShowDialog();
+                if (result == System.Windows.Forms.DialogResult.OK)
+                {
+                    picker.Value = folder.SelectedPath;
+                }
+            }
+        }
+
+        static public void AskDirectory(IPicker<string> picker)
        {
            using (var folder = new System.Windows.Forms.FolderBrowserDialog())
            {

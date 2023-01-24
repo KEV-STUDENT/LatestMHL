@@ -1,10 +1,9 @@
 ﻿using ControlsCommon.ControlsViews;
-using ControlsCommon.ViewModels;
 using MHLResources;
 
-namespace MHLControls.MHLButtons
+namespace ControlsCommon.ViewModels.Buttons
 {
-    internal class MHLButtonSettingsVM : VMButtonImg
+    public class MHLButtonSettingsVM : VMButtonImg
     {
         #region[Constructors]
         public MHLButtonSettingsVM(IButtonImgView buttonView) : base(buttonView) { }

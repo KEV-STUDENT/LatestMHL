@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Media.Imaging;
 
-namespace ControlsCommon.ViewModels
+namespace ControlsCommon.ViewModels.Buttons
 {
     public interface IVMButtonImg : IVMButton
     {

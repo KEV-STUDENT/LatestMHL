@@ -1,4 +1,4 @@
-﻿namespace ControlsCommon.ViewModels
+﻿namespace ControlsCommon.ViewModels.Buttons
 {
     public interface IVMButton
     {

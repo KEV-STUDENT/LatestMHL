@@ -1,8 +1,10 @@
-﻿namespace ControlsCommon.ControlsViews
+﻿using ControlsCommon.ViewModels.Buttons;
+
+namespace ControlsCommon.ControlsViews
 {
     public interface IButtonView
     {
-        ControlsCommon.ViewModels.IVMButton ViewModel { get; }        
+        IVMButton ViewModel { get; }        
         string Caption { get; set; }
         double Width { get; set; }
         double Height { get; set; }

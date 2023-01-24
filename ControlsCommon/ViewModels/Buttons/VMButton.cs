@@ -1,7 +1,7 @@
 ﻿using ControlsCommon.ControlsViews;
 using MHLCommon.ViewModels;
 
-namespace ControlsCommon.ViewModels
+namespace ControlsCommon.ViewModels.Buttons
 {
     public class VMButton : ViewModel, IVMButton
     {

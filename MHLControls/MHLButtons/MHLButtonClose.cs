@@ -1,4 +1,5 @@
 ﻿using MHLCustomControls.Buttons;
+using ControlsCommon.ViewModels.Buttons;
 
 namespace MHLControls.MHLButtons
 {
