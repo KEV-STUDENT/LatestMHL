@@ -38,11 +38,15 @@
             </Grid.ColumnDefinitions>
             <MHLControls:MHLLabel Content="Destination" Margin="0,5,0,0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
 
-            <pickers:MHLUIPicker x:Name="DestinationDirectoryPicker" IsReadOnlyTextInput="True"
+            <!--pickers:MHLUIPicker x:Name="DestinationDirectoryPicker" IsReadOnlyTextInput="True"
                                  Value="{Binding ViewModel.DestinationPath, ElementName=Scanner, Mode=TwoWay}"                                
                                  SettingsVisibility="Visible"
-                                 Grid.Row="0" Grid.Column="3" IsEnabled="{Binding ViewModel.DestinationIsDirectory, ElementName=Scanner}" Grid.ColumnSpan="3" Margin="0,5,0,0" CaptionWidth="0"/>
+                                 Grid.Row="0" Grid.Column="3" IsEnabled="{Binding ViewModel.DestinationIsDirectory, ElementName=Scanner}" Grid.ColumnSpan="3" Margin="0,5,0,0" CaptionWidth="0"/-->
 
+            <pickersUI:CustomPickerSettingsDirectory x:Name="DestinationDirectoryPicker"
+                                 Value="{Binding ViewModel.DestinationPath, ElementName=Scanner, Mode=TwoWay}"                                
+                                 Grid.Row="0" Grid.Column="3" IsEnabled="{Binding ViewModel.DestinationIsDirectory, ElementName=Scanner}" Grid.ColumnSpan="3" Margin="0,5,0,0"/>
+            
             <pickers:MHLUIPicker x:Name="DestinationDBPicker" 
                                 SettingsVisibility="Visible" Margin="0,5,0,0"
                                 Grid.Row="1" Grid.Column="3" IsEnabled="{Binding ViewModel.DestinationIsDBFile, ElementName=Scanner}" Grid.ColumnSpan="3"/>

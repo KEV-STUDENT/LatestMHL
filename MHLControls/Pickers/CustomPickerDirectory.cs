@@ -6,6 +6,7 @@ namespace MHLControls.Pickers
 {
     public class CustomPickerDirectory : CustomPicker<string>
     {
+        protected IVMPicker<string>? _vm;
         public static readonly DependencyProperty ValueProperty;
 
         #region [Constructors]
@@ -36,6 +37,7 @@ namespace MHLControls.Pickers
                 SetValue(ValueProperty, value);
             }
         }
+        public override IVMPicker<string>? ViewModel => _vm;
         #endregion
     }
 }

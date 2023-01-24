@@ -20,4 +20,3 @@ namespace ControlsCommon.ControlsViews
     public interface IPickerSettingsView<T> : IPickerView<T>, ISettings
     { }
 }
-}
