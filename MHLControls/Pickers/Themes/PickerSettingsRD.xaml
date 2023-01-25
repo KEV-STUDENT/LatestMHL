@@ -5,16 +5,17 @@
                     xmlns:local="clr-namespace:MHLControls"
                     xmlns:customButtons="clr-namespace:MHLCustomControls.Buttons;assembly=MHLCustomControls">
 
-    <Style TargetType="{x:Type pickers:CustomPickerSettingsDirectory}" >
+    <Style TargetType="{x:Type pickers:CustomPickerSettingsString}" >
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type pickers:CustomPickerSettingsDirectory}">
+                <ControlTemplate TargetType="{x:Type pickers:CustomPickerSettingsString}">
                     <DockPanel LastChildFill="True" VerticalAlignment="Top">
-                        <customButtons:MHLCustomButton DockPanel.Dock="Right" Content="..." Margin="0,0,5,0" Width="24"
-                                                       Command="{Binding RelativeSource={RelativeSource AncestorType=pickers:CustomPickerSettingsDirectory}, Path=ViewModel.AskUserEntryCommand}"/>
                         <buttons:MHLButtonSettings DockPanel.Dock="Right" Margin="0,0,5,0" Width="24"
-                                                   Command="{Binding RelativeSource={RelativeSource AncestorType=pickers:CustomPickerSettingsDirectory}, Path=ViewModel.AskUserSettingsCommand}"/>
+                                                   Command="{Binding RelativeSource={RelativeSource AncestorType=pickers:CustomPickerSettingsString}, Path=ViewModel.AskUserSettingsCommand}"/>
+                        <customButtons:MHLCustomButton DockPanel.Dock="Right" Content="..." Margin="0,0,5,0" Width="24"
+                                                       Command="{Binding RelativeSource={RelativeSource AncestorType=pickers:CustomPickerSettingsString}, Path=ViewModel.AskUserEntryCommand}"/>
                         <local:MHLTextBox DockPanel.Dock="Left" Margin="5,0,5,0"
+                                           IsReadOnly="{TemplateBinding IsReadOnlyTextInput}"
                                            Text="{TemplateBinding Value}" />
                     </DockPanel>
                 </ControlTemplate>

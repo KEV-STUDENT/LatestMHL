@@ -92,6 +92,11 @@ namespace ControlsCommon.ViewModels.Pickers
         {
             ValueChangedInform();
         }
+
+        void IVMPicker.IsReadOnlyTextInputChangedInform()
+        {
+            OnPropertyChanged("IsReadOnlyTextInput");
+        }
         #endregion
     }
 }

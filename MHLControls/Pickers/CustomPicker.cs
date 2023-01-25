@@ -10,7 +10,8 @@ namespace MHLControls.Pickers
     {
         #region [Properties]
         abstract public IVMPicker<T>? ViewModel { get; }
-        abstract public T Value { get; set; }        
+        abstract public T Value { get; set; }
+        abstract public bool IsReadOnlyTextInput { get; set; }
         #endregion
 
         #region [Events]
@@ -35,6 +36,14 @@ namespace MHLControls.Pickers
                 picker?.ViewModel?.ValueChangedInform();
             }
         }
+
+        protected static void IsReadOnlyTextInputChanged(DependencyObject d, DependencyPropertyChangedEventArgs args)
+        {
+            if ((d is CustomPicker<T> picker) && picker != null)
+            {
+                picker?.ViewModel?.IsReadOnlyTextInputChangedInform();
+            }
+        }
         #endregion
 
         #region [IVMPicker]
@@ -43,6 +52,7 @@ namespace MHLControls.Pickers
             GenerateCommand();
         }
         IVMPicker<T>? IPickerView<T>.ViewModel => ViewModel;
+        bool IPickerView.IsReadOnlyTextInput { get => IsReadOnlyTextInput; set => IsReadOnlyTextInput = value; }
         T IPickerView<T>.Value {
             get
             {
@@ -52,7 +62,6 @@ namespace MHLControls.Pickers
                 Value = value; 
             } 
         }
-
         event Action<IMPicker<T>>? IPickerView<T>.AskUserForInputEvent
         {
             add

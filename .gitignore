@@ -442,3 +442,11 @@ MHLSourceScanner/.vs/MHLSourceScanner/DesignTimeBuild/.dtbcache.v2
 *.cache
 *.cache
 MHLSourceScanner/MHLSourceScanner/obj/Debug/net6.0-windows/MHLSourceScanner.csproj.AssemblyReference.cache
+MHLSourceScanner/MHLSourceScanner/obj/Debug/net6.0-windows/MainWindow.baml
+MHLSourceScanner/MHLSourceScanner/obj/Debug/net6.0-windows/MainWindow.baml
+MHLSourceScanner/MHLSourceScanner/obj/Debug/net6.0-windows/MainWindow.g.cs
+*.cs
+MHLSourceScanner/MHLSourceScanner/obj/Debug/net6.0-windows/MHLSourceScanner.csproj.AssemblyReference.cache
+MHLSourceScanner/MHLSourceScanner/obj/Debug/net6.0-windows/MHLSourceScanner.g.resources
+MHLSourceScanner/MHLSourceScannerLib/obj/Debug/net6.0-windows/MHLSourceScannerLib.csproj.AssemblyReference.cache
+MHLSourceScanner/MHLSourceScannerModelLib/obj/Debug/net6.0-windows/MHLSourceScannerModelLib.csproj.AssemblyReference.cache

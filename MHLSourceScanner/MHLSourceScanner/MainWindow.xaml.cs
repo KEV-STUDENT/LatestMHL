@@ -1,5 +1,4 @@
-﻿using MHLControls.MHLPickers;
-using System.Windows;
+﻿using System.Windows;
 
 namespace MHLSourceScanner
 {
@@ -22,8 +21,6 @@ namespace MHLSourceScanner
 
             InitializeComponent();
             DestinationDirectoryPicker.AskUserForSettings += _vm.SetExportDirAction;
-
-            DestinationDBPicker.AskUserForInputEvent += MHLAsk4Picker.AskFile;
 
             DataContext = this;
             _vm.LoadDataFromConfig();

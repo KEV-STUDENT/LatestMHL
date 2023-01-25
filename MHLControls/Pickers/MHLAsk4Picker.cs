@@ -2,7 +2,7 @@
 using ControlsCommon.Models;
 using System.IO;
 
-namespace MHLControls.MHLPickers
+namespace MHLControls.Pickers
 {
     public static class MHLAsk4Picker
     {
@@ -18,21 +18,7 @@ namespace MHLControls.MHLPickers
                 }
             }
         }
-
-        static public void AskDirectory(IPicker<string> picker)
-       {
-           using (var folder = new System.Windows.Forms.FolderBrowserDialog())
-           {
-               folder.SelectedPath = picker.Value;
-               System.Windows.Forms.DialogResult result = folder.ShowDialog();
-               if (result == System.Windows.Forms.DialogResult.OK)
-               {
-                   picker.Value = folder.SelectedPath;
-               }
-           }
-       }
-
-        static public void AskFile(IPicker<string> picker)
+        static public void AskFile(IMPicker<string> picker)
         {
             using (var file = new System.Windows.Forms.OpenFileDialog())
             {

@@ -9,6 +9,7 @@ namespace ControlsCommon.ViewModels.Pickers
         protected void ExecuteAskUserEntryCommand(object? obj);
         protected bool CanExecuteAskUserEntryCommand(object? obj);
         void ValueChangedInform();
+        void IsReadOnlyTextInputChangedInform();
     }
 
     public interface IVMPicker<T> : IVMPicker

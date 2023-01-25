@@ -1,10 +1,6 @@
-﻿using System;
-using MHLCommon.MHLScanner;
-using MHLControls.MHLPickers;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace MHLControls.BookDirControls
 {

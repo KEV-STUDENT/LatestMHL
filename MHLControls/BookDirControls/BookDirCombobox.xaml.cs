@@ -1,5 +1,4 @@
 ﻿using MHLCommon.MHLBookDir;
-using MHLControls.MHLPickers;
 using MHLSourceScannerLib;
 using MHLSourceScannerLib.BookDir;
 using System;

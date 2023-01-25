@@ -6,6 +6,7 @@ namespace ControlsCommon.ControlsViews
     public interface IPickerView
     {
         void ValueChanged();
+        bool IsReadOnlyTextInput { get; set; }
     }
 
     public interface IPickerView<T> : IPickerView
