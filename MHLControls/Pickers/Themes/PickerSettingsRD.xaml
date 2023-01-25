@@ -16,7 +16,7 @@
                                                        Command="{Binding RelativeSource={RelativeSource AncestorType=pickers:CustomPickerSettingsString}, Path=ViewModel.AskUserEntryCommand}"/>
                         <local:MHLTextBox DockPanel.Dock="Left" Margin="5,0,5,0"
                                            IsReadOnly="{TemplateBinding IsReadOnlyTextInput}"
-                                           Text="{TemplateBinding Value}" />
+                                           Text="{Binding RelativeSource={RelativeSource AncestorType=pickers:CustomPickerSettingsString}, Path=Value, Mode=TwoWay}" />
                     </DockPanel>
                 </ControlTemplate>
             </Setter.Value>

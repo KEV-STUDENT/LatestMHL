@@ -109,7 +109,9 @@ namespace MHLSourceScanner
         bool IVM4Scanner.DestinationIsDirectory { get => DestinationIsDirectory; set => DestinationIsDirectory = value; }
         bool IVM4Scanner.DestinationIsDBFile { get => DestinationIsDBFile; set => DestinationIsDBFile = value; }
         string IVM4Scanner.DestinationDB { get => DestinationDB; set => DestinationDB = value; }
-        string IVM4Scanner.DestinationPath { get => DestinationPath; set => DestinationPath = value; }
+        string IVM4Scanner.DestinationPath { 
+            get => DestinationPath; 
+            set => DestinationPath = value; }
         string IVM4Scanner.SourcePath { get => SourcePath; set => SourcePath = value; }
         #endregion
 
