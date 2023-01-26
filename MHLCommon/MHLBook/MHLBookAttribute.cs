@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
-
-namespace MHLCommon.MHLBook
+﻿namespace MHLCommon.MHLBook
 {
     public abstract class MHLBookAttribute<T> : IBookAttribute<T> where T : class
     {

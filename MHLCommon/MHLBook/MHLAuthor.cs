@@ -1,13 +1,15 @@
-﻿using System.Xml;
+﻿using MHLCommon.DataModels;
+using System.Xml;
 
 namespace MHLCommon.MHLBook
 {
-    public class MHLAuthor : MHLBookAttribute<XmlNode>
+
+    public class MHLAuthor : MHLBookAttribute<XmlNode>, IAuthor
     {
         #region [Fields]
-        private string _lastname = string.Empty;
-        private string _firstname = string.Empty;
-        private string _middleame = string.Empty;
+        private string? _lastname;
+        private string? _firstname;
+        private string? _middleame;
         #endregion
 
         #region [Constructor]
@@ -17,9 +19,9 @@ namespace MHLCommon.MHLBook
         #endregion
 
         #region [Properties]
-        public string FirstName { get => _firstname; set => _firstname = value; }
-        public string MiddleName { get => _middleame; set => _middleame = value; }
-        public string LastName { get => _lastname; set => _lastname = value; }
+        public string? FirstName { get => _firstname ?? String.Empty; set => _firstname = value; }
+        public string? MiddleName { get => _middleame ?? String.Empty; set => _middleame = value; }
+        public string? LastName { get => _lastname ?? String.Empty; set => _lastname = value; }
         #endregion
 
         #region [Protected Methods]

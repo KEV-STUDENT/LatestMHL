@@ -126,7 +126,7 @@ namespace MHLSourceOnDisk
                         {
                             do
                             {                              
-                                nextTry = string.IsNullOrEmpty(((IBook)fb2).Title);
+                                nextTry = string.IsNullOrEmpty(((IMHLBook)fb2).Title);
                                 if (nextTry)
                                 {
                                     ns = fb2.CurrentNameSpace;

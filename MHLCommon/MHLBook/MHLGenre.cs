@@ -1,7 +1,9 @@
 ﻿using System.Xml;
+using MHLCommon.DataModels;
+
 namespace MHLCommon.MHLBook
 {
-    public class MHLGenre : MHLBookAttribute<XmlNode>
+    public class MHLGenre : MHLBookAttribute<XmlNode>, IGenre
 
     {
         #region [Fields]

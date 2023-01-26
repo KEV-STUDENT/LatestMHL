@@ -16,7 +16,7 @@ namespace MHLSourceScannerLib
     public class FB2Authors : TreeViewFB2AttrSection<Decor4FB2AttrSection>
     {
         #region [Constructors]
-        public FB2Authors(IBook book, ITreeItem? parent) : base(FB2Sections.Authors, book, parent)
+        public FB2Authors(IMHLBook book, ITreeItem? parent) : base(FB2Sections.Authors, book, parent)
         {
             Name = "Authors";
         }
@@ -34,7 +34,7 @@ namespace MHLSourceScannerLib
     public class FB2Genres : TreeViewFB2AttrSection<Decor4FB2AttrSection>
     {
         #region [Constructors]
-        public FB2Genres(IBook book, ITreeItem? parent) : base(FB2Sections.Genres, book, parent)
+        public FB2Genres(IMHLBook book, ITreeItem? parent) : base(FB2Sections.Genres, book, parent)
         {
             Name = "Genres";
         }
@@ -52,7 +52,7 @@ namespace MHLSourceScannerLib
     public class FB2Keywords : TreeViewFB2AttrSection<Decor4FB2AttrSection>
     {
         #region [Constructors]
-        public FB2Keywords(IBook book, ITreeItem? parent) : base(FB2Sections.Keywords, book, parent)
+        public FB2Keywords(IMHLBook book, ITreeItem? parent) : base(FB2Sections.Keywords, book, parent)
         {
             Name = "Keywords";
         }
@@ -73,7 +73,7 @@ namespace MHLSourceScannerLib
         #region [Fields]
         private readonly T decorator = new T();
         private readonly FB2Sections sectionType;
-        protected readonly IBook book;
+        protected readonly IMHLBook book;
         #endregion
 
         #region [Proprties]
@@ -94,7 +94,7 @@ namespace MHLSourceScannerLib
         #endregion
 
         #region [Constructors]
-        public TreeViewFB2AttrSection(FB2Sections sectionType, IBook book, ITreeItem? parent):base(parent)
+        public TreeViewFB2AttrSection(FB2Sections sectionType, IMHLBook book, ITreeItem? parent):base(parent)
         {
             this.sectionType = sectionType;
             this.book = book;

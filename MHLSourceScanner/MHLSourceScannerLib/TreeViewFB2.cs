@@ -27,7 +27,7 @@ namespace MHLSourceScannerLib
         {
             get
             {
-                if (Source is IBook book)
+                if (Source is IMHLBook book)
                 {
                     return book.Title;
                 }
@@ -41,7 +41,7 @@ namespace MHLSourceScannerLib
             {
                 if (!_sequenceNumLoaded)
                 {
-                    if (Source is IBook book)
+                    if (Source is IMHLBook book)
                         _sequenceNum = (book.SequenceAndNumber.FirstOrDefault() as MHLSequenceNum);
 
                     _sequenceNumLoaded = true;
@@ -56,7 +56,7 @@ namespace MHLSourceScannerLib
             {
                 if (!_sequenceNumLoaded)
                 {
-                    if (Source is IBook book)
+                    if (Source is IMHLBook book)
                         _sequenceNum = (book.SequenceAndNumber.FirstOrDefault() as MHLSequenceNum);
 
                     _sequenceNumLoaded = true;
@@ -71,7 +71,7 @@ namespace MHLSourceScannerLib
             {
                 if (!_sequenceNumLoaded)
                 {
-                    if (Source is IBook book)
+                    if (Source is IMHLBook book)
                         _sequenceNum = (book.SequenceAndNumber.FirstOrDefault() as MHLSequenceNum);
 
                     _sequenceNumLoaded = true;
@@ -89,13 +89,13 @@ namespace MHLSourceScannerLib
         {
             get
             {
-                if (Source is IBook book)
+                if (Source is IMHLBook book)
                     return book.Cover;
                 return string.Empty;
             }
         }
 
-        public IBook? Book { get { return Source as IBook; } }
+        public IMHLBook? Book { get { return Source as IMHLBook; } }
         #endregion
 
         #region [Constructors]
@@ -118,7 +118,7 @@ namespace MHLSourceScannerLib
         #region [Protected Methods]
         public override void LoadItemCollection()
         {           
-            if (Source is IBook book)
+            if (Source is IMHLBook book)
             {
                 /* if (!string.IsNullOrEmpty(book.Annotation))
                      SourceItems.Add(new FB2Annotation(book.Annotation));*/

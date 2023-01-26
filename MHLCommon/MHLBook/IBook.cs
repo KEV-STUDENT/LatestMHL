@@ -1,15 +1,10 @@
-﻿using System.Xml;
+﻿using MHLCommon.DataModels;
+using System.Xml;
 
 namespace MHLCommon.MHLBook
 {
-    public interface IBook
+    public interface IMHLBook : IBook<MHLAuthor, MHLGenre, MHLKeyword>
     {
-        string Title { get; }
-        List<IBookAttribute<XmlNode>> Authors { get; }
-        List<IBookAttribute<XmlNode>> Genres { get; }
-        List<IBookAttribute<string>> Keywords { get; }
-        List<IBookAttribute<XmlNode>> SequenceAndNumber { get; }
-        string Annotation { get; }
-        string Cover { get; }
+        List<MHLSequenceNum> SequenceAndNumber { get; }
     }
 }

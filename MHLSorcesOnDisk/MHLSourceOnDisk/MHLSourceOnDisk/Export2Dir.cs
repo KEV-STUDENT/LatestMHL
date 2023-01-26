@@ -29,7 +29,7 @@ namespace MHLSourceOnDisk
 
             filename = diskItem?.Name ?? string.Empty;
 
-            if (diskItem is IBook book)
+            if (diskItem is IMHLBook book)
             {
                 path = GetDestinationDir(book);
                 filename = GetFileName(book, filename);
@@ -40,7 +40,7 @@ namespace MHLSourceOnDisk
             return new ExpDestinstions4Dir(path, filename, ExportOptions.OverWriteFiles);
         }
 
-        private string GetFileName(IBook fb2, string filename)
+        private string GetFileName(IMHLBook fb2, string filename)
         {
             string res;
             string prefix = string.Empty;
@@ -68,7 +68,7 @@ namespace MHLSourceOnDisk
             return res;
         }
 
-        public string GetDestinationDir(IBook fb2)
+        public string GetDestinationDir(IMHLBook fb2)
         {
             string destinationDir = ExportOptions.PathDestination;
             string res;
@@ -101,7 +101,7 @@ namespace MHLSourceOnDisk
             }
             return Directory.Exists(dir);
         }
-        private string GetSubDirName(IPathRow? row, IBook fb2)
+        private string GetSubDirName(IPathRow? row, IMHLBook fb2)
         {
             string res = string.Empty;
             string fl;
@@ -147,7 +147,7 @@ namespace MHLSourceOnDisk
             return res;
         }
 
-        private string GetFirstLetter(IBook? fb2, BookPathTypedItem selectedTypedItemType)
+        private string GetFirstLetter(IMHLBook? fb2, BookPathTypedItem selectedTypedItemType)
         {
             string res = string.Empty;
 

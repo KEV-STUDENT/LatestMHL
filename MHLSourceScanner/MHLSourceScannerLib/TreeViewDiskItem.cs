@@ -115,7 +115,7 @@ namespace MHLSourceScannerLib
         {
             ITreeDiskItem newTreeItem;
             System.Diagnostics.Debug.WriteLine("TreeItem :" + diskItemChild.Name);
-            if (diskItemChild is IBook)
+            if (diskItemChild is IMHLBook)
             {
                 newTreeItem = new TreeViewFB2(diskItemChild, shower, this);
                 _ = ((TreeViewFB2)newTreeItem).Title;

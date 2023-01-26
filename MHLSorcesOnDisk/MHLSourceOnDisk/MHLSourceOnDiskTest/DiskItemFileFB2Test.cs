@@ -25,7 +25,7 @@ namespace MHLSourceOnDiskTest
         [DataRow(@"F:\1\test\fb2-495000-500999.zip", "495000.fb2")]
         public void Constructor_ZIP(string pathZip, string fb2Name)
         {
-            IBook? itemFB2 = MHLSourceOnDiskStatic.GetBookFromZip(pathZip, fb2Name);
+            IMHLBook? itemFB2 = MHLSourceOnDiskStatic.GetBookFromZip(pathZip, fb2Name);
             Assert.IsInstanceOfType(itemFB2, typeof(DiskItemFileFB2));
         }
 
@@ -34,14 +34,14 @@ namespace MHLSourceOnDiskTest
         public void Constructor_IBook(string pathFile)
         {
             IDiskItem item = new DiskItemFileFB2(pathFile);
-            Assert.IsInstanceOfType(item, typeof(IBook));
+            Assert.IsInstanceOfType(item, typeof(IMHLBook));
         }
 
         [TestMethod]
         [DataRow(@"F:\1\test\426096.fb2")]
         public void Title(string pathFile)
         {
-            IBook item = new DiskItemFileFB2(pathFile);
+            IMHLBook item = new DiskItemFileFB2(pathFile);
             System.Diagnostics.Debug.WriteLine(item.Title);
             Assert.AreNotEqual(string.Empty, item.Title);
         }
@@ -52,7 +52,7 @@ namespace MHLSourceOnDiskTest
         [DataRow(@"E:\librus_MyHomeLib\lib.rus.ec\fb2-060424-074391.zip", "60586.fb2")]
         public void Title_ZIP(string pathZip, string fb2Name)
         {
-            IBook? itemFB2 = MHLSourceOnDiskStatic.GetBookFromZip(pathZip, fb2Name);
+            IMHLBook? itemFB2 = MHLSourceOnDiskStatic.GetBookFromZip(pathZip, fb2Name);
             System.Diagnostics.Debug.WriteLine(itemFB2?.Title ?? "NULL");
             Assert.AreNotEqual(string.Empty, itemFB2?.Title ?? string.Empty);
         }
@@ -61,7 +61,7 @@ namespace MHLSourceOnDiskTest
         [DataRow(@"F:\1\test\Davydov_Moskovit.454563.fb2")]
         public void Cover(string pathFile)
         {
-            IBook item = new DiskItemFileFB2(pathFile);
+            IMHLBook item = new DiskItemFileFB2(pathFile);
             System.Diagnostics.Debug.WriteLine("Title :[" + item.Title + "]");
             System.Diagnostics.Debug.WriteLine("Cover :[" + item.Cover + "]");
             System.Diagnostics.Debug.WriteLine(string.IsNullOrEmpty(item.Cover));
@@ -73,7 +73,7 @@ namespace MHLSourceOnDiskTest
         [DataRow(@"F:\1\test\0000\500985.fb2")]
         public void Sequence_Name(string pathFile)
         {
-            IBook item = new DiskItemFileFB2(pathFile);
+            IMHLBook item = new DiskItemFileFB2(pathFile);
             System.Diagnostics.Debug.WriteLine(pathFile);
             System.Diagnostics.Debug.WriteLine("Title :[" + item.Title + "]");
 
@@ -139,7 +139,7 @@ namespace MHLSourceOnDiskTest
             }
 
             if (overWriteFile)
-                Assert.IsTrue(result && File.Exists(Path.Combine(pathDestination, itemFB2?.Name)));
+                Assert.IsTrue(result && File.Exists(Path.Combine(pathDestination, itemFB2?.Name??"Name == NULL")));
             else
             {
                 if (result)

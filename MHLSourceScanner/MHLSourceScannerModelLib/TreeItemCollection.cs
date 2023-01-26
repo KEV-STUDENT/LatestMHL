@@ -145,7 +145,7 @@ namespace MHLSourceScannerModelLib
                     SourceItems.Add(CreateEmptyItem());
                 }
             }
-            else if (Source is IBook)
+            else if (Source is IMHLBook)
                 SourceItems.Add(CreateEmptyItem());
         }
 

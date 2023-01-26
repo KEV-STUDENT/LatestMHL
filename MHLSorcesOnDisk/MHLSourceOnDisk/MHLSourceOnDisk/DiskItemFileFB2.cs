@@ -1,4 +1,5 @@
 ﻿using MHLCommon;
+using MHLCommon.DataModels;
 using MHLCommon.ExpDestinations;
 using MHLCommon.MHLBook;
 using MHLCommon.MHLDiskItems;
@@ -9,7 +10,7 @@ using System.Xml;
 
 namespace MHLSourceOnDisk
 {
-    public class DiskItemFileFB2 : DiskItemFile, IBook
+    public class DiskItemFileFB2 : DiskItemFile, IMHLBook
     {
         #region [Consatants]
         private const string ATTR_MAIN_PATH = "//fb:description/fb:title-info/fb:";
@@ -37,10 +38,10 @@ namespace MHLSourceOnDisk
         private string? _title = null;
         private string? _annotation = null;
         private string? _cover = null;
-        private List<IBookAttribute<XmlNode>>? _authors = null;
-        private List<IBookAttribute<XmlNode>>? _genres = null;
-        private List<IBookAttribute<String>>? _keywords = null;
-        private List<IBookAttribute<XmlNode>>? _sequenceAndNumber = null;
+        private List<MHLAuthor>? _authors = null;
+        private List<MHLGenre>? _genres = null;
+        private List<MHLKeyword>? _keywords = null;
+        private List<MHLSequenceNum>? _sequenceAndNumber = null;
         private bool _xDocLoaded = false;
         private byte _nameSpaceUrl = 0;
         #endregion
@@ -104,35 +105,41 @@ namespace MHLSourceOnDisk
         #endregion
 
         #region [IBook implementation]
-        string IBook.Title
+        string IBook<MHLAuthor, MHLGenre, MHLKeyword>.Title
         {
             get
             {
                 _title ??= GetBookAttribute("book-title[1]");
                 return _title;
             }
+            set { _title = value; }
         }
 
-        List<IBookAttribute<XmlNode>> IBook.Authors
+        List<MHLAuthor> IBook<MHLAuthor, MHLGenre, MHLKeyword>.Authors
         {
             get
             {
                 _authors ??= GetBookAttributes<MHLAuthor>("author");
                 return _authors;
             }
+            set { _authors = value; }
         }
 
-        List<IBookAttribute<XmlNode>> IBook.Genres
+        List<MHLGenre> IBook<MHLAuthor, MHLGenre, MHLKeyword>.Genres
         {
             get
             {
                 _genres ??= GetBookAttributes<MHLGenre>("genre");
                 return _genres;
             }
+            set
+            {
+                _genres = value;
+            }
 
         }
 
-        List<IBookAttribute<string>> IBook.Keywords
+        List<MHLKeyword> IBook<MHLAuthor, MHLGenre, MHLKeyword>.Keywords
         {
             get
             {
@@ -140,18 +147,23 @@ namespace MHLSourceOnDisk
 
                 return _keywords;
             }
+            set { _keywords = value; }
         }
 
-        string IBook.Annotation
+        string IBook<MHLAuthor, MHLGenre, MHLKeyword>.Annotation
         {
             get
             {
                 _annotation ??= GetBookAttribute("annotation[1]");
                 return _annotation;
             }
+            set
+            {
+                _annotation = value;
+            }
         }
 
-        string IBook.Cover
+        string IBook<MHLAuthor, MHLGenre, MHLKeyword>.Cover
         {
             get
             {
@@ -165,9 +177,10 @@ namespace MHLSourceOnDisk
                 }
                 return _cover ?? String.Empty;
             }
+            set { _cover = value; }
         }
 
-        List<IBookAttribute<XmlNode>>? IBook.SequenceAndNumber
+        List<MHLSequenceNum>? IMHLBook.SequenceAndNumber
         {
             get
             {
@@ -310,10 +323,10 @@ namespace MHLSourceOnDisk
             return XDoc?.GetElementsByTagName(tagName);
         }
 
-        private List<IBookAttribute<XmlNode>> GetBookAttributes<T>(string attributeName)
+        private List<T> GetBookAttributes<T>(string attributeName)
             where T : MHLBookAttribute<XmlNode>, new()
         {
-            List<IBookAttribute<XmlNode>> res = new List<IBookAttribute<XmlNode>>();
+            List<T> res = new List<T>();
             XmlNodeList? nodeList = GetNodeList(string.Concat(ATTR_MAIN_PATH, attributeName));
             if ((nodeList?.Count ?? 0) == 0)
             {
@@ -357,9 +370,9 @@ namespace MHLSourceOnDisk
             return title ?? string.Empty;
         }
 
-        private static List<IBookAttribute<string>> GetBookAttributesFromList<T>(string attributeList) where T : MHLBookAttribute<string>, new()
+        private static List<T> GetBookAttributesFromList<T>(string attributeList) where T : MHLBookAttribute<string>, new()
         {
-            List<IBookAttribute<string>> res = new List<IBookAttribute<string>>();
+            List<T> res = new List<T>();
 
             if (!String.IsNullOrEmpty(attributeList))
             {
