@@ -34,6 +34,15 @@ namespace MHLSourceOnDiskTest
 
         [TestMethod]
         [DataRow(@"F:\1\test\426096.fb2")]
+        public void Author_IGenre(string pathFile)
+        {
+            MHLCommon.MHLBook.IMHLBook book = new DiskItemFileFB2(pathFile);
+            Assert.IsInstanceOfType(book.Genres[0], typeof(IGenre));
+        }
+
+
+        [TestMethod]
+        [DataRow(@"F:\1\test\426096.fb2")]
         public void Keywords(string pathFile)
         {
             MHLCommon.MHLBook.IMHLBook book = new DiskItemFileFB2(pathFile);
@@ -44,6 +53,13 @@ namespace MHLSourceOnDiskTest
             Assert.AreNotEqual(0, book.Keywords.Count);
         }
 
+        [TestMethod]
+        [DataRow(@"F:\1\test\426096.fb2")]
+        public void Author_IKeword(string pathFile)
+        {
+            MHLCommon.MHLBook.IMHLBook book = new DiskItemFileFB2(pathFile);
+            Assert.IsInstanceOfType(book.Keywords[0], typeof(IKeyword));
+        }
 
         [TestMethod]
         [DataRow(@"F:\1\test\426096.fb2")]

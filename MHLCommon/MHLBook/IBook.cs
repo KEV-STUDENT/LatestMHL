@@ -1,5 +1,4 @@
 ﻿using MHLCommon.DataModels;
-using System.Xml;
 
 namespace MHLCommon.MHLBook
 {

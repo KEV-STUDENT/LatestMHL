@@ -1,7 +1,4 @@
-﻿using MHLCommon.MHLBook;
-using System.Xml;
-
-namespace MHLCommon.DataModels
+﻿namespace MHLCommon.DataModels
 {
     public interface IAuthor
     {

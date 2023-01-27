@@ -1,8 +1,8 @@
-﻿using System.Xml;
+﻿using MHLCommon.DataModels;
 
 namespace MHLCommon.MHLBook
 {
-    public class MHLKeyword : MHLBookAttribute<string>
+    public class MHLKeyword : MHLBookAttribute<string>, IKeyword
 
     {
         #region [Fields]

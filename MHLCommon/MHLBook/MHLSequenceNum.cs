@@ -1,9 +1,10 @@
-﻿using MHLCommon.MHLBook;
+﻿using MHLCommon.DataModels;
+using MHLCommon.MHLBook;
 using System.Xml;
 
 namespace MHLCommon
 {
-    public class MHLSequenceNum : MHLBookAttribute<XmlNode>
+    public class MHLSequenceNum : MHLBookAttribute<XmlNode>, IVolume, ICommonSequence
     {
         #region [Fields]
         private string _name;
@@ -32,5 +33,5 @@ namespace MHLCommon
             Number = number;
         }
         #endregion
-    }
+    }   
 }

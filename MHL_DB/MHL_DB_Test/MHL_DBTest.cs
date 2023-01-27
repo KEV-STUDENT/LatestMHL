@@ -19,7 +19,6 @@ namespace MHL_DB_Test
             {
                 dB.Database.Migrate();
             }
-
             Assert.IsTrue(File.Exists(dBFile));
         }
 
@@ -46,6 +45,54 @@ namespace MHL_DB_Test
                 books = dB.Books.ToList();
             }
             Assert.IsNotNull(books);
+        }
+
+        [TestMethod]
+        [DataRow(@"F:\1\test\DestinationDB\DB4Test.sqlite")]
+        public void DataModel_DBModel_Genres(string dBFile)
+        {
+            List<Genre>? genres = null;
+            using (var dB = new DBModel(dBFile))
+            {
+                genres = dB.Genres.ToList();
+            }
+            Assert.IsNotNull(genres);
+        }
+
+        [TestMethod]
+        [DataRow(@"F:\1\test\DestinationDB\DB4Test.sqlite")]
+        public void DataModel_DBModel_Keywords(string dBFile)
+        {
+            List<Keyword4Book>? keywords = null;
+            using (var dB = new DBModel(dBFile))
+            {
+                keywords = dB.Keyword4Books.ToList();
+            }
+            Assert.IsNotNull(keywords);
+        }
+
+        [TestMethod]
+        [DataRow(@"F:\1\test\DestinationDB\DB4Test.sqlite")]
+        public void DataModel_DBModel_Volumes(string dBFile)
+        {
+            List<Volume>? volume = null;
+            using (var dB = new DBModel(dBFile))
+            {
+                volume = dB.Volumes.ToList();
+            }
+            Assert.IsNotNull(volume);
+        }
+
+        [TestMethod]
+        [DataRow(@"F:\1\test\DestinationDB\DB4Test.sqlite")]
+        public void DataModel_DBModel_Sequences(string dBFile)
+        {
+            List<Sequence4Book>? sequence = null;
+            using (var dB = new DBModel(dBFile))
+            {
+                sequence = dB.Sequence4Books.ToList();
+            }
+            Assert.IsNotNull(sequence);
         }
     }
 }

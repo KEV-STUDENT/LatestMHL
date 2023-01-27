@@ -1,4 +1,5 @@
 ﻿using MHLCommon.DataModels;
+using System.ComponentModel.DataAnnotations;
 
 namespace MHL_DB_Model
 {
@@ -11,6 +12,7 @@ namespace MHL_DB_Model
     public class Author : IAuthorDB
     {
         public int Id { get; set; }
+        [Required]
         public string? FirstName { get; set; }
         public string? MiddleName { get; set; }
         public string? LastName { get; set; }
