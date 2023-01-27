@@ -6,6 +6,8 @@ namespace MHLCommon.MHLDiskItems
     {
         ExpOptions ExportOptions { get; }
         public IExportDestination Destination { get; }
+
+        bool CheckCreateDir(string dir);
         public bool CheckDestination();
         bool Export(IDiskItemExported diskItem);
     }

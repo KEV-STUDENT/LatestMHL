@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\MHLCommon\MHLCommon.csproj" />
+    <ProjectReference Include="..\..\..\MHL_DB\MHL_DB_Model\MHL_DB_Model.csproj" />
+    <ProjectReference Include="..\..\..\MHL_DB\MHL_DB_SQLite\MHL_DB_SQLite.csproj" />
   </ItemGroup>
 
 </Project>

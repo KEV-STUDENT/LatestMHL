@@ -96,17 +96,12 @@ namespace MHLSourceOnDiskTest
                 Export2Dir exporter = new Export2Dir(expOptions, itemFB2);
 
 
-                if (exporter.Destination is ExpDestinstions4Dir exp)
+                if (exporter.Destination is ExpDestination4Dir exp)
                 {
                     comVal = Path.Combine(exp.DestinationPath, itemFB2.Name);
                     actVal = exp.DestinationFullName;
                 }
             }
-
-            System.Diagnostics.Debug.WriteLine("--------------------------");
-            System.Diagnostics.Debug.WriteLine(comVal);
-            System.Diagnostics.Debug.WriteLine(actVal);
-
             Assert.AreNotEqual(comVal,actVal);
         }
 

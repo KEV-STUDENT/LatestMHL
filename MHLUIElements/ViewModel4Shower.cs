@@ -20,14 +20,14 @@ namespace MHLUIElements
     public class ViewModel4Shower : ViewModel
     {
         private ObservableCollection<ITreeItem> source;
-        private IBook? book;
+        private IMHLBook? book;
         private readonly BitmapImage defaultCover;
 
         #region [Properies]
         //public ICommand ExpandingCommandAsync { get; set; }
         public IAsyncCommand ExpandingCommandAsync { get; set; }
 
-        public IBook? Book
+        public IMHLBook? Book
         {
             get => book;
             private set

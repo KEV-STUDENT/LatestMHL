@@ -79,7 +79,7 @@ namespace MHLSourceOnDisk
         public override bool ExportItem(IExportDestination destination)
         {
             bool result = true;
-            if ((destination is ExpDestinstions4Dir exp) && (Exporter != null))
+            if ((destination is ExpDestination4Dir exp) && (Exporter != null))
             {
                 try
                 {

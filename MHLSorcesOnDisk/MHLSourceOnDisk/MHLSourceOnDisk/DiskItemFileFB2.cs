@@ -1,4 +1,6 @@
-﻿using MHLCommon;
+﻿using MHL_DB_Model;
+using MHL_DB_SQLite;
+using MHLCommon;
 using MHLCommon.DataModels;
 using MHLCommon.ExpDestinations;
 using MHLCommon.MHLBook;
@@ -193,36 +195,66 @@ namespace MHLSourceOnDisk
         #region [DiskItemExported Implementation]
         public override bool ExportItem(IExportDestination destination)
         {
-            bool result = true;
-            IFile file = this;
-            string newFile;
-            if (destination is ExpDestinstions4Dir exp)
+            if (destination is ExpDestination4Dir exp2Dir)
             {
-                newFile = exp.DestinationFullName;
-                try
-                {
-
-                    if (file.Parent is DiskItemFileZip zip)
-                        using (ZipArchive zipArchive = ZipFile.OpenRead(zip.Path2Item))
-                        {
-                            ZipArchiveEntry? fileInZip = zipArchive.GetEntry(this.Name);
-                            fileInZip?.ExtractToFile(newFile, exp.OverWriteFiles);
-                        }
-                    else
-                        File.Copy(this.Path2Item, newFile, exp.OverWriteFiles);
-
-                    result = File.Exists(newFile);
-                }
-                catch (Exception)
-                {
-                    result = false;
-                }
+                return ExportItem2Dir(exp2Dir);
             }
-            return result;
+            else if (destination is ExpDestination2SQLite exp2SQLite)
+            {
+                return ExportItem2SQLite(exp2SQLite);
+            }
+            return false;
         }
         #endregion
 
         #region [Methods]
+        private bool ExportItem2SQLite(ExpDestination2SQLite exp2SQLite)
+        {
+            IMHLBook book = this;
+            using (DBModel dB = new DBModel(exp2SQLite.DestinationPath))
+            {
+                var genre4book = (from gb in book.Genres select gb.Genre).Distinct();
+                var genreFromDB = dB.Genres.Where(x => genre4book.Contains(x.GenreVal)).Select(x => x.GenreVal);
+                var newGenres = (from gb in genre4book where !genreFromDB.Contains(gb) select gb).Distinct();
+
+                foreach (FB2Genres fb2Genre in newGenres)
+                    dB.Genres.Add(new MHL_DB_Model.Genre()
+                    {
+                        GenreVal = fb2Genre,
+                        GenreCode = fb2Genre.ToString()
+                    });
+                dB.SaveChanges();
+            }
+            return true;
+        }
+
+        private bool ExportItem2Dir(ExpDestination4Dir exp)
+        {
+            bool result;
+            IFile file = this;
+            string newFile;
+            newFile = exp.DestinationFullName;
+            try
+            {
+
+                if (file.Parent is DiskItemFileZip zip)
+                    using (ZipArchive zipArchive = ZipFile.OpenRead(zip.Path2Item))
+                    {
+                        ZipArchiveEntry? fileInZip = zipArchive.GetEntry(this.Name);
+                        fileInZip?.ExtractToFile(newFile, exp.OverWriteFiles);
+                    }
+                else
+                    File.Copy(this.Path2Item, newFile, exp.OverWriteFiles);
+
+                result = File.Exists(newFile);
+            }
+            catch (Exception)
+            {
+                result = false;
+            }
+            return result;
+        }
+
         private void ClearProperties()
         {
             _title = null;

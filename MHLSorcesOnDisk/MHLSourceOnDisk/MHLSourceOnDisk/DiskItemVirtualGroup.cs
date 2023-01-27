@@ -56,7 +56,7 @@ namespace MHLSourceOnDisk
         public override bool ExportItem(IExportDestination destination)
         {
             bool result = false;
-            if ((destination is ExpDestinstions4Dir exp) && (item is DiskItemFileZip zip))
+            if ((destination is ExpDestination4Dir exp) && (item is DiskItemFileZip zip))
             {
                 using ZipArchive zipArchive = ZipFile.OpenRead(((IDiskItemExported)this).Path2Item);
                 ConcurrentBag<string> errorEnries = new ConcurrentBag<string>();

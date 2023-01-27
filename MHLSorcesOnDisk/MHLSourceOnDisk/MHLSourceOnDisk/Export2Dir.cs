@@ -17,8 +17,8 @@ namespace MHLSourceOnDisk
         #region [Methods]
         public override bool CheckDestination()
         {
-            if (Destination is ExpDestinstions4Dir expDestinstions)
-                return CheckCreateDir(expDestinstions.DestinationPath);
+            if (Destination is ExpDestination4Dir expDestination)
+                return CheckCreateDir(expDestination.DestinationPath);
             else
                 return false;
         }
@@ -37,7 +37,7 @@ namespace MHLSourceOnDisk
             else
                 path = ExportOptions.PathDestination;
 
-            return new ExpDestinstions4Dir(path, filename, ExportOptions.OverWriteFiles);
+            return new ExpDestination4Dir(path, filename, ExportOptions.OverWriteFiles);
         }
 
         private string GetFileName(IMHLBook fb2, string filename)
@@ -92,15 +92,7 @@ namespace MHLSourceOnDisk
 
             return destinationDir;
         }
-
-        private bool CheckCreateDir(string dir)
-        {
-            if (!Directory.Exists(dir))
-            {
-                Directory.CreateDirectory(dir);
-            }
-            return Directory.Exists(dir);
-        }
+       
         private string GetSubDirName(IPathRow? row, IMHLBook fb2)
         {
             string res = string.Empty;
@@ -113,7 +105,7 @@ namespace MHLSourceOnDisk
                     {
                         case BookPathItem.Author:
                             if ((fb2?.Authors?.Count ?? 0) > 0 && (fb2.Authors[0] is MHLAuthor author))
-                                fl = string.Format("{0}{1}{2}", author.LastName, author.FirstName, author.MiddleName);
+                                fl = string.Format("{0} {1} {2}", author.LastName, author.FirstName, author.MiddleName).Trim();
                             break;
                         case BookPathItem.Title:
                             fl = fb2.Title;
@@ -142,8 +134,12 @@ namespace MHLSourceOnDisk
             {
                 char[] invalidNameChars = Path.GetInvalidFileNameChars();
                 foreach (char c in invalidNameChars)
-                    res = res.Replace(c, ' ').Replace(" ", null);
+                    res = res.Replace(c, ' ').Replace("  ", " ");
             }
+
+            if (res.Length > 40)
+                res = res[..40];
+
             return res;
         }
 

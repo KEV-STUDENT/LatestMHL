@@ -1,7 +1,6 @@
 ﻿using MHLCommon;
-using MHLCommon.MHLBook;
-using MHLCommon.MHLDiskItems;
 using MHLCommon.ExpDestinations;
+using MHLCommon.MHLDiskItems;
 
 namespace MHLSourceOnDisk
 {
@@ -37,13 +36,25 @@ namespace MHLSourceOnDisk
         bool IExport.Export(IDiskItemExported diskItem)
         {
             return Export(diskItem);
-        }        
+        }
+        bool IExport.CheckCreateDir(string dir)
+        {
+            return CheckCreateDir(dir);
+        }
         #endregion
 
         #region [Methods]
         public bool Export(IDiskItemExported diskItem)
         {
             return diskItem.ExportItem(Destination);
+        }
+        protected virtual bool CheckCreateDir(string dir)
+        {
+            if (!Directory.Exists(dir))
+            {
+                Directory.CreateDirectory(dir);
+            }
+            return Directory.Exists(dir);
         }
         public abstract bool CheckDestination();       
         protected abstract IExportDestination CreateDestinantion(IDiskItem? diskItem);
