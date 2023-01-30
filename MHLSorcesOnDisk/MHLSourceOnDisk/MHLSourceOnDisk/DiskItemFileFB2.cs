@@ -1,6 +1,4 @@
-﻿using MHL_DB_Model;
-using MHL_DB_SQLite;
-using MHLCommon;
+﻿using MHLCommon;
 using MHLCommon.DataModels;
 using MHLCommon.ExpDestinations;
 using MHLCommon.MHLBook;
@@ -9,6 +7,8 @@ using System.Diagnostics;
 using System.IO.Compression;
 using System.Text;
 using System.Xml;
+using MHL_DB_SQLite;
+using MHL_DB_Model;
 
 namespace MHLSourceOnDisk
 {
@@ -182,12 +182,16 @@ namespace MHLSourceOnDisk
             set { _cover = value; }
         }
 
-        List<MHLSequenceNum>? IMHLBook.SequenceAndNumber
+        MHLSequenceNum? IMHLBook.SequenceAndNumber
         {
             get
             {
+                MHLSequenceNum? res = null;
                 _sequenceAndNumber ??= GetBookAttributes<MHLSequenceNum>("sequence");
-                return _sequenceAndNumber;
+                if ((_sequenceAndNumber?.Count() ?? 0) > 0)
+                    return _sequenceAndNumber[0];
+
+                return res;
             }
         }
         #endregion
@@ -211,23 +215,17 @@ namespace MHLSourceOnDisk
         private bool ExportItem2SQLite(ExpDestination2SQLite exp2SQLite)
         {
             IMHLBook book = this;
-            using (DBModel dB = new DBModel(exp2SQLite.DestinationPath))
+            using (DBModelSQLite dB = new DBModelSQLite(exp2SQLite.DestinationPath))
             {
-                var genre4book = (from gb in book.Genres select gb.Genre).Distinct();
-                var genreFromDB = dB.Genres.Where(x => genre4book.Contains(x.GenreVal)).Select(x => x.GenreVal);
-                var newGenres = (from gb in genre4book where !genreFromDB.Contains(gb) select gb).Distinct();
+                int export = Bizlogic4DB.Export_Genres(dB, book.Genres) +
+                    Bizlogic4DB.Export_Keywords(dB, book.Keywords);
 
-                foreach (FB2Genres fb2Genre in newGenres)
-                    dB.Genres.Add(new MHL_DB_Model.Genre()
-                    {
-                        GenreVal = fb2Genre,
-                        GenreCode = fb2Genre.ToString()
-                    });
-                dB.SaveChanges();
+                if (export > 0)
+                    dB.SaveChanges();
             }
             return true;
         }
-
+        
         private bool ExportItem2Dir(ExpDestination4Dir exp)
         {
             bool result;

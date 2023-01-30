@@ -1,7 +1,5 @@
 ﻿using MHL_DB_Model;
 using MHLCommon.DataModels;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace MHL_DB_Test
 {

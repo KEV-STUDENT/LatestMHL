@@ -42,7 +42,7 @@ namespace MHLSourceScannerLib
                 if (!_sequenceNumLoaded)
                 {
                     if (Source is IMHLBook book)
-                        _sequenceNum = (book.SequenceAndNumber.FirstOrDefault() as MHLSequenceNum);
+                        _sequenceNum = book.SequenceAndNumber ;
 
                     _sequenceNumLoaded = true;
                 }
@@ -57,7 +57,7 @@ namespace MHLSourceScannerLib
                 if (!_sequenceNumLoaded)
                 {
                     if (Source is IMHLBook book)
-                        _sequenceNum = (book.SequenceAndNumber.FirstOrDefault() as MHLSequenceNum);
+                        _sequenceNum = book.SequenceAndNumber;
 
                     _sequenceNumLoaded = true;
                 }
@@ -72,7 +72,7 @@ namespace MHLSourceScannerLib
                 if (!_sequenceNumLoaded)
                 {
                     if (Source is IMHLBook book)
-                        _sequenceNum = (book.SequenceAndNumber.FirstOrDefault() as MHLSequenceNum);
+                        _sequenceNum = book.SequenceAndNumber;
 
                     _sequenceNumLoaded = true;
                 }

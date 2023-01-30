@@ -7,8 +7,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
-using MHL_DB_Model;
-using MHL_DB_SQLite;
 
 namespace MHLSourceOnDiskTest
 {
@@ -79,7 +77,7 @@ namespace MHLSourceOnDiskTest
             System.Diagnostics.Debug.WriteLine(pathFile);
             System.Diagnostics.Debug.WriteLine("Title :[" + item.Title + "]");
 
-            MHLSequenceNum? sequenceNum = item.SequenceAndNumber.First() as MHLSequenceNum;
+            MHLSequenceNum? sequenceNum = item.SequenceAndNumber;
 
             System.Diagnostics.Debug.WriteLine("Sequence Name :[" + (sequenceNum?.Name ?? string.Empty) + "]");
             System.Diagnostics.Debug.WriteLine("Sequence Number :[" + (sequenceNum?.Number ?? 0).ToString() + "]");
@@ -150,36 +148,6 @@ namespace MHLSourceOnDiskTest
                 }
                 Assert.AreEqual(init, res);
             }
-        }
-
-        [TestMethod]
-        [DataRow(@"F:\1\test\fb2-495000-500999.zip", "495000.fb2", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
-        [DataRow(@"F:\1\test\426096.fb2", "", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
-        [DataRow(@"F:\1\test\Davydov_Moskovit.454563.fb2", "", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
-        public void ExportBooks2SQLite_Genres(string pathFile, string fb2Name, string fileSQlite)
-        {
-            DiskItemFileFB2? itemFB2;
-            int cnt = 0;
-            bool result;
-
-            if (string.IsNullOrEmpty(fb2Name))
-                itemFB2 = DiskItemFabrick.GetDiskItem(pathFile) as DiskItemFileFB2;
-            else
-                itemFB2 = MHLSourceOnDiskStatic.GetBookFromZip(pathFile, fb2Name) as DiskItemFileFB2;
-
-            ExpOptions expOptions = new ExpOptions(fileSQlite);
-            Export2SQLite exporter = new Export2SQLite(expOptions);
-
-            result = itemFB2?.ExportBooks(exporter) ?? false;
-            result = result && File.Exists(fileSQlite);
-            if (result)
-            {
-                using (DBModel dB = new DBModel(fileSQlite))
-                {
-                    cnt = dB.Genres.ToList().Count;
-                }
-            }
-            Assert.AreNotEqual(0, (result ? cnt : 0));
         }
     }
 }

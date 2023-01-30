@@ -111,12 +111,12 @@ namespace MHLSourceOnDisk
                             fl = fb2.Title;
                             break;
                         case BookPathItem.SequenceName:
-                            if ((fb2?.SequenceAndNumber?.Count ?? 0) > 0 && (fb2.SequenceAndNumber[0] is MHLSequenceNum sequence))
-                                fl = sequence.Name;
+                            if (fb2?.SequenceAndNumber != null)
+                                fl = fb2.SequenceAndNumber.Name;
                             break;
                         case BookPathItem.SequenceNum:
-                            if ((fb2?.SequenceAndNumber?.Count ?? 0) > 0 && (fb2.SequenceAndNumber[0] is MHLSequenceNum num))
-                                fl = num.Number.ToString();
+                            if (fb2?.SequenceAndNumber != null)
+                                fl = fb2.SequenceAndNumber.Number.ToString();
                             break;
                         case BookPathItem.FirstLetter:
                             fl = GetFirstLetter(fb2, pathRow[i].SelectedTypedItemType);       
@@ -151,8 +151,8 @@ namespace MHLSourceOnDisk
                 switch (selectedTypedItemType)
                 {
                     case BookPathTypedItem.SequenceName:
-                        if ((fb2?.SequenceAndNumber?.Count ?? 0) > 0 && (fb2.SequenceAndNumber[0] is MHLSequenceNum sequence))
-                            res = sequence.Name;
+                        if(fb2?.SequenceAndNumber != null)
+                            res = fb2.SequenceAndNumber.Name;
                         break;
                     case BookPathTypedItem.Title:
                         res = fb2.Title;

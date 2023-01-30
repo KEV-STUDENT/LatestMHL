@@ -15,7 +15,7 @@ namespace MHL_DB_Test
             if (File.Exists(dBFile))
                 File.Delete(dBFile);
 
-            using (var dB = new DBModel(dBFile))
+            using (var dB = new DBModelSQLite(dBFile))
             {
                 dB.Database.Migrate();
             }
@@ -28,7 +28,7 @@ namespace MHL_DB_Test
         public void DataModel_DBModel_Authors(string dBFile)
         {
             List<Author>? autors = null;
-            using (var dB = new DBModel(dBFile))
+            using (var dB = new DBModelSQLite(dBFile))
             {
                 autors = dB.Authors.ToList();
             }
@@ -40,7 +40,7 @@ namespace MHL_DB_Test
         public void DataModel_DBModel_Books(string dBFile)
         {
             List<Book>? books = null;
-            using (var dB = new DBModel(dBFile))
+            using (var dB = new DBModelSQLite(dBFile))
             {
                 books = dB.Books.ToList();
             }
@@ -52,7 +52,7 @@ namespace MHL_DB_Test
         public void DataModel_DBModel_Genres(string dBFile)
         {
             List<Genre>? genres = null;
-            using (var dB = new DBModel(dBFile))
+            using (var dB = new DBModelSQLite(dBFile))
             {
                 genres = dB.Genres.ToList();
             }
@@ -64,7 +64,7 @@ namespace MHL_DB_Test
         public void DataModel_DBModel_Keywords(string dBFile)
         {
             List<Keyword4Book>? keywords = null;
-            using (var dB = new DBModel(dBFile))
+            using (var dB = new DBModelSQLite(dBFile))
             {
                 keywords = dB.Keyword4Books.ToList();
             }
@@ -76,7 +76,7 @@ namespace MHL_DB_Test
         public void DataModel_DBModel_Volumes(string dBFile)
         {
             List<Volume>? volume = null;
-            using (var dB = new DBModel(dBFile))
+            using (var dB = new DBModelSQLite(dBFile))
             {
                 volume = dB.Volumes.ToList();
             }
@@ -88,7 +88,7 @@ namespace MHL_DB_Test
         public void DataModel_DBModel_Sequences(string dBFile)
         {
             List<Sequence4Book>? sequence = null;
-            using (var dB = new DBModel(dBFile))
+            using (var dB = new DBModelSQLite(dBFile))
             {
                 sequence = dB.Sequence4Books.ToList();
             }
