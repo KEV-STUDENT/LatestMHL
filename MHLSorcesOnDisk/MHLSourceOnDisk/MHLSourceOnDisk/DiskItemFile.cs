@@ -25,6 +25,8 @@ namespace MHLSourceOnDisk
         #region [Public Properties]
         public string Path2Item => ((IDiskItem)this).Path2Item;
         public string Name => ((IDiskItem)this).Name;
+
+        public bool IsZipEntity => parent is DiskItemFileZip;
         #endregion
 
         #region [Protected Methods]
@@ -55,6 +57,8 @@ namespace MHLSourceOnDisk
 
         #region [IDiskCollection Implementation]
         IDiskCollection? IFile.Parent => parent;
+
+        bool IFile.IsZipEntity => IsZipEntity;
         #endregion
     }
 }

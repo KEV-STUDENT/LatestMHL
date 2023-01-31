@@ -1,5 +1,4 @@
-﻿using MHL_DB_Model;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace MHL_DB_SQLite
 {
@@ -7,21 +6,37 @@ namespace MHL_DB_SQLite
     {
         private readonly string dBFile;
 
-        public DBModelSQLite(string dBFile):base()
-        {            
+        #region [Constructors]
+        public DBModelSQLite(string dBFile) : base()
+        {
             if (!string.IsNullOrEmpty(dBFile))
             {
                 this.dBFile = dBFile;
                 Database.EnsureCreated();
-            }else
+            }
+            else
             {
                 this.dBFile = string.Empty;
             }
         }
+        #endregion
 
+        #region [Methods]
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite( string.Concat("Data Source=", dBFile) );
+            optionsBuilder.UseSqlite(string.Concat("Data Source=", dBFile));
         }
+
+        protected override void SetColumns(ModelBuilder modelBuilder)
+        {
+            foreach (var entity in modelBuilder.Model.GetEntityTypes())
+            {
+                foreach (var property in entity.GetProperties().Where(p => p.ClrType == typeof(string)))
+                {
+                    property.SetColumnType("TEXT COLLATE NOCASE");
+                }
+            }
+        }
+        #endregion
     }
 }

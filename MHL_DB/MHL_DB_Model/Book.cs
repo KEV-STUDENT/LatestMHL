@@ -10,7 +10,7 @@ namespace MHL_DB_Model
         string? EntityInZIP { get; set; }
         string Path2File { get; set; }
         BookFileExtends Extends { get; set; }
-        int VolumeId { get; set; }
+        int? VolumeId { get; set; }
         Volume? Volume { get; set; }
     }
 
@@ -22,13 +22,13 @@ namespace MHL_DB_Model
         public string Path2File { get; set; }
         [Required]
         public string Title { get; set; }
-        public List<Author> Authors { get; set; }
-        public List<Genre> Genres { get; set; }
-        public List<Keyword4Book> Keywords { get; set; }
+        public List<Author>? Authors { get; set; }
+        public List<Genre>? Genres { get; set; }
+        public List<Keyword4Book>? Keywords { get; set; }
         public string? Annotation { get; set; }
         public string? Cover { get; set; }
         public BookFileExtends Extends { get; set; }
-        public int VolumeId { get; set; }
+        public int? VolumeId { get; set; }
         public Volume? Volume { get; set; }
 
         public Book()
@@ -48,7 +48,7 @@ namespace MHL_DB_Model
         BookFileExtends IBookDB.Extends { get => Extends; set => Extends = value; }
         List<Genre> IBook<Author, Genre, Keyword4Book>.Genres { get => Genres; set => Genres = value; }
         List<Keyword4Book> IBook<Author, Genre, Keyword4Book>.Keywords { get => Keywords; set => Keywords = value; }
-        int IBookDB.VolumeId { get => VolumeId; set => VolumeId = value; }
+        int? IBookDB.VolumeId { get => VolumeId; set => VolumeId = value; }
         Volume? IBookDB.Volume { get => this.Volume; set => this.Volume = value; }       
     }
 }

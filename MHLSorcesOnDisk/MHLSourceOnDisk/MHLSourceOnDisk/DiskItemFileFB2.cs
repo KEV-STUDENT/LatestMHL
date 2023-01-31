@@ -188,14 +188,13 @@ namespace MHLSourceOnDisk
             {
                 MHLSequenceNum? res = null;
                 _sequenceAndNumber ??= GetBookAttributes<MHLSequenceNum>("sequence");
-                if ((_sequenceAndNumber?.Count() ?? 0) > 0)
+                if ((_sequenceAndNumber?.Count ?? 0) > 0)
                     return _sequenceAndNumber[0];
 
                 return res;
             }
         }
         #endregion
-
         #region [DiskItemExported Implementation]
         public override bool ExportItem(IExportDestination destination)
         {
@@ -217,8 +216,11 @@ namespace MHLSourceOnDisk
             IMHLBook book = this;
             using (DBModelSQLite dB = new DBModelSQLite(exp2SQLite.DestinationPath))
             {
-                int export = Bizlogic4DB.Export_Genres(dB, book.Genres) +
-                    Bizlogic4DB.Export_Keywords(dB, book.Keywords);
+                List<Genre>? genresDB;
+                List<Keyword4Book>? keyword4BooksDB;
+
+                int export = Bizlogic4DB.Export_Genres(dB, book.Genres, out genresDB) +
+                    Bizlogic4DB.Export_Keywords(dB, book.Keywords, out keyword4BooksDB);
 
                 if (export > 0)
                     dB.SaveChanges();

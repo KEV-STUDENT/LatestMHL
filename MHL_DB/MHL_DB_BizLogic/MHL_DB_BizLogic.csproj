@@ -7,12 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.2" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\MHLCommon\MHLCommon.csproj" />
+    <ProjectReference Include="..\MHL_DB_Model\MHL_DB_Model.csproj" />
+    <ProjectReference Include="..\MHL_DB_SQLite\MHL_DB_SQLite.csproj" />
   </ItemGroup>
 
 </Project>
