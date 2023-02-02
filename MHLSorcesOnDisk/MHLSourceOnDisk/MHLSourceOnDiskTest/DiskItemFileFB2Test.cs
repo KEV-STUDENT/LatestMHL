@@ -149,5 +149,26 @@ namespace MHLSourceOnDiskTest
                 Assert.AreEqual(init, res);
             }
         }
+
+        [TestMethod]
+        [DataRow(@"F:\1\test\0000\495008.fb2")]
+        public void Book_Year(string pathFile)
+        {
+            IMHLBook item = new DiskItemFileFB2(pathFile);
+            System.Diagnostics.Debug.WriteLine("Year :[" + item.Year??0 + "]");
+            Assert.AreNotEqual(0, item.Year ?? 0);
+        }
+
+
+        [TestMethod]
+        [DataRow(@"F:\1\test\0000\495008.fb2")]
+        public void Book_Publisher(string pathFile)
+        {
+            IMHLBook item = new DiskItemFileFB2(pathFile);
+            System.Diagnostics.Debug.WriteLine("Publisher :[" + 
+                (item.Publisher?.Name ?? string.Empty) + "," +
+                (item.Publisher?.City ?? string.Empty) + "]");
+            Assert.IsNotNull(item.Publisher);
+        }
     }
 }

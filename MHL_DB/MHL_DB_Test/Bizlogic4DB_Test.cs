@@ -522,6 +522,85 @@ namespace MHL_DB_Test
         }
         #endregion
 
+        #region [Publisher]
+        [TestMethod]
+        [DataRow(@"F:\1\test\fb2-495000-500999.zip", "495000.fb2", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
+        [DataRow(@"F:\1\test\426096.fb2", "", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
+        [DataRow(@"F:\1\test\Davydov_Moskovit.454563.fb2", "", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
+        [DataRow(@"F:\1\test\fb2-426000-433000.zip", "426026.fb2", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
+        public void Export2SQLite_Publisher(string pathFile, string fb2Name, string fileSQlite)
+        {
+            DiskItemFileFB2? itemFB2;
+            int actual = -1, expected = -2;
+            bool result;
+
+            if (string.IsNullOrEmpty(fb2Name))
+                itemFB2 = DiskItemFabrick.GetDiskItem(pathFile) as DiskItemFileFB2;
+            else
+                itemFB2 = MHLSourceOnDiskStatic.GetBookFromZip(pathFile, fb2Name) as DiskItemFileFB2;
+
+            IMHLBook? book = itemFB2;
+            result = book != null;
+            if (result)
+            {
+                lock (locker)
+                {
+                    using (DBModel dB = new DBModelSQLite(fileSQlite))
+                    {
+                        Publisher? publisher;
+                        actual = dB.Publishers.ToList().Count;
+                        expected = Bizlogic4DB.Export_Publishers(dB, book?.Publisher, out publisher);
+                        CheckExpected(ref actual, ref expected, dB);
+                        actual = dB.Publishers.ToList().Count;
+                    }
+                }
+            }
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        [DataRow(@"F:\1\test\fb2-426000-433000.zip", "426026.fb2", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
+        [DataRow(@"F:\1\test\Davydov_Moskovit.454563.fb2", "", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
+        public void Export2SQLite_Publisher_Duplicated(string pathFile, string fb2Name, string fileSQlite)
+        {
+            DiskItemFileFB2? itemFB2;
+            int actual = -1, expected = -2;
+            bool result;
+
+            if (string.IsNullOrEmpty(fb2Name))
+                itemFB2 = DiskItemFabrick.GetDiskItem(pathFile) as DiskItemFileFB2;
+            else
+                itemFB2 = MHLSourceOnDiskStatic.GetBookFromZip(pathFile, fb2Name) as DiskItemFileFB2;
+
+            IMHLBook? book = itemFB2;
+            result = book != null;
+            if (result)
+            {
+                lock (locker)
+                {
+                    using (DBModel dB = new DBModelSQLite(fileSQlite))
+                    {
+                        Publisher? publisher;
+                        if (Bizlogic4DB.Export_Publishers(dB, book?.Publisher, out publisher) > 0)
+                        {
+                            lock (locker)
+                                dB.SaveChanges();
+                        }
+                        expected = dB.Publishers.ToList().Count;
+
+                        if (Bizlogic4DB.Export_Publishers(dB, book?.Publisher, out publisher) > 0)
+                        {
+                            lock (locker)
+                                dB.SaveChanges();
+                        }
+                        actual = dB.Publishers.ToList().Count;
+                    }
+                }
+            }
+            Assert.AreEqual(expected, actual);
+        }
+        #endregion
+
         #region [Books]
         [TestMethod]
         [DataRow(@"F:\1\test\fb2-495000-500999.zip", "495000.fb2", @"F:\1\test\destinationDB\ExportFB2.SQLite")]

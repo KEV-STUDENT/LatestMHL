@@ -12,6 +12,7 @@ namespace MHL_DB_SQLite
         public DbSet<Keyword4Book> Keyword4Books { get; set; }
         public DbSet<Sequence4Book> Sequence4Books { get; set; }
         public DbSet<Volume> Volumes { get; set; }
+        public DbSet<Publisher> Publishers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -29,6 +30,7 @@ namespace MHL_DB_SQLite
             modelBuilder.Entity<Keyword4Book>().HasIndex(p => new { p.Keyword }).IsUnique();
             modelBuilder.Entity<Sequence4Book>().HasIndex(p => new { p.Name }).IsUnique();
             modelBuilder.Entity<Volume>().HasIndex(p => new { p.Number, p.SequenceId }).IsUnique();
+            modelBuilder.Entity<Publisher>().HasIndex(p => new { p.Name, p.City }).IsUnique();
         }
     }
 }

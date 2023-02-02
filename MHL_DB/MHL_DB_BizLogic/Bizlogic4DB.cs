@@ -257,11 +257,13 @@ namespace MHL_DB_Model
                     List<Genre>? genres;
                     List<Keyword4Book>? keywords;
                     Volume? volume;
+                    Publisher? publisher;
 
                     int save = (Export_Authors(dB, book.Authors, out authors) > 0 ? 1 : 0) +
                         (Export_Genres(dB, book.Genres, out genres) > 0 ? 1 : 0) +
                         (Export_Keywords(dB, book.Keywords, out keywords) > 0 ? 1 : 0) +
-                        (Export_Volumes(dB, book.SequenceAndNumber, out volume) > 0 ? 1 : 0);
+                        (Export_Volumes(dB, book.SequenceAndNumber, out volume) > 0 ? 1 : 0) +
+                        (Export_Publishers(dB, book.Publisher, out publisher) > 0 ? 1 : 0);
 
 
                     BookFileExtends fileExtends = BookFileExtends.None;
@@ -283,6 +285,8 @@ namespace MHL_DB_Model
                             Genres = (genres?.Count ?? 0) > 0 ? genres : null,
                             Keywords = (keywords?.Count ?? 0) > 0 ? keywords : null,
                             Volume = volume,
+                            Year = book.Year,
+                            Publisher= publisher,
                         }
                         );
                     res = 1;
@@ -290,6 +294,33 @@ namespace MHL_DB_Model
                 else res = 0;
 
             }
+            return res;
+        }
+
+        public static int Export_Publishers(DBModel dB, IPublisher? publisherFB2, out Publisher? publisherDB)
+        {
+            int res = -1;
+            publisherDB = null;
+
+            if (publisherFB2 != null)
+            {
+                publisherDB = dB.Publishers
+                    .Where(p => p.City == publisherFB2.City && p.Name == publisherFB2.Name)
+                    .Select(p => p).FirstOrDefault();
+
+                if (publisherDB == null)
+                {
+                    res = 1;
+                    publisherDB = new Publisher()
+                    {
+                        City = publisherFB2.City,
+                        Name = publisherFB2.Name,
+                    };
+                    dB.Publishers.Add(publisherDB);
+                }
+                else res = 0;    
+            }
+
             return res;
         }
     }

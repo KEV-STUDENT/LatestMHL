@@ -12,6 +12,9 @@ namespace MHL_DB_Model
         BookFileExtends Extends { get; set; }
         int? VolumeId { get; set; }
         Volume? Volume { get; set; }
+        int? PublisherID { get; set; }
+        Publisher? Publisher { get; set; }
+        int? Year { get; set; }
     }
 
     public class Book : IBookDB
@@ -30,9 +33,16 @@ namespace MHL_DB_Model
         public BookFileExtends Extends { get; set; }
         public int? VolumeId { get; set; }
         public Volume? Volume { get; set; }
+        public int? PublisherID { get; set; }
+        public Publisher? Publisher { get; set; }
+        public int? Year { get; set; }
+
+
 
         public Book()
         {
+            Path2File = string.Empty;
+            Title = string.Empty;
             Authors = new List<Author>();
             Genres = new List<Genre>();
             Keywords = new List<Keyword4Book>();
@@ -49,6 +59,9 @@ namespace MHL_DB_Model
         List<Genre> IBook<Author, Genre, Keyword4Book>.Genres { get => Genres; set => Genres = value; }
         List<Keyword4Book> IBook<Author, Genre, Keyword4Book>.Keywords { get => Keywords; set => Keywords = value; }
         int? IBookDB.VolumeId { get => VolumeId; set => VolumeId = value; }
-        Volume? IBookDB.Volume { get => this.Volume; set => this.Volume = value; }       
+        Volume? IBookDB.Volume { get => this.Volume; set => this.Volume = value; }
+        int? IBookDB.PublisherID { get => PublisherID; set => PublisherID = value; }
+        Publisher? IBookDB.Publisher { get => this.Publisher; set => this.Publisher = value; }
+        int? IBookDB.Year { get => Year; set => Year = value; }
     }
 }

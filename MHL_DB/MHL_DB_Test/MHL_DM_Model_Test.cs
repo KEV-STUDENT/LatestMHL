@@ -48,5 +48,12 @@ namespace MHL_DB_Test
             Assert.IsInstanceOfType(g, typeof(IVolume));
         }
 
+
+        [TestMethod]
+        public void MHL_DM_Model_Publisher_IPublisher()
+        {
+            IPublisherDB g = new Publisher();
+            Assert.IsInstanceOfType(g, typeof(IPublisher));
+        }
     }
 }

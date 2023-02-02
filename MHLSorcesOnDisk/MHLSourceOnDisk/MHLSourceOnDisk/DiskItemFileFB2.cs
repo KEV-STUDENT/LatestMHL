@@ -46,6 +46,8 @@ namespace MHLSourceOnDisk
         private List<MHLSequenceNum>? _sequenceAndNumber = null;
         private bool _xDocLoaded = false;
         private byte _nameSpaceUrl = 0;
+        private int? _year = null;
+        private IPublisher? _publisher = null;
         #endregion
 
         #region [Properies]
@@ -55,7 +57,6 @@ namespace MHLSourceOnDisk
             get => _nameSpaceUrl;
             set
             {
-                System.Diagnostics.Debug.WriteLine("Current name space:" + value);
                 if (value < NAMESPACE.Length)
                 {
                     if (_namespaceManager != null)
@@ -186,12 +187,40 @@ namespace MHLSourceOnDisk
         {
             get
             {
-                MHLSequenceNum? res = null;
                 _sequenceAndNumber ??= GetBookAttributes<MHLSequenceNum>("sequence");
                 if ((_sequenceAndNumber?.Count ?? 0) > 0)
                     return _sequenceAndNumber[0];
 
-                return res;
+                return null;
+            }
+        }
+
+        int? IMHLBook.Year { 
+            get{
+                if (_year == null)
+                {
+                    string year = GetBookAttribute("year[1]");
+                    int res;
+                    if (int.TryParse(year, out res))
+                        _year= res;
+                 }
+                return _year;
+            } 
+        }
+
+        IPublisher? IMHLBook.Publisher
+        {
+            get
+            {
+                if (_publisher == null)
+                {
+                    string name = GetBookAttribute("publisher[1]");
+                    string city = GetBookAttribute("city[1]");
+
+                    if (!(string.IsNullOrEmpty(name) && string.IsNullOrEmpty(city)))
+                        _publisher = new MHLPublisher(name, city);
+                }
+                return _publisher;
             }
         }
         #endregion

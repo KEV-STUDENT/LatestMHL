@@ -7,6 +7,6 @@
         List<T2> Genres { get; set; }
         List<T3> Keywords { get; set; }
         string? Annotation { get; set; }
-        string? Cover { get; set; }
+        string? Cover { get; set; }       
     }   
 }
