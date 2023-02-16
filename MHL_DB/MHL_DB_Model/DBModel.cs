@@ -17,11 +17,10 @@ namespace MHL_DB_SQLite
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             SetColumns(modelBuilder);
-            SetIndexes(modelBuilder);
+            SetIndexes(modelBuilder);           
         }
 
         protected virtual void SetColumns(ModelBuilder modelBuilder) { }
-
         protected virtual void SetIndexes(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Author>().HasIndex(p => new { p.LastName, p.FirstName, p.MiddleName }).IsUnique();
@@ -30,7 +29,7 @@ namespace MHL_DB_SQLite
             modelBuilder.Entity<Keyword4Book>().HasIndex(p => new { p.Keyword }).IsUnique();
             modelBuilder.Entity<Sequence4Book>().HasIndex(p => new { p.Name }).IsUnique();
             modelBuilder.Entity<Volume>().HasIndex(p => new { p.Number, p.SequenceId }).IsUnique();
-            modelBuilder.Entity<Publisher>().HasIndex(p => new { p.Name, p.City }).IsUnique();
+            modelBuilder.Entity<Publisher>().HasIndex(p => new { p.Name, p.City }).IsUnique();          
         }
     }
 }

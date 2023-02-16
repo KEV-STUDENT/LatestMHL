@@ -39,7 +39,8 @@
                                  Value="{Binding ViewModel.DestinationPath, ElementName=Scanner, Mode=TwoWay}"                                
                                  Grid.Row="0" Grid.Column="3" IsEnabled="{Binding ViewModel.DestinationIsDirectory, ElementName=Scanner}" Margin="0,5,0,0"/>
 
-            <pickersUI:CustomPickerSettingsFile x:Name="DestinationDBPicker" Margin="0,5,0,0"  IsReadOnlyTextInput="True"
+            <pickersUI:CustomPickerFile x:Name="DestinationDBPicker" Margin="0,5,0,0" IsReadOnlyTextInput="False"
+                                Value="{Binding ViewModel.DestinationDB, ElementName=Scanner, Mode=TwoWay}"
                                 Grid.Row="1" Grid.Column="3" IsEnabled="{Binding ViewModel.DestinationIsDBFile, ElementName=Scanner}"/>
 
             <MHLControls:MHLRadioButton GroupName="Destination" x:Name="DestinationDirectory" Margin="0,10,0,0" Grid.Row="0" Grid.Column="1" Content="Directory"

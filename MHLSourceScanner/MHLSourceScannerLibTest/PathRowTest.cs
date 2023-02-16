@@ -57,7 +57,7 @@ namespace MHLSourceScannerModelLibTest
         public void PathRowTest_Desrialize(string jsonDir) 
         {
             PathRowDisk? row = JsonSerializer.Deserialize<PathRowDisk>(jsonDir);
-            System.Diagnostics.Debug.WriteLine(row.Count);
+            //System.Diagnostics.Debug.WriteLine(row.Count);
             Assert.IsInstanceOfType(row, typeof(IPathRow));
         }
 
@@ -69,7 +69,7 @@ namespace MHLSourceScannerModelLibTest
         public void PathRowTest_Row_equal_SubRowParent(string jsonDir)
         {
             PathRowDisk? row = JsonSerializer.Deserialize<PathRowDisk>(jsonDir);
-            System.Diagnostics.Debug.WriteLine(row.SubRows[0].Parent == null);
+            //System.Diagnostics.Debug.WriteLine(row.SubRows[0].Parent == null);
             Assert.AreSame(row, row.SubRows[0].Parent);
         }
     }

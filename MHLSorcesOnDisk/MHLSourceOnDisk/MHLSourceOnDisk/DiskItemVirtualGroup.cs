@@ -93,13 +93,13 @@ namespace MHLSourceOnDisk
 
 
                 result = errorEnries.Count == 0;
-                if (!result)
+                /*if (!result)
                 {
                     foreach (string entry in errorEnries)
                     {
                         System.Diagnostics.Debug.WriteLine(string.Concat("Not Exported: ", entry));
                     }
-                }
+                }*/
             }
             return result;
         }       

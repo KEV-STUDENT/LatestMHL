@@ -1,4 +1,5 @@
 ﻿using MHLCommands;
+using MHLCommon;
 using MHLCommon.ViewModels;
 using MHLControls.ViewModels4Forms;
 using System;
@@ -148,12 +149,16 @@ namespace MHLSourceScanner
         private async Task SaveSettinngsAndExportData(object? obj)
         {
             NotBusy = false;
-            if(_destinationIsDirectory)
-                _model.SaveConfigurations(SourcePath, 1, DestinationPath);
-            else
-                _model.SaveConfigurations(SourcePath, 2, DestinationDB);
+            _model.SaveConfigurations(SourcePath, _destinationIsDirectory ? ExportEnum.Directory : ExportEnum.SQLite, DestinationPath, DestinationDB);
 
-            await _model.ExportSelectedDataAsync(_view.SourceDirectoryTree.SourceItems, DestinationPath).ContinueWith((t) => { NotBusy = t.IsCompleted; });
+            if (_destinationIsDirectory)
+            {
+                await _model.ExportSelectedData2DirAsync(_view.SourceDirectoryTree.SourceItems, DestinationPath).ContinueWith((t) => { NotBusy = t.IsCompleted; });
+            }
+            else
+            {
+                await _model.ExportSelectedData2SQLiteAsync(_view.SourceDirectoryTree.SourceItems, DestinationDB).ContinueWith((t) => { NotBusy = t.IsCompleted; });                
+            }
         }
 
         internal void LoadDataFromConfig()

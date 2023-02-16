@@ -1,6 +1,5 @@
 ﻿using MHLCommon;
 using MHLCommon.ExpDestinations;
-using MHLCommon.MHLBook;
 using MHLCommon.MHLDiskItems;
 
 namespace MHLSourceOnDisk

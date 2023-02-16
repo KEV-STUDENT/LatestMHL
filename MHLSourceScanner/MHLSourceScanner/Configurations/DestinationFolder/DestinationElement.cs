@@ -18,6 +18,13 @@ namespace MHLSourceScanner.Configurations.DestinationFolder
             set { base["path"] = value; }
         }
 
+        [ConfigurationProperty("path4sqlite", DefaultValue = "", IsKey = false, IsRequired = false)]
+        public string Path4SQLite
+        {
+            get { return ((string)(base["path4sqlite"])); }
+            set { base["path4sqlite"] = value; }
+        }
+
         [ConfigurationProperty("type", DefaultValue = "1", IsKey = false, IsRequired = false)]
         public int PathType
         {

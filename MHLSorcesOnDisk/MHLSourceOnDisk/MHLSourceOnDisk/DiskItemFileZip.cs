@@ -1,9 +1,14 @@
-﻿using System.Collections;
-using System.IO.Compression;
-using System.Runtime.Serialization;
+﻿using MHL_DB_Model;
+using MHL_DB_SQLite;
 using MHLCommon;
+using MHLCommon.DataModels;
 using MHLCommon.ExpDestinations;
+using MHLCommon.MHLBook;
 using MHLCommon.MHLDiskItems;
+using System.Collections;
+using System.Collections.Concurrent;
+using System.IO.Compression;
+using System.Runtime.Intrinsics.X86;
 
 namespace MHLSourceOnDisk
 {
@@ -78,6 +83,66 @@ namespace MHLSourceOnDisk
         #region [DiskItemExported Implementation]
         public override bool ExportItem(IExportDestination destination)
         {
+            if (destination is ExpDestination4Dir exp2Dir)
+            {
+                return ExportItem2Dir(exp2Dir);
+            }
+            else if (destination is ExpDestination2SQLite exp2SQLite)
+            {
+                return ExportItem2SQLite(exp2SQLite);
+            }
+            return false;
+        }
+
+        private bool ExportItem2SQLite(ExpDestination2SQLite exp2SQLite)
+        {
+            BlockingCollection<IDiskItem> books = new BlockingCollection<IDiskItem>();
+            using (ZipArchive zipArchive = ZipFile.OpenRead(Path2Item))
+            {
+                IDiskItem diskItem;
+                Parallel.ForEach(zipArchive.Entries, entry =>
+                {
+                    lock (locker)
+                    {
+                        diskItem = DiskItemFabrick.GetDiskItem(this, entry);
+                    }
+                    if ((diskItem != null) && (diskItem is DiskItemExported) && (diskItem is IMHLBook book))
+                        books.TryAdd(diskItem);
+                });
+            }
+
+            using (DBModelSQLite dB = new DBModelSQLite(exp2SQLite.DestinationPath))
+            {
+                if (Bizlogic4DB.Export_FB2List(dB, books.ToList()) > 0)
+                {
+                    dB.SaveChanges();
+                }
+            }
+
+
+                /*using (DBModelSQLite dB = new DBModelSQLite(exp2SQLite.DestinationPath))
+                {
+                    BlockingCollection<IMHLBook> books = new BlockingCollection<IMHLBook>();
+                    using (ZipArchive zipArchive = ZipFile.OpenRead(Path2Item))
+                    {
+
+                        foreach (ZipArchiveEntry entry in zipArchive.Entries)
+                        {
+                            diskItem = DiskItemFabrick.GetDiskItem(this, entry);
+
+                            if ((diskItem != null) && (diskItem is DiskItemExported itemExported))
+                                if (Bizlogic4DB.Export_FB2(dB, diskItem) > 0)
+                                {
+                                    dB.SaveChanges();
+                                }
+                        }
+                    }
+                }*/
+                return true;
+        }
+
+        private bool ExportItem2Dir(IExportDestination destination)
+        {
             bool result = true;
             if ((destination is ExpDestination4Dir exp) && (Exporter != null))
             {
@@ -92,7 +157,7 @@ namespace MHLSourceOnDisk
                             {
                                 diskItem = DiskItemFabrick.GetDiskItem(this, entry);
                             }
-                            if ((diskItem != null)&&(diskItem is DiskItemExported itemExported))
+                            if ((diskItem != null) && (diskItem is DiskItemExported itemExported))
                             {
                                 Export2Dir exporter = new Export2Dir(Exporter.ExportOptions, diskItem);
                                 itemExported.ExportBooks(exporter);
@@ -103,16 +168,16 @@ namespace MHLSourceOnDisk
                 }
                 catch (IOException ie)
                 {
-                    System.Diagnostics.Debug.WriteLine(ie.Message);
+                    /*System.Diagnostics.Debug.WriteLine(ie.Message);
                     System.Diagnostics.Debug.WriteLine(ie.Data.Count);
                     foreach (DictionaryEntry de in ie.Data)
                         System.Diagnostics.Debug.WriteLine("    Key: {0,-20}      Value: {1}",
-                                          "'" + de.Key.ToString() + "'", de.Value);
+                                          "'" + de.Key.ToString() + "'", de.Value);*/
                     result = false;
                 }
                 catch (Exception e)
                 {
-                    System.Diagnostics.Debug.WriteLine(e.Message);
+                    //System.Diagnostics.Debug.WriteLine(e.Message);
                     result = false;
                 }
             }

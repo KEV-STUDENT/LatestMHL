@@ -58,6 +58,15 @@
                                     <MHLControls:MHLTextBlock Text="{Binding Path=Title}" 
                                                       Style="{StaticResource TreeViewItemStyle}" 
                                                       Margin="20,0,0,0"/>
+                                    <MHLControls:MHLTextBlock Text="{Binding Path=Year}" 
+                                                      Style="{StaticResource TreeViewItemStyle}" 
+                                                      Margin="20,0,0,0"/>
+                                    <MHLControls:MHLTextBlock Text="{Binding Path=PublisherName}" 
+                                                      Style="{StaticResource TreeViewItemStyle}"
+                                                              Margin="5,0,0,0"/>
+                                    <MHLControls:MHLTextBlock Text="{Binding Path=PublisherCity}" 
+                                                      Style="{StaticResource TreeViewItemStyle}"
+                                                              Margin="5,0,0,0"/>
                                     <Image Style="{StaticResource ExportedImage}"/>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal"  Visibility="{Binding SequenceVisibility}">

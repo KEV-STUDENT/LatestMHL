@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
 
 namespace MHL_DB_SQLite
 {
@@ -24,7 +25,14 @@ namespace MHL_DB_SQLite
         #region [Methods]
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite(string.Concat("Data Source=", dBFile));
+            SqliteConnectionStringBuilder connectionStringBuilder = new SqliteConnectionStringBuilder { DataSource = dBFile };
+            SqliteConnection connection = new SqliteConnection(connectionStringBuilder.ToString());
+
+            connection.CreateCollation("NOCASE", (x, y) => string.Compare(x, y));
+            connection.CreateFunction("upper", (string value) => value.ToUpper());
+            connection.CreateFunction("lower", (string value) => value.ToLower());
+
+            optionsBuilder.UseSqlite(connection);
         }
 
         protected override void SetColumns(ModelBuilder modelBuilder)
@@ -37,6 +45,7 @@ namespace MHL_DB_SQLite
                 }
             }
         }
+
         #endregion
     }
 }

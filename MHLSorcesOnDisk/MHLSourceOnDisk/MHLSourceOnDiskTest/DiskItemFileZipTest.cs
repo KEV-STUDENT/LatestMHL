@@ -1,4 +1,6 @@
-﻿using MHLCommon;
+﻿using MHL_DB_SQLite;
+using MHL_DB_Model;
+using MHLCommon;
 using MHLCommon.MHLDiskItems;
 using MHLSourceOnDisk;
 using MHLSourceOnDisk.BookDir;
@@ -6,6 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
+using System.Linq;
 
 namespace MHLSourceOnDiskTest
 {
@@ -103,7 +106,7 @@ namespace MHLSourceOnDiskTest
             {
                 if (Directory.Exists(pathDestination))
                 {
-                    init = Directory.GetFiles(pathDestination,"*", SearchOption.AllDirectories).Length;
+                    init = Directory.GetFiles(pathDestination, "*", SearchOption.AllDirectories).Length;
                 }
             }
 
@@ -117,10 +120,10 @@ namespace MHLSourceOnDiskTest
             Export2Dir exporter = new Export2Dir(expOptions);
 
             if (createNewFlag)
-                Assert.IsTrue( zip.ExportBooks(exporter));
+                Assert.IsTrue(zip.ExportBooks(exporter));
             else
             {
-                foreach(var vg in ((IDiskCollection)zip).GetChilds())
+                foreach (var vg in ((IDiskCollection)zip).GetChilds())
                 {
                     if (vg is IDiskCollection diskCollection)
                     {
@@ -137,6 +140,40 @@ namespace MHLSourceOnDiskTest
                 System.Diagnostics.Debug.WriteLine("{0}-{1}", res, init);
                 Assert.AreEqual(init, res);
             }
+        }
+
+
+        [TestMethod]
+        [DataRow(@"E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
+        public void ExportBooks_SQLite(string pathZip, string pathDestination)
+        {
+            IDiskItemExported? zip = DiskItemFabrick.GetDiskItem(pathZip) as IDiskItemExported;
+            int res = 0, init = 0;
+
+            if (File.Exists(pathDestination))
+                File.Delete(pathDestination);
+
+            ExpOptions expOptions = new ExpOptions(pathDestination);
+            Export2SQLite exporter = new Export2SQLite(expOptions);
+
+            foreach (var vg in ((IDiskCollection)zip).GetChilds())
+            {
+                if (vg is IDiskCollection diskCollection)
+                {
+                    init += diskCollection.Count;
+                }
+                else
+                    init++;
+            }
+
+            if(zip.ExportBooks(exporter))
+                using (DBModel dB = new DBModelSQLite(pathDestination))
+                {
+                    res = dB.Books.ToList().Count;
+                }
+
+            System.Diagnostics.Debug.WriteLine("{0}-{1}", res, init);
+            Assert.AreEqual(init, res);
         }
     }
 }

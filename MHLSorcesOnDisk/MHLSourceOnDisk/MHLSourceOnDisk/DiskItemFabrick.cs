@@ -51,20 +51,20 @@ namespace MHLSourceOnDisk
                 switch (type)
                 {
                     case FileType.Zip:
-                        System.Diagnostics.Debug.WriteLine("DiskItemFabrick.GetDiskItem({0}) - Zip", path);
+                        //System.Diagnostics.Debug.WriteLine("DiskItemFabrick.GetDiskItem({0}) - Zip", path);
                         return new DiskItemFileZip(path);
                     case FileType.Fb2:
-                        System.Diagnostics.Debug.WriteLine("DiskItemFabrick.GetDiskItem({0}) - FB2", path);
+                        //System.Diagnostics.Debug.WriteLine("DiskItemFabrick.GetDiskItem({0}) - FB2", path);
                         return new DiskItemFileFB2(path);
                     default:
-                        System.Diagnostics.Debug.WriteLine("DiskItemFabrick.GetDiskItem({0}) - File", path);
+                        //System.Diagnostics.Debug.WriteLine("DiskItemFabrick.GetDiskItem({0}) - File", path);
                         return new DiskItemFile(path);
                 }
             }
             catch (Exception exp)
             {
-                System.Diagnostics.Debug.WriteLine("DiskItemFabrick.GetDiskItem({0}) - Error", path);
-                System.Diagnostics.Debug.WriteLine(exp.Message);
+                //System.Diagnostics.Debug.WriteLine("DiskItemFabrick.GetDiskItem({0}) - Error", path);
+                //System.Diagnostics.Debug.WriteLine(exp.Message);
                 return new DiskItemError(path, exp);
             }
         }
@@ -106,7 +106,7 @@ namespace MHLSourceOnDisk
 
         public static IDiskItem GetDiskItem(DiskItemFileZip item, ZipArchiveEntry zipArchiveEntry)
         {
-            System.Diagnostics.Debug.WriteLine("Thread : {0}  Task : {1}", Thread.CurrentThread.ManagedThreadId, Task.CurrentId);
+            //System.Diagnostics.Debug.WriteLine("Thread : {0}  Task : {1}", Thread.CurrentThread.ManagedThreadId, Task.CurrentId);
 
             FileType type = FileType.Unknown;
             Exception? exp = null;
@@ -154,24 +154,24 @@ namespace MHLSourceOnDisk
             switch (type)
             {
                 case FileType.Zip:
-                    System.Diagnostics.Debug.WriteLine("DiskItemFabrick.GetDiskItem({0},{1}) - Zip", item.Path2Item, zipArchiveEntry.FullName);
+                    //System.Diagnostics.Debug.WriteLine("DiskItemFabrick.GetDiskItem({0},{1}) - Zip", item.Path2Item, zipArchiveEntry.FullName);
                     return new DiskItemFileZip(item, zipArchiveEntry.FullName);
                 case FileType.Fb2:
-                    System.Diagnostics.Debug.WriteLine("DiskItemFabrick.GetDiskItem({0},{1}) - FB2", item.Path2Item, zipArchiveEntry.FullName);
+                    //System.Diagnostics.Debug.WriteLine("DiskItemFabrick.GetDiskItem({0},{1}) - FB2", item.Path2Item, zipArchiveEntry.FullName);
                     return fb2;
                 case FileType.Error:
-                    System.Diagnostics.Debug.WriteLine(exp?.Message ?? string.Empty);
-                    System.Diagnostics.Debug.WriteLine("DiskItemFabrick.GetDiskItem({0},{1}) - Error", item.Path2Item, zipArchiveEntry.FullName);
+                    //System.Diagnostics.Debug.WriteLine(exp?.Message ?? string.Empty);
+                    //System.Diagnostics.Debug.WriteLine("DiskItemFabrick.GetDiskItem({0},{1}) - Error", item.Path2Item, zipArchiveEntry.FullName);
                     return new DiskItemError(zipArchiveEntry.FullName, exp);
                 default:
-                    System.Diagnostics.Debug.WriteLine("DiskItemFabrick.GetDiskItem({0},{1}) - File", item.Path2Item, zipArchiveEntry.FullName);
+                    //System.Diagnostics.Debug.WriteLine("DiskItemFabrick.GetDiskItem({0},{1}) - File", item.Path2Item, zipArchiveEntry.FullName);
                     return new DiskItemFile(item, zipArchiveEntry.FullName);
             }
         }
 
         internal static IDiskItem GetDiskItem(string path, Exception? error)
         {
-            System.Diagnostics.Debug.WriteLine("DiskItemFabrick.GetDiskItem({0}, {1}) - Error", path, error?.Message ?? "<Unknown error>");
+            //System.Diagnostics.Debug.WriteLine("DiskItemFabrick.GetDiskItem({0}, {1}) - Error", path, error?.Message ?? "<Unknown error>");
             return new DiskItemError(path, error ?? new Exception("Unknown"));
         }
 
@@ -215,7 +215,7 @@ namespace MHLSourceOnDisk
             }
             catch (Exception e)
             {
-                System.Diagnostics.Debug.WriteLine(e.Message);
+                //System.Diagnostics.Debug.WriteLine(e.Message);
                 type = FileType.Error;
                 exp = e;
             }
@@ -223,13 +223,13 @@ namespace MHLSourceOnDisk
             switch (type)
             {
                 case FileType.Zip:
-                    System.Diagnostics.Debug.WriteLine("DiskItemFabrick.GetDiskItem({0},{1}) - Zip", item.Path2Item, zipArchiveEntry.FullName);
+                    //System.Diagnostics.Debug.WriteLine("DiskItemFabrick.GetDiskItem({0},{1}) - Zip", item.Path2Item, zipArchiveEntry.FullName);
                     return new DiskItemFileZip(item, zipArchiveEntry.FullName);
                 case FileType.Error:
-                    System.Diagnostics.Debug.WriteLine("DiskItemFabrick.GetDiskItem({0},{1}) - Error", item.Path2Item, zipArchiveEntry.FullName);
+                    //System.Diagnostics.Debug.WriteLine("DiskItemFabrick.GetDiskItem({0},{1}) - Error", item.Path2Item, zipArchiveEntry.FullName);
                     return new DiskItemError(zipArchiveEntry.FullName, exp);
                 default:
-                    System.Diagnostics.Debug.WriteLine("DiskItemFabrick.GetDiskItem({0},{1}) - File", item.Path2Item, zipArchiveEntry.FullName);
+                    //System.Diagnostics.Debug.WriteLine("DiskItemFabrick.GetDiskItem({0},{1}) - File", item.Path2Item, zipArchiveEntry.FullName);
                     return new DiskItemFile(item, zipArchiveEntry.FullName);
             }
         }

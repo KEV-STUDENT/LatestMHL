@@ -10,7 +10,7 @@ namespace MHLSourceScannerLib
 {
     public class Decor4FB2 : Decorator4WPF
     {
-        public  override Brush ForeGround => Brushes.DarkGreen;
+        public override Brush ForeGround => Brushes.DarkGreen;
         public override FontWeight FontWeight => FontWeights.Bold;
         public override bool Focusable => true;
     }
@@ -25,14 +25,7 @@ namespace MHLSourceScannerLib
         #region [Properties]
         public string Title
         {
-            get
-            {
-                if (Source is IMHLBook book)
-                {
-                    return book.Title;
-                }
-                return string.Empty;
-            }
+            get => Book?.Title ?? string.Empty;
         }
 
         public Visibility SequenceVisibility
@@ -42,11 +35,11 @@ namespace MHLSourceScannerLib
                 if (!_sequenceNumLoaded)
                 {
                     if (Source is IMHLBook book)
-                        _sequenceNum = book.SequenceAndNumber ;
+                        _sequenceNum = book.SequenceAndNumber;
 
                     _sequenceNumLoaded = true;
                 }
-                return (_sequenceNum == null || string.IsNullOrEmpty(_sequenceNum?.Name) ? Visibility.Collapsed : Visibility.Visible) ;
+                return (_sequenceNum == null || string.IsNullOrEmpty(_sequenceNum?.Name) ? Visibility.Collapsed : Visibility.Visible);
             }
         }
 
@@ -83,16 +76,24 @@ namespace MHLSourceScannerLib
 
         public Visibility NumberVisibility
         {
-            get=> ((Number??0) > 0 ? Visibility.Visible : Visibility.Collapsed); 
+            get => ((Number ?? 0) > 0 ? Visibility.Visible : Visibility.Collapsed);
         }
         public string Cover
         {
-            get
-            {
-                if (Source is IMHLBook book)
-                    return book.Cover;
-                return string.Empty;
-            }
+            get => Book?.Cover ?? string.Empty;
+        }
+
+        public string Year
+        {
+            get => Book?.Year?.ToString() ?? string.Empty;
+        }
+        public string PublisherName
+        {
+            get => Book?.Publisher?.Name ?? string.Empty;
+        }
+        public string PublisherCity
+        {
+            get => Book?.Publisher?.City ?? string.Empty;
         }
 
         public IMHLBook? Book { get { return Source as IMHLBook; } }
@@ -117,7 +118,7 @@ namespace MHLSourceScannerLib
 
         #region [Protected Methods]
         public override void LoadItemCollection()
-        {           
+        {
             if (Source is IMHLBook book)
             {
                 /* if (!string.IsNullOrEmpty(book.Annotation))
@@ -133,7 +134,7 @@ namespace MHLSourceScannerLib
                     Add2Source(new FB2Keywords(book, this));
             }
         }
-        
+
         private void Add2Source(ITreeItem item)
         {
             if (Shower == null)

@@ -1,6 +1,7 @@
 ﻿using MHL_DB_Model;
 using MHL_DB_SQLite;
 using MHLCommon.MHLBook;
+using MHLCommon.MHLDiskItems;
 using MHLSourceOnDisk;
 
 namespace MHL_DB_Test
@@ -12,9 +13,9 @@ namespace MHL_DB_Test
 
         #region [Genres]
         [TestMethod]
-        [DataRow(@"F:\1\test\fb2-495000-500999.zip", "495000.fb2", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
-        [DataRow(@"F:\1\test\426096.fb2", "", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
-        [DataRow(@"F:\1\test\Davydov_Moskovit.454563.fb2", "", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
+        [DataRow(@"F:\1\test\fb2-495000-500999.zip", "495000.fb2", @"F:\1\test\destinationDB\ExportFB2_G1.SQLite")]
+        [DataRow(@"F:\1\test\426096.fb2", "", @"F:\1\test\destinationDB\ExportFB2_G1.SQLite")]
+        [DataRow(@"F:\1\test\Davydov_Moskovit.454563.fb2", "", @"F:\1\test\destinationDB\ExportFB2_G1.SQLite")]
         public void Export2SQLite_Genres(string pathFile, string fb2Name, string fileSQlite)
         {
             DiskItemFileFB2? itemFB2;
@@ -46,7 +47,7 @@ namespace MHL_DB_Test
         }
 
         [TestMethod]
-        [DataRow(@"F:\1\test\Davydov_Moskovit.454563.fb2", "", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
+        [DataRow(@"F:\1\test\Davydov_Moskovit.454563.fb2", "", @"F:\1\test\destinationDB\ExportFB2_G2.SQLite")]
         public void Export2SQLite_Genres_Duplicated(string pathFile, string fb2Name, string fileSQlite)
         {
             DiskItemFileFB2? itemFB2;
@@ -85,7 +86,7 @@ namespace MHL_DB_Test
         }
 
         [TestMethod]
-        [DataRow(@"F:\1\test\Davydov_Moskovit.454563.fb2", "", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
+        [DataRow(@"F:\1\test\Davydov_Moskovit.454563.fb2", "", @"F:\1\test\destinationDB\ExportFB2_G3.SQLite")]
         public void Export2SQLite_Genres_Out(string pathFile, string fb2Name, string fileSQlite)
         {
             DiskItemFileFB2? itemFB2;
@@ -124,9 +125,9 @@ namespace MHL_DB_Test
 
         #region [Keywords]
         [TestMethod]
-        [DataRow(@"F:\1\test\fb2-495000-500999.zip", "495000.fb2", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
-        [DataRow(@"F:\1\test\426096.fb2", "", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
-        [DataRow(@"F:\1\test\Davydov_Moskovit.454563.fb2", "", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
+        [DataRow(@"F:\1\test\fb2-495000-500999.zip", "495000.fb2", @"F:\1\test\destinationDB\ExportFB2_K1.SQLite")]
+        [DataRow(@"F:\1\test\426096.fb2", "", @"F:\1\test\destinationDB\ExportFB2_K1.SQLite")]
+        [DataRow(@"F:\1\test\Davydov_Moskovit.454563.fb2", "", @"F:\1\test\destinationDB\ExportFB2_K1.SQLite")]
         public void Export2SQLite_Keywords(string pathFile, string fb2Name, string fileSQlite)
         {
             DiskItemFileFB2? itemFB2;
@@ -169,8 +170,8 @@ namespace MHL_DB_Test
         }
 
         [TestMethod]
-        [DataRow(@"F:\1\test\fb2-426000-433000.zip", "426026.fb2", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
-        [DataRow(@"F:\1\test\Davydov_Moskovit.454563.fb2", "", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
+        [DataRow(@"F:\1\test\fb2-426000-433000.zip", "426026.fb2", @"F:\1\test\destinationDB\ExportFB2_K2.SQLite")]
+        [DataRow(@"F:\1\test\Davydov_Moskovit.454563.fb2", "", @"F:\1\test\destinationDB\ExportFB2_K2.SQLite")]
         public void Export2SQLite_Keywords_Duplicated(string pathFile, string fb2Name, string fileSQlite)
         {
             DiskItemFileFB2? itemFB2;
@@ -210,12 +211,12 @@ namespace MHL_DB_Test
         }
 
         [TestMethod]
-        [DataRow(@"F:\1\test\fb2-426000-433000.zip", "426026.fb2", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
-        [DataRow(@"F:\1\test\Davydov_Moskovit.454563.fb2", "", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
+        [DataRow(@"F:\1\test\fb2-426000-433000.zip", "426026.fb2", @"F:\1\test\destinationDB\ExportFB2_K3.SQLite")]
+        [DataRow(@"F:\1\test\Davydov_Moskovit.454563.fb2", "", @"F:\1\test\destinationDB\ExportFB2_K3.SQLite")]
         public void Export2SQLite_Keywords_Out(string pathFile, string fb2Name, string fileSQlite)
         {
             DiskItemFileFB2? itemFB2;
-            int actual, expected;
+            int actual, expected = 0;
             bool result;
 
             if (string.IsNullOrEmpty(fb2Name))
@@ -233,23 +234,25 @@ namespace MHL_DB_Test
                 {
                     using (DBModel dB = new DBModelSQLite(fileSQlite))
                     {
-                        Bizlogic4DB.Export_Keywords(dB, book?.Keywords, out keyword4BooksDB);
+                        if (Bizlogic4DB.Export_Keywords(dB, book?.Keywords, out keyword4BooksDB) > 0)
+                        {
+                            expected = book?.Keywords?.Count ?? 0;
+                            dB.SaveChanges();
+                        }
                     }
                 }
             }
-            expected = book?.Keywords?.Count ?? 0;
             actual = keyword4BooksDB?.Count ?? 0;
-
             Assert.AreEqual(expected, actual);
         }
         #endregion
 
         #region [Sequences]
         [TestMethod]
-        [DataRow(@"F:\1\test\fb2-495000-500999.zip", "495000.fb2", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
-        [DataRow(@"F:\1\test\426096.fb2", "", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
-        [DataRow(@"F:\1\test\Davydov_Moskovit.454563.fb2", "", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
-        [DataRow(@"F:\1\test\fb2-426000-433000.zip", "426026.fb2", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
+        [DataRow(@"F:\1\test\fb2-495000-500999.zip", "495000.fb2", @"F:\1\test\destinationDB\ExportFB2_S1.SQLite")]
+        [DataRow(@"F:\1\test\426096.fb2", "", @"F:\1\test\destinationDB\ExportFB2_S1.SQLite")]
+        [DataRow(@"F:\1\test\Davydov_Moskovit.454563.fb2", "", @"F:\1\test\destinationDB\ExportFB2_S1.SQLite")]
+        [DataRow(@"F:\1\test\fb2-426000-433000.zip", "426026.fb2", @"F:\1\test\destinationDB\ExportFB2_S1.SQLite")]
         public void Export2SQLite_Sequences(string pathFile, string fb2Name, string fileSQlite)
         {
             DiskItemFileFB2? itemFB2;
@@ -281,8 +284,8 @@ namespace MHL_DB_Test
         }
 
         [TestMethod]
-        [DataRow(@"F:\1\test\fb2-426000-433000.zip", "426026.fb2", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
-        [DataRow(@"F:\1\test\Davydov_Moskovit.454563.fb2", "", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
+        [DataRow(@"F:\1\test\fb2-426000-433000.zip", "426026.fb2", @"F:\1\test\destinationDB\ExportFB2_S2.SQLite")]
+        [DataRow(@"F:\1\test\Davydov_Moskovit.454563.fb2", "", @"F:\1\test\destinationDB\ExportFB2_S2.SQLite")]
         public void Export2SQLite_Sequences_Duplicated(string pathFile, string fb2Name, string fileSQlite)
         {
             DiskItemFileFB2? itemFB2;
@@ -321,14 +324,48 @@ namespace MHL_DB_Test
             }
             Assert.AreEqual(expected, actual);
         }
+
+        [TestMethod]
+        [DataRow(new string?[] { "Test1", "Test2", "Test3", "ЗЕМЛЯ ФАРАОНОВ" },
+            new string?[] { "test2", "TEST3", "Test4", "земля фараонов" },
+            @"F:\1\test\destinationDB\ExportFB2_S3.SQLite")]
+        public void Export2SQLite_Export_Sequences(string?[] sequence1, string?[] sequence2, string pathDestination)
+        {
+            int actual = -1, expected = -2;
+
+            if (File.Exists(pathDestination))
+                File.Delete(pathDestination);
+
+            lock (locker)
+            {
+                using (DBModel dB = new DBModelSQLite(pathDestination))
+                {
+                    List<Sequence4Book>? list1, list2;
+                    expected = Bizlogic4DB.Export_Sequences(dB, sequence1.ToList(), out list1);
+                    dB.SaveChanges();
+
+                    /*foreach (var s in list1)
+                        System.Diagnostics.Debug.WriteLine(s.Name);
+                    System.Diagnostics.Debug.WriteLine("======================= =================");*/
+
+                    expected += Bizlogic4DB.Export_Sequences(dB, sequence2.ToList(), out list2);
+                    dB.SaveChanges();
+                    /*foreach (var s in list2)
+                        System.Diagnostics.Debug.WriteLine(s.Name);*/
+                    actual = dB.Sequence4Books.ToList().Count;
+                }
+            }
+
+            Assert.AreEqual(expected, actual);
+        }
         #endregion
 
         #region [Volumes]
         [TestMethod]
-        [DataRow(@"F:\1\test\fb2-495000-500999.zip", "495000.fb2", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
-        [DataRow(@"F:\1\test\426096.fb2", "", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
-        [DataRow(@"F:\1\test\Davydov_Moskovit.454563.fb2", "", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
-        [DataRow(@"F:\1\test\fb2-426000-433000.zip", "426026.fb2", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
+        [DataRow(@"F:\1\test\fb2-495000-500999.zip", "495000.fb2", @"F:\1\test\destinationDB\ExportFB2_V1.SQLite")]
+        [DataRow(@"F:\1\test\426096.fb2", "", @"F:\1\test\destinationDB\ExportFB2_V1.SQLite")]
+        [DataRow(@"F:\1\test\Davydov_Moskovit.454563.fb2", "", @"F:\1\test\destinationDB\ExportFB2_V1.SQLite")]
+        [DataRow(@"F:\1\test\fb2-426000-433000.zip", "426026.fb2", @"F:\1\test\destinationDB\ExportFB2_V1.SQLite")]
         public void Export2SQLite_Volumes(string pathFile, string fb2Name, string fileSQlite)
         {
             DiskItemFileFB2? itemFB2;
@@ -360,8 +397,8 @@ namespace MHL_DB_Test
         }
 
         [TestMethod]
-        [DataRow(@"F:\1\test\fb2-426000-433000.zip", "426026.fb2", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
-        [DataRow(@"F:\1\test\Davydov_Moskovit.454563.fb2", "", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
+        [DataRow(@"F:\1\test\fb2-426000-433000.zip", "426026.fb2", @"F:\1\test\destinationDB\ExportFB2_V2.SQLite")]
+        [DataRow(@"F:\1\test\Davydov_Moskovit.454563.fb2", "", @"F:\1\test\destinationDB\ExportFB2_V2.SQLite")]
         public void Export2SQLite_Volumes_Duplicated(string pathFile, string fb2Name, string fileSQlite)
         {
             DiskItemFileFB2? itemFB2;
@@ -401,14 +438,71 @@ namespace MHL_DB_Test
             }
             Assert.AreEqual(expected, actual);
         }
+
+
+        [TestMethod]
+        [DataRow(@"F:\1\test\fb2-426000-433000.zip",
+            new string[] { "426026.fb2", "426026.fb2", "426026.fb2", "426026.fb2" },
+            @"F:\1\test\destinationDB\ExportFB2_V3_1.SQLite",
+            false)]
+
+        [DataRow(@"F:\1\test\fb2-426000-433000.zip",
+            new string[] { "426026.fb2", "426026.fb2", "426026.fb2", "426026.fb2" },
+            @"F:\1\test\destinationDB\ExportFB2_V3_2.SQLite",
+            true)]
+        public void Export2SQLite_Export_Volumes4BookList(string zipFile, string[] fb2Name, string fileSQlite, bool changeNum)
+        {
+            int actual = -1, expected = -2;
+
+            if (File.Exists(fileSQlite))
+                File.Delete(fileSQlite);
+
+            List<IMHLBook> books = new List<IMHLBook>();
+            ushort i = 0;
+            foreach (var entity in fb2Name)
+            {
+                IMHLBook? book = MHLSourceOnDiskStatic.GetBookFromZip(zipFile, entity) as IMHLBook;
+                if (book != null)
+                {
+                    book.SequenceAndNumber.Number = (ushort)(book.SequenceAndNumber.Number + i);
+                    i++;
+                    books.Add(book);
+                }
+            }
+
+            lock (locker)
+            {
+                using (DBModel dB = new DBModelSQLite(fileSQlite))
+                {
+                    List<Volume>? list;
+                    expected = Bizlogic4DB.Export_Volumes4BookList(dB, books, out list);
+                    dB.SaveChanges();
+                    actual = list?.Count() ?? 0;
+
+                    if (changeNum)
+                        foreach (var b in books)
+                        {
+                            b.SequenceAndNumber.Number = (ushort)(b.SequenceAndNumber.Number + i);
+                            i++;
+                        }
+
+                    expected += Bizlogic4DB.Export_Volumes4BookList(dB, books, out list);
+                    dB.SaveChanges();
+                    if (changeNum)
+                        actual += list?.Count() ?? 0;
+                }
+            }
+            System.Diagnostics.Debug.WriteLine("actual : {0}, expected : {1}", actual, expected);
+            Assert.AreEqual(expected, actual);
+        }
         #endregion
 
         #region [Authors]
         [TestMethod]
-        [DataRow(@"F:\1\test\fb2-495000-500999.zip", "495000.fb2", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
-        [DataRow(@"F:\1\test\426096.fb2", "", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
-        [DataRow(@"F:\1\test\Davydov_Moskovit.454563.fb2", "", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
-        [DataRow(@"F:\1\test\fb2-426000-433000.zip", "426026.fb2", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
+        [DataRow(@"F:\1\test\fb2-495000-500999.zip", "495000.fb2", @"F:\1\test\destinationDB\ExportFB2_A1.SQLite")]
+        [DataRow(@"F:\1\test\426096.fb2", "", @"F:\1\test\destinationDB\ExportFB2_A1.SQLite")]
+        [DataRow(@"F:\1\test\Davydov_Moskovit.454563.fb2", "", @"F:\1\test\destinationDB\ExportFB2_A1.SQLite")]
+        [DataRow(@"F:\1\test\fb2-426000-433000.zip", "426026.fb2", @"F:\1\test\destinationDB\ExportFB2_A1.SQLite")]
         public void Export2SQLite_Authors(string pathFile, string fb2Name, string fileSQlite)
         {
             DiskItemFileFB2? itemFB2;
@@ -440,8 +534,8 @@ namespace MHL_DB_Test
         }
 
         [TestMethod]
-        [DataRow(@"F:\1\test\fb2-426000-433000.zip", "426026.fb2", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
-        [DataRow(@"F:\1\test\Davydov_Moskovit.454563.fb2", "", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
+        [DataRow(@"F:\1\test\fb2-426000-433000.zip", "426026.fb2", @"F:\1\test\destinationDB\ExportFB2_A2.SQLite")]
+        [DataRow(@"F:\1\test\Davydov_Moskovit.454563.fb2", "", @"F:\1\test\destinationDB\ExportFB2_A2.SQLite")]
         public void Export2SQLite_Authors_Duplicated(string pathFile, string fb2Name, string fileSQlite)
         {
             DiskItemFileFB2? itemFB2;
@@ -484,8 +578,8 @@ namespace MHL_DB_Test
 
 
         [TestMethod]
-        [DataRow(@"F:\1\test\fb2-426000-433000.zip", "426026.fb2", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
-        [DataRow(@"F:\1\test\Davydov_Moskovit.454563.fb2", "", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
+        [DataRow(@"F:\1\test\fb2-426000-433000.zip", "426026.fb2", @"F:\1\test\destinationDB\ExportFB2_A3.SQLite")]
+        [DataRow(@"F:\1\test\Davydov_Moskovit.454563.fb2", "", @"F:\1\test\destinationDB\ExportFB2_A3.SQLite")]
         public void Export2SQLite_Authors_Out(string pathFile, string fb2Name, string fileSQlite)
         {
             DiskItemFileFB2? itemFB2;
@@ -524,10 +618,10 @@ namespace MHL_DB_Test
 
         #region [Publisher]
         [TestMethod]
-        [DataRow(@"F:\1\test\fb2-495000-500999.zip", "495000.fb2", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
-        [DataRow(@"F:\1\test\426096.fb2", "", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
-        [DataRow(@"F:\1\test\Davydov_Moskovit.454563.fb2", "", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
-        [DataRow(@"F:\1\test\fb2-426000-433000.zip", "426026.fb2", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
+        [DataRow(@"F:\1\test\fb2-495000-500999.zip", "495000.fb2", @"F:\1\test\destinationDB\ExportFB2_P1.SQLite")]
+        [DataRow(@"F:\1\test\426096.fb2", "", @"F:\1\test\destinationDB\ExportFB2_P1.SQLite")]
+        [DataRow(@"F:\1\test\Davydov_Moskovit.454563.fb2", "", @"F:\1\test\destinationDB\ExportFB2_P1.SQLite")]
+        [DataRow(@"F:\1\test\fb2-426000-433000.zip", "426026.fb2", @"F:\1\test\destinationDB\ExportFB2_P1.SQLite")]
         public void Export2SQLite_Publisher(string pathFile, string fb2Name, string fileSQlite)
         {
             DiskItemFileFB2? itemFB2;
@@ -559,8 +653,8 @@ namespace MHL_DB_Test
         }
 
         [TestMethod]
-        [DataRow(@"F:\1\test\fb2-426000-433000.zip", "426026.fb2", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
-        [DataRow(@"F:\1\test\Davydov_Moskovit.454563.fb2", "", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
+        [DataRow(@"F:\1\test\fb2-426000-433000.zip", "426026.fb2", @"F:\1\test\destinationDB\ExportFB2_P2.SQLite")]
+        [DataRow(@"F:\1\test\Davydov_Moskovit.454563.fb2", "", @"F:\1\test\destinationDB\ExportFB2_P2.SQLite")]
         public void Export2SQLite_Publisher_Duplicated(string pathFile, string fb2Name, string fileSQlite)
         {
             DiskItemFileFB2? itemFB2;
@@ -599,14 +693,85 @@ namespace MHL_DB_Test
             }
             Assert.AreEqual(expected, actual);
         }
+
+        [TestMethod]
+        [DataRow(@"F:\1\test\fb2-426000-433000.zip",
+            new string[] { "426026.fb2", "426026.fb2", "426026.fb2", "426026.fb2" },
+            @"F:\1\test\destinationDB\ExportFB2_P3_1.SQLite",
+            false)]
+
+        [DataRow(@"F:\1\test\fb2-426000-433000.zip",
+            new string[] { "426026.fb2", "426026.fb2", "426026.fb2", "426026.fb2" },
+            @"F:\1\test\destinationDB\ExportFB2_P3_2.SQLite",
+            true)]
+        public void Export2SQLite_Export_Publishers4BookList(string zipFile, string[] fb2Name, string fileSQlite, bool changeNum)
+        {
+            int actual = -1, expected = -2;
+
+            if (File.Exists(fileSQlite))
+                File.Delete(fileSQlite);
+
+            List<IMHLBook> books = new List<IMHLBook>();
+            ushort i = 0;
+            foreach (var entity in fb2Name)
+            {
+                IMHLBook? book = MHLSourceOnDiskStatic.GetBookFromZip(zipFile, entity) as IMHLBook;
+                if (book != null)
+                {
+                    if (book.Publisher != null)
+                    {
+                        book.Publisher.Name += i;
+                        i++;
+
+                        System.Diagnostics.Debug.WriteLine("{0} : {1}",
+                            book.Publisher.Name,
+                            book.Publisher.City);
+                    }
+                    books.Add(book);
+                }
+            }
+
+            lock (locker)
+            {
+                using (DBModel dB = new DBModelSQLite(fileSQlite))
+                {
+                    List<Publisher>? list;
+                    expected = Bizlogic4DB.Export_Publishers4BookList(dB, books, out list);
+                    dB.SaveChanges();
+                    actual = list?.Count() ?? 0;
+
+
+                    foreach (var book in books)
+                        if (book.Publisher != null)
+                        {
+                            book.Publisher.Name = book.Publisher.Name.ToUpper();
+                            if (changeNum)
+                            {
+                                book.Publisher.Name += i;
+                                i++;
+                            }
+                            System.Diagnostics.Debug.WriteLine("{0} : {1}",
+                            book.Publisher.Name,
+                            book.Publisher.City);
+                        }
+
+                    expected += Bizlogic4DB.Export_Publishers4BookList(dB, books, out list);
+                    dB.SaveChanges();
+                    if (changeNum)
+                        actual += list?.Count() ?? 0;
+                }
+            }
+            System.Diagnostics.Debug.WriteLine("actual : {0}, expected : {1}", actual, expected);
+            Assert.AreEqual(expected, actual);
+        }
         #endregion
 
         #region [Books]
         [TestMethod]
-        [DataRow(@"F:\1\test\fb2-495000-500999.zip", "495000.fb2", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
-        [DataRow(@"F:\1\test\426096.fb2", "", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
-        [DataRow(@"F:\1\test\Davydov_Moskovit.454563.fb2", "", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
-        [DataRow(@"F:\1\test\fb2-426000-433000.zip", "426026.fb2", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
+        [DataRow(@"F:\1\test\fb2-495000-500999.zip", "495000.fb2", @"F:\1\test\destinationDB\ExportFB2_B1.SQLite")]
+        [DataRow(@"F:\1\test\426096.fb2", "", @"F:\1\test\destinationDB\ExportFB2_B1.SQLite")]
+        [DataRow(@"F:\1\test\Davydov_Moskovit.454563.fb2", "", @"F:\1\test\destinationDB\ExportFB2_B1.SQLite")]
+        [DataRow(@"F:\1\test\fb2-426000-433000.zip", "426026.fb2", @"F:\1\test\destinationDB\ExportFB2_B1.SQLite")]
         public void Export2SQLite_Book(string pathFile, string fb2Name, string fileSQlite)
         {
             DiskItemFileFB2? itemFB2;
@@ -632,8 +797,8 @@ namespace MHL_DB_Test
         }
 
         [TestMethod]
-        [DataRow(@"F:\1\test\fb2-426000-433000.zip", "426026.fb2", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
-        [DataRow(@"F:\1\test\Davydov_Moskovit.454563.fb2", "", @"F:\1\test\destinationDB\ExportFB2.SQLite")]
+        [DataRow(@"F:\1\test\fb2-426000-433000.zip", "426026.fb2", @"F:\1\test\destinationDB\ExportFB2_B2.SQLite")]
+        [DataRow(@"F:\1\test\Davydov_Moskovit.454563.fb2", "", @"F:\1\test\destinationDB\ExportFB2_B2.SQLite")]
         public void Export2SQLite_Books_Duplicated(string pathFile, string fb2Name, string fileSQlite)
         {
             DiskItemFileFB2? itemFB2;
@@ -658,6 +823,44 @@ namespace MHL_DB_Test
                     actual = dB.Books.ToList().Count;
                 }
             }
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        [DataRow(@"F:\1\test\fb2-426000-433000.zip",
+          new string[] { "426026.fb2", "426026.fb2", "426026.fb2", "426026.fb2" },
+          @"F:\1\test\destinationDB\ExportFB2_B3.SQLite")]
+        public void Export2SQLite_Export_FB2List(string zipFile, string[] fb2Name, string fileSQlite)
+        {
+            int actual = -1, expected = -2;
+
+            if (File.Exists(fileSQlite))
+                File.Delete(fileSQlite);
+
+            List<IDiskItem> books = new List<IDiskItem>();
+            foreach (var entity in fb2Name)
+            {
+                IDiskItem? book = MHLSourceOnDiskStatic.GetItemFromZip(zipFile, entity);
+                if (book != null)
+                {
+                    books.Add(book);
+                }
+            }
+
+            lock (locker)
+            {
+                using (DBModel dB = new DBModelSQLite(fileSQlite))
+                {
+                    expected = Bizlogic4DB.Export_FB2List(dB, books);
+                    dB.SaveChanges();
+
+                    expected += Bizlogic4DB.Export_FB2List(dB, books);
+                    dB.SaveChanges();
+
+                    actual = dB.Books.Count();
+                }
+            }
+            System.Diagnostics.Debug.WriteLine("actual : {0}, expected : {1}", actual, expected);
             Assert.AreEqual(expected, actual);
         }
         #endregion

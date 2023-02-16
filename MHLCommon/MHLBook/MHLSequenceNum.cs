@@ -20,7 +20,7 @@ namespace MHLCommon
         public ushort Number
         {
             get => _number;
-            set => _number = value;
+            set=>  _number = value; 
         }
         #endregion
 

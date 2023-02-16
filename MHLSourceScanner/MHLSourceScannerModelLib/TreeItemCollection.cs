@@ -174,7 +174,7 @@ namespace MHLSourceScannerModelLib
                     if (MHLCommonStatic.CompareStringByLength(SourceItems[i].Name, item.Name) > 0)
                     {
                         SourceItems.Insert(i, item);
-                        System.Diagnostics.Debug.WriteLine("Inserted : {0} Position {1}", item.Name, i);
+                        //System.Diagnostics.Debug.WriteLine("Inserted : {0} Position {1}", item.Name, i);
                         inserted = true;
                         break;
                     }

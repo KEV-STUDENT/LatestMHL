@@ -224,6 +224,7 @@ namespace MHLSourceOnDisk
             }
         }
         #endregion
+
         #region [DiskItemExported Implementation]
         public override bool ExportItem(IExportDestination destination)
         {
@@ -242,16 +243,9 @@ namespace MHLSourceOnDisk
         #region [Methods]
         private bool ExportItem2SQLite(ExpDestination2SQLite exp2SQLite)
         {
-            IMHLBook book = this;
             using (DBModelSQLite dB = new DBModelSQLite(exp2SQLite.DestinationPath))
             {
-                List<Genre>? genresDB;
-                List<Keyword4Book>? keyword4BooksDB;
-
-                int export = Bizlogic4DB.Export_Genres(dB, book.Genres, out genresDB) +
-                    Bizlogic4DB.Export_Keywords(dB, book.Keywords, out keyword4BooksDB);
-
-                if (export > 0)
+                if (Bizlogic4DB.Export_FB2(dB, this) > 0)
                     dB.SaveChanges();
             }
             return true;
@@ -369,7 +363,7 @@ namespace MHLSourceOnDisk
 
         private string? GetNode(string node)
         {
-            Debug.WriteLine(node);
+            //Debug.WriteLine(node);
             XmlNode? book = XDoc?.DocumentElement?.SelectSingleNode(node, NamespaceManager);
             return book?.InnerText;
         }
