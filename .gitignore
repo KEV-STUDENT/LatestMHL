@@ -454,3 +454,9 @@ MHLSorcesOnDisk/MHLSourceOnDisk/.vs/MHLSourceOnDisk/DesignTimeBuild/.dtbcache.v2
 MHLSorcesOnDisk/MHLSourceOnDisk/.vs/MHLSourceOnDisk/v17/.suo
 MHLSorcesOnDisk/MHLSourceOnDisk/.vs/MHLSourceOnDisk/v17/TestStore/0/testlog.manifest
 MHLSourceScanner/.vs/MHLSourceScanner/DesignTimeBuild/.dtbcache.v2
+*.v2
+*.v2
+MHLSorcesOnDisk/MHLSourceOnDisk/.vs/MHLSourceOnDisk/v17/.suo
+*.manifest
+*.v2
+MHLSourceScanner/MHLSourceScanner/obj/Debug/net6.0-windows/App.g.i.cs
