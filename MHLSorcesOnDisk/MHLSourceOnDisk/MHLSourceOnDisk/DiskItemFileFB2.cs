@@ -363,7 +363,6 @@ namespace MHLSourceOnDisk
 
         private string? GetNode(string node)
         {
-            //Debug.WriteLine(node);
             XmlNode? book = XDoc?.DocumentElement?.SelectSingleNode(node, NamespaceManager);
             return book?.InnerText;
         }
@@ -422,7 +421,9 @@ namespace MHLSourceOnDisk
                    ?? GetNode(string.Concat(PUBLISH_SECOND_PATH, attributeName));
 
 
-            return title ?? string.Empty;
+
+            char c173 = (char)173;
+            return (title ?? string.Empty).Replace(c173.ToString(), "");
         }
 
         private static List<T> GetBookAttributesFromList<T>(string attributeList) where T : MHLBookAttribute<string>, new()

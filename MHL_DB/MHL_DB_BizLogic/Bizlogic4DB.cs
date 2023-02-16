@@ -206,50 +206,56 @@ namespace MHL_DB_Model
                 return -1;
 
             int res = 0;
-            var list = authorsFB2.GroupBy(a => string.Format("{0}|{1}|{2}",
-                a.FirstName?.Trim() ?? string.Empty, a.LastName?.Trim() ?? string.Empty, a.MiddleName?.Trim() ?? string.Empty).ToLower());
-
+           
             var authors4book = (
                     from ab in authorsFB2
+                    where !(string.IsNullOrEmpty(ab.FirstName) && string.IsNullOrEmpty(ab.LastName) && string.IsNullOrEmpty(ab.MiddleName))
                     select string.Format("{0}|{1}|{2}",
                         ab.FirstName?.Trim() ?? string.Empty,
                         ab.LastName?.Trim() ?? string.Empty,
-                        ab.MiddleName?.Trim() ?? string.Empty)).Distinct();
+                        ab.MiddleName?.Trim() ?? string.Empty).ToLower())
+                    .Distinct();
 
 
             authorsDB = dB.Authors
-                .Where(a => authors4book.Contains(a.FirstName + "|" + a.LastName + "|" + a.MiddleName))
+                .Where(a => authors4book.Contains(
+                    a.FirstName.ToLower() + "|" + a.LastName.ToLower() + "|" + a.MiddleName.ToLower()))
                 .Select(a => a)
                 .ToList();
 
-            List<MHLAuthor>? newAuthors;
+            IEnumerable<MHLAuthor>? newAuthors;
 
             if (authorsDB.Count == 0)
             {
-                newAuthors = authorsFB2.GroupBy(a => string.Format("{0}|{1}|{2}",
-                    a.FirstName?.Trim() ?? string.Empty,
-                    a.LastName?.Trim() ?? string.Empty,
-                    a.MiddleName?.Trim() ?? string.Empty).ToUpper()).Select(a => a.First()).ToList();
+                newAuthors = authorsFB2
+                    .Where(ab=> !(string.IsNullOrEmpty(ab.FirstName) && string.IsNullOrEmpty(ab.LastName) && string.IsNullOrEmpty(ab.MiddleName)))
+                    .GroupBy(a => string.Format("{0}|{1}|{2}",
+                        a.FirstName?.Trim() ?? string.Empty,
+                        a.LastName?.Trim() ?? string.Empty,
+                        a.MiddleName?.Trim() ?? string.Empty).ToLower())
+                    .Select(a => a.First());
             }
             else
             {
-                var authorsFromDB = (
+                var newList = authors4book.Except(
                     from ab in authorsDB
-                    select string.Format("{0}|{1}|{2}",
-                        ab.FirstName?.Trim() ?? string.Empty,
-                        ab.LastName?.Trim() ?? string.Empty,
-                        ab.MiddleName?.Trim() ?? string.Empty)).Distinct();
+                        select string.Format("{0}|{1}|{2}",
+                            ab.FirstName?.Trim().ToLower() ?? string.Empty,
+                            ab.LastName?.Trim().ToLower() ?? string.Empty,
+                            ab.MiddleName?.Trim().ToLower() ?? string.Empty));
 
-                newAuthors = (from ab in authorsFB2
-                              where !authorsFromDB.Contains(
-                 string.Format("{0}|{1}|{2}",
-                    ab.FirstName?.Trim() ?? string.Empty,
-                    ab.LastName?.Trim() ?? string.Empty,
-                    ab.MiddleName?.Trim() ?? string.Empty))
-                              select ab).Distinct().ToList();
+                newAuthors = (
+                    from ab in authorsFB2
+                        where newList.Contains(
+                            string.Format("{0}|{1}|{2}",
+                                ab.FirstName?.Trim() ?? string.Empty,
+                                ab.LastName?.Trim() ?? string.Empty,
+                                ab.MiddleName?.Trim() ?? string.Empty))
+                            select ab)
+                    .Distinct();
             }
 
-            res = newAuthors?.Count ?? 0;
+            res = newAuthors?.Count() ?? 0;
 
             if (res != 0)
             {
@@ -266,7 +272,10 @@ namespace MHL_DB_Model
                 dB.SaveChanges();
 
                 authorsDB = dB.Authors
-                    .Where(a => authors4book.Contains(a.FirstName + "|" + a.LastName + "|" + a.MiddleName))
+                    .Where(a => authors4book.Contains(
+                        a.FirstName.ToLower() + "|" + 
+                        a.LastName.ToLower() + "|" + 
+                        a.MiddleName.ToLower()))
                     .Select(a => a)
                     .ToList();
             }
@@ -489,14 +498,14 @@ namespace MHL_DB_Model
             var listPublishers = books
                 .Where(b => b.Publisher != null)
                 .GroupBy(b => string.Format("{0}|{1}",
-                    b.Publisher.Name, b.Publisher.City).ToLower())
+                    b.Publisher.Name.Trim(), b.Publisher.City.Trim()).ToLower())
                 .Select(b => new { b.Key, b.First().Publisher });
 
             IEnumerable<string> list = listPublishers.Select(l => l.Key);
 
             List<string> listDB = dB.Publishers
-                    .Where(p => list.Contains(p.Name.ToLower() + "|" + p.City.ToLower()))
-                    .Select(p => p.Name.ToLower() + "|" + p.City.ToLower()).ToList();
+                    .Where(p => list.Contains(p.Name.Trim().ToLower() + "|" + p.City.Trim().ToLower()))
+                    .Select(p => (p.Name.Trim() + "|" + p.City.Trim()).ToLower()).ToList();
 
             IEnumerable<string> list4Add;
             if (listDB.Any())

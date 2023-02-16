@@ -78,24 +78,9 @@ namespace MHLSourceOnDisk
             }
             return ret;
         }
-        #endregion
-
-        #region [DiskItemExported Implementation]
-        public override bool ExportItem(IExportDestination destination)
-        {
-            if (destination is ExpDestination4Dir exp2Dir)
-            {
-                return ExportItem2Dir(exp2Dir);
-            }
-            else if (destination is ExpDestination2SQLite exp2SQLite)
-            {
-                return ExportItem2SQLite(exp2SQLite);
-            }
-            return false;
-        }
-
         private bool ExportItem2SQLite(ExpDestination2SQLite exp2SQLite)
         {
+            bool ret = false;
             BlockingCollection<IDiskItem> books = new BlockingCollection<IDiskItem>();
             using (ZipArchive zipArchive = ZipFile.OpenRead(Path2Item))
             {
@@ -113,32 +98,9 @@ namespace MHLSourceOnDisk
 
             using (DBModelSQLite dB = new DBModelSQLite(exp2SQLite.DestinationPath))
             {
-                if (Bizlogic4DB.Export_FB2List(dB, books.ToList()) > 0)
-                {
-                    dB.SaveChanges();
-                }
+                ret = (Bizlogic4DB.Export_FB2List(dB, books.ToList()) > -1);
             }
-
-
-                /*using (DBModelSQLite dB = new DBModelSQLite(exp2SQLite.DestinationPath))
-                {
-                    BlockingCollection<IMHLBook> books = new BlockingCollection<IMHLBook>();
-                    using (ZipArchive zipArchive = ZipFile.OpenRead(Path2Item))
-                    {
-
-                        foreach (ZipArchiveEntry entry in zipArchive.Entries)
-                        {
-                            diskItem = DiskItemFabrick.GetDiskItem(this, entry);
-
-                            if ((diskItem != null) && (diskItem is DiskItemExported itemExported))
-                                if (Bizlogic4DB.Export_FB2(dB, diskItem) > 0)
-                                {
-                                    dB.SaveChanges();
-                                }
-                        }
-                    }
-                }*/
-                return true;
+            return true;
         }
 
         private bool ExportItem2Dir(IExportDestination destination)
@@ -168,21 +130,30 @@ namespace MHLSourceOnDisk
                 }
                 catch (IOException ie)
                 {
-                    /*System.Diagnostics.Debug.WriteLine(ie.Message);
-                    System.Diagnostics.Debug.WriteLine(ie.Data.Count);
-                    foreach (DictionaryEntry de in ie.Data)
-                        System.Diagnostics.Debug.WriteLine("    Key: {0,-20}      Value: {1}",
-                                          "'" + de.Key.ToString() + "'", de.Value);*/
                     result = false;
                 }
                 catch (Exception e)
                 {
-                    //System.Diagnostics.Debug.WriteLine(e.Message);
                     result = false;
                 }
             }
             else { result = false; }
             return result;
+        }
+        #endregion
+
+        #region [DiskItemExported Implementation]
+        public override bool ExportItem(IExportDestination destination)
+        {
+            if (destination is ExpDestination4Dir exp2Dir)
+            {
+                return ExportItem2Dir(exp2Dir);
+            }
+            else if (destination is ExpDestination2SQLite exp2SQLite)
+            {
+                return ExportItem2SQLite(exp2SQLite);
+            }
+            return false;
         }
         #endregion
 

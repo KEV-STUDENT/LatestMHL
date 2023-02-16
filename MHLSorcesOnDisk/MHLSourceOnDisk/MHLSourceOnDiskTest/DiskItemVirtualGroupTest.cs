@@ -1,4 +1,5 @@
-﻿using MHLCommon;
+﻿using MHL_DB_SQLite;
+using MHLCommon;
 using MHLCommon.MHLDiskItems;
 using MHLSourceOnDisk;
 using MHLSourceOnDisk.BookDir;
@@ -105,6 +106,40 @@ namespace MHLSourceOnDiskTest
 
                 Assert.AreEqual((init == 0 ? -1 : init), res);
             }
+        }
+
+        [TestMethod]
+        [DataRow(@"E:\librus_MyHomeLib\lib.rus.ec\fb2-495000-500999.zip"
+            , @"F:\1\test\destinationDB\Virtual Group\ExportFB2.SQLite")]
+        public void ExportBooks_SQLite(string pathZip, string pathDestination)
+        {
+            IDiskItemExported? item = GetFirstVirualGroupFromZip(pathZip) as IDiskItemExported;
+            int res = 0, init = 0;
+
+            if (File.Exists(pathDestination))
+                File.Delete(pathDestination);
+
+            ExpOptions expOptions = new ExpOptions(pathDestination);
+            Export2SQLite exporter = new Export2SQLite(expOptions);
+
+            foreach (var vg in ((IDiskCollection)item).GetChilds())
+            {
+                if (vg is IDiskCollection diskCollection)
+                {
+                    init += diskCollection.Count;
+                }
+                else
+                    init++;
+            }
+
+            if (item.ExportBooks(exporter))
+                using (DBModel dB = new DBModelSQLite(pathDestination))
+                {
+                    res = dB.Books.ToList().Count;
+                }
+
+            System.Diagnostics.Debug.WriteLine("{0}-{1}", res, init);
+            Assert.AreEqual(init, res);
         }
 
         private IVirtualGroup? GetFirstVirualGroupFromZip(string path2Zip)
