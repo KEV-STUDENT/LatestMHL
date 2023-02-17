@@ -3,6 +3,7 @@ using MHL_DB_SQLite;
 using MHLCommon.MHLBook;
 using MHLCommon.MHLDiskItems;
 using MHLSourceOnDisk;
+using MHL_DB_BizLogic.SQLite;
 
 namespace MHL_DB_Test
 {
@@ -35,9 +36,8 @@ namespace MHL_DB_Test
                 {
                     using (DBModel dB = new DBModelSQLite(fileSQlite))
                     {
-                        List<Genre>? genresDB;
                         actual = dB.Genres.ToList().Count;
-                        expected = Bizlogic4DB.Export_Genres(dB, book?.Genres, out genresDB);
+                        expected = Bizlogic4DB.Export_Genres(dB, book?.Genres, out List<Genre>? genresDB);
                         CheckExpected(ref actual, ref expected, dB);
                         actual = dB.Genres.ToList().Count;
                     }
@@ -67,8 +67,7 @@ namespace MHL_DB_Test
                 {
                     using (DBModel dB = new DBModelSQLite(fileSQlite))
                     {
-                        List<Genre>? genresDB;
-                        if (Bizlogic4DB.Export_Genres(dB, book?.Genres, out genresDB) > 0)
+                        if (Bizlogic4DB.Export_Genres(dB, book?.Genres, out List<Genre>? genresDB) > 0)
                         {
                             dB.SaveChanges();
                         }
@@ -147,9 +146,8 @@ namespace MHL_DB_Test
                 {
                     using (DBModel dB = new DBModelSQLite(fileSQlite))
                     {
-                        List<Keyword4Book>? keyword4BooksDB;
                         actual = dB.Keyword4Books.ToList().Count;
-                        expected = Bizlogic4DB.Export_Keywords(dB, book?.Keywords, out keyword4BooksDB);
+                        expected = Bizlogic4DB.Export_Keywords(dB, book?.Keywords, out List<Keyword4Book>? keyword4BooksDB);
                         CheckExpected(ref actual, ref expected, dB);
                         actual = dB.Keyword4Books.ToList().Count;
                     }
@@ -158,7 +156,7 @@ namespace MHL_DB_Test
             Assert.AreEqual(expected, actual);
         }
 
-        private void CheckExpected(ref int actual, ref int expected, DBModel db)
+        private static void CheckExpected(ref int actual, ref int expected, DBModel db)
         {
             if (expected > 0)
             {
@@ -191,9 +189,8 @@ namespace MHL_DB_Test
                 {
                     using (DBModel dB = new DBModelSQLite(fileSQlite))
                     {
-                        List<Keyword4Book>? keyword4BooksDB;
 
-                        if (Bizlogic4DB.Export_Keywords(dB, book?.Keywords, out keyword4BooksDB) > 0)
+                        if (Bizlogic4DB.Export_Keywords(dB, book?.Keywords, out List<Keyword4Book>? keyword4BooksDB) > 0)
                         {
                             dB.SaveChanges();
                         }
@@ -272,9 +269,8 @@ namespace MHL_DB_Test
                 {
                     using (DBModel dB = new DBModelSQLite(fileSQlite))
                     {
-                        Sequence4Book? seq4Book;
                         actual = dB.Sequence4Books.ToList().Count;
-                        expected = Bizlogic4DB.Export_Sequences(dB, book?.SequenceAndNumber, out seq4Book);
+                        expected = Bizlogic4DB.Export_Sequences(dB, book?.SequenceAndNumber, out Sequence4Book? seq4Book);
                         CheckExpected(ref actual, ref expected, dB);
                         actual = dB.Sequence4Books.ToList().Count;
                     }
@@ -305,8 +301,7 @@ namespace MHL_DB_Test
                 {
                     using (DBModel dB = new DBModelSQLite(fileSQlite))
                     {
-                        Sequence4Book? seq4Book;
-                        if (Bizlogic4DB.Export_Sequences(dB, book?.SequenceAndNumber, out seq4Book) > 0)
+                        if (Bizlogic4DB.Export_Sequences(dB, book?.SequenceAndNumber, out Sequence4Book? seq4Book) > 0)
                         {
                             lock (locker)
                                 dB.SaveChanges();
@@ -338,22 +333,20 @@ namespace MHL_DB_Test
 
             lock (locker)
             {
-                using (DBModel dB = new DBModelSQLite(pathDestination))
-                {
-                    List<Sequence4Book>? list1, list2;
-                    expected = Bizlogic4DB.Export_Sequences(dB, sequence1.ToList(), out list1);
-                    dB.SaveChanges();
+                using DBModel dB = new DBModelSQLite(pathDestination);
+               
+                expected = Bizlogic4DB.Export_Sequences(dB, sequence1.ToList(), out List<Sequence4Book>? list1);
+                dB.SaveChanges();
 
-                    /*foreach (var s in list1)
-                        System.Diagnostics.Debug.WriteLine(s.Name);
-                    System.Diagnostics.Debug.WriteLine("======================= =================");*/
+                /*foreach (var s in list1)
+                    System.Diagnostics.Debug.WriteLine(s.Name);
+                System.Diagnostics.Debug.WriteLine("======================= =================");*/
 
-                    expected += Bizlogic4DB.Export_Sequences(dB, sequence2.ToList(), out list2);
-                    dB.SaveChanges();
-                    /*foreach (var s in list2)
-                        System.Diagnostics.Debug.WriteLine(s.Name);*/
-                    actual = dB.Sequence4Books.ToList().Count;
-                }
+                expected += Bizlogic4DB.Export_Sequences(dB, sequence2.ToList(), out List<Sequence4Book>? list2);
+                dB.SaveChanges();
+                /*foreach (var s in list2)
+                    System.Diagnostics.Debug.WriteLine(s.Name);*/
+                actual = dB.Sequence4Books.ToList().Count;
             }
 
             Assert.AreEqual(expected, actual);
@@ -385,9 +378,8 @@ namespace MHL_DB_Test
                 {
                     using (DBModel dB = new DBModelSQLite(fileSQlite))
                     {
-                        Volume? volume;
                         actual = dB.Volumes.ToList().Count;
-                        expected = Bizlogic4DB.Export_Volumes(dB, book?.SequenceAndNumber, out volume);
+                        expected = Bizlogic4DB.Export_Volumes(dB, book?.SequenceAndNumber, out Volume? volume);
                         CheckExpected(ref actual, ref expected, dB);
                         actual = dB.Volumes.ToList().Count;
                     }
@@ -418,9 +410,8 @@ namespace MHL_DB_Test
                 {
                     using (DBModel dB = new DBModelSQLite(fileSQlite))
                     {
-                        Volume? volume;
 
-                        if (Bizlogic4DB.Export_Volumes(dB, book?.SequenceAndNumber, out volume) > 0)
+                        if (Bizlogic4DB.Export_Volumes(dB, book?.SequenceAndNumber, out Volume? volume) > 0)
                         {
                             lock (locker)
                                 dB.SaveChanges();
@@ -461,8 +452,7 @@ namespace MHL_DB_Test
             ushort i = 0;
             foreach (var entity in fb2Name)
             {
-                IMHLBook? book = MHLSourceOnDiskStatic.GetBookFromZip(zipFile, entity) as IMHLBook;
-                if (book != null)
+                if (MHLSourceOnDiskStatic.GetBookFromZip(zipFile, entity) is IMHLBook book)
                 {
                     book.SequenceAndNumber.Number = (ushort)(book.SequenceAndNumber.Number + i);
                     i++;
@@ -474,10 +464,9 @@ namespace MHL_DB_Test
             {
                 using (DBModel dB = new DBModelSQLite(fileSQlite))
                 {
-                    List<Volume>? list;
-                    expected = Bizlogic4DB.Export_Volumes4BookList(dB, books, out list);
+                    expected = Bizlogic4DB.Export_Volumes4BookList(dB, books, out List<Volume>? list);
                     dB.SaveChanges();
-                    actual = list?.Count() ?? 0;
+                    actual = list?.Count ?? 0;
 
                     if (changeNum)
                         foreach (var b in books)
@@ -489,7 +478,7 @@ namespace MHL_DB_Test
                     expected += Bizlogic4DB.Export_Volumes4BookList(dB, books, out list);
                     dB.SaveChanges();
                     if (changeNum)
-                        actual += list?.Count() ?? 0;
+                        actual += list?.Count ?? 0;
                 }
             }
             System.Diagnostics.Debug.WriteLine("actual : {0}, expected : {1}", actual, expected);
@@ -522,9 +511,8 @@ namespace MHL_DB_Test
                 {
                     using (DBModel dB = new DBModelSQLite(fileSQlite))
                     {
-                        List<Author>? authors;
                         actual = dB.Authors.ToList().Count;
-                        expected = Bizlogic4DB.Export_Authors(dB, book?.Authors, out authors);
+                        expected = Bizlogic4DB.Export_Authors(dB, book?.Authors, out List<Author>? authors);
                         CheckExpected(ref actual, ref expected, dB);
                         actual = dB.Authors.ToList().Count;
                     }
@@ -555,9 +543,8 @@ namespace MHL_DB_Test
                 {
                     using (DBModel dB = new DBModelSQLite(fileSQlite))
                     {
-                        List<Author>? authors;
 
-                        if (Bizlogic4DB.Export_Authors(dB, book?.Authors, out authors) > 0)
+                        if (Bizlogic4DB.Export_Authors(dB, book?.Authors, out List<Author>? authors) > 0)
                         {
                             lock (locker)
                                 dB.SaveChanges();
@@ -641,9 +628,8 @@ namespace MHL_DB_Test
                 {
                     using (DBModel dB = new DBModelSQLite(fileSQlite))
                     {
-                        Publisher? publisher;
                         actual = dB.Publishers.ToList().Count;
-                        expected = Bizlogic4DB.Export_Publishers(dB, book?.Publisher, out publisher);
+                        expected = Bizlogic4DB.Export_Publishers(dB, book?.Publisher, out Publisher? publisher);
                         CheckExpected(ref actual, ref expected, dB);
                         actual = dB.Publishers.ToList().Count;
                     }
@@ -674,8 +660,7 @@ namespace MHL_DB_Test
                 {
                     using (DBModel dB = new DBModelSQLite(fileSQlite))
                     {
-                        Publisher? publisher;
-                        if (Bizlogic4DB.Export_Publishers(dB, book?.Publisher, out publisher) > 0)
+                        if (Bizlogic4DB.Export_Publishers(dB, book?.Publisher, out Publisher? publisher) > 0)
                         {
                             lock (locker)
                                 dB.SaveChanges();
@@ -715,8 +700,7 @@ namespace MHL_DB_Test
             ushort i = 0;
             foreach (var entity in fb2Name)
             {
-                IMHLBook? book = MHLSourceOnDiskStatic.GetBookFromZip(zipFile, entity) as IMHLBook;
-                if (book != null)
+                if (MHLSourceOnDiskStatic.GetBookFromZip(zipFile, entity) is IMHLBook book)
                 {
                     if (book.Publisher != null)
                     {
@@ -735,10 +719,9 @@ namespace MHL_DB_Test
             {
                 using (DBModel dB = new DBModelSQLite(fileSQlite))
                 {
-                    List<Publisher>? list;
-                    expected = Bizlogic4DB.Export_Publishers4BookList(dB, books, out list);
+                    expected = Bizlogic4DB.Export_Publishers4BookList(dB, books, out List<Publisher>? list);
                     dB.SaveChanges();
-                    actual = list?.Count() ?? 0;
+                    actual = list?  .Count ?? 0;
 
 
                     foreach (var book in books)
@@ -758,7 +741,7 @@ namespace MHL_DB_Test
                     expected += Bizlogic4DB.Export_Publishers4BookList(dB, books, out list);
                     dB.SaveChanges();
                     if (changeNum)
-                        actual += list?.Count() ?? 0;
+                        actual += list?.Count ?? 0;
                 }
             }
             System.Diagnostics.Debug.WriteLine("actual : {0}, expected : {1}", actual, expected);

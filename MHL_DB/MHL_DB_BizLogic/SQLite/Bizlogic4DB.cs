@@ -1,4 +1,5 @@
-﻿using MHL_DB_SQLite;
+﻿using MHL_DB_Model;
+using MHL_DB_SQLite;
 using MHLCommon;
 using MHLCommon.DataModels;
 using MHLCommon.MHLBook;
@@ -6,7 +7,7 @@ using MHLCommon.MHLDiskItems;
 using Microsoft.EntityFrameworkCore;
 
 
-namespace MHL_DB_Model
+namespace MHL_DB_BizLogic.SQLite
 {
     static public class Bizlogic4DB
     {
@@ -168,10 +169,9 @@ namespace MHL_DB_Model
 
             if (sequenceAndNumber != null)
             {
-                Sequence4Book? sequence = null;
-                res = Export_Sequences(dB, sequenceAndNumber, out sequence);
+                res = Export_Sequences(dB, sequenceAndNumber, out Sequence4Book? sequence);
 
-                if ((res > -1) && (sequence != null))
+                if (res > -1 && sequence != null)
                 {
 
                     if (res == 0)
@@ -206,7 +206,7 @@ namespace MHL_DB_Model
                 return -1;
 
             int res = 0;
-           
+
             var authors4book = (
                     from ab in authorsFB2
                     where !(string.IsNullOrEmpty(ab.FirstName) && string.IsNullOrEmpty(ab.LastName) && string.IsNullOrEmpty(ab.MiddleName))
@@ -228,7 +228,7 @@ namespace MHL_DB_Model
             if (authorsDB.Count == 0)
             {
                 newAuthors = authorsFB2
-                    .Where(ab=> !(string.IsNullOrEmpty(ab.FirstName) && string.IsNullOrEmpty(ab.LastName) && string.IsNullOrEmpty(ab.MiddleName)))
+                    .Where(ab => !(string.IsNullOrEmpty(ab.FirstName) && string.IsNullOrEmpty(ab.LastName) && string.IsNullOrEmpty(ab.MiddleName)))
                     .GroupBy(a => string.Format("{0}|{1}|{2}",
                         a.FirstName?.Trim() ?? string.Empty,
                         a.LastName?.Trim() ?? string.Empty,
@@ -239,19 +239,19 @@ namespace MHL_DB_Model
             {
                 var newList = authors4book.Except(
                     from ab in authorsDB
-                        select string.Format("{0}|{1}|{2}",
-                            ab.FirstName?.Trim().ToLower() ?? string.Empty,
-                            ab.LastName?.Trim().ToLower() ?? string.Empty,
-                            ab.MiddleName?.Trim().ToLower() ?? string.Empty));
+                    select string.Format("{0}|{1}|{2}",
+                        ab.FirstName?.Trim().ToLower() ?? string.Empty,
+                        ab.LastName?.Trim().ToLower() ?? string.Empty,
+                        ab.MiddleName?.Trim().ToLower() ?? string.Empty));
 
                 newAuthors = (
                     from ab in authorsFB2
-                        where newList.Contains(
-                            string.Format("{0}|{1}|{2}",
-                                ab.FirstName?.Trim() ?? string.Empty,
-                                ab.LastName?.Trim() ?? string.Empty,
-                                ab.MiddleName?.Trim() ?? string.Empty))
-                            select ab)
+                    where newList.Contains(
+                        string.Format("{0}|{1}|{2}",
+                            ab.FirstName?.Trim() ?? string.Empty,
+                            ab.LastName?.Trim() ?? string.Empty,
+                            ab.MiddleName?.Trim() ?? string.Empty))
+                    select ab)
                     .Distinct();
             }
 
@@ -273,8 +273,8 @@ namespace MHL_DB_Model
 
                 authorsDB = dB.Authors
                     .Where(a => authors4book.Contains(
-                        a.FirstName.ToLower() + "|" + 
-                        a.LastName.ToLower() + "|" + 
+                        a.FirstName.ToLower() + "|" +
+                        a.LastName.ToLower() + "|" +
                         a.MiddleName.ToLower()))
                     .Select(a => a)
                     .ToList();
@@ -305,23 +305,17 @@ namespace MHL_DB_Model
                 bool isInDB = dB.Books.Where(x => x.Path2File == fb2.Path2Item && x.EntityInZIP == fb2.Name).Any();
                 if (!isInDB)
                 {
-                    List<Author>? authors;
-                    List<Genre>? genres;
-                    List<Keyword4Book>? keywords;
-                    Volume? volume;
-                    Publisher? publisher;
-
-                    int save = (Export_Authors(dB, book.Authors, out authors) > 0 ? 1 : 0) +
-                        (Export_Genres(dB, book.Genres, out genres) > 0 ? 1 : 0) +
-                        (Export_Keywords(dB, book.Keywords, out keywords) > 0 ? 1 : 0) +
-                        (Export_Volumes(dB, book.SequenceAndNumber, out volume) > 0 ? 1 : 0) +
-                        (Export_Publishers(dB, book.Publisher, out publisher) > 0 ? 1 : 0);
+                    int save = (Export_Authors(dB, book.Authors, out List<Author>? authors) > 0 ? 1 : 0) +
+                        (Export_Genres(dB, book.Genres, out List<Genre>? genres) > 0 ? 1 : 0) +
+                        (Export_Keywords(dB, book.Keywords, out List<Keyword4Book>? keywords) > 0 ? 1 : 0) +
+                        (Export_Volumes(dB, book.SequenceAndNumber, out Volume? volume) > 0 ? 1 : 0) +
+                        (Export_Publishers(dB, book.Publisher, out Publisher? publisher) > 0 ? 1 : 0);
 
 
                     BookFileExtends fileExtends = BookFileExtends.None;
                     if (fb2 is IFile file)
                     {
-                        fileExtends = (file.IsZipEntity ? BookFileExtends.ZIP : BookFileExtends.FB2);
+                        fileExtends = file.IsZipEntity ? BookFileExtends.ZIP : BookFileExtends.FB2;
                     }
 
                     dB.Books.Add(
@@ -401,34 +395,29 @@ namespace MHL_DB_Model
 
             if (booksList.Any())
             {
-                List<Author>? authors;
-                List<Genre>? genres;
-                List<Keyword4Book>? keywords;
-                List<Volume>? volumes;
-                List<Publisher>? publishers;
 
                 List<IMHLBook> books = booksList.Select(b => b.MHLBook).ToList();
                 int authorsCnt, genresCnt, keywordsCnt, volumesCnt, publichersCnt;
 
-                authorsCnt = Export_Authors4BookList(dB, books, out authors);
-                if(authorsCnt > -1)
-                    authorsCnt = authors?.Count() ?? 0;
+                authorsCnt = Export_Authors4BookList(dB, books, out List<Author>? authors);
+                if (authorsCnt > -1)
+                    authorsCnt = authors?.Count ?? 0;
 
-                genresCnt = Export_Genres4BookList(dB, books, out genres);
-                if(genresCnt > -1)
-                    genresCnt = genres?.Count() ?? 0;
-                
-                keywordsCnt = Export_Keywords4BookList(dB, books, out keywords);
-                if(keywordsCnt > -1)
-                    keywordsCnt = keywords?.Count() ?? 0;
+                genresCnt = Export_Genres4BookList(dB, books, out List<Genre>? genres);
+                if (genresCnt > -1)
+                    genresCnt = genres?.Count ?? 0;
 
-                volumesCnt = Export_Volumes4BookList(dB, books, out volumes);
-                if(volumesCnt > -1)
-                    volumesCnt= volumes?.Count() ?? 0;
+                keywordsCnt = Export_Keywords4BookList(dB, books, out List<Keyword4Book>? keywords);
+                if (keywordsCnt > -1)
+                    keywordsCnt = keywords?.Count ?? 0;
 
-                publichersCnt = Export_Publishers4BookList(dB, books, out publishers);
-                if(publichersCnt > -1)  
-                    publichersCnt = publishers?.Count() ?? 0;
+                volumesCnt = Export_Volumes4BookList(dB, books, out List<Volume>? volumes);
+                if (volumesCnt > -1)
+                    volumesCnt = volumes?.Count ?? 0;
+
+                publichersCnt = Export_Publishers4BookList(dB, books, out List<Publisher>? publishers);
+                if (publichersCnt > -1)
+                    publichersCnt = publishers?.Count ?? 0;
 
                 Book book;
                 foreach (var b in booksList)
@@ -443,7 +432,7 @@ namespace MHL_DB_Model
                         Cover = b.MHLBook.Cover
                     };
 
-                    if(volumesCnt > 0)
+                    if (volumesCnt > 0)
                         book.Volume = volumes?
                             .Where(v => v.Sequence.Name.ToUpper() == (b?.MHLBook?.SequenceAndNumber?.Name?.ToUpper() ?? string.Empty))
                             .FirstOrDefault();
@@ -453,7 +442,7 @@ namespace MHL_DB_Model
                             p.City.ToUpper() == (b?.MHLBook?.Publisher?.City?.ToUpper() ?? string.Empty))
                         .FirstOrDefault();
 
-                    if(authorsCnt > 0)
+                    if (authorsCnt > 0)
                         book.Authors = authors?
                             .Join(b.MHLBook.Authors,
                             a => string.Format("{0}|{1}|{2}",
@@ -466,13 +455,13 @@ namespace MHL_DB_Model
                                      ba.MiddleName?.Trim() ?? string.Empty).ToUpper(),
                             (a, ab) => a).ToList();
 
-                    if(genresCnt > 0)
+                    if (genresCnt > 0)
                         book.Genres = genres?
                                .Join(b.MHLBook.Genres,
                                 g => g.GenreVal,
                                 bg => bg.Genre, (g, bg) => g).ToList();
 
-                    if(keywordsCnt > 0)
+                    if (keywordsCnt > 0)
                         book.Keywords = keywords?
                                 .Join(b.MHLBook.Keywords,
                                 k => k.Keyword.ToUpper(),
@@ -549,8 +538,7 @@ namespace MHL_DB_Model
                 .GroupBy(b => (b.SequenceAndNumber?.Name ?? string.Empty).Trim().ToUpper())
                 .Select(g => g.First().SequenceAndNumber?.Name).ToList();
 
-            List<Sequence4Book>? sequenceDB;
-            if (Export_Sequences(dB, sequences, out sequenceDB) >= 0)
+            if (Export_Sequences(dB, sequences, out List<Sequence4Book>? sequenceDB) >= 0)
             {
                 var volumesAdded = books
                 .Where(b => b.SequenceAndNumber != null)

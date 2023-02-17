@@ -8,7 +8,7 @@ using System.IO.Compression;
 using System.Text;
 using System.Xml;
 using MHL_DB_SQLite;
-using MHL_DB_Model;
+using MHL_DB_BizLogic.SQLite;
 
 namespace MHLSourceOnDisk
 {
