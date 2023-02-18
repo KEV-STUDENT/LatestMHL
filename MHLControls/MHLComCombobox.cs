@@ -2,34 +2,34 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace MHLControls.BookDirControls
+namespace MHLControls
 {
-    public abstract class CommandCombobox : ComboBox, ICommandSource
+    public abstract class MHLComCombobox : ComboBox, ICommandSource
     {
         #region [Fields]
         public static readonly DependencyProperty CommandProperty = DependencyProperty.Register(
            "Command",
            typeof(ICommand),
-           typeof(CommandCombobox),
+           typeof(MHLComCombobox),
            new UIPropertyMetadata(null));
 
         // Using a DependencyProperty as the backing store for CommandParameter.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CommandParameterProperty = DependencyProperty.Register(
             "CommandParameter",
             typeof(object),
-            typeof(CommandCombobox),
+            typeof(MHLComCombobox),
             new UIPropertyMetadata(null));
 
         // Using a DependencyProperty as the backing store for CommandTarget.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CommandTargetProperty = DependencyProperty.Register(
             "CommandTarget",
             typeof(IInputElement),
-            typeof(CommandCombobox),
+            typeof(MHLComCombobox),
             new UIPropertyMetadata(null));
         #endregion
 
         #region [Constructors]
-        public CommandCombobox()
+        public MHLComCombobox()
         {
             SelectionChanged += new SelectionChangedEventHandler(GenerateCommand);
         }

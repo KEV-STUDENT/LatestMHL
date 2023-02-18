@@ -15,6 +15,7 @@ using System.Configuration;
 using System.Threading.Tasks;
 using System.Collections.Concurrent;
 using System.Windows.Media;
+using System.Reflection.Metadata;
 
 namespace MHLSourceScanner
 {
@@ -196,7 +197,7 @@ namespace MHLSourceScanner
             DestinationConfigSection destinationConfigSection = (DestinationConfigSection)cfg.Sections["DestinationFolders"];
             if (destinationConfigSection != null && destinationConfigSection.FolderItems.Count > 0)
             {
-                vm.DestinationIsDirectory = (destinationConfigSection.FolderItems[0].PathType == 1);
+                vm.ExportType = (ExportEnum)destinationConfigSection.FolderItems[0].PathType;
                 vm.DestinationPath = destinationConfigSection.FolderItems[0].Path;
                 vm.DestinationDB = destinationConfigSection.FolderItems[0].Path4SQLite;
             }

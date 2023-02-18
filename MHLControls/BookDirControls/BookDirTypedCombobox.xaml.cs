@@ -1,12 +1,9 @@
-﻿using System.Windows.Controls;
-using System.Windows.Input;
-
-namespace MHLControls.BookDirControls
+﻿namespace MHLControls.BookDirControls
 {
     /// <summary>
     /// Логика взаимодействия для BookDirTypedCombobox.xaml
     /// </summary>
-    public partial class BookDirTypedCombobox : CommandCombobox
+    public partial class BookDirTypedCombobox : MHLComCombobox
     {
         public BookDirTypedCombobox()
         {
