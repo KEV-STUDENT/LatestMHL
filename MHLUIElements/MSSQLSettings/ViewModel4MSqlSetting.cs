@@ -4,20 +4,16 @@ using System.Windows.Input;
 
 namespace MHLUIElements.MSSQLSettings
 {
-    internal class ViewModel4MSSqlSetting : VMEditForm, IVM4MSSqlSetting
+    internal class ViewModel4MSSqlSetting : VMEditForm, IVMSettings
     {
         #region [Fields]
         private MSSQLServerSettings _view;
-        private Model4MSSqlSetting _model;
         #endregion
 
         #region [Constructor]
         public ViewModel4MSSqlSetting(MSSQLServerSettings view)
         {
             _view = view;
-            _model = new Model4MSSqlSetting();
-
-
             Close += () =>
             {
                 _view.Close();
@@ -30,7 +26,7 @@ namespace MHLUIElements.MSSQLSettings
         }
         #endregion
 
-        #region[IVM4MSSqlSetting]
+        #region[IVMSettings]
         ICommand IVMSettings.CloseCommand { get => CloseCommand; set => CloseCommand = value; }
         ICommand IVMSettings.RunCommand { get => RunCommand; set => RunCommand = value; }
 
