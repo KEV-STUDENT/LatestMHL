@@ -19,16 +19,11 @@ namespace MHLUIElements.ServerSettings
             if (section == null)
                 return false;
 
-            vm.ServerName = section.Servers[0].ServerName;
-            try
+            if (section.Servers.Count > 0)
             {
-                /*PathRowVM? row = MHLCommonStatic.GetRowFromJson<PathRowVM>(str);
-                if (row != null)
-                    vm.UpdatePathRowTree(row);*/
-            }
-            catch (Exception)
-            {
-                return false;
+                vm.ServerName = section.Servers[0].ServerName;
+                vm.User = section.Servers[0].User;
+                vm.Password = section.Servers[0].Password;
             }
 
             return true;

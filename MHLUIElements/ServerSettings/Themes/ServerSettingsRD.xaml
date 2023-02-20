@@ -25,12 +25,15 @@
                         <mhlControls:MHLLabel HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="0" Grid.Row="3" Content="Password:"/>
                         <mhlControls:MHLTextBox Margin="0,5,5,0" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Grid.Row="0"
                                                 Text="{Binding RelativeSource={RelativeSource AncestorType=settings:ServerSettings}, Path=ViewModel.ServerName, Mode=TwoWay}"/>
-                        <mhlControls:MHLTextBox Margin="0,5,5,0" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Grid.Row="2"/>
-                        <mhlControls:MHLTextBox Margin="0,5,5,0" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Grid.Row="3"/>
+                        <mhlControls:MHLTextBox Margin="0,5,5,0" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Grid.Row="2"
+                                                Text="{Binding RelativeSource={RelativeSource AncestorType=settings:ServerSettings}, Path=ViewModel.User, Mode=TwoWay}"/>
+                        <mhlControls:MHLTextBox Margin="0,5,5,0" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Grid.Row="3"
+                                                Text="{Binding RelativeSource={RelativeSource AncestorType=settings:ServerSettings}, Path=ViewModel.Password, Mode=TwoWay}"/>
+
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-    
+
 </ResourceDictionary>
