@@ -64,7 +64,7 @@ namespace MHLUIElements.ServerSettings
         #region [IVM4ServerSetting]
         string IVM4ServerSetting.ServerName { get => ServerName; set => ServerName = value; }
         string IVM4ServerSetting.User { get => this.User; set => this.User = value; }
-        string IVM4ServerSetting.Password { get => Password; set => Password; }
+        string IVM4ServerSetting.Password { get => Password; set => Password = value; }
         bool IVM4ServerSetting.LoadData()
         {
             return LoadData();

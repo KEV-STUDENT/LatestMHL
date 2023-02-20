@@ -8,9 +8,9 @@ namespace MHLUIElements.MSSQLSettings
     /// </summary>
     public partial class MSSQLServerSettings : Window
     {
-        private IVM4MSSqlSetting _vm;
+        private IVMSettings _vm;
 
-        public IVM4MSSqlSetting ViewModel
+        public IVMSettings ViewModel
         {
             get { return _vm; }
         }
