@@ -9,7 +9,7 @@
         xmlns:MHLUIElements="clr-namespace:MHLUIElements;assembly=MHLUIElements"
         x:Class="MHLSourceScanner.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" x:Name="Scanner">
+        Title="MainWindow" Height="450" Width="800" MinHeight="175" MinWidth="400" x:Name="Scanner">
 
     <Window.Resources>
         <ResourceDictionary>
@@ -31,16 +31,16 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Grid Grid.Row="1"  IsEnabled="{Binding ViewModel.NotBusy, ElementName=Scanner}" HorizontalAlignment="Center" Width="785">
+        <Grid Grid.Row="1"  IsEnabled="{Binding ViewModel.NotBusy, ElementName=Scanner}" Margin="0,0,0,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="29"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="75"/>
                 <ColumnDefinition Width="110"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <MHLControls:MHLLabel Content="Destination" Margin="0,5,0,0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <MHLControls:MHLLabel Content="Destination" Margin="0,5,0,0" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top"/>
             <MHLUIElements:SourceTypesSelect x:Name="DestinationType" Grid.Column="1"
                                              Margin="0,5,0,0"
                                              Command="{Binding ViewModel.TypeChangedCommand, ElementName=Scanner}"/>

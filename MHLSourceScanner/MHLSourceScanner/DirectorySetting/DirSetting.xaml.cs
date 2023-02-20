@@ -1,8 +1,4 @@
-﻿using MHLSourceScanner.Configurations.RowFolder;
-using MHLSourceScannerLib.BookDir;
-using System;
-using System.Configuration;
-using System.Text.Json;
+﻿using MHLCommon.ViewModels;
 using System.Windows;
 
 namespace MHLSourceScanner.DirectorySettings
@@ -13,8 +9,8 @@ namespace MHLSourceScanner.DirectorySettings
     /// 
     public partial class DirSetting : Window
     {
-        private ViewModel4DirSetting _vm;
-        public ViewModel4DirSetting ViewModel
+        private IVM4DirSetting _vm;
+        public IVM4DirSetting ViewModel
         {
             get { return _vm; }
         }
@@ -24,22 +20,6 @@ namespace MHLSourceScanner.DirectorySettings
             InitializeComponent();
             _vm.LoadDataFromConfig();
             DataContext = this;
-        }
-
-        private void SaveData2Json()
-        {
-            PathRowVM? row = DirectoryTree.ViewModel.Source[0];
-
-            string jsonString = JsonSerializer.Serialize<PathRowVM?>(row);
-
-
-            Configuration cfg = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            RowConfigSection section = (RowConfigSection)cfg.Sections["RowStructure"];
-            if (section != null)
-            {
-                section.RowItems[0].StructureJson = jsonString;
-                cfg.Save();
-            }
-        }
+        }       
     }
 }

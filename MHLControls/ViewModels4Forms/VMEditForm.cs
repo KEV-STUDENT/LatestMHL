@@ -1,9 +1,8 @@
-﻿using System;
+﻿using MHLCommands;
 using MHLCommon.ViewModels;
-using System.Windows.Input;
-using MHLCommands;
+using System;
 using System.Threading.Tasks;
-using System.Windows;
+using System.Windows.Input;
 
 namespace MHLControls.ViewModels4Forms
 {

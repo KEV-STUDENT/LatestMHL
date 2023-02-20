@@ -1,7 +1,7 @@
 ﻿using MHLCommon;
+using MHLCommon.MHLDiskItems;
 using MHLCommon.MHLScanner;
 using MHLCommon.ViewModels;
-using MHLCommon.MHLDiskItems;
 using MHLSourceOnDisk;
 using MHLSourceOnDisk.BookDir;
 using MHLSourceScanner.Configurations.DestinationFolder;
@@ -13,9 +13,6 @@ using System;
 using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Threading.Tasks;
-using System.Collections.Concurrent;
-using System.Windows.Media;
-using System.Reflection.Metadata;
 
 namespace MHLSourceScanner
 {
@@ -200,6 +197,7 @@ namespace MHLSourceScanner
                 vm.ExportType = (ExportEnum)destinationConfigSection.FolderItems[0].PathType;
                 vm.DestinationPath = destinationConfigSection.FolderItems[0].Path;
                 vm.DestinationDB = destinationConfigSection.FolderItems[0].Path4SQLite;
+                vm.DestinationMSSqlDB = destinationConfigSection.FolderItems[0].MSSqlDB;
             }
         }
     }

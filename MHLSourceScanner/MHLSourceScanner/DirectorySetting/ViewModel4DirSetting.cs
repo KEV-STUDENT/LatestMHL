@@ -1,14 +1,10 @@
 ﻿using MHLCommands;
+using MHLCommon.MHLBookDir;
+using MHLCommon.ViewModels;
 using MHLControls.ViewModels4Forms;
-using MHLSourceScanner.Configurations.RowFolder;
 using MHLSourceScanner.DirectorySetting;
 using MHLSourceScannerLib.BookDir;
-using System;
-using System.Configuration;
-using System.Text.Json;
 using System.Windows.Input;
-using MHLCommon.ViewModels;
-using MHLCommon.MHLBookDir;
 
 namespace MHLSourceScanner.DirectorySettings
 {
@@ -43,12 +39,12 @@ namespace MHLSourceScanner.DirectorySettings
             };
         }
 
+        #region [Methods]
         private void SaveData2Json()
         {
             _model.SaveConfigurations(_view.DirectoryTree.ViewModel.Source[0]);            
         }
 
-        #region [Methods]
         private void ExecuteAddRowCommand(object? obj)
         {
             if (obj is DirSetting form)
@@ -102,9 +98,20 @@ namespace MHLSourceScanner.DirectorySettings
         #endregion
 
         #region [IVM4DirSetting Implementation]
+        ICommand IVMSettings.CloseCommand { get => CloseCommand; set=> CloseCommand = value; }
+        ICommand IVMSettings.RunCommand { get=> RunCommand; set=> RunCommand = value; }
+
+        ICommand IVM4DirSetting.AddRowCommand { get => AddRowCommand; set=> AddRowCommand = value; }
+        ICommand IVM4DirSetting.DeleteRowCommand { get=> DeleteRowCommand; set=> DeleteRowCommand = value; }
+
         void IVM4DirSetting.UpdatePathRowTree(IPathRow row)
         {
             UpdatePathRowTree(row);
+        }
+
+        void IVMSettings.LoadDataFromConfig()
+        {
+            LoadDataFromConfig();
         }
         #endregion
     }

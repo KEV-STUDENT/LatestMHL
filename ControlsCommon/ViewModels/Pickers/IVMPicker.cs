@@ -18,10 +18,11 @@ namespace ControlsCommon.ViewModels.Pickers
         event Action<IMPicker<T>> AskUserEntry;
         ICommand AskUserEntryCommand { get; set; }
     }
+
     public interface IVMPickerSettings<T> : IVMPicker<T>, ISettings
     {
         ICommand AskUserSettingsCommand { get; set; }
         protected void ExecuteAskUserSettingsCommand(object? obj);
-        protected bool CanExecuteAskUserSettingsCommand(object? obj);
+        protected bool CanExecuteAskUserSettingsCommand(object? obj);      
     }
 }

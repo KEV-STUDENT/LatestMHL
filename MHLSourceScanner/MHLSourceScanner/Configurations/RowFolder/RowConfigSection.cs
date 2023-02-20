@@ -1,5 +1,4 @@
-﻿using MHLSourceScanner.Configurations.DestinationFolder;
-using System.Configuration;
+﻿using System.Configuration;
 
 namespace MHLSourceScanner.Configurations.RowFolder
 {

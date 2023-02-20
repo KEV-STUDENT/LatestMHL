@@ -1,0 +1,28 @@
+﻿<Window x:Class="MHLUIElements.MSSQLSettings.MSSQLServerSettings"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:buttons="clr-namespace:MHLControls.MHLButtons;assembly=MHLControls"    
+        xmlns:settings ="clr-namespace:MHLUIElements.ServerSettings"
+        mc:Ignorable="d"        
+        x:Name="Settings"
+        Title="MSSQLServerSettings" Height="225" Width="800" MinHeight="225" MinWidth="400" MaxHeight="225">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="29"/>
+            <RowDefinition Height="126"></RowDefinition>
+            <RowDefinition Height="29"/>
+        </Grid.RowDefinitions>
+        
+        <settings:ServerSettings x:Name="SettingsControl" Grid.Row="1" Margin="5,5,0,0"/>
+        
+        <DockPanel x:Name="ButtonSection" Grid.Row="2" HorizontalAlignment="Right">
+            <buttons:MHLButtonRun x:Name="BtRun" Margin="0,0,5,5"                                  
+                                   Command="{Binding ViewModel.RunCommand, ElementName=Settings}"/>
+            <buttons:MHLButtonClose x:Name="BtClose" Margin="0,0,5,5"                                  
+                                   Command="{Binding ViewModel.CloseCommand, ElementName=Settings}"/>
+        </DockPanel>
+    </Grid>
+</Window>
