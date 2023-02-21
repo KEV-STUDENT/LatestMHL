@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -49,6 +50,7 @@ namespace MHLUIElements.ServerSettings
     {
         #region [Fields]
         private IVM4ServerSetting _vm;
+        PasswordBox? _passwordElement;
         #endregion
 
         #region [Constructors]
@@ -58,12 +60,43 @@ namespace MHLUIElements.ServerSettings
         }
         public ServerSettings()
         {
-            _vm = new ViewModel4ServerSetting(this);
+            _vm = new ViewModel4ServerSetting();
         }
         #endregion
 
         #region [Properties]
         public IVM4ServerSetting ViewModel { get => _vm; }
+        public PasswordBox? PasswordElement { 
+            get=> _passwordElement;
+            set
+            {
+                if (_passwordElement != null)
+                    _passwordElement.PasswordChanged -= new RoutedEventHandler(PasswordChanged);
+                
+                _passwordElement = value;
+
+                if (_passwordElement != null)
+                    _passwordElement.PasswordChanged += new RoutedEventHandler(PasswordChanged);
+
+            }
+        }
+        #endregion
+
+        #region[Methods]
+        public override void OnApplyTemplate()
+        {
+            PasswordElement = GetTemplateChild("Password") as PasswordBox;
+            if(PasswordElement != null) 
+                PasswordElement.Password = ViewModel.Password;
+        }
+
+        private void PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if((sender is PasswordBox password) && _vm.Password != password.Password)
+            {
+                _vm.Password = password.Password;
+            }
+        }
         #endregion
     }
 }

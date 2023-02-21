@@ -25,11 +25,21 @@ namespace MHLUIElements.Configurations.MSSQLServerFolder
             set { base["password"] = value; }
         }
 
-        [ConfigurationProperty("authType", DefaultValue = "1", IsKey = false, IsRequired = false)]
+        [ConfigurationProperty("authType", DefaultValue = 1, IsKey = false, IsRequired = false)]
         public int AuthType
         {
             get { return (int)base["authType"]; }
-            set { base["authType"] = value.ToString(); }
+            set { base["authType"] = value; }
+        }
+
+        [ConfigurationProperty("trustedConnection", DefaultValue = true, IsKey = false, IsRequired = false)]
+        public bool TrustedConnection {
+            get { 
+                return (bool)base["trustedConnection"]; 
+            }
+            set { 
+                base["trustedConnection"] = value; 
+            }
         }
     }
 }

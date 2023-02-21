@@ -21,6 +21,7 @@ namespace MHLUIElements.MSSQLSettings
 
             Run += () =>
             {
+                _view.SettingsControl.ViewModel.SaveData();
                 _view.Close();
             };
         }

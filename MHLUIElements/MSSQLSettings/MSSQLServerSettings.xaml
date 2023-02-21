@@ -15,9 +15,8 @@
             <RowDefinition Height="126"></RowDefinition>
             <RowDefinition Height="29"/>
         </Grid.RowDefinitions>
-        
         <settings:ServerSettings x:Name="SettingsControl" Grid.Row="1" Margin="5,5,0,0"/>
-        
+
         <DockPanel x:Name="ButtonSection" Grid.Row="2" HorizontalAlignment="Right">
             <buttons:MHLButtonRun x:Name="BtRun" Margin="0,0,5,5"                                  
                                    Command="{Binding ViewModel.RunCommand, ElementName=Settings}"/>
