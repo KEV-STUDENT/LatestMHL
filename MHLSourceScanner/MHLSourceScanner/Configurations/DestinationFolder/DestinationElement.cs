@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using MHLCommon;
+using System.Configuration;
 
 namespace MHLSourceScanner.Configurations.DestinationFolder
 {
@@ -28,15 +29,15 @@ namespace MHLSourceScanner.Configurations.DestinationFolder
         [ConfigurationProperty("mssqldb", DefaultValue = "", IsKey = false, IsRequired = false)]
         public string MSSqlDB
         {
-            get { return ((string)(base["mssqldb"])); }
+            get { return (string)base["mssqldb"]; }
             set { base["mssqldb"] = value; }
         }
 
-        [ConfigurationProperty("type", DefaultValue = "1", IsKey = false, IsRequired = false)]
-        public int PathType
+        [ConfigurationProperty("type", DefaultValue = ExportEnum.Directory, IsKey = false, IsRequired = false)]
+        public ExportEnum PathType
         {
-            get{ return (int)(base["type"]);}
-            set { base["type"] = value.ToString(); }
+            get{ return (ExportEnum)base["type"];}
+            set { base["type"] = value; }
         }
     }
 }

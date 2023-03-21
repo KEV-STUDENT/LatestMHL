@@ -1,8 +1,6 @@
-﻿using MHL_DB_Model;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore;
 
-namespace MHL_DB_SQLite
+namespace MHL_DB_Model
 {
     public abstract class DBModel : DbContext
     {

@@ -166,7 +166,7 @@ namespace MHLSourceScanner
             DestinationConfigSection destinationSection = (DestinationConfigSection)cfg.Sections["DestinationFolders"];
             if (destinationSection != null)
             {
-                destinationSection.FolderItems[0].PathType = (int)type;
+                destinationSection.FolderItems[0].PathType = type;
                 destinationSection.FolderItems[0].Path = destinationDir;
                 destinationSection.FolderItems[0].Path4SQLite = destinationDB;
             }
@@ -194,7 +194,7 @@ namespace MHLSourceScanner
             DestinationConfigSection destinationConfigSection = (DestinationConfigSection)cfg.Sections["DestinationFolders"];
             if (destinationConfigSection != null && destinationConfigSection.FolderItems.Count > 0)
             {
-                vm.ExportType = (ExportEnum)destinationConfigSection.FolderItems[0].PathType;
+                vm.ExportType = destinationConfigSection.FolderItems[0].PathType;
                 vm.DestinationPath = destinationConfigSection.FolderItems[0].Path;
                 vm.DestinationDB = destinationConfigSection.FolderItems[0].Path4SQLite;
                 vm.DestinationMSSqlDB = destinationConfigSection.FolderItems[0].MSSqlDB;

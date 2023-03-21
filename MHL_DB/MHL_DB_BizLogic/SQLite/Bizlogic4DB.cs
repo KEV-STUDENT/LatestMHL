@@ -1,5 +1,5 @@
-﻿using MHL_DB_Model;
-using MHL_DB_SQLite;
+﻿using MHL_DB_BizLogic.BLClasses;
+using MHL_DB_Model;
 using MHLCommon;
 using MHLCommon.DataModels;
 using MHLCommon.MHLBook;
@@ -14,36 +14,24 @@ namespace MHL_DB_BizLogic.SQLite
         static public int Export_Genres(DBModel dB, List<MHLGenre>? genres, out List<Genre>? genresDB)
         {
             genresDB = null;
-            if (genres == null)
+            if (!(genres?.Any()??false))
                 return -1;
 
-            var genre4book = genres.GroupBy(g => g.Genre).Select(g => g.First().Genre);
+            int res;
 
-            genresDB = dB.Genres.Where(x => genre4book.Contains(x.GenreVal)).Select(x => x).ToList();
+            List<Genre>? newGenres = BizLogic.GetNewGenresRange4GenresList(dB, genres);
 
-            IEnumerable<FB2Genres> newGenres;
-            if (genresDB.Count == 0)
-                newGenres = genre4book;
-            else
+            res = newGenres?.Count() ?? 0;
+            if (res != 0)
             {
-                var genreFromDB = (from gb in genresDB select gb.GenreVal).Distinct();
-                newGenres = (from gb in genre4book where !genreFromDB.Contains(gb) select gb).Distinct();
-            }
-
-            if (newGenres.Any())
-            {
-                foreach (var fb2Genre in newGenres)
-                {
-                    dB.Genres.Add(new Genre()
-                    {
-                        GenreVal = fb2Genre,
-                        GenreCode = fb2Genre.ToString()
-                    });
-                }
+                dB.Genres.AddRange(newGenres);
                 dB.SaveChanges();
-                genresDB = dB.Genres.Where(x => genre4book.Contains(x.GenreVal)).Select(x => x).ToList();
             }
-            return newGenres.Count();
+
+            genresDB = BizLogic.GetGenres4GenresList(dB, genres);
+            System.Diagnostics.Debug.WriteLine(genresDB.Count());
+
+            return res;
         }
 
         static public int Export_Keywords(DBModel dB, List<MHLKeyword>? keywords, out List<Keyword4Book>? keywordDB)
@@ -202,85 +190,27 @@ namespace MHL_DB_BizLogic.SQLite
         public static int Export_Authors(DBModel dB, List<MHLAuthor>? authorsFB2, out List<Author>? authorsDB)
         {
             authorsDB = null;
-            if (authorsFB2 == null || !authorsFB2.Any())
+            if (!(authorsFB2?.Any()??false))
                 return -1;
 
-            int res = 0;
 
-            var authors4book = (
-                    from ab in authorsFB2
-                    where !(string.IsNullOrEmpty(ab.FirstName) && string.IsNullOrEmpty(ab.LastName) && string.IsNullOrEmpty(ab.MiddleName))
-                    select string.Format("{0}|{1}|{2}",
-                        ab.FirstName?.Trim() ?? string.Empty,
-                        ab.LastName?.Trim() ?? string.Empty,
-                        ab.MiddleName?.Trim() ?? string.Empty).ToLower())
-                    .Distinct();
-
-
-            authorsDB = dB.Authors
-                .Where(a => authors4book.Contains(
-                    a.FirstName.ToLower() + "|" + a.LastName.ToLower() + "|" + a.MiddleName.ToLower()))
-                .Select(a => a)
-                .ToList();
-
-            IEnumerable<MHLAuthor>? newAuthors;
-
-            if (authorsDB.Count == 0)
+            int res = -1;
+            BLAuthors blA = new BLAuthors(dB);
+            if (blA is IBLEntity<List<MHLAuthor>, List<Author>> bl && bl != null)
             {
-                newAuthors = authorsFB2
-                    .Where(ab => !(string.IsNullOrEmpty(ab.FirstName) && string.IsNullOrEmpty(ab.LastName) && string.IsNullOrEmpty(ab.MiddleName)))
-                    .GroupBy(a => string.Format("{0}|{1}|{2}",
-                        a.FirstName?.Trim() ?? string.Empty,
-                        a.LastName?.Trim() ?? string.Empty,
-                        a.MiddleName?.Trim() ?? string.Empty).ToLower())
-                    .Select(a => a.First());
-            }
-            else
-            {
-                var newList = authors4book.Except(
-                    from ab in authorsDB
-                    select string.Format("{0}|{1}|{2}",
-                        ab.FirstName?.Trim().ToLower() ?? string.Empty,
-                        ab.LastName?.Trim().ToLower() ?? string.Empty,
-                        ab.MiddleName?.Trim().ToLower() ?? string.Empty));
-
-                newAuthors = (
-                    from ab in authorsFB2
-                    where newList.Contains(
-                        string.Format("{0}|{1}|{2}",
-                            ab.FirstName?.Trim() ?? string.Empty,
-                            ab.LastName?.Trim() ?? string.Empty,
-                            ab.MiddleName?.Trim() ?? string.Empty))
-                    select ab)
-                    .Distinct();
-            }
-
-            res = newAuthors?.Count() ?? 0;
-
-            if (res != 0)
-            {
-                foreach (var author in newAuthors)
+                List<Author>? newAuthors = bl.GetNewEntities4ListFromDiskItem(authorsFB2);
+                res = newAuthors?.Count() ?? 0;
+                if (res != 0)
                 {
-                    dB.Authors.Add(new Author()
-                    {
-                        LastName = author.LastName?.Trim(),
-                        FirstName = author.FirstName?.Trim(),
-                        MiddleName = author.MiddleName?.Trim()
-                    });
+                    dB.Authors.AddRange(newAuthors);
+                    dB.SaveChanges();
                 }
-
-                dB.SaveChanges();
-
-                authorsDB = dB.Authors
-                    .Where(a => authors4book.Contains(
-                        a.FirstName.ToLower() + "|" +
-                        a.LastName.ToLower() + "|" +
-                        a.MiddleName.ToLower()))
-                    .Select(a => a)
-                    .ToList();
+                authorsDB = bl.GetDBEntities4ListFromDiskItem(authorsFB2);
             }
+            
             return res;
         }
+
         public static int Export_FB2(string fileSQlite, IDiskItem? fb2)
         {
             int res;
@@ -375,33 +305,21 @@ namespace MHL_DB_BizLogic.SQLite
         public static int Export_FB2List(DBModel dB, List<IDiskItem> diskItems)
         {
             int res = 0;
-            if ((diskItems?.Count ?? 0) == 0)
-                return res;
+            IEnumerable<(string Key, IDiskItem DiskItem, IMHLBook MHLBook)>? booksList = BizLogic.CheckBooksInDB(dB, diskItems);
 
-            var booksList = diskItems.GroupBy(b => string.Format("{0}|{1}", b.Path2Item.Trim().ToUpper(), b.Name.Trim().ToUpper()))
-                    .Select(b => new { b.Key, DiskItem = b.First(), MHLBook = (IMHLBook)b.First() });
-
-            var booksKeys = booksList.Select(b => b.Key);
-
-            var bookDB = dB.Books
-                .Where(b => booksKeys.Contains(b.Path2File.ToUpper() + "|" + b.EntityInZIP.ToUpper()))
-                .Select(b => b.Path2File.ToUpper() + "|" + b.EntityInZIP.ToUpper()).ToList();
-
-            if (bookDB.Any())
+            if (booksList?.Any() ?? false)
             {
-                booksKeys = booksKeys.Except(bookDB);
-                booksList = from b in booksList join db in booksKeys on b.Key equals db select b;
-            }
-
-            if (booksList.Any())
-            {
-
                 List<IMHLBook> books = booksList.Select(b => b.MHLBook).ToList();
+
+                BLAuthors blA = new BLAuthors(dB);
+                List<Author>? authors = blA.GetNewEntities4DiskItem(diskItems);
+
+
                 int authorsCnt, genresCnt, keywordsCnt, volumesCnt, publichersCnt;
 
-                authorsCnt = Export_Authors4BookList(dB, books, out List<Author>? authors);
-                if (authorsCnt > -1)
-                    authorsCnt = authors?.Count ?? 0;
+                //authorsCnt = Export_Authors4BookList(dB, books, out List<Author>? authors);
+                //if (authorsCnt > -1)
+                authorsCnt = authors?.Count ?? 0;
 
                 genresCnt = Export_Genres4BookList(dB, books, out List<Genre>? genres);
                 if (genresCnt > -1)
@@ -434,12 +352,12 @@ namespace MHL_DB_BizLogic.SQLite
 
                     if (volumesCnt > 0)
                         book.Volume = volumes?
-                            .Where(v => v.Sequence.Name.ToUpper() == (b?.MHLBook?.SequenceAndNumber?.Name?.ToUpper() ?? string.Empty))
+                            .Where(v => v.Sequence.Name.ToUpper() == (b.MHLBook?.SequenceAndNumber?.Name?.ToUpper() ?? string.Empty))
                             .FirstOrDefault();
 
                     book.Publisher = publishers?
-                        .Where(p => p.Name.ToUpper() == (b?.MHLBook?.Publisher?.Name?.ToUpper() ?? string.Empty) &&
-                            p.City.ToUpper() == (b?.MHLBook?.Publisher?.City?.ToUpper() ?? string.Empty))
+                        .Where(p => p.Name.ToUpper() == (b.MHLBook?.Publisher?.Name?.ToUpper() ?? string.Empty) &&
+                            p.City.ToUpper() == (b.MHLBook?.Publisher?.City?.ToUpper() ?? string.Empty))
                         .FirstOrDefault();
 
                     if (authorsCnt > 0)
@@ -616,13 +534,13 @@ namespace MHL_DB_BizLogic.SQLite
             return Export_Genres(dB, genresAdded, out genres);
         }
 
-        private static int Export_Authors4BookList(DBModel dB, List<IMHLBook> books, out List<Author>? authors)
-        {
-            List<MHLAuthor> authorsAdded = new List<MHLAuthor>();
-            foreach (var book in books)
-                authorsAdded.AddRange(book.Authors);
+        //private static int Export_Authors4BookList(DBModel dB, List<IMHLBook> books, out List<Author>? authors)
+        //{
+        //    List<MHLAuthor> authorsAdded = new List<MHLAuthor>();
+        //    foreach (var book in books)
+        //        authorsAdded.AddRange(book.Authors);
 
-            return Export_Authors(dB, authorsAdded, out authors);
-        }
+        //    return Export_Authors(dB, authorsAdded, out authors);
+        //}
     }
 }

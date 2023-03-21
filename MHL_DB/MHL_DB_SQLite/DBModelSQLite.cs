@@ -1,7 +1,7 @@
 ﻿using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 
-namespace MHL_DB_SQLite
+namespace MHL_DB_Model
 {
     public class DBModelSQLite : DBModel
     {

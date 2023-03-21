@@ -20,6 +20,7 @@
     <ProjectReference Include="..\..\MHLSorcesOnDisk\MHLSourceOnDisk\MHLSourceOnDisk\MHLSourceOnDisk.csproj" />
     <ProjectReference Include="..\MHL_DB_BizLogic\MHL_DB_BizLogic.csproj" />
     <ProjectReference Include="..\MHL_DB_Model\MHL_DB_Model.csproj" />
+    <ProjectReference Include="..\MHL_DB_MSSqlServer\MHL_DB_MSSqlServer.csproj" />
     <ProjectReference Include="..\MHL_DB_SQLite\MHL_DB_SQLite.csproj" />
   </ItemGroup>
 
