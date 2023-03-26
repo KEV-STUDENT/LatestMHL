@@ -5,76 +5,120 @@ using MHLCommon.DataModels;
 using MHLCommon.MHLBook;
 using MHLCommon.MHLDiskItems;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using static System.Reflection.Metadata.BlobBuilder;
 
 
 namespace MHL_DB_BizLogic.SQLite
 {
     static public class Bizlogic4DB
     {
-        static public int Export_Genres(DBModel dB, List<MHLGenre>? genres, out List<Genre>? genresDB)
+        static private IBLEntity<List<T1>, List<T2>>? GetEntityBL<T1, T2>(DBModel dB)
         {
-            genresDB = null;
-            if (!(genres?.Any()??false))
-                return -1;
+            IBLEntity<List<T1>, List<T2>>? bl = null;
 
-            int res;
+            Type dbType = typeof(T2);
 
-            List<Genre>? newGenres = BizLogic.GetNewGenresRange4GenresList(dB, genres);
+            if (dbType == typeof(Genre))
+                bl = new BLGenres(dB) as IBLEntity<List<T1>, List<T2>>;
+            else if (dbType == typeof(Keyword4Book))
+                bl = new BLKeywords(dB) as IBLEntity<List<T1>, List<T2>>;
+            else if (dbType == typeof(Author))
+                bl = new BLAuthors(dB) as IBLEntity<List<T1>, List<T2>>;
 
-            res = newGenres?.Count() ?? 0;
-            if (res != 0)
-            {
-                dB.Genres.AddRange(newGenres);
-                dB.SaveChanges();
-            }
+            return bl;
+        }
 
-            genresDB = BizLogic.GetGenres4GenresList(dB, genres);
-            System.Diagnostics.Debug.WriteLine(genresDB.Count());
+        static private bool SetNewValue2DataBase<T>(DBModel dB, List<T> newValues)
+        {
+            bool res = true;
+
+            if (newValues is List<Genre> genres && !genres.IsNullOrEmpty())
+                dB.Genres.AddRange(genres);
+            else if (newValues is List<Keyword4Book> keywords && !keywords.IsNullOrEmpty())
+                dB.Keyword4Books.AddRange(keywords);
+            else if (newValues is List<Author> authors && !authors.IsNullOrEmpty())
+                dB.Authors.AddRange(authors);
+            else
+                res = false;
 
             return res;
         }
 
-        static public int Export_Keywords(DBModel dB, List<MHLKeyword>? keywords, out List<Keyword4Book>? keywordDB)
+        static public int Export_Entity<T1, T2>(DBModel dB, List<T1>? inList, out List<T2>? outList)
         {
-            keywordDB = null;
-            if (keywords == null || keywords.Any())
+            outList = null;
+
+            if (!(inList?.Any() ?? false))
                 return -1;
 
-            var list = keywords.GroupBy(k => k.Keyword.Trim().ToLower()).Select(k => k.Key);
-
-            IEnumerable<Keyword4Book> fromDB =
-                dB.Keyword4Books
-                .Where(k => list.Contains(k.Keyword))
-                .Select(k => k).ToList();
-
-            IEnumerable<MHLKeyword> newKeywords;
-            if (fromDB.Any())
+            int res = -1;
+            IBLEntity<List<T1>, List<T2>>? bl = GetEntityBL<T1, T2>(dB);
+            if (bl != null)
             {
-                newKeywords = keywords
-                    .GroupJoin(fromDB,
-                    n => n.Keyword.Trim().ToLower(),
-                    fromDB => fromDB.Keyword.Trim().ToLower(),
-                    (n, keywordDB) => n);
+                List<T2>? newValues = bl.GetNewEntities4ListFromDiskItem(inList);
+                res = newValues?.Count ?? 0;
 
-                newKeywords = keywords.Except(newKeywords);
+                if (res != 0 && SetNewValue2DataBase(dB, newValues))
+                    dB.SaveChanges();
+
+                outList = bl.GetDBEntities4ListFromDiskItem(inList);
             }
-            else newKeywords = keywords;
-
-            if (newKeywords.Any())
-            {
-                var addList = newKeywords.Select(k => new Keyword4Book() { Keyword = k.Keyword.Trim() });
-                dB.Keyword4Books.AddRange(addList);
-                dB.SaveChanges();
-
-                keywordDB = dB.Keyword4Books
-                    .Where(k => list.Contains(k.Keyword))
-                    .Select(k => k).ToList();
-            }
-            else
-                keywordDB = fromDB.ToList();
-
-            return newKeywords.Count();
+            return res;
         }
+
+        static public int Export_Genres(DBModel dB, List<MHLGenre>? genres, out List<Genre>? genresDB)
+        {
+            genresDB = null;
+            if (!(genres?.Any() ?? false))
+                return -1;
+
+            int res = -1;
+            BLGenres blG = new BLGenres(dB);
+
+            if (blG is IBLEntity<List<MHLGenre>, List<Genre>> bl && bl != null)
+            {
+                List<Genre>? newGenres = bl.GetNewEntities4ListFromDiskItem(genres);
+
+
+                res = newGenres?.Count ?? 0;
+                if (res != 0)
+                {
+                    dB.Genres.AddRange(newGenres);
+                    dB.SaveChanges();
+                }
+
+                genresDB = bl.GetDBEntities4ListFromDiskItem(genres);
+            }
+            System.Diagnostics.Debug.WriteLine(genresDB?.Count ?? -1);
+
+            return res;
+        }
+
+        //static public int Export_Keywords(DBModel dB, List<MHLKeyword>? keywords, out List<Keyword4Book>? keywordDB)
+        //{
+        //    keywordDB = null;
+        //    if (keywords == null || keywords.Any())
+        //        return -1;
+
+        //    int res = -1;
+        //    BLKeywords blK = new BLKeywords(dB);
+
+        //    if (blK is IBLEntity<List<MHLKeyword>, List<Keyword4Book>> bl && bl != null)
+        //    {
+        //        List<Keyword4Book>? newValues = bl.GetDBEntities4ListFromDiskItem(keywords);
+        //        res = newValues?.Count ?? 0;
+        //        if (res != 0)
+        //        {
+        //            dB.Keyword4Books.AddRange(newValues);
+        //            dB.SaveChanges();
+        //        }
+
+        //        keywordDB = bl.GetDBEntities4ListFromDiskItem(keywords);
+        //    }
+
+        //    return res;
+        //}
 
         public static int Export_Sequences(DBModel dB, MHLSequenceNum? sequenceAndNumber, out Sequence4Book? sequence)
         {
@@ -187,10 +231,10 @@ namespace MHL_DB_BizLogic.SQLite
             return res;
         }
 
-        public static int Export_Authors(DBModel dB, List<MHLAuthor>? authorsFB2, out List<Author>? authorsDB)
+        /*public static int Export_Authors(DBModel dB, List<MHLAuthor>? authorsFB2, out List<Author>? authorsDB)
         {
             authorsDB = null;
-            if (!(authorsFB2?.Any()??false))
+            if (!(authorsFB2?.Any() ?? false))
                 return -1;
 
 
@@ -207,9 +251,9 @@ namespace MHL_DB_BizLogic.SQLite
                 }
                 authorsDB = bl.GetDBEntities4ListFromDiskItem(authorsFB2);
             }
-            
+
             return res;
-        }
+        }*/
 
         public static int Export_FB2(string fileSQlite, IDiskItem? fb2)
         {
@@ -235,9 +279,9 @@ namespace MHL_DB_BizLogic.SQLite
                 bool isInDB = dB.Books.Where(x => x.Path2File == fb2.Path2Item && x.EntityInZIP == fb2.Name).Any();
                 if (!isInDB)
                 {
-                    int save = (Export_Authors(dB, book.Authors, out List<Author>? authors) > 0 ? 1 : 0) +
-                        (Export_Genres(dB, book.Genres, out List<Genre>? genres) > 0 ? 1 : 0) +
-                        (Export_Keywords(dB, book.Keywords, out List<Keyword4Book>? keywords) > 0 ? 1 : 0) +
+                    int save = (Export_Entity(dB, book.Authors, out List<Author>? authors) > 0 ? 1 : 0) +
+                        (Export_Entity(dB, book.Genres, out List<Genre>? genres) > 0 ? 1 : 0) +
+                        (Export_Entity(dB, book.Keywords, out List<Keyword4Book>? keywords) > 0 ? 1 : 0) +
                         (Export_Volumes(dB, book.SequenceAndNumber, out Volume? volume) > 0 ? 1 : 0) +
                         (Export_Publishers(dB, book.Publisher, out Publisher? publisher) > 0 ? 1 : 0);
 
@@ -314,16 +358,19 @@ namespace MHL_DB_BizLogic.SQLite
                 BLAuthors blA = new BLAuthors(dB);
                 List<Author>? authors = blA.GetNewEntities4DiskItem(diskItems);
 
+                BLGenres blG = new BLGenres(dB);
+                List<Genre>? genres = blG.GetNewEntities4DiskItem(diskItems);
 
                 int authorsCnt, genresCnt, keywordsCnt, volumesCnt, publichersCnt;
 
                 //authorsCnt = Export_Authors4BookList(dB, books, out List<Author>? authors);
                 //if (authorsCnt > -1)
                 authorsCnt = authors?.Count ?? 0;
+                genresCnt = genres?.Count ?? 0;
 
-                genresCnt = Export_Genres4BookList(dB, books, out List<Genre>? genres);
-                if (genresCnt > -1)
-                    genresCnt = genres?.Count ?? 0;
+                //genresCnt = Export_Genres4BookList(dB, books, out List<Genre>? genres);
+                //if (genresCnt > -1)
+                //    genresCnt = genres?.Count ?? 0;
 
                 keywordsCnt = Export_Keywords4BookList(dB, books, out List<Keyword4Book>? keywords);
                 if (keywordsCnt > -1)
@@ -521,18 +568,18 @@ namespace MHL_DB_BizLogic.SQLite
             {
                 keywordsAdded.AddRange(book.Keywords);
             }
-            return Export_Keywords(dB, keywordsAdded, out keywords);
+            return Export_Entity(dB, keywordsAdded, out keywords);
         }
 
-        private static int Export_Genres4BookList(DBModel dB, List<IMHLBook> books, out List<Genre>? genres)
-        {
-            List<MHLGenre> genresAdded = new List<MHLGenre>();
-            foreach (var book in books)
-            {
-                genresAdded.AddRange(book.Genres);
-            }
-            return Export_Genres(dB, genresAdded, out genres);
-        }
+        //private static int Export_Genres4BookList(DBModel dB, List<IMHLBook> books, out List<Genre>? genres)
+        //{
+        //    List<MHLGenre> genresAdded = new List<MHLGenre>();
+        //    foreach (var book in books)
+        //    {
+        //        genresAdded.AddRange(book.Genres);
+        //    }
+        //    return Export_Genres(dB, genresAdded, out genres);
+        //}
 
         //private static int Export_Authors4BookList(DBModel dB, List<IMHLBook> books, out List<Author>? authors)
         //{

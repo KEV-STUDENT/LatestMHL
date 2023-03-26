@@ -48,11 +48,8 @@ namespace MHL_DB_BizLogic
             Type listType = typeof(T);
 
             if (listType == typeof(Author)) { } //return GetNewAuthorsRange4AuthorsList(dB, AuthorList4DiskItems(diskItems)) as List<T>;
-            else if (listType == typeof(Genre))
-                return GetNewGenresRange4GenresList(dB, GenreList4DiskItems(diskItems)) as List<T>;
-            else if (listType == typeof(Keyword4Book))
-                return GetNewKeywordsRange4GenresList(dB, KeywordList4DiskItems(diskItems)) as List<T>;
-
+            else if (listType == typeof(Genre)) { } //return GetNewGenresRange4GenresList(dB, GenreList4DiskItems(diskItems)) as List<T>;
+            else if (listType == typeof(Keyword4Book)) { }//return GetNewKeywordsRange4GenresList(dB, KeywordList4DiskItems(diskItems)) as List<T>;
             return null;
         }
         #region [Author]
@@ -171,99 +168,99 @@ namespace MHL_DB_BizLogic
         #endregion
 
         #region [Genre]       
-        private static List<MHLGenre> GenreList4DiskItems(List<IDiskItem> diskItems)
-        {
-            List<MHLGenre> genres = new List<MHLGenre>();
+        //private static List<MHLGenre> GenreList4DiskItems(List<IDiskItem> diskItems)
+        //{
+        //    List<MHLGenre> genres = new List<MHLGenre>();
 
-            foreach (var item in diskItems)
-                if (item is IMHLBook book)
-                    genres.AddRange(book.Genres);
+        //    foreach (var item in diskItems)
+        //        if (item is IMHLBook book)
+        //            genres.AddRange(book.Genres);
 
-            return genres;
-        }
-        internal static List<Genre>? GetNewGenresRange4GenresList(DBModel dB, List<MHLGenre> genres)
-        {
-            List<Genre>? result = null;
-            IEnumerable<FB2Genres>? newGenres = null;
+        //    return genres;
+        //}
+        //internal static List<Genre>? GetNewGenresRange4GenresList(DBModel dB, List<MHLGenre> genres)
+        //{
+        //    List<Genre>? result = null;
+        //    IEnumerable<FB2Genres>? newGenres = null;
 
-            if (genres.Any())
-            {
-                IEnumerable<FB2Genres> genre4book = genres.GroupBy(g => g.Genre).Select(g => g.First().Genre);
-                List<Genre>? genresDB = GetGenres4GenresList(dB, genre4book);
+        //    if (genres.Any())
+        //    {
+        //        IEnumerable<FB2Genres> genre4book = genres.GroupBy(g => g.Genre).Select(g => g.First().Genre);
+        //        List<Genre>? genresDB = GetGenres4GenresList(dB, genre4book);
 
-                if ((genresDB?.Count ?? 0) == 0)
-                    newGenres = genre4book;
-                else
-                {
-                    IEnumerable<FB2Genres> genreFromDB = from gb in genresDB select gb.GenreVal;
-                    if (genreFromDB.Any())
-                        newGenres = genre4book.Except(genreFromDB);
-                }
-            }
+        //        if ((genresDB?.Count ?? 0) == 0)
+        //            newGenres = genre4book;
+        //        else
+        //        {
+        //            IEnumerable<FB2Genres> genreFromDB = from gb in genresDB select gb.GenreVal;
+        //            if (genreFromDB.Any())
+        //                newGenres = genre4book.Except(genreFromDB);
+        //        }
+        //    }
 
-            if(newGenres?.Any()??false)
+        //    if(newGenres?.Any()??false)
 
-                result = newGenres
-                    .Select(g => new Genre()
-                    {
-                        GenreVal = g,
-                        GenreCode = g.ToString()
-                    }).ToList();
+        //        result = newGenres
+        //            .Select(g => new Genre()
+        //            {
+        //                GenreVal = g,
+        //                GenreCode = g.ToString()
+        //            }).ToList();
               
-            return result;
-        }
+        //    return result;
+        //}
 
-        internal static List<Genre>? GetGenres4GenresList(DBModel dB, List<MHLGenre> genres)
-        {
-            List<Genre>? result = null;
+        //internal static List<Genre>? GetGenres4GenresList(DBModel dB, List<MHLGenre> genres)
+        //{
+        //    List<Genre>? result = null;
 
-            if (genres.Any())
-            {
-                IEnumerable<FB2Genres> genre4book = genres.GroupBy(g => g.Genre).Select(g => g.First().Genre);
-                result = GetGenres4GenresList(dB, genre4book);
-            }
+        //    if (genres.Any())
+        //    {
+        //        IEnumerable<FB2Genres> genre4book = genres.GroupBy(g => g.Genre).Select(g => g.First().Genre);
+        //        result = GetGenres4GenresList(dB, genre4book);
+        //    }
 
-            return result;
-        }
+        //    return result;
+        //}
 
-        private static List<Genre>? GetGenres4GenresList(DBModel dB, IEnumerable<FB2Genres> genre4book)
-        {
-            List<Genre>? result = null;
+        //private static List<Genre>? GetGenres4GenresList(DBModel dB, IEnumerable<FB2Genres> genre4book)
+        //{
+        //    List<Genre>? result = null;
 
-            if (genre4book.Any())
-                lock(_locker)
-                    result = dB.Genres.Where(x => genre4book.Contains(x.GenreVal)).Select(x => x).ToList();
+        //    if (genre4book.Any())
+        //        lock(_locker)
+        //            result = dB.Genres.Where(x => genre4book.Contains(x.GenreVal)).Select(x => x).ToList();
 
-            return result;
-        }
+        //    return result;
+        //}
         #endregion
 
         #region [Keyword]
-        private static List<MHLKeyword> KeywordList4DiskItems(List<IDiskItem> diskItems)
-        {
-            List<MHLKeyword> result = new List<MHLKeyword>();
+        //private static List<MHLKeyword> KeywordList4DiskItems(List<IDiskItem> diskItems)
+        //{
+        //    List<MHLKeyword> result = new List<MHLKeyword>();
 
-            foreach (var item in diskItems)
-                if (item is IMHLBook book)
-                    result.AddRange(book.Keywords);
+        //    foreach (var item in diskItems)
+        //        if (item is IMHLBook book)
+        //            result.AddRange(book.Keywords);
 
-            return result;
-        }
+        //    return result;
+        //}
 
-        private static List<Keyword4Book>? GetNewKeywordsRange4GenresList(DBModel dB, List<MHLKeyword> keywords)
-        {
-            List<Keyword4Book>? result = null;
-            IEnumerable<MHLKeyword>? newKeywords = null;
+        //private static List<Keyword4Book>? GetNewKeywordsRange4GenresList(DBModel dB, List<MHLKeyword> keywords)
+        //{
+        //    List<Keyword4Book>? result = null;
+        //    IEnumerable<MHLKeyword>? newKeywords = null;
 
-            if(keywords.Any())
-            { }
+        //    if(keywords.Any())
+        //    { }
 
-            if(newKeywords?.Any()??false)
-            {
-                //result = newKeywords.Select(x => x.Keyword).ToList();
-            }
-            return result;
-        }
+        //    if(newKeywords?.Any()??false)
+        //    {
+        //        //result = newKeywords.Select(x => x.Keyword).ToList();
+        //    }
+        //    return result;
+        //}
         #endregion
     }
 }

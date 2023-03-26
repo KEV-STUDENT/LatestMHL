@@ -147,7 +147,7 @@ namespace MHL_DB_Test
                     using (DBModel dB = new DBModelSQLite(fileSQlite))
                     {
                         actual = dB.Keyword4Books.ToList().Count;
-                        expected = Bizlogic4DB.Export_Keywords(dB, book?.Keywords, out List<Keyword4Book>? keyword4BooksDB);
+                        expected = Bizlogic4DB.Export_Entity(dB, book?.Keywords, out List<Keyword4Book>? keyword4BooksDB);
                         CheckExpected(ref actual, ref expected, dB);
                         actual = dB.Keyword4Books.ToList().Count;
                     }
@@ -190,13 +190,13 @@ namespace MHL_DB_Test
                     using (DBModel dB = new DBModelSQLite(fileSQlite))
                     {
 
-                        if (Bizlogic4DB.Export_Keywords(dB, book?.Keywords, out List<Keyword4Book>? keyword4BooksDB) > 0)
+                        if (Bizlogic4DB.Export_Entity(dB, book?.Keywords, out List<Keyword4Book>? keyword4BooksDB) > 0)
                         {
                             dB.SaveChanges();
                         }
                         expected = dB.Keyword4Books.ToList().Count;
 
-                        if (Bizlogic4DB.Export_Keywords(dB, book?.Keywords, out keyword4BooksDB) > 0)
+                        if (Bizlogic4DB.Export_Entity(dB, book?.Keywords, out keyword4BooksDB) > 0)
                         {
                             dB.SaveChanges();
                         }
@@ -231,7 +231,7 @@ namespace MHL_DB_Test
                 {
                     using (DBModel dB = new DBModelSQLite(fileSQlite))
                     {
-                        if (Bizlogic4DB.Export_Keywords(dB, book?.Keywords, out keyword4BooksDB) > 0)
+                        if (Bizlogic4DB.Export_Entity(dB, book?.Keywords, out keyword4BooksDB) > 0)
                         {
                             expected = book?.Keywords?.Count ?? 0;
                             dB.SaveChanges();
@@ -512,7 +512,7 @@ namespace MHL_DB_Test
                     using (DBModel dB = new DBModelSQLite(fileSQlite))
                     {
                         actual = dB.Authors.ToList().Count;
-                        expected = Bizlogic4DB.Export_Authors(dB, book?.Authors, out List<Author>? authors);
+                        expected = Bizlogic4DB.Export_Entity(dB, book?.Authors, out List<Author>? authors);
                         CheckExpected(ref actual, ref expected, dB);
                         actual = dB.Authors.ToList().Count;
                     }
@@ -544,14 +544,14 @@ namespace MHL_DB_Test
                     using (DBModel dB = new DBModelSQLite(fileSQlite))
                     {
 
-                        if (Bizlogic4DB.Export_Authors(dB, book?.Authors, out List<Author>? authors) > 0)
+                        if (Bizlogic4DB.Export_Entity(dB, book?.Authors, out List<Author>? authors) > 0)
                         {
                             lock (locker)
                                 dB.SaveChanges();
                         }
                         expected = dB.Authors.ToList().Count;
 
-                        if (Bizlogic4DB.Export_Authors(dB, book?.Authors, out authors) > 0)
+                        if (Bizlogic4DB.Export_Entity(dB, book?.Authors, out authors) > 0)
                         {
                             lock (locker)
                                 dB.SaveChanges();
@@ -588,7 +588,7 @@ namespace MHL_DB_Test
                 {
                     using (DBModel dB = new DBModelSQLite(fileSQlite))
                     {
-                        if (Bizlogic4DB.Export_Authors(dB, book?.Authors, out authors) > 0)
+                        if (Bizlogic4DB.Export_Entity(dB, book?.Authors, out authors) > 0)
                         {
                             dB.SaveChanges();
                         }

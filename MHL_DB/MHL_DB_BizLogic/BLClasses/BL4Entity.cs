@@ -1,13 +1,14 @@
 ﻿using MHL_DB_Model;
 using MHLCommon;
+using MHLCommon.MHLBook;
 using MHLCommon.MHLDiskItems;
 
 namespace MHL_DB_BizLogic.BLClasses
 {
-    internal abstract class BL4Entity<T1, T2> : IBLEntity<T1, T2>
+    internal abstract class BL4Entity<T1, T2> : IBLEntity<T1, T2> where T1 : new()
     {
-        private DBModel _dB;
-        private object? _locker;
+        private readonly DBModel _dB;
+        private readonly object? _locker;
 
         #region [Constructor]
         public BL4Entity(DBModel dB, object? locker)
@@ -46,6 +47,8 @@ namespace MHL_DB_BizLogic.BLClasses
         }
         #endregion
 
+        protected event Action<T1, IMHLBook> GetAttributesFromBook;
+
         #region [Properties]
         protected DBModel DB => _dB;
         protected object? Locker => _locker;
@@ -53,10 +56,29 @@ namespace MHL_DB_BizLogic.BLClasses
 
         #region [Methods]
         protected abstract T2? GetDBEntities4ListFromDiskItem(T1 attributes);
-        protected abstract T1 List4DiskItems(List<IDiskItem> diskItems);
         protected abstract T2? GetNewEntities4ListFromDiskItem(T1 attributes);
         protected abstract T2? FilterData<T3>(T3 filter);
-        protected abstract bool CheckFilter<T3>(T3? filter);
+         protected T1 List4DiskItems(List<IDiskItem> diskItems)
+        {
+            T1 result = new T1();
+            if (GetAttributesFromBook != null)
+                foreach (IDiskItem item in diskItems)
+                    if (item is IMHLBook book)
+                        GetAttributesFromBook(result, book);
+            return result;
+        }
+        protected static bool CheckFilter<T>(T? filter)
+        {
+            bool result = false;
+            
+            if(filter != null)
+                if(filter is IEnumerable<string> valuesStr)
+                    result = valuesStr?.Any() ?? false;
+                else if(filter is IEnumerable<FB2Genres> valuesGenre)
+                    result = valuesGenre?.Any() ?? false;
+
+            return result;
+        }
         protected T2? GetDBEntities4Filter<T3>(T3 filter)
         {
             T2? result = default;

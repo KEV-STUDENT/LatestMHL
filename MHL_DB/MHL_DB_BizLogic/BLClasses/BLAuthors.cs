@@ -1,39 +1,25 @@
 ﻿using MHL_DB_Model;
 using MHLCommon.MHLBook;
 using MHLCommon.MHLDiskItems;
+using Microsoft.IdentityModel.Tokens;
 
 namespace MHL_DB_BizLogic.BLClasses
 {
     internal class BLAuthors : BL4Entity<List<MHLAuthor>, List<Author>>
     {
         #region [Constructor]
-        public BLAuthors(DBModel dB, object? locker) : base(dB, locker) { }
-        public BLAuthors(DBModel dB) : base(dB) { }
+        public BLAuthors(DBModel dB, object? locker) : base(dB, locker)
+        {
+            GetAttributesFromBook += (List<MHLAuthor> list, IMHLBook book) =>
+            {
+                if (list != null && (book?.Authors?.IsNullOrEmpty() ?? false))
+                    list.AddRange(book.Authors);
+            };
+        }
+        public BLAuthors(DBModel dB) : this(dB, null) { }
         #endregion
 
-        #region [Methods]
-        //private List<Author>? GetDBEntities4Filter(IEnumerable<string> filter)
-        //{
-        //    List<Author>? authorsDB = null;
-        //    if (filter != null && filter.Any())
-        //        if (Locker == null)
-        //            authorsDB = FilterData(filter);
-        //        else
-        //            lock (Locker)
-        //                authorsDB = FilterData(filter);
-
-        //    return authorsDB;
-        //}
-
-        //private List<Author>? FilterData(IEnumerable<string> filter)
-        //{
-        //    return DB.Authors
-        //           .Where(a => filter.Contains(
-        //               a.FirstName.ToLower() + "|" + a.LastName.ToLower() + "|" + a.MiddleName.ToLower()))
-        //           .Select(a => a)
-        //           .ToList();
-        //}
-
+            #region [Methods]
         protected override List<Author>? GetDBEntities4ListFromDiskItem(List<MHLAuthor> attributes)
         {
             List<Author>? authorsDB = null;
@@ -123,7 +109,7 @@ namespace MHL_DB_BizLogic.BLClasses
             return authorsRes;
         }
 
-        protected override List<MHLAuthor> List4DiskItems(List<IDiskItem> diskItems)
+       protected List<MHLAuthor> List4DiskItems1(List<IDiskItem> diskItems)
         {
             List<MHLAuthor> result = new List<MHLAuthor>();
 
@@ -138,7 +124,7 @@ namespace MHL_DB_BizLogic.BLClasses
         {
             List<Author>? result = null;
 
-            if(filter != null && filter is IEnumerable<string> authors && (authors?.Any() ?? false))
+            if (filter != null && filter is IEnumerable<string> authors && (authors?.Any() ?? false))
                 result = DB.Authors
                        .Where(a => authors.Contains(
                            a.FirstName.ToLower() + "|" + a.LastName.ToLower() + "|" + a.MiddleName.ToLower()))
@@ -146,11 +132,6 @@ namespace MHL_DB_BizLogic.BLClasses
                        .ToList();
 
             return result;
-        }
-
-        protected override bool CheckFilter<T3>(T3? filter) where T3 : default
-        {
-            return filter != null && filter is IEnumerable<string> authors && (authors?.Any() ?? false);
         }
         #endregion
     }
