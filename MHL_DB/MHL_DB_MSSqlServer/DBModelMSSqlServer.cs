@@ -35,7 +35,6 @@ namespace MHL_DB_MSSqlServer
                 builder["Password"] = _settings.Password;
             }
 
-            System.Diagnostics.Debug.WriteLine(builder.ConnectionString);
             optionsBuilder.UseSqlServer(builder.ConnectionString);
         }
         #endregion

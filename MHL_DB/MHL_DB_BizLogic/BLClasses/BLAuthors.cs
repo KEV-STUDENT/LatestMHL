@@ -1,137 +1,88 @@
 ﻿using MHL_DB_Model;
 using MHLCommon.MHLBook;
-using MHLCommon.MHLDiskItems;
 using Microsoft.IdentityModel.Tokens;
 
 namespace MHL_DB_BizLogic.BLClasses
 {
-    internal class BLAuthors : BL4Entity<List<MHLAuthor>, List<Author>>
+    public class BLAuthors : BL4Entity<MHLAuthor, Author, string>
     {
         #region [Constructor]
         public BLAuthors(DBModel dB, object? locker) : base(dB, locker)
         {
-            GetAttributesFromBook += (List<MHLAuthor> list, IMHLBook book) =>
+            FilterDuplicatedAttrubute = (List<MHLAuthor> attributes) =>
             {
-                if (list != null && (book?.Authors?.IsNullOrEmpty() ?? false))
-                    list.AddRange(book.Authors);
+                return attributes
+                     .Where(ab => !IsEmptyAttribute(ab))
+                     .GroupBy(a => ConvertAttribute(a))
+                     .Select(a => a.First()).ToList();
             };
         }
         public BLAuthors(DBModel dB) : this(dB, null) { }
         #endregion
 
-            #region [Methods]
-        protected override List<Author>? GetDBEntities4ListFromDiskItem(List<MHLAuthor> attributes)
+        #region [Methods]
+        protected override void GetAttributesFromBook(List<MHLAuthor> list, IMHLBook book)
         {
-            List<Author>? authorsDB = null;
-            if (attributes != null && attributes.Any())
+          if (list != null && !(book?.Authors?.IsNullOrEmpty() ?? true))
+                list.AddRange(book.Authors);
+        }
+
+        protected override List<Author> CheckInDB(IEnumerable<string> filter)
+        {
+            return DB.Authors.Where(a => a.FirstName != null && a.LastName != null && a.MiddleName != null &&
+                        filter.Contains(
+                            a.FirstName.ToLower() + "|" +
+                            a.LastName.ToLower() + "|" +
+                            a.MiddleName.ToLower()
+                            )).ToList();
+        }
+
+        protected override IEnumerable<string>? ConvertAttributes2ComparedList(List<MHLAuthor> attributes)
+        {
+            return attributes
+                .Where(ab => !IsEmptyAttribute(ab))
+                .GroupBy(a => ConvertAttribute(a))
+                .Select(a => a.Key);
+        }
+
+        protected override Author ConvertAttribute2DBEntity(MHLAuthor author)
+        {
+            return new Author()
             {
-
-                IEnumerable<string> authors4book =
-                    from ab in attributes
-                    select string.Format("{0}|{1}|{2}",
-                        ab.FirstName?.Trim() ?? string.Empty,
-                        ab.LastName?.Trim() ?? string.Empty,
-                        ab.MiddleName?.Trim() ?? string.Empty).ToLower();
-
-                authorsDB = GetDBEntities4Filter(authors4book);
-            }
-
-            return authorsDB;
+                LastName = author.LastName?.Trim(),
+                FirstName = author.FirstName?.Trim(),
+                MiddleName = author.MiddleName?.Trim()
+            };
         }
 
-        protected override List<Author>? GetNewEntities4ListFromDiskItem(List<MHLAuthor> attributes)
+        protected override string ConvertAttribute(MHLAuthor a)
         {
-            List<Author>? authorsRes = null;
-            IEnumerable<MHLAuthor>? newAuthors = null;
-
-            if (attributes != null && attributes.Any())
-            {
-                attributes = attributes
-                    .Where(ab => !(string.IsNullOrEmpty(ab.FirstName) && string.IsNullOrEmpty(ab.LastName) && string.IsNullOrEmpty(ab.MiddleName)))
-                    .GroupBy(a => string.Format("{0}|{1}|{2}",
-                            a.FirstName?.Trim() ?? string.Empty,
-                            a.LastName?.Trim() ?? string.Empty,
-                            a.MiddleName?.Trim() ?? string.Empty).ToLower())
-                    .Select(a => a.First()).ToList();
-
-                IEnumerable<string> authors4book =
-                    from ab in attributes
-                    select string.Format("{0}|{1}|{2}",
-                        ab.FirstName?.Trim() ?? string.Empty,
-                        ab.LastName?.Trim() ?? string.Empty,
-                        ab.MiddleName?.Trim() ?? string.Empty).ToLower();
-
-                List<Author>? authorsDB = GetDBEntities4Filter(authors4book);
-
-                if ((authorsDB?.Count ?? 0) == 0)
-                {
-                    newAuthors = attributes
-                        .Where(ab => !(string.IsNullOrEmpty(ab.FirstName) && string.IsNullOrEmpty(ab.LastName) && string.IsNullOrEmpty(ab.MiddleName)))
-                        .GroupBy(a => string.Format("{0}|{1}|{2}",
-                            a.FirstName?.Trim() ?? string.Empty,
-                            a.LastName?.Trim() ?? string.Empty,
-                            a.MiddleName?.Trim() ?? string.Empty).ToLower())
-                        .Select(a => a.First());
-                }
-                else
-                {
-                    var newList = authors4book.Except(
-                        from ab in authorsDB
-                        select string.Format("{0}|{1}|{2}",
-                            ab.FirstName?.Trim().ToLower() ?? string.Empty,
-                            ab.LastName?.Trim().ToLower() ?? string.Empty,
-                            ab.MiddleName?.Trim().ToLower() ?? string.Empty));
-
-                    if (newList.Any())
-                        newAuthors = (
-                            from ab in attributes
-                            where newList.Contains(
-                                string.Format("{0}|{1}|{2}",
-                                    ab.FirstName?.Trim() ?? string.Empty,
-                                    ab.LastName?.Trim() ?? string.Empty,
-                                    ab.MiddleName?.Trim() ?? string.Empty))
-                            select ab)
-                            .Distinct();
-                }
-            }
-
-            if (newAuthors?.Any() ?? false)
-                authorsRes = newAuthors
-                    .Select(
-                        author => new Author()
-                        {
-                            LastName = author.LastName?.Trim(),
-                            FirstName = author.FirstName?.Trim(),
-                            MiddleName = author.MiddleName?.Trim()
-                        })
-                    .ToList();
-
-            return authorsRes;
+            return string.Format("{0}|{1}|{2}",
+                        a.FirstName?.Trim() ?? string.Empty,
+                        a.LastName?.Trim() ?? string.Empty,
+                        a.MiddleName?.Trim() ?? string.Empty).ToLower();
         }
 
-       protected List<MHLAuthor> List4DiskItems1(List<IDiskItem> diskItems)
+        protected override string ConvertDBEntity(Author a)
         {
-            List<MHLAuthor> result = new List<MHLAuthor>();
-
-            foreach (IDiskItem item in diskItems)
-                if (item is IMHLBook book)
-                    result.AddRange(book.Authors);
-
-            return result;
+            return (a?.FirstName?.ToLower() ?? string.Empty) + "|" +
+                (a?.LastName?.ToLower() ?? string.Empty) + "|" +
+                (a?.MiddleName?.ToLower() ?? string.Empty);
         }
 
-        protected override List<Author>? FilterData<T3>(T3 filter)
+        private static bool IsEmptyAttribute(MHLAuthor a)
         {
-            List<Author>? result = null;
+            return a.FirstName.IsNullOrEmpty() && a.LastName.IsNullOrEmpty() && a.MiddleName.IsNullOrEmpty();
+        }
 
-            if (filter != null && filter is IEnumerable<string> authors && (authors?.Any() ?? false))
-                result = DB.Authors
-                       .Where(a => authors.Contains(
-                           a.FirstName.ToLower() + "|" + a.LastName.ToLower() + "|" + a.MiddleName.ToLower()))
-                       .Select(a => a)
-                       .ToList();
+        protected override bool AddInDB(List<Author>? newEntitys)
+        {
+            bool ret = !newEntitys.IsNullOrEmpty();
 
-            return result;
+            if(ret)
+                DB.Authors.AddRange(newEntitys);
+
+            return ret;
         }
         #endregion
     }

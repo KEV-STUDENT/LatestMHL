@@ -1,14 +1,13 @@
-﻿using MHLCommon;
+﻿using MHL_DB_BizLogic.SQLite;
+using MHL_DB_Model;
+using MHLCommon;
 using MHLCommon.DataModels;
 using MHLCommon.ExpDestinations;
 using MHLCommon.MHLBook;
 using MHLCommon.MHLDiskItems;
-using System.Diagnostics;
 using System.IO.Compression;
 using System.Text;
 using System.Xml;
-using MHL_DB_Model;
-using MHL_DB_BizLogic.SQLite;
 
 namespace MHLSourceOnDisk
 {
@@ -245,12 +244,12 @@ namespace MHLSourceOnDisk
         {
             using (DBModelSQLite dB = new DBModelSQLite(exp2SQLite.DestinationPath))
             {
-                if (Bizlogic4DB.Export_FB2(dB, this) > 0)
+                if (Bizlogic4DB.Export_FB2List(dB, new List<IDiskItem>(1) { this }) > 0)
                     dB.SaveChanges();
             }
             return true;
         }
-        
+
         private bool ExportItem2Dir(ExpDestination4Dir exp)
         {
             bool result;

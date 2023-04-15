@@ -4,73 +4,71 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace MHL_DB_BizLogic.BLClasses
 {
-    internal class BLKeywords : BL4Entity<List<MHLKeyword>, List<Keyword4Book>>
+    public class BLKeywords : BL4Entity<MHLKeyword, Keyword4Book, string>
     {
         #region [Constructors]
         public BLKeywords(DBModel dB) : this(dB, null) { }
-        public BLKeywords(DBModel dB, object? locker) : base(dB, locker) 
+        public BLKeywords(DBModel dB, object? locker) : base(dB, locker)
         {
-            GetAttributesFromBook += (List<MHLKeyword> list, IMHLBook book) =>
+            FilterDuplicatedAttrubute = (List<MHLKeyword> attributes) =>
             {
-                if (list != null && (book?.Keywords?.IsNullOrEmpty() ?? false))
-                    list.AddRange(book.Keywords);
+                return attributes
+                     .Where(a => !a.Keyword.IsNullOrEmpty())
+                     .GroupBy(a => a.Keyword.Trim().ToLower())
+                     .Select(a => a.First()).ToList();
             };
-         }
+        }
         #endregion
 
         #region [Methods]
-        protected override List<Keyword4Book>? FilterData<T3>(T3 filter)
+        protected override bool AddInDB(List<Keyword4Book>? newEntitys)
         {
-            List<Keyword4Book>? result = null;
+            bool ret = !newEntitys.IsNullOrEmpty();
 
-            if (filter != null && filter is IEnumerable<string> keywords && (keywords?.Any() ?? false))
-                result = DB.Keyword4Books
-                    .Where(k => keywords.Contains(k.Keyword))
-                    .Select(k => k).ToList();
+            if (ret)
+                DB.Keyword4Books.AddRange(newEntitys);
 
-            return result;
+            return ret;
+        }
+       
+        protected override List<Keyword4Book> CheckInDB(IEnumerable<string> filter)
+        {
+            return DB.Keyword4Books
+                   .Where(a => a.Keyword != null && filter.Contains(a.Keyword.Trim().ToLower()))
+                   .Select(a => a)
+                   .ToList();
         }
 
-        protected override List<Keyword4Book>? GetDBEntities4ListFromDiskItem(List<MHLKeyword> attributes)
+        protected override string ConvertAttribute(MHLKeyword a)
         {
-            List<Keyword4Book>? result = null;
-            if (attributes != null && attributes.Any())
-            {
-                IEnumerable<string> filter = attributes.GroupBy(k => k.Keyword.Trim().ToLower()).Select(k => k.Key);
-                result = GetDBEntities4Filter(filter);
-            }
-
-            return result;
+            return a.Keyword.Trim().ToLower();
         }
 
-        protected override List<Keyword4Book>? GetNewEntities4ListFromDiskItem(List<MHLKeyword> attributes)
+        protected override Keyword4Book ConvertAttribute2DBEntity(MHLKeyword a)
         {
-            List<Keyword4Book>? result = null;
-            IEnumerable<MHLKeyword>? newValues = null;
-
-            if (attributes.Any())
+            return new Keyword4Book()
             {
-                IEnumerable<string> list = attributes.GroupBy(k => k.Keyword.Trim().ToLower()).Select(k => k.Key);
-                List<Keyword4Book>? keywordsDB = GetDBEntities4Filter(list);
+                Keyword = a.Keyword.Trim()
+            };
+        }
 
-                if (keywordsDB?.Any() ?? false)
-                    newValues = attributes.Except(
-                        attributes.GroupJoin(keywordsDB,
-                            n => n.Keyword.Trim().ToLower(),
-                            keywordDB => keywordDB.Keyword.Trim().ToLower(),
-                        (n, keywordDB) => n));
-                else
-                    newValues = attributes;
-            }
+        protected override IEnumerable<string>? ConvertAttributes2ComparedList(List<MHLKeyword> attributes)
+        {
+            return attributes
+               .Where(ab => !ab.Keyword.IsNullOrEmpty())
+               .GroupBy(a => ConvertAttribute(a))
+               .Select(a => a.Key);
+        }
 
-            if (newValues?.Any() ?? false)
-                result = newValues
-                    .Select(v => new Keyword4Book()
-                    {
-                        Keyword = v.Keyword.Trim()
-                    }).ToList();
+        protected override string ConvertDBEntity(Keyword4Book a)
+        {
+            return a.Keyword.Trim().ToLower();
+        }
 
-            return result;
+        protected override void GetAttributesFromBook(List<MHLKeyword> list, IMHLBook book)
+        {
+            if (list != null && !(book?.Keywords?.IsNullOrEmpty() ?? false))
+                list.AddRange(book.Keywords);
         }
         #endregion
     }

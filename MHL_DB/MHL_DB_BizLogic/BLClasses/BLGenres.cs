@@ -5,70 +5,72 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace MHL_DB_BizLogic.BLClasses
 {
-    internal class BLGenres : BL4Entity<List<MHLGenre>, List<Genre>>
+    public class BLGenres : BL4Entity<MHLGenre, Genre, FB2Genres>
     {
         #region [Constructors]
-        public BLGenres(DBModel dB, object? locker) : base(dB, locker) 
+        public BLGenres(DBModel dB, object? locker) : base(dB, locker)
         {
-            GetAttributesFromBook += (List<MHLGenre> list, IMHLBook book) =>
+            FilterDuplicatedAttrubute = (List<MHLGenre> attributes) =>
             {
-                if (list != null && (book?.Genres.IsNullOrEmpty() ?? false))
-                    list.AddRange(book.Genres);
+                return attributes
+                     .Where(ab => ab.Genre != FB2Genres.none)
+                     .GroupBy(a => ConvertAttribute(a))
+                     .Select(a => a.First()).ToList();
             };
         }
         public BLGenres(DBModel dB) : this(dB, null) { }
         #endregion
 
         #region [Methods]
-        protected override List<Genre>? GetDBEntities4ListFromDiskItem(List<MHLGenre> attributes)
+        protected override List<Genre> CheckInDB(IEnumerable<FB2Genres> filter)
         {
-            List<Genre>? result = null;
-
-            if (attributes.Any())
-            {
-                List<FB2Genres> filter = attributes.GroupBy(g => g.Genre).Select(g => g.First().Genre).ToList();
-                result = GetDBEntities4Filter(filter);
-            }
-
-            return result;
+            return DB.Genres
+                   .Where(a => filter.Contains(a.GenreVal))
+                   .Select(a => a)
+                   .ToList();
         }
 
-        protected override List<Genre>? GetNewEntities4ListFromDiskItem(List<MHLGenre> attributes)
+        protected override void GetAttributesFromBook(List<MHLGenre> list, IMHLBook book)
         {
-
-            List<Genre>? result = null;
-            IEnumerable<FB2Genres>? newGenres = null;
-
-            if (attributes.Any())
-            {
-                IEnumerable<FB2Genres> genre4book = attributes.GroupBy(g => g.Genre).Select(g => g.First().Genre);
-                List<Genre>? genresDB = GetDBEntities4Filter(genre4book);
-
-                if (genresDB?.Any() ?? false)
-                    newGenres = genre4book.Except(from gb in genresDB select gb.GenreVal);
-                else
-                    newGenres = genre4book;
-            }
-
-            if (newGenres?.Any() ?? false)
-                result = newGenres
-                    .Select(g => new Genre()
-                    {
-                        GenreVal = g,
-                        GenreCode = g.ToString()
-                    }).ToList();
-
-            return result;
+            if (list != null && !(book?.Genres?.IsNullOrEmpty() ?? false))
+                list.AddRange(book.Genres);
         }
 
-        protected override List<Genre>? FilterData<T3>(T3 filter)
+        protected override IEnumerable<FB2Genres>? ConvertAttributes2ComparedList(List<MHLGenre> attributes)
         {
-            List<Genre>? result = null;
+            return attributes
+               .Where(ab => ab.Genre != FB2Genres.none)
+               .GroupBy(a => ConvertAttribute(a))
+               .Select(a => a.Key);
+        }
 
-            if (filter != null && filter is IEnumerable<FB2Genres> genres && (genres?.Any() ?? false))
-                result = DB.Genres
-                       .Where(g => genres.Contains(g.GenreVal)).Select(g => g).ToList();
-            return result;
+        protected override Genre ConvertAttribute2DBEntity(MHLGenre a)
+        {
+            return new Genre()
+            {
+                GenreVal = a.Genre,
+                GenreCode = a.Genre.ToString()
+            };
+        }
+
+        protected override FB2Genres ConvertAttribute(MHLGenre a)
+        {
+            return a.Genre;
+        }
+
+        protected override FB2Genres ConvertDBEntity(Genre a)
+        {
+            return a.GenreVal;
+        }
+
+        protected override bool AddInDB(List<Genre>? newEntitys)
+        {
+            bool ret = !newEntitys.IsNullOrEmpty();
+
+            if (ret)
+                DB.Genres.AddRange(newEntitys);
+
+            return ret;
         }
         #endregion
     }
